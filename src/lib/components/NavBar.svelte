@@ -31,7 +31,7 @@
               <!-- <li><a href="/">This 2</a></li> -->
             </ul>
           </li>
-          <li><a href="/resources_chat">AI-Assitants</a></li>
+          <li><a href="/re_chat">AI-Assitants</a></li>
         </ul>
       </div>
       <a class="btn btn-ghost normal-case text-xl text-stone-700 hover:text-gray-50" href="/">Creatorbook</a>
