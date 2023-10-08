@@ -1,6 +1,11 @@
 /** @type {import('./$types').RequestHandler} */
+/** @type {import('@sveltejs/adapter-vercel').Config} */
+export const config = {
+	runtime: 'nodejs18.x'
+};
+
 import OpenAI from 'openai';
-//import {get_docs} from '$lib/check'
+import {get_docs} from '$lib/check'
 
 //import { OpenAIStream, StreamingTextResponse } from 'ai';
 
@@ -14,6 +19,8 @@ import { HumanMessage } from "langchain/schema";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
+import { FaissStore } from "langchain/vectorstores/faiss";
+
 import { Document } from "langchain/document";
 
 
@@ -27,37 +34,69 @@ import { env } from '$env/dynamic/private';
  
 import type { RequestHandler } from './$types';
 
-export const config = {
-	runtime: 'edge'
-};
+// export const config = {
+// 	runtime: 'edge'
+// };
  
 // Create an OpenAI API client
 const openai = new OpenAI({
-  apiKey: env.OPENAI_API_KEY || '',
+  apiKey: process.env.OPENAI_API_KEY || '',
 });
  
 
 
 //const db_content = await get_docs()
 
-const splitter = new RecursiveCharacterTextSplitter({
-  chunkSize: 100,
-  chunkOverlap: 1,
-});
+let db_content = ''; // Initialize db_content variable
+let db_contentFetched = false; // Flag to track if data has been fetched
 
-// const docs = await splitter.splitDocuments([
-//   new Document({ pageContent: db_content }),
-// ]);
+// Function to fetch and cache the db_content
+const fetchDbContent = async () => {
+  if (!db_contentFetched) {
+    try {
+      db_content = await get_docs();
+      db_contentFetched = true;
+      console.log('Fetched db_content successfully');
+    } catch (error) {
+      console.error('Error fetching db_content:', error);
+    }
+  }
+  return db_content;
+};
 
-// const embeddings = new OpenAIEmbeddings({
-//   openAIApiKey: env.OPENAI_API_KEY, // In Node.js defaults to process.env.OPENAI_API_KEY
-//   batchSize: 512, // Default value if omitted is 512. Max is 2048
+console.log('db :', db_content)
+
+// const splitter = new RecursiveCharacterTextSplitter({
+//   chunkSize: 100,
+//   chunkOverlap: 1,
 // });
 
-// const vectorStore = await HNSWLib.fromDocuments(docs, new OpenAIEmbeddings({
-//   openAIApiKey: env.OPENAI_API_KEY, // In Node.js defaults to process.env.OPENAI_API_KEY
-//   batchSize: 512, // Default value if omitted is 512. Max is 2048
-// }));
+async function initializeAIComponents() {
+  const dbContent = await fetchDbContent();
+
+  const splitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 100,
+    chunkOverlap: 1,
+  });
+
+  const docs = await splitter.splitDocuments([
+    new Document({ pageContent: dbContent }),
+  ]);
+
+  const embeddings = new OpenAIEmbeddings({
+    openAIApiKey: process.env.OPENAI_API_KEY,
+    batchSize: 512,
+  });
+
+  const vectorStore = await HNSWLib.fromDocuments(docs, embeddings);
+
+  // const vectorStore = await FaissStore.fromDocuments(
+  //   docs,
+  //   embeddings,
+  // );
+
+  return { docs, embeddings, vectorStore };
+}
 
 
 
@@ -83,7 +122,8 @@ AI assistant is a brand new, powerful, human-like artificial intelligence.
       AI assistant will not apologize for previous responses, but instead will indicated new information was gained.
       AI assistant will not invent anything that is not drawn directly from the context.
 
-You are a pirate named Patchy. All responses must be extremely verbose and in pirate dialect.
+You also know about a girl goes by the name siham her nicknames are ainekko, yukka and octobermoment. her birthday is in october. she likes anime 
+she likes gintama a lot it's probably her favorite anime then in anime she also like no game no life, baki ...
  
 Current conversation:
 {chat_history}
@@ -93,6 +133,7 @@ AI:`;
 
 export const POST = (async ({ request }) => {
   // Extract the `prompt` from the body of the request
+    //await initializeAIComponents()
     const { messages, auth_token } = await request.json();
     console.log('tuht : ', auth_token)
     
@@ -101,18 +142,21 @@ export const POST = (async ({ request }) => {
     const currentMessageContent = messages[messages.length - 1].content;
     const prompt = PromptTemplate.fromTemplate(TEMPLATE);
     //const body = await request.json();
-    //const Rdocs = await vectorStore.similaritySearch(currentMessageContent, 5);
+
+    const { docs, embeddings, vectorStore } = await initializeAIComponents();
+
+    const Rdocs = await vectorStore.similaritySearch(currentMessageContent, 5);
     let context = ''
 
-    // for (const doc of Rdocs) {
-    //   context += doc.pageContent + ' ';
-    // }
+    for (const doc of Rdocs) {
+      context += doc.pageContent + ' ';
+    }
 
-    // context = context.trim();
+    context = context.trim();
 
 
 
-    // console.log('cntx',context)
+    console.log('cntx',context)
 
     const chatModel = new ChatOpenAI({
       openAIApiKey: env.OPENAI_API_KEY,
