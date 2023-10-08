@@ -48,22 +48,21 @@ const openai = new OpenAI({
 //const db_content = await get_docs()
 
 let db_content = ''; // Initialize db_content variable
-let db_contentFetched = false; // Flag to track if data has been fetched
+//let db_contentFetched = false; // Flag to track if data has been fetched
 
 // Function to fetch and cache the db_content
 const fetchDbContent = async () => {
-  if (!db_contentFetched) {
+  
     try {
       db_content = await get_docs();
-      db_contentFetched = true;
+      //db_contentFetched = true;
       console.log('Fetched db_content successfully');
     } catch (error) {
       console.error('Error fetching db_content:', error);
     }
-  }
+  
   return db_content;
 };
-//2
 
 console.log('db :', db_content)
 
@@ -72,8 +71,8 @@ console.log('db :', db_content)
 //   chunkOverlap: 1,
 // });
 
-async function initializeAIComponents() {
-  const dbContent = await fetchDbContent();
+async function initializeAIComponents(currenM:string) {
+  let dbContent = await fetchDbContent();
 
   const splitter = new RecursiveCharacterTextSplitter({
     chunkSize: 100,
@@ -90,13 +89,13 @@ async function initializeAIComponents() {
   });
 
   const vectorStore = await HNSWLib.fromDocuments(docs, embeddings);
-
+  let Rdocs = await vectorStore.similaritySearch(currenM, 5)
   // const vectorStore = await FaissStore.fromDocuments(
   //   docs,
   //   embeddings,
   // );
 
-  return { docs, embeddings, vectorStore };
+  return { docs, embeddings, vectorStore, Rdocs };
 }
 
 
@@ -143,10 +142,11 @@ export const POST = (async ({ request }) => {
     const currentMessageContent = messages[messages.length - 1].content;
     const prompt = PromptTemplate.fromTemplate(TEMPLATE);
     //const body = await request.json();
+    console.log(currentMessageContent)
+    console.log('retrieving ..')
+    const { docs, embeddings, vectorStore, Rdocs } = await initializeAIComponents(currentMessageContent);
 
-    const { docs, embeddings, vectorStore } = await initializeAIComponents();
-
-    const Rdocs = await vectorStore.similaritySearch(currentMessageContent, 5);
+    //const Rdocs = await vectorStore.similaritySearch(currentMessageContent, 5);
     let context = ''
 
     for (const doc of Rdocs) {
@@ -156,7 +156,7 @@ export const POST = (async ({ request }) => {
     context = context.trim();
 
 
-
+    
     console.log('cntx',context)
 
     const chatModel = new ChatOpenAI({
