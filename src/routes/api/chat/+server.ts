@@ -1,4 +1,4 @@
-/** @type {import('./$types').RequestHandler} */
+ /** @type {import('./$types').RequestHandler} */
 /** @type {import('@sveltejs/adapter-vercel').Config} */
 export const config = {
 	runtime: 'nodejs18.x'
@@ -62,41 +62,17 @@ const fetchDbContent = async () => {
     }
   
   return db_content;
+  //console.log('returned db_content')
 };
 
-console.log('db :', db_content)
+//console.log('db :', db_content)
 
-// const splitter = new RecursiveCharacterTextSplitter({
+// 2const splitter = new RecursiveCharacterTextSplitter({
 //   chunkSize: 100,
 //   chunkOverlap: 1,
 // });
 
-async function initializeAIComponents(currenM:string) {
-  let dbContent = await fetchDbContent();
 
-  const splitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 100,
-    chunkOverlap: 1,
-  });
-
-  const docs = await splitter.splitDocuments([
-    new Document({ pageContent: dbContent }),
-  ]);
-
-  const embeddings = new OpenAIEmbeddings({
-    openAIApiKey: process.env.OPENAI_API_KEY,
-    batchSize: 512,
-  });
-
-  const vectorStore = await HNSWLib.fromDocuments(docs, embeddings);
-  let Rdocs = await vectorStore.similaritySearch(currenM, 5)
-  // const vectorStore = await FaissStore.fromDocuments(
-  //   docs,
-  //   embeddings,
-  // );
-
-  return { docs, embeddings, vectorStore, Rdocs };
-}
 
 
 
@@ -140,20 +116,86 @@ export const POST = (async ({ request }) => {
 
     const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage);
     const currentMessageContent = messages[messages.length - 1].content;
+    
     const prompt = PromptTemplate.fromTemplate(TEMPLATE);
     //const body = await request.json();
     console.log(currentMessageContent)
     console.log('retrieving ..')
-    const { docs, embeddings, vectorStore, Rdocs } = await initializeAIComponents(currentMessageContent);
 
-    //const Rdocs = await vectorStore.similaritySearch(currentMessageContent, 5);
-    let context = ''
+    async function initializeAIComponents() {
 
-    for (const doc of Rdocs) {
-      context += doc.pageContent + ' ';
+      console.log('fetching')
+
+      let db_content = await fetchDbContent();
+      console.log('fetched')
+
+      console.log('splitting')
+    
+      const splitter = new RecursiveCharacterTextSplitter({
+        chunkSize: 100,
+        chunkOverlap: 1,
+      });
+      console.log('splitting')
+      const docs = await splitter.splitDocuments([
+        new Document({ pageContent: db_content }),
+      ]);
+      console.log('splitted')
+      
+     
+      
+     console.log('returning docs')
+      return { docs };
     }
 
-    context = context.trim();
+    
+
+    
+    console.log('entering to get docs')
+    
+    const { docs } = await initializeAIComponents();
+
+    console.log('int embedd')
+    
+    const embeddings = new OpenAIEmbeddings({
+      openAIApiKey: process.env.OPENAI_API_KEY,
+      batchSize: 512,
+    });
+
+
+    console.log('init vector store ,', docs)
+
+    const vectorStore = await HNSWLib.fromDocuments(docs, embeddings);
+   
+    let context = ''
+
+    console.log('searching')
+    
+
+    try {
+      let Rdocs = await vectorStore.similaritySearch(currentMessageContent, 5)
+      for (const doc of Rdocs) {
+        context += doc.pageContent + ' ';
+      }
+    } catch (error) {
+      console.log('failed to search')
+    }
+
+    
+      // const vectorStore = await FaissStore.fromDocuments(
+      //   docs,
+      //   embeddings,
+      // );
+      console.log('got Rdocs')
+      
+      
+    
+        
+    
+        context = context.trim();
+        console.log('made context')
+
+    //const Rdocs = await vectorStore.similaritySearch(currentMessageContent, 5);
+    
 
 
     
@@ -165,7 +207,7 @@ export const POST = (async ({ request }) => {
 
     const outputParser = new BytesOutputParser();
 
-    console.log("entering chain")
+    console.log("entering chain...")
 
     const chain = prompt.pipe(chatModel).pipe(outputParser);  
   
