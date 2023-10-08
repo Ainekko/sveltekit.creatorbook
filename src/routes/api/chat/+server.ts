@@ -1,4 +1,4 @@
- /** @type {import('./$types').RequestHandler} */
+/** @type {import('./$types').RequestHandler} */
 /** @type {import('@sveltejs/adapter-vercel').Config} */
 export const config = {
 	runtime: 'nodejs18.x'
@@ -48,31 +48,55 @@ const openai = new OpenAI({
 //const db_content = await get_docs()
 
 let db_content = ''; // Initialize db_content variable
-//let db_contentFetched = false; // Flag to track if data has been fetched
+let db_contentFetched = false; // Flag to track if data has been fetched
 
 // Function to fetch and cache the db_content
 const fetchDbContent = async () => {
-  
+  if (!db_contentFetched) {
     try {
       db_content = await get_docs();
-      //db_contentFetched = true;
+      db_contentFetched = true;
       console.log('Fetched db_content successfully');
     } catch (error) {
       console.error('Error fetching db_content:', error);
     }
-  
+  }
   return db_content;
-  //console.log('returned db_content')
 };
 
-//console.log('db :', db_content)
+console.log('db :', db_content)
 
-// 2const splitter = new RecursiveCharacterTextSplitter({
+// const splitter = new RecursiveCharacterTextSplitter({
 //   chunkSize: 100,
 //   chunkOverlap: 1,
 // });
 
+async function initializeAIComponents() {
+  const dbContent = await fetchDbContent();
 
+  const splitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 100,
+    chunkOverlap: 1,
+  });
+
+  const docs = await splitter.splitDocuments([
+    new Document({ pageContent: dbContent }),
+  ]);
+
+  const embeddings = new OpenAIEmbeddings({
+    openAIApiKey: process.env.OPENAI_API_KEY,
+    batchSize: 512,
+  });
+
+  const vectorStore = await HNSWLib.fromDocuments(docs, embeddings);
+
+  // const vectorStore = await FaissStore.fromDocuments(
+  //   docs,
+  //   embeddings,
+  // );
+
+  return { docs, embeddings, vectorStore };
+}
 
 
 
@@ -109,105 +133,38 @@ AI:`;
 
 export const POST = (async ({ request }) => {
   // Extract the `prompt` from the body of the request
-    //await initializeAIComponents()
+    await initializeAIComponents()
     const { messages, auth_token } = await request.json();
     console.log('tuht : ', auth_token)
     
 
     const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage);
     const currentMessageContent = messages[messages.length - 1].content;
-    
     const prompt = PromptTemplate.fromTemplate(TEMPLATE);
     //const body = await request.json();
-    console.log(currentMessageContent)
-    console.log('retrieving ..')
 
-    async function initializeAIComponents() {
+    const { docs, embeddings, vectorStore } = await initializeAIComponents();
 
-      console.log('fetching')
-
-      let db_content = await fetchDbContent();
-      console.log('fetched')
-
-      console.log('splitting')
-    
-      const splitter = new RecursiveCharacterTextSplitter({
-        chunkSize: 100,
-        chunkOverlap: 1,
-      });
-      console.log('splitting')
-      const docs = await splitter.splitDocuments([
-        new Document({ pageContent: db_content }),
-      ]);
-      console.log('splitted')
-      
-     
-      
-     console.log('returning docs')
-      return { docs };
-    }
-
-    
-
-    
-    console.log('entering to get docs')
-    
-    const { docs } = await initializeAIComponents();
-
-    console.log('int embedd')
-    
-    const embeddings = new OpenAIEmbeddings({
-      openAIApiKey: process.env.OPENAI_API_KEY,
-      batchSize: 512,
-    });
-
-
-    console.log('init vector store ,', docs)
-
-    const vectorStore = await HNSWLib.fromDocuments(docs, embeddings);
-   
+    const Rdocs = await vectorStore.similaritySearch(currentMessageContent, 5);
     let context = ''
 
-    console.log('searching')
-    
-
-    try {
-      let Rdocs = await vectorStore.similaritySearch(currentMessageContent, 5)
-      for (const doc of Rdocs) {
-        context += doc.pageContent + ' ';
-      }
-    } catch (error) {
-      console.log('failed to search')
+    for (const doc of Rdocs) {
+      context += doc.pageContent + ' ';
     }
 
-    
-      // const vectorStore = await FaissStore.fromDocuments(
-      //   docs,
-      //   embeddings,
-      // );
-      console.log('got Rdocs')
-      
-      
-    
-        
-    
-        context = context.trim();
-        console.log('made context')
-
-    //const Rdocs = await vectorStore.similaritySearch(currentMessageContent, 5);
-    
+    context = context.trim();
 
 
-    
+
     console.log('cntx',context)
 
     const chatModel = new ChatOpenAI({
-      openAIApiKey: env.OPENAI_API_KEY,
+      openAIApiKey: process.env.OPENAI_API_KEY,
     });
 
     const outputParser = new BytesOutputParser();
 
-    console.log("entering chain...")
+    console.log("entering chain")
 
     const chain = prompt.pipe(chatModel).pipe(outputParser);  
   
