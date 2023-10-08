@@ -63,6 +63,7 @@ const fetchDbContent = async () => {
   }
   return db_content;
 };
+//2
 
 console.log('db :', db_content)
 
