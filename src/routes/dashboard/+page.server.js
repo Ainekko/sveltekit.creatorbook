@@ -1,0 +1,1 @@
+// call the api to retrieve the user data using the load function

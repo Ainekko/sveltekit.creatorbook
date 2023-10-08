@@ -1,0 +1,32 @@
+<script lang="ts">
+    import type { LayoutData } from './$types';
+    import NavBar from "$lib/components/NavBar.svelte";
+
+    
+    export let data: LayoutData;
+</script>
+
+
+<style>
+    /* Container styles */
+    .container {
+      max-width: 1200px; /* Adjust the maximum width as needed */
+      margin: 0 auto; /* Center the container horizontally */
+      padding: 0 20px; /* Optional padding to create spacing from the edges */
+    }
+    .main {
+      max-width: 1550px; /* Adjust the maximum width as needed */
+      margin: 0 auto; /* Center the container horizontally */
+      padding: 0 ; /* Optional padding to create spacing from the edges */
+    }
+  </style>
+  
+  
+  
+<div class="main">
+    
+    <div class="container">
+      <NavBar />
+      <slot />
+    </div>
+</div> 
