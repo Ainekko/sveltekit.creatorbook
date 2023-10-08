@@ -1,0 +1,54 @@
+// // retrieve user data
+
+// export async function checkAndDeleteToken() {
+//     const token = localStorage.getItem('token');
+//     //const token = '123343134565778976'; // Get the token from local storage
+  
+//     if (token) {
+//       // Token exists, send a request to your Django endpoint to check its validity
+//       const response = await fetch('', {
+//         method: 'GET',
+//         headers: {
+//           'Authorization': `Token ${token}`,
+//         },
+//       });
+  
+//       if (response.status !== 200) {
+//         // Token is not valid, delete it from local storage
+//         console.log('not valid')
+//         localStorage.removeItem('token');
+//       }else{return token}
+//     }
+//   }
+  
+ 
+
+// // const tokenCheckInterval = 24 * 60 * 60 * 1000; // 24 hours
+
+// // // Set up the interval to call the token check function
+// // setInterval(checkAndDeleteToken, tokenCheckInterval);
+
+
+
+// export async function get_docs() {
+  
+//   const response = await fetch('', {
+//     method: 'GET',
+//     headers: {
+//       //'Authorization': `Token ${token}`,
+//     },
+//   });
+
+  
+    
+
+//   if (response.status === 200) {
+//     const data = await response.json(); // Assuming the response is JSON
+//     let cnt  = data.db_content
+//     console.log(cnt)
+//     return data.db_content; // Return the content from the endpoint
+//   } else {
+//     console.log('Request failed');
+//     return null; // Handle the error as needed
+//   }
+// }
