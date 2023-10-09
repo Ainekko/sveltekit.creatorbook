@@ -21,9 +21,15 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { FaissStore } from "langchain/vectorstores/faiss";
 
+import { Pinecone } from "@pinecone-database/pinecone";
+import { PineconeStore } from "langchain/vectorstores/pinecone";
+
+import * as dotenv from "dotenv";
+
 import { Document } from "langchain/document";
 
 
+dotenv.config();
 
 
  
@@ -33,6 +39,15 @@ import { env } from '$env/dynamic/private';
 // import { OPENAI_API_KEY } from '$env/static/private'
  
 import type { RequestHandler } from './$types';
+
+const pinecone = new Pinecone({
+  apiKey: process.env.PINECONE_API_KEY || '',
+  environment: process.env.PINECONE_ENVIRONMENT || '',
+});
+
+const pineconeIndex = pinecone.Index(process.env.PINECONE_INDEX);
+
+
 
 // export const config = {
 // 	runtime: 'edge'
@@ -66,6 +81,8 @@ const fetchDbContent = async () => {
 
 console.log('db :', db_content)
 
+
+
 // const splitter = new RecursiveCharacterTextSplitter({
 //   chunkSize: 100,
 //   chunkOverlap: 1,
@@ -88,14 +105,20 @@ async function initializeAIComponents() {
     batchSize: 512,
   });
 
-  const vectorStore = await HNSWLib.fromDocuments(docs, embeddings);
+  //const vectorStore = await HNSWLib.fromDocuments(docs, embeddings);
+
+  const pineconeStore = new PineconeStore(embeddings, { pineconeIndex });
+  
+  const ids = await pineconeStore.addDocuments(docs);
 
   // const vectorStore = await FaissStore.fromDocuments(
   //   docs,
   //   embeddings,
   // );
 
-  return { docs, embeddings, vectorStore };
+  return { docs, embeddings, pineconeStore};
+ // return { docs, embeddings, vectorStore };
+  
 }
 
 
@@ -143,9 +166,16 @@ export const POST = (async ({ request }) => {
     const prompt = PromptTemplate.fromTemplate(TEMPLATE);
     //const body = await request.json();
 
-    const { docs, embeddings, vectorStore } = await initializeAIComponents();
+    const { docs, embeddings, pineconeStore } = await initializeAIComponents();
 
-    const Rdocs = await vectorStore.similaritySearch(currentMessageContent, 5);
+   // const { docs, embeddings, vectorStore } = await initializeAIComponents();
+
+    //const Rdocs = await vectorStore.similaritySearch(currentMessageContent, 5);
+
+    const Rdocs = await pineconeStore.similaritySearch(currentMessageContent, 2, {
+     
+    });
+
     let context = ''
 
     for (const doc of Rdocs) {
