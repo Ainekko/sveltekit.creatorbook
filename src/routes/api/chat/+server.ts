@@ -60,7 +60,7 @@ const openai = new OpenAI({
  
 
 
-//const db_content = await get_docs()
+//2const db_content = await get_docs()
 
 let db_content = ''; // Initialize db_content variable
 let db_contentFetched = false; // Flag to track if data has been fetched
