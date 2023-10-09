@@ -104,8 +104,8 @@
           <div class="p-3 w-full">
               <form on:submit={handleSubmit} class="flex justify-center items-center">
                 <input class="flex-grow mr-2 p-4 rounded-xl overflow-scroll max-w-[600px]" bind:value={$input} placeholder="Ask anything ..." />
-                <button type="submit" class="btn rounded-xl  bg-white shadow shadow-lg text-slate-950 hover:bg-slate-900 hover:text-slate-300"  disabled={!isLoggedIn} >send
-                  
+                <button type="submit" class="btn rounded-xl  bg-white shadow shadow-lg text-slate-950 hover:bg-slate-900 hover:text-slate-300"   >send
+                  <!-- disabled={!isLoggedIn} -->
                 </button>
                
               </form>
