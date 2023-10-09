@@ -179,7 +179,7 @@ export const POST = (async ({ request }) => {
 
     //const Rdocs = await vectorStore.similaritySearch(currentMessageContent, 5);
 
-    const Rdocs = await pineconeStore.similaritySearch(currentMessageContent, 2, {
+    const Rdocs = await pineconeStore.similaritySearch(currentMessageContent, 5, {
      
     });
 
