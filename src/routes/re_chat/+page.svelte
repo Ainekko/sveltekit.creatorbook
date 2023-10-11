@@ -3,14 +3,17 @@
     
       
       import { useChat } from 'ai/svelte';
-      //import {checkAndDeleteToken} from '$lib/check'
+      import {checkAndDeleteToken} from '$lib/check'
      
   
       /** @type {import('./$types').PageData} */
       
-              export let data;
+            export let data;
             const auth_token = data.authtoken
-      //checkAndDeleteToken()
+      
+      
+      
+      checkAndDeleteToken()
       const { input, handleSubmit, messages, } = useChat(
         {
           body : {
