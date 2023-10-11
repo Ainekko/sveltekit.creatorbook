@@ -11,11 +11,8 @@
             export let data;
             const auth_token = data.authtoken
       
+            checkAndDeleteToken()
       
-      async function checktoken() {
-        let token = await checkAndDeleteToken()
-        return token
-      }
 
       
       const { input, handleSubmit, messages, } = useChat(
@@ -27,16 +24,16 @@
       );
   
   
-      //let token = localStorage.getItem('token')
+      let token = checkAndDeleteToken()
 
       
-      const token = checktoken()
+    
 
       let isLoggedIn = !!token;
 
       if (!token){
         console.log('the button will be not usable')
-        let isLoggedIn = false;
+        
       }else{
         console.log('go ahead!')
       }
