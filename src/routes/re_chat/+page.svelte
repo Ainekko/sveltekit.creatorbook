@@ -11,8 +11,8 @@
             export let data;
             const auth_token = data.authtoken
       
-            checkAndDeleteToken()
-      
+   checkAndDeleteToken()
+   let token = checkAndDeleteToken()   
 
       
       const { input, handleSubmit, messages, } = useChat(
@@ -24,7 +24,7 @@
       );
   
   
-      let token = checkAndDeleteToken()
+      
 
       
     
