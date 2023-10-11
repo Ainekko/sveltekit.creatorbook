@@ -1,7 +1,7 @@
 <script>
  
     import "../app.css";
-    //import {checkAndDeleteToken} from '$lib/check'
+    import {checkAndDeleteToken} from '$lib/check'
   
   
   
@@ -10,7 +10,7 @@
   // Set up the interval to call the token check function
   //setInterval(checkAndDeleteToken, tokenCheckInterval);
   
-  //checkAndDeleteToken();
+  checkAndDeleteToken();
     // PADDING HAD A 20px PADDING
   </script>
   
