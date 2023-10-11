@@ -11,8 +11,10 @@
             export let data;
             const auth_token = data.authtoken
       
+   
+   let token = localStorage.getItem('token')  
+   
    checkAndDeleteToken()
-   let token = checkAndDeleteToken()   
 
       
       const { input, handleSubmit, messages, } = useChat(
@@ -29,7 +31,7 @@
       
     
 
-      let isLoggedIn = !!token;
+      
 
       if (!token){
         console.log('the button will be not usable')
@@ -37,7 +39,7 @@
       }else{
         console.log('go ahead!')
       }
-  
+      let isLoggedIn = !!token;
       
   
       let freeDownloads = [
