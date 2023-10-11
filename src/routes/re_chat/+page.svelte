@@ -12,8 +12,12 @@
             const auth_token = data.authtoken
       
       
+      async function checktoken() {
+        let token = await checkAndDeleteToken()
+        return token
+      }
+
       
-      checkAndDeleteToken()
       const { input, handleSubmit, messages, } = useChat(
         {
           body : {
@@ -23,14 +27,21 @@
       );
   
   
-      let token = localStorage.getItem('token')
+      //let token = localStorage.getItem('token')
+
+      
+      const token = checktoken()
+
+      let isLoggedIn = !!token;
+
       if (!token){
         console.log('the button will be not usable')
+        let isLoggedIn = false;
       }else{
         console.log('go ahead!')
       }
   
-      let isLoggedIn = !!token;
+      
   
       let freeDownloads = [
       {
