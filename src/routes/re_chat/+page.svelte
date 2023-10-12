@@ -120,7 +120,7 @@
                 <button type="submit" class="btn rounded-xl  bg-white shadow shadow-lg text-slate-950 hover:bg-slate-900 hover:text-slate-300"  disabled={!isLoggedIn} >send
                   
                 </button>
-               
+                <!-- disabled={!isLoggedIn} -->
               </form>
           </div>
             

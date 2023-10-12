@@ -40,19 +40,19 @@ import { env } from '$env/dynamic/private';
  
 import type { RequestHandler } from './$types';
 
-const pinecone = new Pinecone({
-  apiKey: process.env.PINECONE_API_KEY || '',
-  environment: process.env.PINECONE_ENVIRONMENT || '',
-});
+// const pinecone = new Pinecone({
+//   apiKey: process.env.PINECONE_API_KEY || '',
+//   environment: process.env.PINECONE_ENVIRONMENT || '',
+// });
 
-const pineconeIndex = pinecone.Index('rechat');
+// const pineconeIndex = pinecone.Index('rechat');
 
-const embeddings = new OpenAIEmbeddings({
-  openAIApiKey: process.env.OPENAI_API_KEY,
-  batchSize: 512,
-});
+// const embeddings = new OpenAIEmbeddings({
+//   openAIApiKey: process.env.OPENAI_API_KEY,
+//   batchSize: 512,
+// });
 
-const pineconeStore = new PineconeStore(embeddings, { pineconeIndex });
+// const pineconeStore = new PineconeStore(embeddings, { pineconeIndex });
 
 
 
@@ -62,7 +62,8 @@ const pineconeStore = new PineconeStore(embeddings, { pineconeIndex });
  
 // Create an OpenAI API client
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || '',
+  apiKey: '',
+ // process.env.OPENAI_API_KEY || 
 });
  
 
@@ -135,7 +136,13 @@ console.log('db :', db_content)
 const formatMessage = (message: VercelChatMessage) => {
   return `${message.role}: ${message.content}`;
 };
-//let context = ''
+// //let context = 'You also know about a girl goes by the name siham her nicknames are ainekko, yukka and octobermoment. her birthday is in october. she likes anime 
+//       she likes gintama a lot it's probably her favorite anime then in anime she also like no game no life, baki ...
+//       whenever the user tells that his or her name is siham start answering in a funny silly dialect. and ask her questions too back and try to be her friend
+//       she is a girl who hates loud eaters and bites her straws when drinking juice 
+//       always mention in a funny way that she bites the straw when she drinks juice'
+
+
 const TEMPLATE = `
 
 AI assistant is a brand new, powerful, human-like artificial intelligence.
@@ -143,13 +150,6 @@ AI assistant is a brand new, powerful, human-like artificial intelligence.
       AI is a well-behaved and well-mannered individual.
       AI is always friendly, kind, and inspiring, and he is eager to provide vivid and thoughtful responses to the user.
       AI has the sum of all knowledge in their brain, and is able to accurately answer nearly any question about any topic in conversation.
-
-      You also know about a girl goes by the name siham her nicknames are ainekko, yukka and octobermoment. her birthday is in october. she likes anime 
-      she likes gintama a lot it's probably her favorite anime then in anime she also like no game no life, baki ...
-      whenever the user tells that his or her name is siham start answering in a funny silly dialect. and ask her questions too back and try to be her friend
-      she is a girl who hates loud eaters and bites her straws when drinking juice 
-      always mention in a funny way that she bites the straw when she drinks juice
-
       START CONTEXT BLOCK
       {context}
       END OF CONTEXT BLOCK
@@ -188,15 +188,16 @@ export const POST = (async ({ request }) => {
 
     //const Rdocs = await vectorStore.similaritySearch(currentMessageContent, 5);
 
-    const Rdocs = await pineconeStore.similaritySearch(currentMessageContent, 5, {
+    // const Rdocs = await pineconeStore.similaritySearch(currentMessageContent, 5, {
      
-    });
-
+    // });
+    
+    
     let context = ''
 
-    for (const doc of Rdocs) {
-      context += doc.pageContent + ' ';
-    }
+    // for (const doc of Rdocs) {
+    //   context += doc.pageContent + ' ';
+    // }
 
     context = context.trim();
 
@@ -215,11 +216,11 @@ export const POST = (async ({ request }) => {
     const chain = prompt.pipe(chatModel).pipe(outputParser);  
   
     
-    const stream = await chain.stream({
-      context  : context,
-      chat_history: formattedPreviousMessages.join('\n'),
-      input: currentMessageContent,
-    });
+    // const stream = await chain.stream({
+    //   context  : context,
+    //   chat_history: formattedPreviousMessages.join('\n'),
+    //   input: currentMessageContent,
+    // });
 
  
   // Respond with the stream
