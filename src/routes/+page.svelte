@@ -27,7 +27,7 @@
 	  <p class="font-mono font-thin">Alpha launch!</p>
 	</div>
 	
-	<!-- <iframe src='https://my.spline.design/jetpackprojectionmapping-042c9aa87525200b759588267a51650b/' frameborder='0' width='100%' height='100%'></iframe> -->
+	<iframe src='https://my.spline.design/jetpackprojectionmapping-042c9aa87525200b759588267a51650b/' frameborder='0' width='100%' height='100%'></iframe>
 	
 	<div class=" py-10 flex flex-col min-w-full">
 	  <div class="flex">
