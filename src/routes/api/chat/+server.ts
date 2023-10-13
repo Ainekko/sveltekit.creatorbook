@@ -95,38 +95,38 @@ console.log('db :', db_content)
 //   chunkOverlap: 1,
 // });
 
-async function initializeAIComponents() {
-  const dbContent = await fetchDbContent();
+// async function initializeAIComponents() {
+//   //--const dbContent = await fetchDbContent();
 
-  const splitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 400,
-    chunkOverlap: 300,
-  });
+//   const splitter = new RecursiveCharacterTextSplitter({
+//     chunkSize: 100,
+//     chunkOverlap: 1,
+//   });
 
-  const docs = await splitter.splitDocuments([
-    new Document({ pageContent: dbContent }),
-  ]);
+//   // --const docs = await splitter.splitDocuments([
+//   //   new Document({ pageContent: dbContent }),
+//   // ]);
 
-  const embeddings = new OpenAIEmbeddings({
-    openAIApiKey: process.env.OPENAI_API_KEY,
-    batchSize: 512,
-  });
+//   const embeddings = new OpenAIEmbeddings({
+//     openAIApiKey: process.env.OPENAI_API_KEY,
+//     batchSize: 512,
+//   });
 
-  //const vectorStore = await HNSWLib.fromDocuments(docs, embeddings);
+//   //const vectorStore = await HNSWLib.fromDocuments(docs, embeddings);
 
-  const pineconeStore = new PineconeStore(embeddings, { pineconeIndex });
+//   const pineconeStore = new PineconeStore(embeddings, { pineconeIndex });
   
-  const ids = await pineconeStore.addDocuments(docs);
+//   // i don't need to add everyime -- const ids = await pineconeStore.addDocuments(docs);
 
-  // const vectorStore = await FaissStore.fromDocuments(
-  //   docs,
-  //   embeddings,
-  // );
+//   // const vectorStore = await FaissStore.fromDocuments(
+//   //   docs,
+//   //   embeddings,
+//   // );
 
-  return { embeddings, pineconeStore};
- // return { docs, embeddings, vectorStore };
+//   return { embeddings, pineconeStore};
+//  // return { docs, embeddings, vectorStore };
   
-}
+// }
 
 
 
@@ -172,7 +172,7 @@ AI:`;
 
 export const POST = (async ({ request }) => {
   // Extract the `prompt` from the body of the request
-    await initializeAIComponents()
+    //await initializeAIComponents()
     const { messages, auth_token } = await request.json();
     console.log('tuht : ', auth_token)
     
