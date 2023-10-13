@@ -27,20 +27,77 @@
 	  <p class="font-mono font-thin">Alpha launch!</p>
 	</div>
 	
-	<iframe src='https://my.spline.design/jetpackprojectionmapping-042c9aa87525200b759588267a51650b/' frameborder='0' width='100%' height='100%'></iframe>
+	<iframe src='https://my.spline.design/jetpackprojectionmapping-042c9aa87525200b759588267a51650b/' frameborder='0' width='100%' height='100%' class="md:display-none"></iframe> 
 	
 	<div class=" py-10 flex flex-col min-w-full">
 	  <div class="flex">
 		<p class="font-mono" />
-		<div class="w-[100%] flex items-center justify-center flex-col md:flex-row-reverse">
+		<div class="w-[100%] flex items-center justify-center flex-col">
+
+			<!-- <a href="/login"
+			class="btn rounded-[13px] fill-none border-stone-300 mt-5 w-30 h-30 md:w-40 md:h-40 font-mono"
+			>explore</a
+		  > -->
 	
-		  <div class="max-w-[480px] ">
-			<h1 class="text-3xl text-center md:text-left md:text-5xl font-medium md:font-medium mb-5">
+		  <div class="max-w-[700px] ">
+			
+			<div class="flex flex-row w-[50%] pt-2 justify-between">
+		 	<div class="w-2 h-2 bg-[#fdc4ff] rounded-full border border-stone-900 blur-sm"></div>
+			
+			</div>
+			<h1 class="text-3xl  text-left md:text-6xl font-light md:font-light mb-5">
 			  The most exciting ecosystem for solo creators
 			</h1>
+
+			<!-- <button class="btn w-[200px] h-[60px] bg-[#fdc4ff] shadow-lg shadow-indigo-500/50 rounded-xl">
+				
+
+				Sign up
+			
+			</button> -->
+			<div class="flex justify-between gap-2">
+				<div class="w-[5px] h-[100px] bg-[#fdc4ff] shadow-3xl shadow-white rounded-full  "></div>
+
+				<!-- <iframe src='https://my.spline.design/jetpackprojectionmapping-042c9aa87525200b759588267a51650b/' frameborder='0' width='100%' height='100%' class=" display-none md:display-block"></iframe> -->
+				
+				<!-- <div class="flex flex-col gap-4 max-w-[50%] ">
+					<div class=" h-14 p-4 border flex justify-center items-center rounded-xl border-stone-800">
+						<p>Ai</p>
+					  </div>
+					  <div class=" h-14 p-4 border flex justify-center items-center rounded-xl border-stone-800">
+						<p>Freebies</p>
+					  </div>
+					  <div class=" h-14 p-4 border flex justify-center items-center rounded-xl border-stone-800">
+						<p>Marketing</p>
+					  </div>
+					  <div class="h-14 p-4 border flex justify-center items-center rounded-xl border-stone-800">
+						<p>Newsletter</p>
+					  </div>
+				</div> -->
+
+			<div class="max-w-[350px]">
+				<p class=" md:font-medium font-mono md:text-xl">
+				  designed to make the most out of your data as a start up founder
+				  <span class="font-mono text-stone-500 font-thin md:text-xl">
+					quickly validate your projects with unlimited landing pages and social
+					media ads. enjoy our free resources and Ai assistants to take your projects to the next level
+				  </span>
+				</p>
+				<button class="btn w-[120px] h-[60px] mt-3 bg-[#fdc4ff] text-slate-900 shadow-lg shadow-indigo-500/50 rounded-xl">
+				
+
+				Sign up
+			
+				</button>
+			  </div>
+			</div>
+			
+
 		  </div>
-	
-		  <svg class=" hidden md:block"
+		  
+		  
+
+		  <!-- <svg class=" hidden md:block"
 			width="159"
 			height="359"
 			viewBox="0 0 159 359"
@@ -61,18 +118,15 @@
 			  fill="black"
 			/>
 		  </svg>
-	
-		  <a href="/login"
-			class="btn rounded-[13px] fill-none border-stone-300 mt-5 w-30 h-30 md:w-40 md:h-40 font-mono"
-			>explore</a
-		  >
+	 -->
+		  
 		  
 		  
 		</div>
 	  </div>
 	</div>
 	
-	<div class="w-[100%] flex justify-end">
+	<!-- <div class="w-[100%] flex justify-end">
 	  <div class="max-w-[350px]">
 		<p class=" md:font-medium font-mono md:text-xl">
 		  we link your data in a way that makes sense
@@ -84,7 +138,7 @@
 		  </span>
 		</p>
 	  </div>
-	</div>
+	</div> -->
 	
 	<section class="w-full md:max-w-2xl flex flex-row justify-between  md:justify-evenly items-center min-w-full text-xs font-semibold gap-2 text-stone-600 hover:text-white pt-16">
 	  <div class="w-[25%] max-w-[80px] h-14 p-2 border flex justify-center items-center rounded-xl border-stone-800">
@@ -190,13 +244,13 @@
 	
 	  <div class="">
 		<div
-		  class="card bg-dark border flex justify-center items-center border-stone-900 rounded-[13px]  max-w-3xl mb-3 font-mono md:min-w-[600px]"
+		  class="card bg-dark flex justify-center items-center border-stone-900 rounded-[13px]  max-w-3xl mb-3 font-mono md:min-w-[600px]"
 		>
 	
 		  <div class="card-body rounded-xl gap-5 flex justify-center items-center ">
 			<img
 			  class="rounded-xl"
-			  src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/64b4190130ae58c2d4e7a68a_LastBF.jpg"
+			  src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/65285b1858160bda3b05eb0f_Test%20countless%20ideas.jpg"
 			  alt=""
 			/>
 			<button

@@ -114,15 +114,27 @@
                 </div>
             </div>
               
-          <div class="p-3 w-full">
+            <div class="p-3 w-full">
               <form on:submit={handleSubmit} class="flex justify-center items-center">
-                <input class="flex-grow mr-2 p-4 rounded-xl overflow-scroll max-w-[600px]" bind:value={$input} placeholder="Ask anything ..." />
-                <button type="submit" class="btn rounded-xl  bg-white shadow shadow-lg text-slate-950 hover:bg-slate-900 hover:text-slate-300"  disabled={!isLoggedIn} >send
-                  
-                </button>
-                <!-- disabled={!isLoggedIn} -->
+                <div class="w-full md:max-w-[600px] rounded-full flex bg-zinc-900 items-center shadow-lg shadow-indigo-950">
+                  <input class="w-full min-h-full px-6 py-4 bg-zinc-900 rounded-full focus:outline-none text-white" bind:value={$input} placeholder="Ask anything..." />
+                  <button type="submit" class="right-0 m-2 w-6 h-6 text-slate-950 hover:text-slate-300">
+                    <!-- Replace with your SVG button icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="16" height="16" viewBox="0 0 16 16" stroke="red">
+                      <!-- SVG path for your button icon -->
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M13.5 3V2.25H15V3V10C15 10.5523 14.5522 11 14 11H3.56062L5.53029 12.9697L6.06062 13.5L4.99996 14.5607L4.46963 14.0303L1.39641 10.9571C1.00588 10.5666 1.00588 9.93342 1.39641 9.54289L4.46963 6.46967L4.99996 5.93934L6.06062 7L5.53029 7.53033L3.56062 9.5H13.5V3Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                
+                      <defs>
+                        <clipPath id="clip0_113_1433">
+                          <rect width="24" height="24" fill="CurrentColor" transform="translate(0.5)" />
+                        </clipPath>
+                      </defs>
+                
+                    </svg>
+                  </button>
+                </div>
               </form>
-          </div>
+            </div>
             
         </div>
         
