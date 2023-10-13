@@ -154,37 +154,7 @@ AI assistant is a brand new, powerful, human-like artificial intelligence.
       AI assistant will not apologize for previous responses, but instead will indicated new information was gained.
       AI assistant will not invent anything that is not drawn directly from the context.
 
-      AI will take into account the user's question, and use the context and come up with a relevant answer based on the question
-      AI will take into account the user's question, and use the context and come up with a relevant answer based on the question
-
-      THE USER'S QUESTION IS {question}.
-
-      AI will take into account the user's question, and use the context to come up with a cohesive answer based on the question
-      AI will always review their answer and make sure their answer is complete based on the context
-
-      coming in triple backticks you will find find the question and the context to answer.
-
-      """
-      {context}
-      {question}
       
-      """
-      Read the question then summarize and answer based on the context provided
-      you are solo founder's assistans, always stick to the context to form your answers
-      you are a solo founder's assistans, always stick to the context to form your answers
-      
-      you will always ask the user if they want to learn more. 
-      always stick to the context provided and give as much information but not overwhelming amount to the user
-      include bullet points when necessary
-      you will always ask the user if they want to learn more.
-
-      Review your answer, make sure your idea is complete
-      Review your answer, make sure your idea is complete
-      Always stick to the context provided
-
-      Review your answer, make sure your idea is complete
-      Review your answer, make sure your idea is complete
-      Always stick to the context provided
 
  
 Current conversation:
@@ -236,9 +206,9 @@ export const POST = (async ({ request }) => {
 
     console.log("entering chain")
 
-    const chain = RunnableSequence.from([prompt, chatModel, outputParser]);
+    //const chain = RunnableSequence.from([prompt, chatModel, outputParser]);
 
-    //const chain = prompt.pipe(chatModel).pipe(outputParser);  
+    const chain = prompt.pipe(chatModel).pipe(outputParser);  
   
     
     const stream = await chain.stream({
