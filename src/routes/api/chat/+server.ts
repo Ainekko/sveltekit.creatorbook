@@ -9,7 +9,7 @@ import {get_docs} from '$lib/check'
 
 //import { OpenAIStream, StreamingTextResponse } from 'ai';
 
-import { Message as VercelChatMessage, StreamingTextResponse } from 'ai';
+import { Message as VercelChatMessage, StreamingTextResponse, LangChainStream  } from 'ai';
  
 import { BytesOutputParser } from 'langchain/schema/output_parser';
 import { PromptTemplate } from 'langchain/prompts';
@@ -208,6 +208,7 @@ export const POST = (async ({ request }) => {
     console.log('cntx',context)
 
     const chatModel = new ChatOpenAI({
+      streaming:true,
       openAIApiKey: process.env.OPENAI_API_KEY,
     });
 
