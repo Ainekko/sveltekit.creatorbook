@@ -158,6 +158,10 @@ AI assistant is a brand new, powerful, human-like artificial intelligence.
 
       AI will make the answer short, cohesive and based on the provided context block Then ask if they want to learn more
       AI will make the answer short, cohesive and based on the provided context block Then ask if they want to learn more
+      AI will always review and make sure the idea is complete before starting to answer
+      AI will always review and make sure the idea is complete before starting to answer
+      AI will always review and make sure the idea is complete before starting to answer
+
 
       
 
@@ -223,7 +227,8 @@ export const POST = (async ({ request }) => {
       input: currentMessageContent,
     });
 
- 
+    console.log(stream)
+
   // Respond with the stream
   return new StreamingTextResponse(stream);
 }) satisfies RequestHandler;
