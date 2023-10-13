@@ -9,7 +9,7 @@ import {get_docs} from '$lib/check'
 
 //import { OpenAIStream, StreamingTextResponse } from 'ai';
 
-import { Message as VercelChatMessage, StreamingTextResponse, LangChainStream  } from 'ai';
+import { Message as VercelChatMessage, StreamingTextResponse, LangChainStream, OpenAIStream  } from 'ai';
  
 import { BytesOutputParser } from 'langchain/schema/output_parser';
 import { PromptTemplate } from 'langchain/prompts';
@@ -148,13 +148,18 @@ AI assistant is a brand new, powerful, human-like artificial intelligence.
 
       START CONTEXT BLOCK
       {context}
+      Current conversation:
+      {chat_history}
+ 
+      User: {input}
+      AI:
       END OF CONTEXT BLOCK
       AI assistant will take into account any CONTEXT BLOCK that is provided in a conversation.
       If the context does not provide the answer to question, the AI assistant will say, "I'm sorry, but I don't know the answer to that question".
 
       AI assistant will not apologize for previous responses, but instead will indicated new information was gained.
       AI assistant will not invent anything that is not drawn directly from the context.
-      AI will review their answers and make sure it satisfies the user's question {question}
+      AI will review their answers and make sure it satisfies the user's question 
 
       AI will make the answer short, cohesive and based on the provided context block Then ask if they want to learn more
       AI will make the answer short, cohesive and based on the provided context block Then ask if they want to learn more
@@ -166,16 +171,11 @@ AI assistant is a brand new, powerful, human-like artificial intelligence.
       
 
  
-Current conversation:
-{chat_history}
- 
-User: {input}
-AI:`;
+`;
 
 export const POST = (async ({ request }) => {
   // Extract the `prompt` from the body of the request
     //await initializeAIComponents()
-    
     const { messages, auth_token } = await request.json();
     console.log('tuht : ', auth_token)
     
@@ -221,8 +221,12 @@ export const POST = (async ({ request }) => {
     const chain = prompt.pipe(chatModel).pipe(outputParser);  
   
     
+    
+    //const stream = OpenAIStream(response);
+
+
     const stream = await chain.stream({
-      question: currentMessageContent,
+      
       context  : context,
       chat_history: formattedPreviousMessages.join('\n'),
       input: currentMessageContent,
