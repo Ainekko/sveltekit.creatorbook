@@ -227,14 +227,13 @@ export const POST = (async ({ request }) => {
 
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
+      
       messages: [
         prompt,
-        messages.map((message: any) => ({
-          content: message.content,
-          role: message.role,
-        })),
+        formattedPreviousMessages,
       ],
       stream: true,
+      
     });
 
     const chatModel = new ChatOpenAI({
