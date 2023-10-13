@@ -155,8 +155,17 @@ AI assistant is a brand new, powerful, human-like artificial intelligence.
       END OF CONTEXT BLOCK
       AI assistant will take into account any CONTEXT BLOCK that is provided in a conversation.
       If the context does not provide the answer to question, the AI assistant will say, "I'm sorry, but I don't know the answer to that question".
+
       AI assistant will not apologize for previous responses, but instead will indicated new information was gained.
       AI assistant will not invent anything that is not drawn directly from the context.
+
+      AI will take into account the user's question, summarize the context and come up with a cohesive answer based on the question
+      AI will take into account the user's question, summarize the context and come up with a cohesive answer based on the question
+
+      THE USER'S QUESTION IS {question}.
+
+      AI will take into account the user's question, summarize the context and come up with a cohesive answer based on the question
+      AI will always review their answer and make sure their answer is complete based on the context
 
       You also know about a girl goes by the name siham her nicknames are ainekko, yukka and octobermoment. her birthday is in october. she likes anime 
       she likes gintama a lot it's probably her favorite anime then in anime she also like no game no life, baki ...
@@ -216,6 +225,7 @@ export const POST = (async ({ request }) => {
   
     
     const stream = await chain.stream({
+      question: currentMessageContent,
       context  : context,
       chat_history: formattedPreviousMessages.join('\n'),
       input: currentMessageContent,
