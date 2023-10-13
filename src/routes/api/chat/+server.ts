@@ -9,7 +9,7 @@ import {get_docs} from '$lib/check'
 
 //import { OpenAIStream, StreamingTextResponse } from 'ai';
 
-import { Message as VercelChatMessage, StreamingTextResponse, LangChainStream, OpenAIStream  } from 'ai';
+import { Message as VercelChatMessage, StreamingTextResponse } from 'ai';
  
 import { BytesOutputParser } from 'langchain/schema/output_parser';
 import { PromptTemplate } from 'langchain/prompts';
@@ -148,41 +148,37 @@ AI assistant is a brand new, powerful, human-like artificial intelligence.
 
       START CONTEXT BLOCK
       {context}
-      Current conversation:
-      {chat_history}
- 
-      User: {input}
-      AI:
       END OF CONTEXT BLOCK
       AI assistant will take into account any CONTEXT BLOCK that is provided in a conversation.
       If the context does not provide the answer to question, the AI assistant will say, "I'm sorry, but I don't know the answer to that question".
 
       AI assistant will not apologize for previous responses, but instead will indicated new information was gained.
       AI assistant will not invent anything that is not drawn directly from the context.
-      AI will review their answers and make sure it satisfies the user's question 
+      AI will review their answers and make sure it satisfies the user's question {question}
 
       AI will make the answer short, cohesive and based on the provided context block Then ask if they want to learn more
       AI will make the answer short, cohesive and based on the provided context block Then ask if they want to learn more
-      AI will always review and make sure the idea is complete before starting to answer
-      AI will always review and make sure the idea is complete before starting to answer
-      AI will always review and make sure the idea is complete before starting to answer
-
 
       
 
  
-`;
+Current conversation:
+{chat_history}
+ 
+User: {input}
+AI:`;
 
 export const POST = (async ({ request }) => {
   // Extract the `prompt` from the body of the request
     //await initializeAIComponents()
+    
     const { messages, auth_token } = await request.json();
     console.log('tuht : ', auth_token)
     
 
     const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage);
     const currentMessageContent = messages[messages.length - 1].content;
-    //const prompt = PromptTemplate.fromTemplate(TEMPLATE);
+    const prompt = PromptTemplate.fromTemplate(TEMPLATE);
     //const body = await request.json();
 
     //const { embeddings, pineconeStore } = await initializeAIComponents();
@@ -207,37 +203,7 @@ export const POST = (async ({ request }) => {
 
     console.log('cntx',context)
 
-    const prompt = {
-      role: "system",
-      content: `AI assistant is a brand new, powerful, human-like artificial intelligence.
-      The traits of AI include expert knowledge, helpfulness, cleverness, and articulateness.
-      AI is a well-behaved and well-mannered individual.
-      AI is always friendly, kind, and inspiring, and he is eager to provide vivid and thoughtful responses to the user.
-      AI has the sum of all knowledge in their brain, and is able to accurately answer nearly any question about any topic in conversation.
-      AI assistant is a big fan of Pinecone and Vercel.
-      START CONTEXT BLOCK
-      ${context}
-      END OF CONTEXT BLOCK
-      AI assistant will take into account any CONTEXT BLOCK that is provided in a conversation.
-      If the context does not provide the answer to question, the AI assistant will say, "I'm sorry, but I don't know the answer to that question".
-      AI assistant will not apologize for previous responses, but instead will indicated new information was gained.
-      AI assistant will not invent anything that is not drawn directly from the context.
-      `,
-    };
-
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      
-      messages: [
-        prompt,
-        formattedPreviousMessages,
-      ],
-      stream: true,
-      
-    });
-
     const chatModel = new ChatOpenAI({
-      streaming:true,
       openAIApiKey: process.env.OPENAI_API_KEY,
     });
 
@@ -247,22 +213,17 @@ export const POST = (async ({ request }) => {
 
     //const chain = RunnableSequence.from([prompt, chatModel, outputParser]);
 
-    //const chain = prompt.pipe(chatModel).pipe(outputParser);  
+    const chain = prompt.pipe(chatModel).pipe(outputParser);  
   
     
-    
-    //const stream = OpenAIStream(response);
-    const stream = OpenAIStream(response);
+    const stream = await chain.stream({
+      question: currentMessageContent,
+      context  : context,
+      chat_history: formattedPreviousMessages.join('\n'),
+      input: currentMessageContent,
+    });
 
-    // const stream = await chain.stream({
-      
-    //   context  : context,
-    //   chat_history: formattedPreviousMessages.join('\n'),
-    //   input: currentMessageContent,
-    // });
-
-    console.log(stream)
-
+ 
   // Respond with the stream
   return new StreamingTextResponse(stream);
 }) satisfies RequestHandler;
