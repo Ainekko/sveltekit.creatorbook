@@ -5,7 +5,7 @@
     export let data: LayoutData;
 </script>
 
-<main data-theme="business" class=" w-screen h-screen flex flex-col justify-center items-center ">
+<main data-theme="cupcake" class=" w-screen h-screen flex flex-col justify-center items-center ">
     
     <div class="max-w-[1200px] w-full h-full ">
         <NavBar />

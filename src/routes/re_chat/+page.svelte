@@ -70,10 +70,11 @@
       <!-- Page content here -->
       
       <div class="flex flex-col justify-between md:flex-row min-w-full min-h-[90vh] md:h-[90vh] relative">
-        <label for="my-drawer" class=" absolute flex flex-row justify-center items-center gap-2 shadow shadow-xl p-4 rounded-full text-slate-950 ">
+        <label for="my-drawer" class=" absolute flex flex-row justify-center items-center gap-2 shadow shadow-xl p-4 rounded-full text-slate-100 bg-zinc-950 cursor-pointer ">
           
-         <img src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/6501e7915d557f01f3be447c_system-solid-9-inbox.gif" alt="" class="max-w-[15%] max-h-5"> 
-  
+         <!-- <img src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/6501e7915d557f01f3be447c_system-solid-9-inbox.gif" alt="" class="max-w-[15%] max-h-5">  -->
+         <div class="w-2 h-2 bg-[#fdc4ff] rounded-full border border-stone-900"></div>
+
           Free downloads!</label>
         <!-- <div class="basis-1/4 p-3 max-h-screen overflow-scroll ">
           <div class="flex flex-col justify-center items-center">
