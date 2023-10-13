@@ -6,7 +6,7 @@ export default {
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
-    themes: ['black', "cupcake"],
+    themes: ['black', "cupcake", "business"],
   },
 }
 

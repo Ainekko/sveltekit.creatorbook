@@ -54,7 +54,7 @@
     </div>
     <div class="navbar-end">
       <a href="/login" class="px-4">Log in</a>
-      <a class="btn rounded-xl bg-zinc-800 hover:bg-slate-300 hover:text-black" href="/signup">Sign up</a>
+      <a class="btn rounded-xl bg-zinc-900 text-white hover:bg-slate-300 hover:text-black" href="/signup">Sign up</a>
       
     </div>
   </div>
