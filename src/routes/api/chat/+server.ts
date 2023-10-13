@@ -13,6 +13,7 @@ import { Message as VercelChatMessage, StreamingTextResponse } from 'ai';
  
 import { BytesOutputParser } from 'langchain/schema/output_parser';
 import { PromptTemplate } from 'langchain/prompts';
+import { RunnableSequence } from "langchain/schema/runnable";
 
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { HumanMessage } from "langchain/schema";
@@ -195,6 +196,7 @@ AI:`;
 export const POST = (async ({ request }) => {
   // Extract the `prompt` from the body of the request
     //await initializeAIComponents()
+    
     const { messages, auth_token } = await request.json();
     console.log('tuht : ', auth_token)
     
@@ -234,7 +236,9 @@ export const POST = (async ({ request }) => {
 
     console.log("entering chain")
 
-    const chain = prompt.pipe(chatModel).pipe(outputParser);  
+    const chain = RunnableSequence.from([prompt, chatModel, outputParser]);
+
+    //const chain = prompt.pipe(chatModel).pipe(outputParser);  
   
     
     const stream = await chain.stream({
