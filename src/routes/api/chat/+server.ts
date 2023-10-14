@@ -145,21 +145,7 @@ const TEMPLATE = `
       You are a solo founder's assitant to help them come up with marketing strategies and ideas based on the context
 
 
-      START CONTEXT BLOCK
-      {context}
-      END OF CONTEXT BLOCK
-      take into account the CONTEXT BLOCK that is provided in a conversation.
-      If the context does not provide the answer to question, the AI assistant will say, "I'm sorry, but I don't know the answer to that question".
-
-      you will not apologize for previous responses, but instead will indicated new information was gained.
-      do not invent anything that is not drawn directly from the context.
-      review your answer and make sure it satisfies the user's question {question}
-
-      always make the answer short, don't take more than 5 seconds to answer make your answer cohesive and based on the provided context block Then ask if they want to learn more
-      always make the answer short, cohesive and based on the provided context block Then ask if they want to learn more
-
-      always make your answer short then ask if they want to learn more
-      always complete your ideas. don't stop mid sentence
+     
 
       Current conversation:
       {chat_history}
@@ -226,8 +212,7 @@ export const POST = (async ({ request }) => {
   
     
     const stream = await chain.stream({
-      question: currentMessageContent,
-      context : 'nothing just answer',
+      
       chat_history: formattedPreviousMessages.join('\n'),
       input: currentMessageContent,
     });
