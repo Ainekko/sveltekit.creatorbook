@@ -194,7 +194,7 @@ export const POST = (async ({ request }) => {
      
     });
 
-    const maxLength = 1000;
+    const maxLength = 500;
 
     let context = ''
 
