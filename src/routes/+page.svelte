@@ -85,7 +85,7 @@
 					media ads. enjoy our free resources and Ai assistants to take your projects to the next level
 				  </span>
 				</p>
-				<button class="btn w-[120px] h-[60px] mt-3 bg-[#fdc4ff] text-slate-900 shadow-lg shadow-indigo-500/50 rounded-xl">
+				<button class="btn w-[120px] h-[50px] mt-5 bg-[#fdc4ff] text-slate-900 shadow-lg shadow-indigo-500/50 rounded-xl hover:-translate-y-1">
 				
 
 				Sign up
