@@ -194,6 +194,8 @@ export const POST = (async ({ request }) => {
      
     });
 
+    const maxLength = 1000;
+
     let context = ''
 
     for (const doc of Rdocs) {
@@ -202,6 +204,9 @@ export const POST = (async ({ request }) => {
 
     context = context.trim();
 
+    if (context.length > maxLength) {
+      context = context.slice(0, maxLength);
+    }
 
 
     console.log('cntx',context)

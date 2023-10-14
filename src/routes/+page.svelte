@@ -1,6 +1,30 @@
 <script lang="ts">
   
 	import NavBar from "$lib/components/NavBar.svelte";
+
+	var videoId = '6f_-dWYUZkA';
+	var YT: any; 
+
+  // Variable for the YouTube player
+  var player;
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('video-container', {
+      height: '360', // Adjust the height as needed
+      width: '640',  // Adjust the width as needed
+      videoId: videoId,
+      playerVars: {
+        autoplay: 1,
+        loop: 1,
+        playlist: videoId, // Required for loop to work
+        controls: 0,
+        modestbranding: 1, // Hide YouTube logo
+        showinfo: 0, // Hide video title and channel information
+        rel: 0, // Don't show related videos
+        mute: 1 // Mute the video
+      }
+    });
+  }
   
 	
 	
@@ -231,6 +255,11 @@
 		  </div>
 		</div>
 	  </section> -->
+
+	  <video controls width="640" height="360">
+		<source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/re_chat.mp4" type="video/mp4">
+		Your browser does not support the video tag.
+	</video>
 	
 	<section class=" min-h-screen pt-11 md:pt-40 md:flex justify-between">
 	  <div class="max-w-[480px] mb-3">
@@ -277,52 +306,9 @@
 	  </div>
 	</section>
 	
-	<section class=" min-h-screen pt-11 md:pt-40 md:flex justify-between">
-	  <div class="max-w-[480px] mb-3">
-		<h2 class="font-mono text-4xl font-bold mb-3 max-w-[250px]">
-		  Ai_Powered <span class="text-stone-500">free resources</span>
-		</h2>
-		<span class="font-mono font-thin">
-		  research - validation - aquisation - engaging
-		</span>
-	  </div>
 	
-	  <div class="">
-		<div
-		  class="card bg-dark border flex justify-center items-center border-stone-900 rounded-[13px]  max-w-3xl mb-3 font-mono md:min-w-[600px]"
-		>
 	
-		  <div class="card-body rounded-xl gap-5 flex justify-center items-center ">
-			<img
-			  class="rounded-xl"
-			  src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/651877e75771c327f9ecbfdf_Assist.jpg"
-			  alt=""
-			/>
-			<button
-			  class="btn max-w-[100px] rounded-xl hover:bg-white hover:text-black"
-			  >Learn more</button
-			>
-		  </div>
-		</div>
-	
-		<div class="w-[100%] flex justify-end">
-		  <div class="max-w-[350px]">
-			<p class=" md:font-medium font-mono md:text-xl">
-			  we link your data in a way that makes sense
-			  <span class="font-mono text-stone-500 font-thin md:text-base">
-				offering unlimited validation this includes landing pages and social
-				media ads we save all the data - then we offer an army of Ai assitants
-				to engage your customores delegate tasks and take your business to the
-				next level
-			  </span>
-			</p>
-		  </div>
-		</div>
-	
-	  </div>
-	</section>
-	
-	<section class=" min-h-screen pt-11 md:pt-40 md:flex justify-between">
+<section class=" min-h-screen pt-11 md:pt-40 md:flex justify-between">
 	  <div class="max-w-[480px] mb-3">
 		<h2 class="font-mono text-4xl font-bold mb-3 max-w-[250px]">
 		  Ai_Assitants <span class="text-stone-500"></span>
@@ -334,18 +320,21 @@
 	
 	  <div class="">
 		<div
-		  class="card bg-dark border flex justify-center items-center border-stone-900 rounded-[13px]  max-w-3xl mb-3 font-mono md:min-w-[600px]"
+		  class="card bg-dark flex justify-center items-center border-stone-900 rounded-[13px]  max-w-3xl mb-3 font-mono md:min-w-[600px]"
 		>
 	
 		  <div class="card-body rounded-xl gap-5 flex justify-center items-center ">
-			<img
-			  class="rounded-xl"
-			  src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/651877e75771c327f9ecbfdf_Assist.jpg"
-			  alt=""
-			/>
+			<div class="rounded-xl overflow-hidden">
+				<video autoplay loop muted playsinline class="object-cover  h-full">
+					<source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/re_chat.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
+			</div>
+			
+
 			<button
 			  class="btn max-w-[100px] rounded-xl hover:bg-white hover:text-black"
-			  >Learn more</button
+			  >Try it</button
 			>
 		  </div>
 		</div>
@@ -365,7 +354,7 @@
 		</div>
 	
 	  </div>
-	</section>
+</section>
 	
 	<section class=" min-h-screen pt-11 md:pt-40 md:flex justify-between">
 	  <div class="max-w-[480px] mb-3">
