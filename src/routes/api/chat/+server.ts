@@ -37,9 +37,9 @@ import { env } from '$env/dynamic/private';
  
 import type { RequestHandler } from './$types';
 
-export const config = {
-   	runtime: 'edge'
-   };
+// export const config = {
+//    	runtime: 'edge'
+//    };
 
 const pinecone = new Pinecone({
   apiKey: process.env.PINECONE_API_KEY || '',
