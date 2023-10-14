@@ -426,7 +426,7 @@
 	<p class="text-4xl text-[#fdc4ff] font-bold uppercase my-10 ">
 		nai is our second ai assitant made to help solo founders
 	</p>
-	<div class="w-full flex justify-start">
+	<div class="w-full flex justify-end px-10">
 		<div class="flex flex-row  justify-center items-center gap-10 p-28 ">
 			<div class="bg-[#fdc4ff] w-20 h-20  rounded-full">
 	
@@ -444,46 +444,34 @@
 	<section class=" min-h-screen pt-11 md:pt-40 md:flex justify-between">
 	  <div class="max-w-[480px] mb-3">
 		<h2 class="font-mono text-4xl font-bold mb-3 max-w-[250px]">
-		  Ai_Powered <span class="text-stone-500">Newsletter</span>
+		  Creatorbook <span class="text-stone-500">Newsletter</span>
 		</h2>
 		<span class="font-mono font-thin">
 		  research - marketing - offers - engaging
 		</span>
+
+		<p class="mt-2"> 
+			Our Newsletter brings the latest updates and offres so you stay ahead of the game and never miss the next big thing
+		</p>
+
 	  </div>
+	  
+	  	
+
+	  <div class="w-full flex justify-end px-10">
+		<div class="flex flex-row  justify-center items-center gap-10 p-28 ">
+			<div class="bg-[#fdc4ff] w-20 h-20  rounded-full">
 	
-	  <div class="">
-		<div
-		  class="card bg-dark border flex justify-center items-center border-stone-900 rounded-[13px]  max-w-3xl mb-3 font-mono md:min-w-[600px]"
-		>
-	
-		  <div class="card-body rounded-xl gap-5 flex justify-center items-center ">
-			<img
-			  class="rounded-xl"
-			  src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/651877e75771c327f9ecbfdf_Assist.jpg"
-			  alt=""
-			/>
-			<button
-			  class="btn max-w-[100px] rounded-xl hover:bg-white hover:text-black"
-			  >Learn more</button
-			>
-		  </div>
-		</div>
-	
-		<div class="w-[100%] flex justify-end">
-		  <div class="max-w-[350px]">
-			<p class=" md:font-medium font-mono md:text-xl">
-			  we link your data in a way that makes sense
-			  <span class="font-mono text-stone-500 font-thin md:text-base">
-				offering unlimited validation this includes landing pages and social
-				media ads we save all the data - then we offer an army of Ai assitants
-				to engage your customores delegate tasks and take your business to the
-				next level
-			  </span>
+			</div>
+			<p class="text-lg text-[#fdc4ff] font-mono uppercase my-10 ">
+				coming soon ...
 			</p>
-		  </div>
 		</div>
+	</div>
+	  
+		
 	
-	  </div>
+	
 	</section>
   </main>
   
