@@ -137,39 +137,47 @@ const formatMessage = (message: VercelChatMessage) => {
   return `${message.role}: ${message.content}`;
 };
 //let context = ''
-const TEMPLATE = `
+// const TEMPLATE = `
 
 
       
       
-      You are a solo founder's assitant to help them come up with marketing strategies and ideas based on the context
+//       You are a solo founder's assitant to help them come up with marketing strategies and ideas based on the context
 
 
-      START CONTEXT BLOCK
-      {context}
-      END OF CONTEXT BLOCK
-      take into account the CONTEXT BLOCK that is provided in a conversation.
-      If the context does not provide the answer to question, the AI assistant will say, "I'm sorry, but I don't know the answer to that question".
+//       START CONTEXT BLOCK
+//       {context}
+//       END OF CONTEXT BLOCK
+//       take into account the CONTEXT BLOCK that is provided in a conversation.
+//       If the context does not provide the answer to question, the AI assistant will say, "I'm sorry, but I don't know the answer to that question".
 
-      you will not apologize for previous responses, but instead will indicated new information was gained.
-      do not invent anything that is not drawn directly from the context.
-      review your answer and make sure it satisfies the user's question {question}
+//       you will not apologize for previous responses, but instead will indicated new information was gained.
+//       do not invent anything that is not drawn directly from the context.
+//       review your answer and make sure it satisfies the user's question {question}
 
-      always make the answer short, don't take more than 5 seconds to answer make your answer cohesive and based on the provided context block Then ask if they want to learn more
-      always make the answer short, cohesive and based on the provided context block Then ask if they want to learn more
+//       always make the answer short, don't take more than 5 seconds to answer make your answer cohesive and based on the provided context block Then ask if they want to learn more
+//       always make the answer short, cohesive and based on the provided context block Then ask if they want to learn more
 
-      always make your answer short then ask if they want to learn more
-      always complete your ideas. don't stop mid sentence
+//       always make your answer short then ask if they want to learn more
+//       always complete your ideas. don't stop mid sentence
 
-      Current conversation:
-      {chat_history}
+//       Current conversation:
+//       {chat_history}
       
-      User: {input}
-      AI:
+//       User: {input}
+//       AI:
       
 
  
-`;
+// `;
+
+const TEMPLATE = `You are a pirate named Patchy. All responses must be extremely verbose and in pirate dialect.
+ 
+Current conversation:
+{chat_history}
+ 
+User: {input}
+AI:`;
 
 export const POST = (async ({ request }) => {
   // Extract the `prompt` from the body of the request
@@ -190,26 +198,26 @@ export const POST = (async ({ request }) => {
 
     //const Rdocs = await vectorStore.similaritySearch(currentMessageContent, 5);
 
-    const Rdocs = await pineconeStore.similaritySearch(currentMessageContent, 2, {
+    // const Rdocs = await pineconeStore.similaritySearch(currentMessageContent, 2, {
      
-    });
+    // });
 
-    const maxLength = 500;
+    // const maxLength = 500;
 
-    let context = ''
+    // let context = ''
 
-    for (const doc of Rdocs) {
-      context += doc.pageContent + ' ';
-    }
+    // for (const doc of Rdocs) {
+    //   context += doc.pageContent + ' ';
+    // }
 
-    context = context.trim();
+    // context = context.trim();
 
-    if (context.length > maxLength) {
-      context = context.slice(0, maxLength);
-    }
+    // if (context.length > maxLength) {
+    //   context = context.slice(0, maxLength);
+    // }
 
 
-    console.log('cntx',context)
+    //console.log('cntx',context)
 
     const chatModel = new ChatOpenAI({
       openAIApiKey: process.env.OPENAI_API_KEY,
@@ -226,7 +234,7 @@ export const POST = (async ({ request }) => {
     
     const stream = await chain.stream({
       question: currentMessageContent,
-      context  : context,
+      
       chat_history: formattedPreviousMessages.join('\n'),
       input: currentMessageContent,
     });
