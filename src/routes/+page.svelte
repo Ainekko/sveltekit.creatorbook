@@ -2,29 +2,7 @@
   
 	import NavBar from "$lib/components/NavBar.svelte";
 
-	var videoId = '6f_-dWYUZkA';
-	var YT: any; 
-
-  // Variable for the YouTube player
-  var player;
-
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player('video-container', {
-      height: '360', // Adjust the height as needed
-      width: '640',  // Adjust the width as needed
-      videoId: videoId,
-      playerVars: {
-        autoplay: 1,
-        loop: 1,
-        playlist: videoId, // Required for loop to work
-        controls: 0,
-        modestbranding: 1, // Hide YouTube logo
-        showinfo: 0, // Hide video title and channel information
-        rel: 0, // Don't show related videos
-        mute: 1 // Mute the video
-      }
-    });
-  }
+	
   
 	
 	
@@ -273,7 +251,7 @@
 		  class="card bg-dark flex justify-center items-center border-stone-900 rounded-[13px]  max-w-3xl mb-3 font-mono md:min-w-[600px]"
 		>
 	
-		  <div class="card-body rounded-xl gap-5 flex justify-center items-center ">
+		  <div class="card-body rounded-xl gap-5 flex justify-center items-center p-0">
 			<img
 			  class="rounded-xl"
 			  src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/65285b1858160bda3b05eb0f_Test%20countless%20ideas.jpg"
@@ -320,7 +298,7 @@
 		  class="card bg-dark flex justify-center items-center border-stone-900 rounded-[13px]  max-w-3xl mb-3 font-mono md:min-w-[600px]"
 		>
 	
-		  <div class="card-body rounded-xl gap-5 flex justify-center items-center ">
+		  <div class="card-body rounded-xl gap-5 flex justify-center items-center p-0">
 			<div class="rounded-xl overflow-hidden">
 				<video autoplay loop muted playsinline class="object-cover  h-full">
 					<source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/rechat.mp4" type="video/mp4">
@@ -362,13 +340,26 @@
 		chat - automation - delegation - generation
 	  </span>
 	</div>
-  
-	<div class="flex flex-col w-full md:flex-row">
+	<div class="flex flex-row p-2 justify-center items-center gap-2">
+		<div class="bg-purple-300 w-5 h-5 rounded-full">
+
+		</div>
+		<p class="text-sm text-purple-300 font-mono uppercase my-10 ">
+			Re_chat
+		</p>
+	</div>
+	
+
+	<p class="text-4xl text-purple-300 font-bold uppercase my-10 ">
+		You don't need to learn prompting, our assistant is designed to help and assist solo founders
+	</p>
+	
+	<div class="flex flex-col w-full md:flex-row md:gap-4">
 	  <div
 		class="card bg-dark flex  justify-center items-center border-stone-900 rounded-[13px]  max-w-3xl mb-3 font-mono md:min-w-[600px] w-full"
 	  >
   
-		<div class="card-body rounded-xl gap-5 flex justify-center items-center h-full w-full">
+		<div class="card-body rounded-xl gap-5 flex justify-center items-center h-full w-full p-0">
 			<h1>ChatGpt</h1>
 		  <div class="rounded-xl overflow-hidden w-full">
 			  <video autoplay loop muted playsinline class="object-cover  h-full">
@@ -395,7 +386,7 @@
 	  </div>
 
 	  <div class="card bg-dark flex justify-center items-start border-stone-900 rounded-[13px] max-w-3xl mb-3 font-mono md:min-w-[600px]">
-		<div class="card-body rounded-xl gap-5 flex justify-center items-center h-full">
+		<div class="card-body rounded-xl gap-5 flex justify-center items-center h-full p-0">
 			<h1>Re_chat</h1>
 			<div class="rounded-xl overflow-hidden">
 				<video autoplay loop muted playsinline class="object-cover h-full">
@@ -423,21 +414,31 @@
   
 	  
   
+	  <div class="flex flex-row p-2 justify-center items-center gap-2">
+		<div class="bg-[#fdc4ff] w-5 h-5 rounded-full">
 
-
-	<div class="w-[100%] flex justify-end">
-		<div class="max-w-[350px]">
-		  <p class=" md:font-medium font-mono md:text-xl">
-			we link your data in a way that makes sense
-			<span class="font-mono text-stone-500 font-thin md:text-base">
-			  offering unlimited validation this includes landing pages and social
-			  media ads we save all the data - then we offer an army of Ai assitants
-			  to engage your customores delegate tasks and take your business to the
-			  next level
-			</span>
-		  </p>
 		</div>
-	  </div>
+		<p class="text-sm text-[#fdc4ff] font-mono uppercase my-10 ">
+			nai
+		</p>
+	</div>
+
+	<p class="text-4xl text-[#fdc4ff] font-bold uppercase my-10 ">
+		nai is our second ai assitant made to help solo founders
+	</p>
+	<div class="w-full flex justify-start">
+		<div class="flex flex-row  justify-center items-center gap-10 p-28 ">
+			<div class="bg-[#fdc4ff] w-20 h-20  rounded-full">
+	
+			</div>
+			<p class="text-lg text-[#fdc4ff] font-mono uppercase my-10 ">
+				coming soon ...
+			</p>
+		</div>
+	</div>
+	
+
+	
 </section>
 	
 	<section class=" min-h-screen pt-11 md:pt-40 md:flex justify-between">
