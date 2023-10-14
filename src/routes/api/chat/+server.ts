@@ -41,7 +41,7 @@ const pinecone = new Pinecone({
 const pineconeIndex = pinecone.Index('rechat');
 
 const embeddings = new OpenAIEmbeddings({
-  openAIApiKey: process.env.OPENAI_API_KEY,
+  openAIApiKey: process.env.OPENAI_API_KEY || '',
   batchSize: 512,
 });
 
@@ -195,7 +195,7 @@ export const POST = (async ({ request }) => {
     console.log('cntx',context)
 
     const chatModel = new ChatOpenAI({
-      openAIApiKey: process.env.OPENAI_API_KEY,
+      openAIApiKey: process.env.OPENAI_API_KEY ||'',
     });
 
     const outputParser = new BytesOutputParser();

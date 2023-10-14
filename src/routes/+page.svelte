@@ -256,10 +256,7 @@
 		</div>
 	  </section> -->
 
-	  <video controls width="640" height="360">
-		<source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/re_chat.mp4" type="video/mp4">
-		Your browser does not support the video tag.
-	</video>
+	  
 	
 	<section class=" min-h-screen pt-11 md:pt-40 md:flex justify-between">
 	  <div class="max-w-[480px] mb-3">
@@ -311,10 +308,10 @@
 <section class=" min-h-screen pt-11 md:pt-40 md:flex justify-between">
 	  <div class="max-w-[480px] mb-3">
 		<h2 class="font-mono text-4xl font-bold mb-3 max-w-[250px]">
-		  Ai_Assitants <span class="text-stone-500"></span>
+		  Free_Resources <span class="text-stone-500"></span>
 		</h2>
 		<span class="font-mono font-thin">
-		  research - SEO - Generation - automation
+		  chat - marketing - guides - frameworks
 		</span>
 	  </div>
 	
@@ -326,7 +323,7 @@
 		  <div class="card-body rounded-xl gap-5 flex justify-center items-center ">
 			<div class="rounded-xl overflow-hidden">
 				<video autoplay loop muted playsinline class="object-cover  h-full">
-					<source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/re_chat.mp4" type="video/mp4">
+					<source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/rechat.mp4" type="video/mp4">
 					Your browser does not support the video tag.
 				</video>
 			</div>
@@ -353,6 +350,93 @@
 		  </div>
 		</div>
 	
+	  </div>
+</section>
+
+<section class=" min-h-screen pt-11 md:pt-40 md:flex-col justify-between">
+	<div class="max-w-[480px] mb-3">
+	  <h2 class="font-mono text-4xl font-bold mb-3 max-w-[250px]">
+		Ai_Assitants <span class="text-stone-500"></span>
+	  </h2>
+	  <span class="font-mono font-thin">
+		chat - automation - delegation - generation
+	  </span>
+	</div>
+  
+	<div class="flex flex-col w-full md:flex-row">
+	  <div
+		class="card bg-dark flex  justify-center items-center border-stone-900 rounded-[13px]  max-w-3xl mb-3 font-mono md:min-w-[600px] w-full"
+	  >
+  
+		<div class="card-body rounded-xl gap-5 flex justify-center items-center h-full w-full">
+			<h1>ChatGpt</h1>
+		  <div class="rounded-xl overflow-hidden w-full">
+			  <video autoplay loop muted playsinline class="object-cover  h-full">
+				  <source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/GPT.mp4" type="video/mp4">
+				  Your browser does not support the video tag.
+			  </video>
+		  </div>
+		  
+
+		  <p>
+			Q: write me a short paragraph how can i start marketing as a solo founder
+		  </p>
+
+		  <p class="font-thin text-sm text-zinc-500 ">
+			As a solo founder looking to start marketing your venture, it's essential to begin with a solid foundation. 
+			Start by defining your target audience and creating a detailed buyer persona to understand their needs and preferences. 
+			Next, establish an online presence through a professional website and active social media profiles. Content marketing can be a cost-effective way to reach your 
+			audience, so create valuable blog posts, videos, or infographics that address their pain points. Leverage email marketing to build and nurture a subscriber list, 
+			and consider partnerships or collaborations with complementary businesses to expand your reach. Continuous learning and adaptability are key, so monitor your 
+			analytics, stay updated on marketing trends, and be open to adjusting your strategy as you learn more about what works best for your business. Building a personal 
+			brand and networking within your industry can also be invaluable for a solo founder's marketing efforts.
+		  </p>
+		</div>
+	  </div>
+
+	  <div class="card bg-dark flex justify-center items-start border-stone-900 rounded-[13px] max-w-3xl mb-3 font-mono md:min-w-[600px]">
+		<div class="card-body rounded-xl gap-5 flex justify-center items-center h-full">
+			<h1>Re_chat</h1>
+			<div class="rounded-xl overflow-hidden">
+				<video autoplay loop muted playsinline class="object-cover h-full">
+					<source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/rechat.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
+			</div>
+			<p>
+				Q: write me a short paragraph how can i start marketing as a solo founder
+			</p>
+			<p class="font-thin text-sm text-zinc-500">
+				As a solo founder, starting your marketing journey begins with sharing your story, no matter how humble your beginnings might be. 
+				Offer valuable insights, tips, or lessons you're learning along the way to engage with other like-minded solo founders and potential customers. 
+				By organically evolving your marketing strategy alongside your venture, you create a solid foundation for future growth. This article will guide you from not even having an 
+				idea to setting up a successful product hunt launch, gathering information from other solo founders and observing what's out there. Let me know if 
+				you want to learn more!
+			</p>
+
+			<button class="btn max-w-[100px] rounded-xl hover:bg-white hover:text-black">Try it</button>
+
+
+		</div>
+	</div>
+	  </div>
+  
+	  
+  
+
+
+	<div class="w-[100%] flex justify-end">
+		<div class="max-w-[350px]">
+		  <p class=" md:font-medium font-mono md:text-xl">
+			we link your data in a way that makes sense
+			<span class="font-mono text-stone-500 font-thin md:text-base">
+			  offering unlimited validation this includes landing pages and social
+			  media ads we save all the data - then we offer an army of Ai assitants
+			  to engage your customores delegate tasks and take your business to the
+			  next level
+			</span>
+		  </p>
+		</div>
 	  </div>
 </section>
 	
