@@ -4,6 +4,8 @@
       
       import { useChat } from 'ai/svelte';
       import {checkAndDeleteToken} from '$lib/check'
+      import {fetch_token} from '$lib/check'
+
      
   
       /** @type {import('./$types').PageData} */
@@ -11,7 +13,7 @@
             export let data;
             const auth_token = data.authtoken
       
-   
+   fetch_token()
    let token = localStorage.getItem('token')  
    
    checkAndDeleteToken()

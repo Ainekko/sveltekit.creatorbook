@@ -3,7 +3,6 @@
     import "../app.css";
     //import {checkAndDeleteToken} from '$lib/check'
   
-   import {fetch_token} from '$lib/check'
   
   const tokenCheckInterval = 24 * 60 * 60 * 1000; // 24 hours
   
@@ -13,7 +12,7 @@
   //checkAndDeleteToken();
     // PADDING HAD A 20px PADDING
 
-  fetch_token()
+
   </script>
   
   <main class="overflow-hidden">
