@@ -48,6 +48,7 @@
   </script>
   
   <div class="bg-inherit h-screen w-max[1440px] flex justify-center items-center">
+    <a href="https://api.creatorbook.tech/o/login/twitter">LOGIN WITH TWITTER</a>
     <div class="h-screen w-screen max-w-[1200px] flex justify-center items-center overflow-hidden">
       <div class="card bg-dark border flex justify-center items-center border-stone-900 w-80 rounded-[13px] font-mono">
         <p>Log in:</p>
