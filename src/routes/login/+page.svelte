@@ -16,7 +16,7 @@
     async function handleTwitterLogin() {
     try {
       // Make a request to your Django endpoint responsible for Twitter authentication
-      const response = await fetch('https://api.creatorbook.tech/o/login/twitter', {
+      const response = await fetch('https://api.creatorbook.tech/o/login/twitter/', {
         method: 'POST', // Adjust the method as needed
       });
 
