@@ -26,6 +26,26 @@ export async function checkAndDeleteToken() {
     }
   }
   
+  export async function fetch_token() {
+    try {
+      const response = await fetch('https://api.creatorbook.tech/users/otoken/', {
+        method: 'GET',
+        
+      });
+  
+      if (response.status === 200) {
+        const data = await response.json();
+        const token = data.token;
+  
+        localStorage.setItem('auth_token', token);
+      } else {
+        console.error('Failed to fetch the token:', response.status);
+      }
+    } catch (error) {
+      console.error('Error fetching the token:', error);
+    }
+  }
+  
  
 
 // const tokenCheckInterval = 24 * 60 * 60 * 1000; // 24 hours
