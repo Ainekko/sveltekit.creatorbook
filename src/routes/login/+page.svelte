@@ -3,7 +3,7 @@
     import { redirect } from '@sveltejs/kit';
     import { goto } from '$app/navigation';
   
-  
+    //twitter handling will do the login, then fetch the token in a seperate view and set it in the localstorage
     
     let email = '';
     let password = '';
@@ -82,6 +82,9 @@
   <div class="bg-inherit h-screen w-max[1440px] flex justify-center items-center">
     
     <button on:click={handleTwitterLogin}>Login with Twitter</button>
+
+    <a href="https://api.creatorbook.tech/o/login/twitter/">LOGIN TWIITER</a>
+
     <div class="h-screen w-screen max-w-[1200px] flex justify-center items-center overflow-hidden">
       <div class="card bg-dark border flex justify-center items-center border-stone-900 w-80 rounded-[13px] font-mono">
         <p>Log in:</p>
