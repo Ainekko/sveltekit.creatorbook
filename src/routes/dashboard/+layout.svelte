@@ -15,7 +15,7 @@
         // Token not in local storage, fetch it from the backend
         const response = await fetch('https://api.creatorbook.tech/users/get_token/', {
           method: 'GET',
-          
+          credentials: 'include',
         });
 
         if (response.ok) {
