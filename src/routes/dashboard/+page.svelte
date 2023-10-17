@@ -31,11 +31,11 @@ onMount(async () => {
 
 <div class="min-w-32 min-h-32 bg-zinc-900 p-4 rounded-xl">
   
-  <div class="p-4 flex flex-row  items-center gap-3 bg-zinc-950 rounded-full max-w-[200px]">
+  <div class="px-4 py-2 flex flex-row  items-center gap-3 bg-zinc-950 rounded-full max-w-[200px]">
     <div class="w-2 h-2 bg-[#fdc4ff] rounded-full "></div>
     <p> 
      {username} 
-     {#if user_id === 2}
+     {#if user_id === 3}
         💜 <!-- Render the heart emoji if user_id is 2 -->
       {/if}
     </p>
