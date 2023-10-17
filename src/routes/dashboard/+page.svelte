@@ -1,19 +1,25 @@
 
 <script>
-import {get_token} from '$lib/check'
+import {get_user} from '$lib/check'
 import { onMount } from 'svelte';
 
 let username = '' ;
 
 
-onMount(async () => {
-    const result = await get_token();
 
-    if (result?.user) {
-      username = result.user.username;
-      // Handle the token as needed (e.g., store it in a store or local storage)
+onMount(async () => {
+    const user_data = await get_user();
+
+    if (user_data) {
+      // Use the user data as needed, e.g., set it in component state
+      username = user_data.username;
+      
+      // Add other user data fields as needed
+    } else {
+      // Handle the case when user data cannot be fetched
     }
   });
+    
 
 </script>
 

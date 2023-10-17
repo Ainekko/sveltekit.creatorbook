@@ -3,7 +3,7 @@
     import NavBar from "$lib/components/NavBar.svelte";
 
     import { onMount } from 'svelte';
-
+    import {get_token} from '$lib/check'
     
     export let data: LayoutData;
 
@@ -35,7 +35,7 @@
   //   }
   // };
 
-  //onMount(getToken);
+  onMount(get_token);
 
 </script>
 

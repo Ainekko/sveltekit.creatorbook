@@ -65,6 +65,32 @@ export async function get_token() {
 }
 
 
+// Create a function to fetch user info using the existing token
+export async function get_user() {
+  try {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const response = await fetch('https://api.creatorbook.tech/users/get_user/', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Token ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        
+        return data;
+      } else {
+        console.error('Failed to fetch user info:', response.status);
+      }
+    }
+  } catch (error) {
+    console.error('Error while fetching user info:', error);
+  }
+}
+
+
 
  
 
