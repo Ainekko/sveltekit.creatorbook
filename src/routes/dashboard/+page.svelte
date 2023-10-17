@@ -4,6 +4,7 @@ import {get_user} from '$lib/check'
 import { onMount } from 'svelte';
 
 let username = '' ;
+let user_id = 0;
 
 
 
@@ -13,6 +14,7 @@ onMount(async () => {
     if (user_data) {
       // Use the user data as needed, e.g., set it in component state
       username = user_data.username;
+      user_id = user_data.user_id
       
       // Add other user data fields as needed
     } else {
@@ -25,7 +27,33 @@ onMount(async () => {
 
 
 
-<h1>Hello! dashboard {username} coming soon...</h1>
+
+
+<div class="min-w-32 min-h-32 bg-zinc-900 p-4 rounded-xl">
+  
+  <div class="p-4 flex flex-row  items-center gap-3 bg-zinc-950 rounded-full max-w-[200px]">
+    <div class="w-2 h-2 bg-[#fdc4ff] rounded-full "></div>
+    <p> 
+     {username} 
+     {#if user_id === 2}
+        💜 <!-- Render the heart emoji if user_id is 2 -->
+      {/if}
+    </p>
+  </div>
+ 
+  <p class="font-mono text-xs mb-4 mt-3">
+    your dashboard is coming soon
+    in the mean time chekout:
+  </p>
+  <div class="text-xs flex gap-5 font-thin">
+    <a class="rounded-r-full  hover:bg-zinc-900 p-4" href="/home">home</a>
+    <a class="rounded-r-full border border-zinc-800 hover:bg-zinc-800 p-4" href="/re_chat">re_chat</a>
+  </div>
+    <!-- <div class="w-4 h-4 bg-stone-200 rounded-full border"></div> -->
+</div>
+  
+  
+
 
 <!-- <label class="swap swap-rotate"> -->
   
