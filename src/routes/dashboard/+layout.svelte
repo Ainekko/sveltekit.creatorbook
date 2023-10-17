@@ -13,7 +13,7 @@
       const token = localStorage.getItem('token');
       if (!token) {
         // Token not in local storage, fetch it from the backend
-        const response = await fetch('http://api.creatorbook.tech/users/get_token/', {
+        const response = await fetch('https://api.creatorbook.tech/users/get_token/', {
           method: 'GET',
           
         });
