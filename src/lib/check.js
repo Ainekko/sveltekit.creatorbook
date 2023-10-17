@@ -45,6 +45,8 @@ export async function get_token() {
 
         const user = data.user;
         const username = user.username;
+        console.log(user)
+        console.log(username)
 
         // Return the user data and token
         return { user };
