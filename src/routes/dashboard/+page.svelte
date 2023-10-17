@@ -35,7 +35,7 @@ onMount(async () => {
     <div class="w-2 h-2 bg-[#fdc4ff] rounded-full "></div>
     <p> 
      {username} 
-     {#if user_id === 3}
+     {#if user_id === 2}
         💜 <!-- Render the heart emoji if user_id is 2 -->
       {/if}
     </p>
