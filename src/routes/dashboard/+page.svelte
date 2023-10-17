@@ -3,7 +3,7 @@
 import {get_token} from '$lib/check'
 import { onMount } from 'svelte';
 
-let username = '';
+let username = '' || 'didnt get a username';
 
 
 onMount(async () => {
