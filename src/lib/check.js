@@ -27,6 +27,39 @@ export async function checkAndDeleteToken() {
   }
   
   
+  // Import any dependencies you need
+
+export async function get_token() {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      const response = await fetch('https://api.creatorbook.tech/users/get_token/', {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const fetchedToken = data.token;
+        localStorage.setItem('token', fetchedToken);
+
+        const user = data.user;
+        const username = user.username;
+
+        // Return the user data and token
+        return { user };
+      } else {
+        // Handle error if the token couldn't be fetched
+        console.error('Failed to fetch token:', response.status);
+      }
+    }
+  } catch (error) {
+    console.error('Error while fetching token:', error);
+  }
+}
+
+// Note: Make sure to call this function from a Svelte component and handle the returned data as needed
+
  
 
 // const tokenCheckInterval = 24 * 60 * 60 * 1000; // 24 hours

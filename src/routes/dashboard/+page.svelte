@@ -1,5 +1,25 @@
 
-<h1>Hello! dashboard coming soon...</h1>
+<script>
+import {get_token} from '$lib/check'
+import { onMount } from 'svelte';
+
+let username = '';
+
+
+onMount(async () => {
+    const result = await get_token();
+
+    if (result?.user) {
+      username = result.user.username;
+      // Handle the token as needed (e.g., store it in a store or local storage)
+    }
+  });
+
+</script>
+
+
+
+<h1>Hello! dashboard {username} coming soon...</h1>
 
 <!-- <label class="swap swap-rotate"> -->
   
