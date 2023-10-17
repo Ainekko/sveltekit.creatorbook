@@ -56,15 +56,10 @@
    
   </script>
   
-  <div class="bg-inherit h-screen w-max[1440px] flex justify-center items-center">
-    
+  <div class="bg-inherit h-screen h-md:h-screen w-max[1440px] flex flex-col md:flex-row gap-5 md:gap-10 justify-center md:justify-evenly items-center">
 
-    <a href="https://api.creatorbook.tech/o/login/twitter/">LOGIN TWIITER</a>
-
-    
-
-    <div class="h-screen w-screen max-w-[1200px] flex justify-center items-center overflow-hidden">
-      <div class="card bg-dark border flex justify-center items-center border-stone-900 w-80 rounded-[13px] font-mono">
+    <div class="h-auto  max-w-[1200px] flex justify-center items-center overflow-hidden">
+      <div class="card bg-dark border flex justify-center items-center border-stone-900 w-80 rounded-[13px] font-mono p-4">
         <p>Log in:</p>
         <form class="card-body " on:submit={log_in}>
           <input type="email" placeholder="email" bind:value={email} class="input input-bordered border rounded-[5px]" />
@@ -81,10 +76,14 @@
           
           <input type="submit" value="Log in" class="btn btn-neutral rounded-[5px]" />
         </form>
-        <button class="btn bg-blue-400 text-white rounded-xl" on:click={handle_twitter_login}>
-          Sign in with twitter
-        </button>
+        
       </div>
+      
     </div>
+
+    <div class="w-[1px] h-10 md:h-32 bg-zinc-800"></div>
+    <button class="btn bg-blue-400 text-white text-sans" on:click={handle_twitter_login}>
+      Sign in with twitter
+    </button>
   </div>
   
