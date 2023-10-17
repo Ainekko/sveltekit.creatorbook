@@ -26,8 +26,12 @@ export async function checkAndDeleteToken() {
     }
   }
   
+  // const tokenCheckInterval = 24 * 60 * 60 * 1000; // 24 hours
+
+// // Set up the interval to call the token check function
+// setInterval(checkAndDeleteToken, tokenCheckInterval);
+
   
-  // Import any dependencies you need
 
 export async function get_token() {
   try {
@@ -60,14 +64,10 @@ export async function get_token() {
   }
 }
 
-// Note: Make sure to call this function from a Svelte component and handle the returned data as needed
+
 
  
 
-// const tokenCheckInterval = 24 * 60 * 60 * 1000; // 24 hours
-
-// // Set up the interval to call the token check function
-// setInterval(checkAndDeleteToken, tokenCheckInterval);
 
 
 
