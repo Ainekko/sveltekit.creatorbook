@@ -13,36 +13,13 @@
       goto('/dashboard');
     }
 
-    async function handleTwitterLogin() {
-    try {
-      // Make a request to your Django endpoint responsible for Twitter authentication
-      const response = await fetch('https://api.creatorbook.tech/o/login/twitter/', {
-        method: 'GET', // Adjust the method as needed
-      });
+    const twitter_auth_url = 'https://api.creatorbook.tech/o/login/twitter'
 
-      if (response.ok) {
-        // Parse the JSON response data
-        const data = await response.json();
-        
-        if (data.status === 'success') {
-          // User is successfully authenticated
-          // Update the UI or show a success message
-          console.log('Login successful:', data.message);
-        } else {
-          // Handle authentication failure
-          // Display an error message
-          console.error('Authentication failed:', data.message);
-        }
-      } else {
-        // Handle unexpected response status codes
-        // Display an error message
-        console.error('Unexpected response:', response.statusText);
-      }
-    } catch (error) {
-      // Handle any errors that might occur during the authentication process
-      console.error('Error:', error);
-    }
-  }
+    const handle_twitter_login = () => {
+    // Redirect the user to the Google OAuth provider's authorization URL
+    window.location.href = twitter_auth_url;
+  };
+
 
     async function log_in() {
       const user_data = {
@@ -81,9 +58,10 @@
   
   <div class="bg-inherit h-screen w-max[1440px] flex justify-center items-center">
     
-    <button on:click={handleTwitterLogin}>Login with Twitter</button>
 
     <a href="https://api.creatorbook.tech/o/login/twitter/">LOGIN TWIITER</a>
+
+    
 
     <div class="h-screen w-screen max-w-[1200px] flex justify-center items-center overflow-hidden">
       <div class="card bg-dark border flex justify-center items-center border-stone-900 w-80 rounded-[13px] font-mono">
@@ -103,6 +81,9 @@
           
           <input type="submit" value="Log in" class="btn btn-neutral rounded-[5px]" />
         </form>
+        <button class="btn bg-blue-400 text-white rounded-xl" on:click={handle_twitter_login}>
+          Sign in with twitter
+        </button>
       </div>
     </div>
   </div>
