@@ -46,7 +46,7 @@ onMount(async () => {
     in the mean time chekout:
   </p>
   <div class="text-xs flex gap-5 font-thin">
-    <a class="rounded-r-full  hover:bg-zinc-900 p-4" href="/home">home</a>
+    <a class="rounded-r-full  hover:bg-zinc-900 p-4" href="/">home</a>
     <a class="rounded-r-full border border-zinc-800 hover:bg-zinc-800 p-4" href="/re_chat">re_chat</a>
   </div>
     <!-- <div class="w-4 h-4 bg-stone-200 rounded-full border"></div> -->
