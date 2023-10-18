@@ -3,15 +3,22 @@
     
       
       import { useChat } from 'ai/svelte';
-      import {checkAndDeleteToken} from '$lib/check'
-      
+      import {checkAndDeleteToken} from '$lib/check';
+      import { onMount } from 'svelte';
+
      
   
       /** @type {import('./$types').PageData} */
       
             export let data;
             const auth_token = data.authtoken
-      
+  
+       
+   
+   onMount(() => {
+    const modal = document.getElementById('my_modal_3');
+    modal.showModal();
+  });
  
    let token = localStorage.getItem('token')  
    
@@ -40,6 +47,7 @@
       }else{
         console.log('go ahead!')
       }
+      
       let isLoggedIn = !!token;
       
   
@@ -62,6 +70,23 @@
     </script>
   
   <div class="drawer w-full ">
+
+    <!-- You can open the modal using ID.showModal() method -->
+
+
+<dialog id="my_modal_3" class="modal">
+  <div class="modal-box">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <h3 class="font-bold text-lg font-mono">Hello!</h3>
+    <p class="mb-5 text-base font-mono">please log in to use the assistant!</p>
+    
+    <a class="btn rounded-full bg-zinc-950 shadow-lg shadow-indigo-900 text-white border-none px-8 mb-4" href="/login">login</a>
+    <p class="py-1 text-xs ">Press ESC key or click on ✕ button to close</p>
+  </div>
+</dialog>
+
     <input id="my-drawer" type="checkbox" class="drawer-toggle" />
   
     
@@ -120,7 +145,7 @@
               <form on:submit={handleSubmit} class="flex justify-center items-center">
                 <div class="w-full md:max-w-[600px] rounded-full flex bg-zinc-900 items-center shadow-lg shadow-indigo-950">
                   <input class="w-full min-h-full px-6 py-4 bg-zinc-900 rounded-full focus:outline-none text-white" bind:value={$input} placeholder="Ask anything..." />
-                  <button type="submit" class="right-0 m-2 min-w-6 min-h-6 px-6 py-3 text-slate-950 hover:text-slate-300 rounded-full bg-zinc-600">
+                  <button type="submit" class="right-0 m-2 min-w-6 min-h-6 px-6 py-3 text-slate-950 hover:text-slate-300 rounded-full bg-zinc-600 " disabled={!isLoggedIn}  >
                     <!-- Replace with your SVG button icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="16" height="16" viewBox="0 0 16 16" stroke="red">
                       <!-- SVG path for your button icon -->
