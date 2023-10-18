@@ -15,14 +15,19 @@
   
        
    
-   onMount(() => {
-    const modal = document.getElementById('my_modal_3');
-    modal.showModal();
-  });
+   
  
    let token = localStorage.getItem('token')  
    
    checkAndDeleteToken()
+
+   onMount(() => {
+    const modal = document.getElementById('my_modal_3');
+    if (!token){
+      modal.showModal();
+    }
+    
+  });
 
       
       const { input, handleSubmit, messages, } = useChat(
