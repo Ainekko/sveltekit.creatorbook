@@ -36,7 +36,7 @@ onMount(async () => {
     <p> 
      {username} 
      {#if user_id === 2}
-         🥑<!-- Render the heart emoji if user_id is 2 -->
+     🍒 🌸 <!-- Render the heart emoji if user_id is 2 -->
       {/if}
     </p>
   </div>
