@@ -1,7 +1,30 @@
 <div class="h-80 w-full max-w-3xl bg-zinc-100 md:bg-slate-100 rounded-xl md:p-4  flex flex-col md:flex-row justify-evenly items-center md:gap-8 text-black text-sm">
-    <p class="font-medium text-base text-zinc-950">
-        get access to creatorbook lifetime!
-    </p>
+    
+    <div class="text-lg ">
+        <p class="font-medium text-base text-zinc-950">
+            get access to creatorbook lifetime!
+    
+        </p>
+        <p>
+            20% discount use code EZOTAXNQ 
+        </p>
+        <div>
+            <button class="btn p-2 bg-none border border-indigo-950 mt-2"></button>
+        </div>
+        <div class="">
+            <button class="min-w-[100px] min-h-[20px] p-2 border border-indigo-200 rounded-full flex flex-row gap-2 justify-center items-center">
+                <div class="w-[5px] [5px] p-1 rounded-full bg-violet-500 ">
+
+                </div>
+                <p class="text-xs font-mono">
+                    10 spots left!
+                </p>
+            </button>
+
+        </div>
+       
+    </div>
+    
     
     <div class="flex flex-col gap-4  md:h-full justify-center md:justify-between w-full md:w-auto  md:p-4 items-center  ">
         
@@ -11,7 +34,7 @@
             <!-- <p class="font-mono text-xl text-zinc-900">295$</p> -->
         </div>
         
-        <a href="https://creatorbook.lemonsqueezy.com/checkout/buy/9e63f10b-1522-4c12-a771-49932ecc9366?embed=1&logo=0&discount=0" class="lemonsqueezy-button btn rounded-full bg-zinc-950 shadow-lg shadow-indigo-900 text-xs md:w-56 px-4 md:p-2 ">Life time subscription <span class="font-mono">295$</span></a><script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+        <a href="https://creatorbook.lemonsqueezy.com/checkout/buy/9e63f10b-1522-4c12-a771-49932ecc9366?embed=1&logo=0&discount=0" class="lemonsqueezy-button btn rounded-full bg-zinc-950 shadow-lg shadow-indigo-900 text-xs md:w-56 px-4 md:p-2 ">Life time subscription <del>490$</del> <span class="font-mono text-white text-sm">392$</span></a><script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
         
     </div>
     
