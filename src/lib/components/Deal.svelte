@@ -1,4 +1,4 @@
-<div class="h-80 w-full max-w-3xl bg-zinc-200 md:bg-slate-100 rounded-xl md:p-4  flex flex-col md:flex-row justify-evenly items-center md:gap-8 text-black text-sm">
+<div class="h-80 w-full max-w-3xl bg-zinc-100 md:bg-slate-100 rounded-xl md:p-4  flex flex-col md:flex-row justify-evenly items-center md:gap-8 text-black text-sm">
     <p class="font-medium text-base text-zinc-950">
         get access to creatorbook lifetime!
     </p>
