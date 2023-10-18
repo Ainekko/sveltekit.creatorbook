@@ -81,8 +81,8 @@
 				<p class=" md:font-medium font-mono md:text-xl">
 				  designed to make the most out of your data as a start up founder
 				  <span class="font-mono text-stone-500 font-thin md:text-xl">
-					quickly validate your projects with unlimited landing pages and social
-					media ads. enjoy our free resources and Ai assistants to take your projects to the next level
+					quickly validate your projects with <span class="text-white">unlimited landing pages</span > and <span class="text-white" >social
+						media ads</span>. enjoy our <span class="text-white">free resources</span> and <span class="text-white">Ai assistants</span> to take your projects to the next level
 				  </span>
 				</p>
 				<button class="btn w-[120px] h-[50px] mt-5 bg-[#fdc4ff] text-slate-900 shadow-lg shadow-indigo-500/50 rounded-xl hover:-translate-y-1">
@@ -268,10 +268,10 @@
 		  <div class="max-w-[350px]">
 			<p class=" md:font-medium font-mono md:text-xl">
 			  we link your data in a way that makes sense
-			  <span class="font-mono text-stone-500 font-thin md:text-base">
+			  <span class="font-mono text-stone-500 font-thin md:text-xl">
 				offering unlimited validation this includes landing pages and social
 				media ads we save all the data - then we offer an army of Ai assitants
-				to engage your customores delegate tasks and take your business to the
+				to engage your customers delegate tasks and take your business to the
 				next level
 			  </span>
 			</p>
@@ -315,18 +315,17 @@
 		</div>
 	
 		<div class="w-[100%] flex justify-end">
-		  <div class="max-w-[350px]">
-			<p class=" md:font-medium font-mono md:text-xl">
-			  we link your data in a way that makes sense
-			  <span class="font-mono text-stone-500 font-thin md:text-base">
-				offering unlimited validation this includes landing pages and social
-				media ads we save all the data - then we offer an army of Ai assitants
-				to engage your customores delegate tasks and take your business to the
-				next level
-			  </span>
-			</p>
+			<div class="max-w-[350px]">
+			  <p class=" md:font-medium font-mono md:text-xl">
+				free resources
+				<span class="font-mono text-stone-500 font-thin md:text-xl">
+				  get access to free resources to help you make the best out of your indie hacking journey
+				  includes marketing guides and frameworks, <span class="text-white">chat assistant to help you brainstorm and come up
+					with ideas and marketing strategies	</span> 
+				</span>
+			  </p>
+			</div>
 		  </div>
-		</div>
 	
 	  </div>
 </section>
@@ -375,8 +374,8 @@
 
 		  <p class="font-thin text-sm text-zinc-500 ">
 			As a solo founder looking to start marketing your venture, it's essential to begin with a solid foundation. 
-			Start by defining your target audience and creating a detailed buyer persona to understand their needs and preferences. 
-			Next, establish an online presence through a professional website and active social media profiles. Content marketing can be a cost-effective way to reach your 
+			Start by <span class="text-white">defining your target audience</span> and creating a detailed buyer persona to understand their needs and preferences. 
+			Next, establish an online presence through a <span class="text-white"> professional website</span> and active social media profiles. <span class="text-white">Content marketing</span> can be a cost-effective way to reach your 
 			audience, so create valuable blog posts, videos, or infographics that address their pain points. Leverage email marketing to build and nurture a subscriber list, 
 			and consider partnerships or collaborations with complementary businesses to expand your reach. Continuous learning and adaptability are key, so monitor your 
 			analytics, stay updated on marketing trends, and be open to adjusting your strategy as you learn more about what works best for your business. Building a personal 
@@ -398,8 +397,8 @@
 				Q: write me a short paragraph how can i start marketing as a solo founder
 			</p>
 			<p class="font-thin text-sm text-zinc-500">
-				As a solo founder, starting your marketing journey begins with sharing your story, no matter how humble your beginnings might be. 
-				Offer valuable insights, tips, or lessons you're learning along the way to engage with other like-minded solo founders and potential customers. 
+				As a solo founder, starting your marketing journey begins with <span class="text-white">sharing your story</span>, no matter how humble your beginnings might be. 
+				<span class="text-white">Offer valuable insights, tips, or lessons</span> you're learning along the way to <span class="text-white">engage with other like-minded solo founders</span>  and potential customers. 
 				By organically evolving your marketing strategy alongside your venture, you create a solid foundation for future growth. This article will guide you from not even having an 
 				idea to setting up a successful product hunt launch, gathering information from other solo founders and observing what's out there. Let me know if 
 				you want to learn more!
