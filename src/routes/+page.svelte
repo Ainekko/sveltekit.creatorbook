@@ -380,14 +380,14 @@
 			  </div>
 
 			  <div class="card-actions w-full mt-5">
-				<button class="btn  w-full bg-zinc-900 shadow-lg shadow-indigo-900 rounded-full">Get Started</button>
+				<a href="/signup" class="btn  w-full bg-zinc-900 shadow-lg shadow-indigo-900 rounded-full">Get Started</a>
 			  </div>
 			</div>
 		  </div>
 
 		  <div class="card card-compact  border-white md:w-96 bg-base-100 max-h-[500px] md:max-h-[700px] shadow-xl rounded-md bg-none">
 			
-			<div class="card-body md:min-h-[450px] h-[600px] justify-evenly bg-white text-zinc-900 py-4">
+			<div class="card-body md:min-h-[450px] h-[600px] justify-evenly bg-white text-zinc-900">
 			  <h2 class="card-title">Basic</h2>
 			  <p>Access all of creatorbook assistants and tools</p>
 
@@ -422,7 +422,7 @@
 			  </div>
 
 			  <div class="card-actions w-full mt-5 flex flex-col gap-3">
-				<button class="btn  w-full bg-zinc-900 shadow-lg shadow-indigo-900 rounded-full">Get Started</button>
+				<a href="https://cbook.lemonsqueezy.com/checkout/buy/45b8a90e-9e99-4957-b63f-01d7d6cfb070" class="btn  w-full bg-zinc-900 shadow-lg shadow-indigo-900 rounded-full">Get Started</a>
 
 				<a href="https://cbook.lemonsqueezy.com/checkout/buy/9e63f10b-1522-4c12-a771-49932ecc9366?embed=1" class="lemonsqueezy-button btn rounded-full  bg-transparent px-4 md:p-2 w-full text-black hover:bg-zinc-950 hover:text-white ">Life time subscription <span class="font-mono  text-sm">392$</span></a><script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 
@@ -477,7 +477,7 @@
 			  </div>
 
 			  <div class="card-actions w-full mt-5">
-				<button class="btn  w-full bg-zinc-900 shadow-lg shadow-indigo-900 rounded-full">Get Started</button>
+				<a href="https://cbook.lemonsqueezy.com/checkout/buy/fa1a928b-7c83-434f-9ace-6710dd6a6e97" class="btn  w-full bg-zinc-900 shadow-lg shadow-indigo-900 rounded-full">Get Started</a>
 			  </div>
 			</div>
 		  </div>
