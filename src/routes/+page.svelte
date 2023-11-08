@@ -123,9 +123,9 @@
 				<button class="flex justify-center items-center third-text-element border w-32 h-10 md:h-20 border-zinc-700 rounded-full p-4 text-sm hidden ">
 					Contact us
 				</button>
-				<button class="third-text-element  bg-zinc-950 text-white shadow shadow-indigo-500/50 w-36 h-36 border-zinc-700 rounded-full p-4 text-sm hover:bg- hover:shadow-indigo-300 ">
+				<a href="https://www.creatorbook.tech/signup" class="third-text-element flex justify-center items-center  bg-zinc-950 text-white shadow shadow-indigo-500/50 w-36 h-36 border-zinc-700 rounded-full p-4 text-sm hover:bg- hover:shadow-indigo-300 ">
 					sign up
-				</button>
+				</a>
 				<button class="third-text-element border w-32 h-10 md:h-20 border-zinc-700 rounded-full p-4 text-sm hidden ">
 					See plans
 				</button>
@@ -187,9 +187,9 @@
 				
 				<div class="w-full flex justify-center items-center">
 
-					<button class="third-text-element  bg-zinc-950 text-white shadow-lg shadow-indigo-500/50 w-36 h-36 border-zinc-700 rounded-full p-4 text-sm hover:shadow-indigo-200 hover:-translate-y-1  hover:bg-zinc-900  ">
+					<a href="https://www.creatorbook.tech/signup" class="third-text-element flex justify-center items-center  bg-zinc-950 text-white shadow-lg shadow-indigo-500/50 w-36 h-36 border-zinc-700 rounded-full p-4 text-sm hover:shadow-indigo-200 hover:-translate-y-1  hover:bg-zinc-900  ">
 						sign up
-					</button>
+					</a>
 
 				</div>
 				
@@ -242,9 +242,9 @@
 
 				<div class="w-full flex justify-center items-center">
 
-					<button class="third-text-element border border-zinc-300  hover:bg-zinc-950 hover:text-white hover:shadow-2xl  hover:translate-y-4 shadow-indigo-500/50 w-36 h-36  rounded-full p-4 text-sm ">
+					<a href="https://marketing.creatorbook.tech/contact-us" class="third-text-element flex justify-center items-center border border-zinc-300  hover:bg-zinc-950 hover:text-white hover:shadow-2xl  hover:translate-y-4 shadow-indigo-500/50 w-36 h-36  rounded-full p-4 text-sm ">
 						Contact us
-					</button>
+					</a>
 
 				</div>
 			</div>
@@ -309,9 +309,9 @@
 						</video>
 					</div>
 
-					<button class="third-text-element border border-zinc-300  hover:bg-zinc-950 hover:text-white hover:shadow-2xl  hover:translate-y-4 shadow-indigo-500/50 w-36 h-36  rounded-full p-4 text-sm  ">
+					<a href="https://www.creatorbook.tech/signup" class="third-text-element flex justify-center items-center border border-zinc-300  hover:bg-zinc-950 hover:text-white hover:shadow-2xl  hover:translate-y-4 shadow-indigo-500/50 w-36 h-36  rounded-full p-4 text-sm  ">
 						Try it!
-					</button>
+					</a>
 
 				</div>
 			</div>
@@ -488,9 +488,9 @@
 		
 		<div class="w-full flex justify-center items-center  border-black h-full  ">
 
-			<button class="third-text-element border text-black border-zinc-300  hover:bg-zinc-950 hover:text-white hover:shadow-2xl  hover:translate-y-4 shadow-indigo-500/50 w-36 h-36  rounded-full p-4 text-sm ">
+			<a href="https://marketing.creatorbook.tech/contact-us" class="third-text-element flex justify-center items-center border text-black border-zinc-300  hover:bg-zinc-950 hover:text-white hover:shadow-2xl  hover:translate-y-4 shadow-indigo-500/50 w-36 h-36  rounded-full p-4 text-sm ">
 				Contact us
-			</button>
+			</a>
 
 		</div>
 	  </div>

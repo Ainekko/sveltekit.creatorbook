@@ -23,10 +23,10 @@
   
   
   
-<div class="main">
+<div class="main bg-white">
     
-    <div class="container">
-      <NavBar />
+    <div class="container ">
+    
       <slot />
     </div>
 </div> 
