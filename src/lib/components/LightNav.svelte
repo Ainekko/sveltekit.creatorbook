@@ -34,7 +34,7 @@
           <li><a href="/re_chat">Ai-assitants</a></li>
         </ul>
       </div>
-      <a class="btn btn-ghost normal-case text-xl text-stone-700 hover:text-gray-50 " href="/"><img class=" max-w-5 object-contain	max-h-6 hover:h-5" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/65294c89ce2e4b9e38d0f9eb_Creatorbook%20logo%20black.png" alt=""></a>
+      <a class="btn btn-ghost normal-case text-xl text-stone-700 hover:text-gray-50 " href="https://www.creatorbook.tech/"><img class=" max-w-5 object-contain	max-h-6 hover:h-5" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/65294c89ce2e4b9e38d0f9eb_Creatorbook%20logo%20black.png" alt=""></a>
     </div>
     <div class="navbar-center hidden lg:flex ">
       <ul class="menu menu-horizontal px-1">
