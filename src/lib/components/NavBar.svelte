@@ -53,8 +53,8 @@
       </ul>
     </div>
     <div class="navbar-end">
-      <a href="/login" class="px-4">Log in</a>
-      <a class="btn rounded-xl bg-zinc-900 text-white hover:bg-slate-300 hover:text-black" href="/signup">Sign up</a>
+      <a href="/login" class="px-4">Contact us</a>
+      <a class="btn rounded-xl bg-zinc-900 text-white hover:bg-slate-300 hover:text-black" href="/signup">Sign up / Login</a>
       
     </div>
   </div>

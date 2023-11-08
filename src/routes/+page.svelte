@@ -1,9 +1,72 @@
 <script lang="ts">
   
 	import NavBar from "$lib/components/NavBar.svelte";
+	import { onMount } from 'svelte';
+
+	import { gsap } from "gsap/dist/gsap";
+	import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+
+
+	onMount(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.utils.toArray('.text-element').forEach((element, index) => {
+      gsap.from(element, {
+        opacity: 0,
+        y: 50,
+        duration: 0.9,
+		stagger: 0.5,
+        scrollTrigger: {
+          trigger: element,
+          start: 'top bottom',
+          end: 'center center',
+          toggleActions: 'play none none reverse',
+          delay: index * 0.5, // Calculate delay based on the index
+        },
+      });
+    });
 
 	
-  
+	
+
+    gsap.utils.toArray('.second-text-element').forEach((element, index) => {
+      gsap.from(element, {
+        opacity: 0,
+        y: 50,
+        duration: 0.9,
+		delay: 0.2,
+        scrollTrigger: {
+          trigger: element,
+          start: 'top bottom',
+          end: 'center center',
+          toggleActions: 'play none none reverse',
+          delay: 0.9, // Calculate delay based on the index
+        },
+      });
+    });
+
+	gsap.utils.toArray('.third-text-element').forEach((element, index) => {
+      gsap.from(element, {
+        opacity: 0,
+        y: 50,
+        duration: 0.9,
+		delay: 0.3,
+        scrollTrigger: {
+			stagger: 0.5,
+          trigger: element,
+          start: 'top bottom',
+          end: 'center center',
+          toggleActions: 'play none none reverse',
+          delay: 0.9, // Calculate delay based on the index
+        },
+      });
+    });
+
+  });
+
+
+
+
 	
 	
   </script>
@@ -20,459 +83,422 @@
 	  margin: 0 auto; /* Center the container horizontally */
 	  padding: 0 ; /* Optional padding to create spacing from the edges */
 	}
+
+	.marquee {
+    white-space: nowrap;
+    overflow: hidden;
+    animation: marquee 15s linear infinite;
+}
+ 
+
+@keyframes marquee {
+    0% { transform: translateX(100%); } /* Move text to the right */
+    100% { transform: translateX(-100%); } /* Move text to the left */
+}
   </style>
   
-  <main class="container ">
+  <main class="">
 	<NavBar />
-	<div class="max-w-[480px] flex flex-row fixed">
+	<!-- <div class="max-w-[480px] flex flex-row fixed">
 	  <div class="w-3 h-3 bg-teal-400 blur-sm rounded-full " > <h1>hdg</h1></div>
 	  <p class="font-mono font-thin">Alpha launch!</p>
-	</div>
-	
-	<iframe src='https://my.spline.design/jetpackprojectionmapping-042c9aa87525200b759588267a51650b/' frameborder='0' width='100%' height='100%' class="md:display-none"></iframe> 
-	
-	<div class=" py-10 flex flex-col min-w-full">
-	  <div class="flex">
-		<p class="font-mono" />
-		<div class="w-[100%] flex items-center justify-center flex-col">
-
-			<!-- <a href="/login"
-			class="btn rounded-[13px] fill-none border-stone-300 mt-5 w-30 h-30 md:w-40 md:h-40 font-mono"
-			>explore</a
-		  > -->
-	
-		  <div class="max-w-[700px] ">
-			
-			<div class="flex flex-row w-[50%] pt-2 justify-between">
-		 	<div class="w-2 h-2 bg-[#fdc4ff] rounded-full border border-stone-900 blur-sm"></div>
-			
-			</div>
-			<h1 class="text-3xl  text-left md:text-6xl font-light md:font-light mb-5">
-			  The most exciting ecosystem for solo creators
-			</h1>
-
-			<!-- <button class="btn w-[200px] h-[60px] bg-[#fdc4ff] shadow-lg shadow-indigo-500/50 rounded-xl">
-				
-
-				Sign up
-			
-			</button> -->
-			<div class="flex justify-between gap-2">
-				<div class="w-[5px] h-[100px] bg-[#fdc4ff] shadow-3xl shadow-white rounded-full  "></div>
-
-				<!-- <iframe src='https://my.spline.design/jetpackprojectionmapping-042c9aa87525200b759588267a51650b/' frameborder='0' width='100%' height='100%' class=" display-none md:display-block"></iframe> -->
-				
-				<!-- <div class="flex flex-col gap-4 max-w-[50%] ">
-					<div class=" h-14 p-4 border flex justify-center items-center rounded-xl border-stone-800">
-						<p>Ai</p>
-					  </div>
-					  <div class=" h-14 p-4 border flex justify-center items-center rounded-xl border-stone-800">
-						<p>Freebies</p>
-					  </div>
-					  <div class=" h-14 p-4 border flex justify-center items-center rounded-xl border-stone-800">
-						<p>Marketing</p>
-					  </div>
-					  <div class="h-14 p-4 border flex justify-center items-center rounded-xl border-stone-800">
-						<p>Newsletter</p>
-					  </div>
-				</div> -->
-
-			<div class="max-w-[350px]">
-				<p class=" md:font-medium font-mono md:text-xl">
-				  designed to make the most out of your data as a start up founder
-				  <span class="font-mono text-stone-500 font-thin md:text-xl">
-					quickly validate your projects with <span class="text-white">unlimited landing pages</span > and <span class="text-white" >social
-						media ads</span>. enjoy our <span class="text-white">free resources</span> and <span class="text-white">Ai assistants</span> to take your projects to the next level
-				  </span>
-				</p>
-				<button class="btn w-[120px] h-[50px] mt-5 bg-[#fdc4ff] text-slate-900 shadow-lg shadow-indigo-500/50 rounded-xl hover:-translate-y-1">
-				
-
-				Sign up
-			
-				</button>
-			  </div>
-			</div>
-			
-
-		  </div>
-		  
-		  
-
-		  <!-- <svg class=" hidden md:block"
-			width="159"
-			height="359"
-			viewBox="0 0 159 359"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-		  >
-			<path
-			  d="M158 358L80.9028 358L80.9028 278.531L119.729 278.531L119.729 248.146L119.729 206.074L21 206.074L21 132.448L80.9028 132.448L80.9028 74.0152L158 74.0152L158 5.98846e-06"
-			  stroke="#64FFDA"
-			  stroke-width="2"
-			/>
-			<rect
-			  x="41"
-			  y="77"
-			  width="203"
-			  height="41"
-			  transform="rotate(90 41 77)"
-			  fill="black"
-			/>
-		  </svg>
-	 -->
-		  
-		  
-		  
-		</div>
-	  </div>
-	</div>
-	
-	<!-- <div class="w-[100%] flex justify-end">
-	  <div class="max-w-[350px]">
-		<p class=" md:font-medium font-mono md:text-xl">
-		  we link your data in a way that makes sense
-		  <span class="font-mono text-stone-500 font-thin md:text-base">
-			offering unlimited validation this includes landing pages and social
-			media ads we save all the data - then we offer an army of Ai assitants
-			to engage your customores delegate tasks and take your business to the
-			next level
-		  </span>
-		</p>
-	  </div>
 	</div> -->
 	
-	<section class="w-full md:max-w-2xl flex flex-row justify-between  md:justify-evenly items-center min-w-full text-xs font-semibold gap-2 text-stone-600 hover:text-white pt-16">
-	  <div class="w-[25%] max-w-[80px] h-14 p-2 border flex justify-center items-center rounded-xl border-stone-800">
-		<p>Ai</p>
-	  </div>
-	  <div class="w-[25%] max-w-[80px] h-14 p-2 border flex justify-center items-center rounded-xl border-stone-800">
-		<p>Freebies</p>
-	  </div>
-	  <div class="w-[25%] max-w-[80px] h-14 p-2 border flex justify-center items-center rounded-xl border-stone-800">
-		<p>Marketing</p>
-	  </div>
-	  <div class="w-[25%] max-w-[80px] h-14 p-2 border flex justify-center items-center rounded-xl border-stone-800">
-		<p>Newsletter</p>
-	  </div>
-	  
-	</section>
-	
-	  <!-- <section class="min-w-full flex justify-center items-center pt-10"> -->
-		<!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-4 min-w-ful">
-		  <div
-			class="card bg-dark border flex justify-center items-center border-stone-900  rounded-[13px] font-mono md:min-w-[300px] m-2"
-		  > -->
-			<!-- <div class="card-body rounded-xl gap-5 flex justify-center items-center">
-			  <p class="font-mono text-stone-500 font-thin text-base">
-				Free resources + Ai chat
-			  </p> -->
-			  <!-- <img
-				class="rounded-xl"
-				src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/64b4190130ae58c2d4e7a68a_LastBF.jpg"
-				alt=""
-			  /> -->
-			  <!-- <button
-				class="btn max-w-[100px] rounded-xl hover:bg-white hover:text-black"
-				>Learn more</button
-			  >
-			</div>
-		  </div> -->
-	
-		  <!-- <div
-			class="card bg-dark border flex justify-center items-center border-stone-900 rounded-[13px] font-mono min-w-[300px] m-2"
-		  > -->
-			<!-- <div class="card-body rounded-xl gap-5 flex justify-center items-center">
-			  <p class="font-mono text-stone-500 font-thin text-base">
-				Marketing and validation
-			  </p> -->
-			  <!-- <img
-				class="rounded-xl"
-				src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/64b4190130ae58c2d4e7a68a_LastBF.jpg"
-				alt=""
-			  /> -->
-			  <!-- <button
-				class="btn max-w-[100px] rounded-xl hover:bg-white hover:text-black"
-				>Learn more</button
-			  >
-			</div>
-		  </div> -->
-	
-		  <!-- <div
-			class="card bg-dark border flex justify-center items-center border-stone-900 rounded-[13px] font-mono min-w-[300px] m-2"
-		  > -->
-			<!-- <div class="card-body rounded-xl gap-5 flex justify-center items-center">
-			  <p class="font-mono text-stone-500 font-thin text-base">Ai assitants</p> -->
-			  <!-- <img
-				class="rounded-xl"
-				src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/64b4190130ae58c2d4e7a68a_LastBF.jpg"
-				alt=""
-			  /> -->
-			  <!-- <button
-				class="btn max-w-[100px] rounded-xl hover:bg-white hover:text-black"
-				>Learn more</button
-			  > -->
-			<!-- </div>
-		  </div>
-	
-		  <div
-			class="card bg-dark border flex justify-center items-center border-stone-900  rounded-[13px] font-mono min-w-[300px] m-2"
-		  >
-			<div class="card-body rounded-xl gap-5 flex justify-center items-center">
-			  <p class="font-mono text-stone-500 font-thin text-base">Newsletter</p> -->
-			  <!-- <img
-				class="rounded-xl"
-				src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/64b4190130ae58c2d4e7a68a_LastBF.jpg"
-				alt=""
-			  /> -->
-			  <!-- <button
-				class="btn max-w-[100px] rounded-xl hover:bg-white hover:text-black"
-				>Learn more</button
-			  > -->
-			<!-- </div>
-		  </div>
-		</div>
-	  </section> -->
 
-	  
 	
-	<section class=" min-h-screen pt-11 md:pt-40 md:flex justify-between">
-	  <div class="max-w-[480px] mb-3">
-		<h2 class="font-mono text-4xl font-bold mb-3 max-w-[250px]">
-		  Data <span class="text-stone-500">driven validation</span>
-		</h2>
-		<span class="font-mono font-thin">
-		  research - validation - aquisation - engaging
-		</span>
-	  </div>
-	
-	  <div class="">
-		<div
-		  class="card bg-dark flex justify-center items-center border-stone-900 rounded-[13px]  max-w-3xl mb-3 font-mono md:min-w-[600px]"
-		>
-	
-		  <div class="card-body rounded-xl gap-5 flex justify-center items-center p-0">
-			<img
-			  class="rounded-xl"
-			  src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/65285b1858160bda3b05eb0f_Test%20countless%20ideas.jpg"
-			  alt=""
-			/>
-			<button
-			  class="btn max-w-[100px] rounded-xl hover:bg-white hover:text-black"
-			  >Learn more</button
-			>
-		  </div>
+<section class="hero min-h-[90vh]">
+	<div class="container relative">
+		<div class="w-full h-full -z-10  flex items-center justify-center  -mt-10 absolute">
+			<img src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/65294c89ce2e4b9e38d0f9eb_Creatorbook%20logo%20black.png" alt="" class="absolute -z-10  object-cover opacity-50">
+
 		</div>
-	
-		<div class="w-[100%] flex justify-end">
-		  <div class="max-w-[350px]">
-			<p class=" md:font-medium font-mono md:text-xl">
-			  we link your data in a way that makes sense
-			  <span class="font-mono text-stone-500 font-thin md:text-xl">
-				offering unlimited validation this includes landing pages and social
-				media ads we save all the data - then we offer an army of Ai assitants
-				to engage your customers delegate tasks and take your business to the
-				next level
-			  </span>
+		<div class="w-full flex justify-center items-center flex-col pt-16">
+			<h1 class="text-element font-normal text-6xl md:text-8xl text-center text-white mb-5">
+				Take your ideas to new heights.
+			</h1>
+			<p class="second-text-element mt-3 text-lg text-center mb-5">
+				Validate and grow your ideas the right way <span class="text-white">effortlessly</span> 
 			</p>
-		  </div>
-		</div>
-	
-	  </div>
-	</section>
-	
-	
-	
-<section class=" min-h-screen pt-11 md:pt-40 md:flex justify-between">
-	  <div class="max-w-[480px] mb-3">
-		<h2 class="font-mono text-4xl font-bold mb-3 max-w-[250px]">
-		  Free_Resources <span class="text-stone-500"></span>
-		</h2>
-		<span class="font-mono font-thin">
-		  chat - marketing - guides - frameworks
-		</span>
-	  </div>
-	
-	  <div class="">
-		<div
-		  class="card bg-dark flex justify-center items-center border-stone-900 rounded-[13px]  max-w-3xl mb-3 font-mono md:min-w-[600px]"
-		>
-	
-		  <div class="card-body rounded-xl gap-5 flex justify-center items-center p-0">
-			<div class="rounded-xl overflow-hidden">
-				<video autoplay loop muted playsinline class="object-cover  h-full">
-					<source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/rechat.mp4" type="video/mp4">
-					Your browser does not support the video tag.
-				</video>
+			<div class="flex flex-col md:flex-row justify-center items-center gap-4">
+				<button class="flex justify-center items-center third-text-element border w-32 h-10 md:h-20 border-zinc-700 rounded-full p-4 text-sm hidden ">
+					Contact us
+				</button>
+				<button class="third-text-element  bg-zinc-950 text-white shadow shadow-indigo-500/50 w-36 h-36 border-zinc-700 rounded-full p-4 text-sm hover:bg- hover:shadow-indigo-300 ">
+					sign up
+				</button>
+				<button class="third-text-element border w-32 h-10 md:h-20 border-zinc-700 rounded-full p-4 text-sm hidden ">
+					See plans
+				</button>
 			</div>
 			
 
-			<button
-			  class="btn max-w-[100px] rounded-xl hover:bg-white hover:text-black"
-			  >Try it</button
-			>
-		  </div>
 		</div>
-	
-		<div class="w-[100%] flex justify-end">
-			<div class="max-w-[350px]">
-			  <p class=" md:font-medium font-mono md:text-xl">
-				free resources
-				<span class="font-mono text-stone-500 font-thin md:text-xl">
-				  get access to free resources to help you make the best out of your indie hacking journey
-				  includes marketing guides and frameworks, <span class="text-white">chat assistant to help you brainstorm and come up
-					with ideas and marketing strategies	</span> 
-				</span>
-			  </p>
-			</div>
-		  </div>
-	
-	  </div>
-</section>
-
-<section class=" min-h-screen pt-11 md:pt-40 md:flex-col justify-between">
-	<div class="max-w-[480px] mb-3">
-	  <h2 class="font-mono text-4xl font-bold mb-3 max-w-[250px]">
-		Ai_Assitants <span class="text-stone-500"></span>
-	  </h2>
-	  <span class="font-mono font-thin">
-		chat - automation - delegation - generation
-	  </span>
-	</div>
-	<div class="flex flex-row p-2 justify-center items-center gap-2">
-		<div class="bg-purple-300 w-5 h-5 rounded-full">
-
-		</div>
-		<p class="text-sm text-purple-300 font-mono uppercase my-10 ">
-			Re_chat
-		</p>
-	</div>
-	
-
-	<p class="text-4xl text-purple-300 font-bold uppercase my-10 ">
-		You don't need to learn prompting, our assistant is designed to help and assist solo founders
-	</p>
-	
-	<div class="flex flex-col w-full md:flex-row md:gap-4">
-	  <div
-		class="card bg-dark flex  justify-center items-center border-stone-900 rounded-[13px]  max-w-3xl mb-3 font-mono md:min-w-[600px] w-full"
-	  >
-  
-		<div class="card-body rounded-xl gap-5 flex justify-center items-center h-full w-full p-0">
-			<h1>ChatGpt</h1>
-		  <div class="rounded-xl overflow-hidden w-full">
-			  <video autoplay loop muted playsinline class="object-cover  h-full">
-				  <source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/GPT.mp4" type="video/mp4">
-				  Your browser does not support the video tag.
-			  </video>
-		  </div>
-		  
-
-		  <p>
-			Q: write me a short paragraph how can i start marketing as a solo founder
-		  </p>
-
-		  <p class="font-thin text-sm text-zinc-500 ">
-			As a solo founder looking to start marketing your venture, it's essential to begin with a solid foundation. 
-			Start by <span class="text-white">defining your target audience</span> and creating a detailed buyer persona to understand their needs and preferences. 
-			Next, establish an online presence through a <span class="text-white"> professional website</span> and active social media profiles. <span class="text-white">Content marketing</span> can be a cost-effective way to reach your 
-			audience, so create valuable blog posts, videos, or infographics that address their pain points. Leverage email marketing to build and nurture a subscriber list, 
-			and consider partnerships or collaborations with complementary businesses to expand your reach. Continuous learning and adaptability are key, so monitor your 
-			analytics, stay updated on marketing trends, and be open to adjusting your strategy as you learn more about what works best for your business. Building a personal 
-			brand and networking within your industry can also be invaluable for a solo founder's marketing efforts.
-		  </p>
-		</div>
-	  </div>
-
-	  <div class="card bg-dark flex justify-center items-start border-stone-900 rounded-[13px] max-w-3xl mb-3 font-mono md:min-w-[600px]">
-		<div class="card-body rounded-xl gap-5 flex justify-center items-center h-full p-0">
-			<h1>Re_chat</h1>
-			<div class="rounded-xl overflow-hidden">
-				<video autoplay loop muted playsinline class="object-cover h-full">
-					<source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/rechat.mp4" type="video/mp4">
-					Your browser does not support the video tag.
-				</video>
-			</div>
-			<p>
-				Q: write me a short paragraph how can i start marketing as a solo founder
-			</p>
-			<p class="font-thin text-sm text-zinc-500">
-				As a solo founder, starting your marketing journey begins with <span class="text-white">sharing your story</span>, no matter how humble your beginnings might be. 
-				<span class="text-white">Offer valuable insights, tips, or lessons</span> you're learning along the way to <span class="text-white">engage with other like-minded solo founders</span>  and potential customers. 
-				By organically evolving your marketing strategy alongside your venture, you create a solid foundation for future growth. This article will guide you from not even having an 
-				idea to setting up a successful product hunt launch, gathering information from other solo founders and observing what's out there. Let me know if 
-				you want to learn more!
-			</p>
-
-			<button class="btn max-w-[100px] rounded-xl hover:bg-white hover:text-black">Try it</button>
-
-
-		</div>
-	</div>
-	  </div>
-  
-	  
-  
-	  <div class="flex flex-row p-2 justify-center items-center gap-2">
-		<div class="bg-[#fdc4ff] w-5 h-5 rounded-full">
-
-		</div>
-		<p class="text-sm text-[#fdc4ff] font-mono uppercase my-10 ">
-			nai
-		</p>
-	</div>
-
-	<p class="text-4xl text-[#fdc4ff] font-bold uppercase my-10 ">
-		nai is our second ai assitant made to help solo founders
-	</p>
-	<div class="w-full flex justify-end px-10">
-		<div class="flex flex-row  justify-center items-center gap-10 p-28 ">
-			<div class="bg-[#fdc4ff] w-20 h-20  rounded-full">
-	
-			</div>
-			<p class="text-lg text-[#fdc4ff] font-mono uppercase my-10 ">
-				coming soon ...
-			</p>
-		</div>
-	</div>
-	
-
-	
-</section>
-	
-	<section class=" min-h-screen pt-11 md:pt-40 md:flex justify-between">
-	  <div class="max-w-[480px] mb-3">
-		<h2 class="font-mono text-4xl font-bold mb-3 max-w-[250px]">
-		  Creatorbook <span class="text-stone-500">Newsletter</span>
-		</h2>
-		<span class="font-mono font-thin">
-		  research - marketing - offers - engaging
-		</span>
-
-		<p class="mt-2"> 
-			Our Newsletter brings the latest updates and offres so you stay ahead of the game and never miss the next big thing
-		</p>
-
-	  </div>
-	  
-	  	
-
-	  <div class="w-full flex justify-end px-10">
-		<div class="flex flex-row  justify-center items-center gap-10 p-28 ">
-			<div class="bg-[#fdc4ff] w-20 h-20  rounded-full">
-	
-			</div>
-			<p class="text-lg text-[#fdc4ff] font-mono uppercase my-10 ">
-				coming soon ...
-			</p>
-		</div>
-	</div>
-	  
 		
+		<!-- <div class="second-text-element font-medium text-xl h-10 w-60 bg-orange-500 rounded-md flex justify-center items-center text-black p-2 shadow-lg shadow-red-500/50 mt-10">
+			
+			<p>
+				Marketing & validation
+			</p>
+		</div>
+		<div class="third-text-element font-medium text-xl h-10 w-40 bg-indigo-400 rounded-md flex justify-center items-center text-black p-2 shadow- shadow-violet-100/30 blur-0 mt-3 -ml-5">
+			<p class="box">
+				Ai_assistants
+			</p>
+		</div> -->
+
+	</div>
+</section>
+
+<section class="mb bg-white w-full min-h-screen pt-10 rounded-t-md">
+	<div class="container flex flex-col ">
+		<div class="flex justify-start items-center gap-2">
+			<div class="h-4 w-1 rounded-full bg-[#fdc4ff]shadow-xl shadow-indigo-950"></div>
+			<h2 class="text-xl font-normal text-black">
+				Our mission
+			</h2>
+		</div>
+
+		<div class="w-full h-full flex flex-col md:flex-row p-3 text-black font-normal text-2xl md:text-4xl  mt-10">
+				<div class="flex flex-col max-w-xl mb-5">
+					
+					<p class="text-element md:mb-5">
+					 	We help start up founders avoid wasting time, money, and effort on ideas with limited potential,
+						feel more confident about their decisions, and stay ahead of the game.
+					</p>
+					<p class="text-element mb-8">
+						
+				   </p>
+
+				   <div class="second-text-element font-medium text-xl h-10 w-60 bg-orange-500 rounded-md flex justify-center items-center text-black p-2 shadow-lg shadow-red-500/50 mt-10">
+			
+					<p>
+						Marketing & validation
+					</p>
+				</div>
+				<div class="third-text-element font-medium text-xl h-10 w-40  bg-zinc-900 rounded-md  text-white flex justify-center items-center p-2 shadow-lg shadow-indigo-500/50  mt-3 -ml-5">
+					<p class="box">
+						Ai_assistants
+					</p>
+				</div>
+
+
+				</div>
+
+				
+				<div class="w-full flex justify-center items-center">
+
+					<button class="third-text-element  bg-zinc-950 text-white shadow-lg shadow-indigo-500/50 w-36 h-36 border-zinc-700 rounded-full p-4 text-sm hover:shadow-indigo-200 hover:-translate-y-1  hover:bg-zinc-900  ">
+						sign up
+					</button>
+
+				</div>
+				
+			</div>
+
+		
+		
+
+	</div>
+</section>
+
+<div class="w-screen h-72 md:h-96 flex justify-center items-center text-xl md:text-5xl font-mono text-zinc-700 p-5">
+    <h1 class="text-element">
+		Explore all of your ideas and only keep the best.
+    </h1>
+</div>
+<section class="bg-white w-full min-h-screen pt-10 rounded-t-md">
+	<div class="container flex flex-col ">
+		<div class="flex justify-start items-center gap-2">
+			<div class="h-4 w-1 rounded-full bg-[#fdc4ff]shadow-xl shadow-indigo-950"></div>
+			<h2 class="text-xl font-normal text-black">
+				Data_driven validation
+			</h2>
+		</div>
+
+		<div class="w-full h-full flex flex-col md:flex-row p-3 text-black font-normal text-3xl md:text-4xl  mt-10">
+				<div class="flex flex-col max-w-xl">
+					<!-- <p class="text-element mb-11 text-3xl font-light">
+						Explore all of your ideas and only keep the best.
+					</p>
+					
+					 -->
+					
+					<p class="third-text-element mb-8">
+						You get <span class="tracking-wider font-light bg-zinc-700 rounded-md px-2 text-white">unlimited</span>landing pages designed for your projects
+					</p>
+
+					
+
+					<p class="third-text-element mb-8">
+						We run and manage social media ads, optimizing to target your ideal audience
+					</p>
+
+					<p class="third-text-element mb-8">
+						Get to know your audience, from where they hang out to who they are
+					</p>
+
+			
+				</div>
+
+				<div class="w-full flex justify-center items-center">
+
+					<button class="third-text-element border border-zinc-300  hover:bg-zinc-950 hover:text-white hover:shadow-2xl  hover:translate-y-4 shadow-indigo-500/50 w-36 h-36  rounded-full p-4 text-sm ">
+						Contact us
+					</button>
+
+				</div>
+			</div>
+		
+
+	</div>
+</section>
+
+<div class="w-screen h-72 md:h-96 flex justify-center items-center text-xl md:text-5xl font-mono text-zinc-700 p-5">
+    <h1 class="text-element">
+		Take full advatage of the power of ai
+    </h1>
+</div>
+
+
+
+<section class="mb bg-white w-full min-h-screen pt-10 rounded-t-md">
+	<div class="container flex flex-col ">
+		<div class="flex justify-start items-center gap-2">
+			<div class="h-4 w-1 rounded-full bg-[#fdc4ff]shadow-xl shadow-indigo-950"></div>
+			<h2 class="text-xl font-normal text-black">
+				Ai_assistants
+			</h2>
+		</div>
+
+		
+
+		<div class="w-full h-full flex  flex-col md:flex-row p-3 text-black font-normal text-3xl md:text-4xl  mt-10">
+				<div class="flex flex-col max-w-xl">
+					<!-- <p class="text-element mb-11 text-3xl font-light">
+						Explore all of your ideas and only keep the best.
+					</p>
+					
+					 -->
+					
+					<p class="text-element mb-8">
+						Use our <span class="tracking-wider font-light bg-zinc-700 rounded-md px-2 text-white">ai_</span>to brainstorm and come up with new ideas
+					</p>
+
+					
+
+					<p class="third-text-element mb-8">
+						Write better content, build and engage your audience in social media
+					</p>
+
+					<p class="third-text-element mb-8">
+						Come up with marketing strategies that are relevant to solo founders
+					</p>
+
+
+					
+
+			
+				</div>
+
+				<div class="third-text-element w-full flex flex-col justify-center items-center p-4 ">
+
+					<div class="rounded-xl overflow-hidden mb-5 hidden md:block">
+						<video autoplay loop muted playsinline class="object-cover  h-full">
+							<source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/rechat.mp4" type="video/mp4">
+							Your browser does not support the video tag.
+						</video>
+					</div>
+
+					<button class="third-text-element border border-zinc-300  hover:bg-zinc-950 hover:text-white hover:shadow-2xl  hover:translate-y-4 shadow-indigo-500/50 w-36 h-36  rounded-full p-4 text-sm  ">
+						Try it!
+					</button>
+
+				</div>
+			</div>
+		
+			
+
+	</div>
+
+	<!-- <div class="rounded-xl overflow-hidden mb-5 md:hidden">
+		<video autoplay loop muted playsinline class="object-cover  h-full">
+			<source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/rechat.mp4" type="video/mp4">
+			Your browser does not support the video tag.
+		</video>
+
+		
+	</div> -->
+
 	
+</section>
+
+<div class="w-screen h-72 md:h-96 flex justify-center items-center text-xl md:text-5xl font-mono text-zinc-700 p-5">
+    <h1 class="text-element">
+		Let's make your time count
+    </h1>
+</div>
+
+<section class="pricing bg-white min-h-screen h-auto py-10">
+
+	<div class="w-full flex justify-center items-center p-5 md:pt-10 hover:text-black">
+		<h1 class="md:text-3xl">
+			One monthly fee! no hidden charges
+		</h1>
+	</div>
+
+	<div class="container flex flex-col md:flex-row justify-center items-center min-h-screen h-auto gap-5 ">
+
+		
+
+
+		<div class="card card-compact  border-white md:w-96 bg-base-100 max-h-[500px] md:max-h-[700px] shadow-xl rounded-md bg-none ">
+			
+			<div class="card-body md:min-h-[450px] h-[600px] justify-evenly bg-white text-zinc-900 ">
+			  <h2 class="card-title">Free!</h2>
+			  <p>Access our marketing resources with chat assistant </p>
+
+			  <div class="h-full md:min-h-[200px] flex flex-col justify-center items-center text-2xl text-black font-bold border-t-2">
+				<div class="text-center">
+					<h1>0$/mo</h1>
+					<p class="text-xs font-medium text-zinc-500">pause or cancel anytime</p>
+				</div>
+				
+			  </div>
+
+			  <div class="pt-10">
+				<div class="flex justify-center items-center gap-4 text-base">
+					<img class="h-5" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/654aa7138e7024b15cc50576_system-solid-31-check.gif" alt="">
+					<p>Free resources</p>
 	
-	</section>
-  </main>
+				  </div>
+	
+				  <div  class="flex justify-center items-center gap-4 text-base" >
+					<img class="h-5" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/654aa7138e7024b15cc50576_system-solid-31-check.gif" alt="">
+					<p>Re_chat assistant</p>
+					
+				  </div>
+			  </div>
+
+			  <div class="card-actions w-full mt-5">
+				<button class="btn  w-full bg-zinc-900 shadow-lg shadow-indigo-900 rounded-full">Get Started</button>
+			  </div>
+			</div>
+		  </div>
+
+		  <div class="card card-compact  border-white md:w-96 bg-base-100 max-h-[500px] md:max-h-[700px] shadow-xl rounded-md bg-none">
+			
+			<div class="card-body md:min-h-[450px] h-[600px] justify-evenly bg-white text-zinc-900 py-4">
+			  <h2 class="card-title">Basic</h2>
+			  <p>Access all of creatorbook assistants and tools</p>
+
+			  <div class="h-full md:min-h-[200px] flex flex-col justify-center items-center text-2xl text-black font-bold border-t-2">
+				<div class="text-center">
+					<h1>89$/mo</h1>
+					<p class="text-xs font-medium text-zinc-500">pause or cancel anytime</p>
+				</div>
+				
+			  </div>
+
+			  <div class="pt-10">
+				<div class="flex justify-center items-center gap-4 text-base">
+					<img class="h-5" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/654aa7138e7024b15cc50576_system-solid-31-check.gif" alt="">
+					<p>Free resources</p>
+	
+				  </div>
+	
+				  <div  class="flex justify-center items-center gap-4 text-base" >
+					<img class="h-5" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/654aa7138e7024b15cc50576_system-solid-31-check.gif" alt="">
+					<p>Re_chat assistant</p>
+					
+				  </div>
+	
+				  <div  class="flex justify-center items-center gap-4 text-base" >
+					<img class="h-5" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/654aa7138e7024b15cc50576_system-solid-31-check.gif" alt="">
+					<p>CB social media automation</p>
+					
+				  </div>
+	
+				  
+			  </div>
+
+			  <div class="card-actions w-full mt-5 flex flex-col gap-3">
+				<button class="btn  w-full bg-zinc-900 shadow-lg shadow-indigo-900 rounded-full">Get Started</button>
+
+				<a href="https://cbook.lemonsqueezy.com/checkout/buy/9e63f10b-1522-4c12-a771-49932ecc9366?embed=1" class="lemonsqueezy-button btn rounded-full  bg-transparent px-4 md:p-2 w-full text-black hover:bg-zinc-950 hover:text-white ">Life time subscription <span class="font-mono  text-sm">392$</span></a><script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+
+			  </div>
+			</div>
+		  </div>
+
+		  <div class="card card-compact  border-white md:w-96 bg-base-100 max-h-[500px] md:max-h-[700px] shadow-xl rounded-md bg-none shadow-indigo-950">
+			
+			<div class="card-body md:min-h-[450px] h-[600px] justify-evenly bg-white text-zinc-900 py-4">
+			  <h2 class="card-title">Agency</h2>
+			  <p>Get unlimited landing pages and social media ads</p>
+
+			  <div class="h-full md:min-h-[200px] flex flex-col justify-center items-center text-2xl text-black font-bold border-t-2">
+				<div class="text-center">
+					<h1>699$/mo</h1>
+					<p class="text-xs font-medium text-zinc-500">pause or cancel anytime</p>
+				</div>
+				
+			  </div>
+
+			  <div class="md:pt-10">
+				<div class="flex justify-center items-center gap-4 text-base">
+					<img class="h-5" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/654aa7138e7024b15cc50576_system-solid-31-check.gif" alt="">
+					<p>Free resources</p>
+	
+				  </div>
+	
+				  <div  class="flex justify-center items-center gap-4 text-base" >
+					<img class="h-5" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/654aa7138e7024b15cc50576_system-solid-31-check.gif" alt="">
+					<p>Re_chat assistant</p>
+					
+				  </div>
+	
+				  <div  class="flex justify-center items-center gap-4 text-base" >
+					<img class="h-5" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/654aa7138e7024b15cc50576_system-solid-31-check.gif" alt="">
+					<p>CB social media automation</p>
+					
+				  </div>
+	
+				  <div  class="flex justify-center items-center gap-4 text-base" >
+					<img class="h-5" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/654aa7138e7024b15cc50576_system-solid-31-check.gif" alt="">
+					<p>Unlimited landing pages</p>
+					
+				  </div>
+	
+				  <div  class="flex justify-center items-center gap-4 text-base" >
+					<img class="h-5" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/654aa7138e7024b15cc50576_system-solid-31-check.gif" alt="">
+					<p>Social media ads</p>
+					
+				  </div>
+			  </div>
+
+			  <div class="card-actions w-full mt-5">
+				<button class="btn  w-full bg-zinc-900 shadow-lg shadow-indigo-900 rounded-full">Get Started</button>
+			  </div>
+			</div>
+		  </div>
+		
+	</div>
+
+	<div class="h-52">
+		
+		<div class="w-full flex justify-center items-center  border-black h-full  ">
+
+			<button class="third-text-element border text-black border-zinc-300  hover:bg-zinc-950 hover:text-white hover:shadow-2xl  hover:translate-y-4 shadow-indigo-500/50 w-36 h-36  rounded-full p-4 text-sm ">
+				Contact us
+			</button>
+
+		</div>
+	  </div>
+
+</section>
+
+	
+</main>
   
   
   
