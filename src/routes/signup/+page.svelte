@@ -3,6 +3,13 @@
     let username = '';
     let email = '';
     let password = '';
+
+    const twitter_auth_url = 'https://api.creatorbook.tech/o/login/twitter'
+
+    const handle_twitter_login = () => {
+    // Redirect the user to the Google OAuth provider's authorization URL
+    window.location.href = twitter_auth_url;
+  };
     
     let token = localStorage.getItem('token') ||'';
     // 
@@ -46,6 +53,7 @@
 
   
   <div class="bg-white h-screen w-max[1440px] flex justify-center items-center">
+    
     <div class="h-screen w-screen max-w-[1200px] flex justify-center items-center overflow-hidden text-black ">
       <div class="card bg-dark  flex justify-center items-center w-80 shadow-xl p-5 ">
         <p class="font-bold">Sign Up:</p>
