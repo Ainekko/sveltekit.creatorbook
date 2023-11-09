@@ -1,8 +1,7 @@
 <div class="navbar bg-base-10 text-black ">
     <div class="navbar-start">
-      <div class="dropdown">
-        <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-        <!-- svelte-ignore a11y-label-has-associated-control -->
+      <!-- <div class="dropdown">
+        
         <label tabindex="0" class="btn btn-ghost lg:hidden">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -18,7 +17,6 @@
             /></svg
           >
         </label>
-        <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
         <ul
           tabindex="0"
           class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 bg-inherit"
@@ -28,30 +26,28 @@
             <a href="/">Services</a>
             <ul class="p-2">
               <li><a href="/">Validation</a></li>
-              <!-- <li><a href="/">This 2</a></li> -->
+              
             </ul>
           </li>
           <li><a href="/re_chat">Ai-assitants</a></li>
         </ul>
-      </div>
+      </div> -->
       <a class="btn btn-ghost normal-case text-xl text-stone-700 hover:text-gray-50 " href="/"><img class=" max-w-5 object-contain	max-h-6 hover:h-5" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/65294c89ce2e4b9e38d0f9eb_Creatorbook%20logo%20black.png" alt=""></a>
     </div>
-    <div class="navbar-center hidden lg:flex ">
+    <!-- <div class="navbar-center hidden lg:flex ">
       <ul class="menu menu-horizontal px-1">
         <li><a href="/">Free resources</a></li>
-        <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
         <li tabindex="0">
           <details class="">
             <summary>Services</summary>
             <ul class="p-2 bg-inherit shadow-sm ">
               <li><a href="/">Validation</a></li>
-              <!-- <li><a href="/">Submenu 2</a></li> -->
             </ul>
           </details>
         </li>
         <li><a href="/">Ai-assitants</a></li>
       </ul>
-    </div>
+    </div> -->
     <div class="navbar-end">
       <a href="/login" class="px-4">Log in</a>
       <a class="btn rounded-xl bg-zinc-900 text-white hover:bg-slate-300 hover:text-black" href="/signup">Sign up</a>
