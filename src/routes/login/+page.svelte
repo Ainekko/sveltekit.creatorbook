@@ -77,7 +77,7 @@
           <input type="submit" value="Log in" class="btn btn-neutral rounded-full bg-zinc-950 shadow-xl shadow-indigo-900" />
         </form>
 
-        <button class=" btn rounded-xl p-4 shadow shadow-violet-200  hover:shadow-xl border-none text-white text-sans flex flex-row gap-4 border overflow-hidden w-auto min-w-[200px] flex-row-reverse shadow-md shadow-black" on:click={handle_twitter_login}>
+        <!-- <button class=" btn rounded-xl p-4 shadow shadow-violet-200  hover:shadow-xl border-none text-white text-sans flex flex-row gap-4 border overflow-hidden w-auto min-w-[200px] flex-row-reverse shadow-md shadow-black" on:click={handle_twitter_login}>
           Sign in with twitter
           <svg class="max-h-5 max-w-xs" version="1.1" id="Logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
         viewBox="0 0 248 204" style="enable-background:new 0 0 248 204;" xml:space="preserve">
@@ -93,7 +93,7 @@
             c-3.77,11.69-11.66,21.62-22.2,27.93c10.01-1.18,19.79-3.86,29-7.95C240.37,35.29,231.83,44.14,221.95,51.29z"/>
         </g>
         </svg>
-      </button>
+      </button> -->
         
       </div>
 
