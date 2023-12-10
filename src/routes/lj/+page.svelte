@@ -1,38 +1,42 @@
 <div >
     <div class="hero w-auto">
-        <div class="flex flex-col md:flex-row w-full">
+        <div class="flex flex-col md:flex-row w-full max-h-screen">
             
-            <div class=" w-full ">
-                <img class="object-cover w-f" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/6571d8b16e136ab04990e22e_hero%20img.jpg" alt="">
+            <div class="max-h-screen overflow-hidden">
+                <!-- <video class="" autoplay muted loop>
+                    <source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/videos/2nd+30%25+off.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video> -->
             </div>
-            <div class="w-full relative flex  justify-center items-center p-5 md:p-0">
+            <div class="max-h-[30%] overflow-hidden">
+                <img src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/1/photo_5_2023-12-09_18-05-24.jpg" alt="">
+            </div>
+            <div class="w-full  h-full  relative flex  justify-center items-center p-5 md:p-0">
                 
 
-                <div class="w-full flex flex-col justify-around items-start gap-2">
-                   <div class="border border-zinc-700 px-4 flex justify-between items-center gap-4 rounded-full max-w-xs">
+                <div class=" flex flex-col justify-around items-start gap-2 h-96">
+                   <div class=" px-4 flex justify-between items-center gap-4 rounded-full max-w-xs">
 
-                    <div class="p-1 bg-pink-500  rounded-full shadow-md shadow-pink-300">
+                    <div class="p-1 bg-pink-500  rounded-full shadow-md shadow-pink-300 animate-ping ">
 
                     </div>
 
-                    <p >
-                        Zara jumpsuit super offer
+                    <p class="uppercase font-extralight" >
+                        3 piece Zara jumpsuit winter offer
                     </p>
                    </div>
                     
 
                     
                     
-                    <div class=" text-6xl text-white font-bold mb-4">
-                        40% off
+                    <div class=" text-3xl text-white font-bold uppercase mb-4">
+                        Take 2 and get 30% discount
+                        
                         
                     </div>
 
-                    <p class="max-w-xl mb-4 ">
-                        Unleash savings with our exclusive offer! Enjoy a remarkable 40% off on a wide range of premium products. Elevate your experience without breaking the bank. Act now to indulge in quality at an irresistible price. Limited time only – don't miss out on this incredible 40% discount!
-                    </p>
                     
-                    <button class="btn max-w-xs">
+                    <button class="btn w-full bg-transparent border-zinc-500  shadow-indigo-400">
                         GET offer
                     </button>
                 </div>
@@ -47,148 +51,80 @@
     </div>
 </div>
 
-<div class="hero w-auto p-5 md:py-40 ">
-    <div class="flex flex-col md:flex-row w-full">
+<section class=" mt-5 bg-white">
+
+   
+
+    <div class="">
         
-        <div class=" w-auto mb-5 ">
-            <img class="object-cover w-f" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/6571e5731adc384709740a56_photo_5_2023-12-06_18-47-04.jpg" alt="">
-        </div>
-        <div class="w-full relative flex flex-row-reverse justify-center items-center md:px-20">
-            
+        <div class="h-10 w-2 bg-white"></div>
 
-            <div class="w-full flex flex-col justify-around items-start gap-2">
-               <div class="border border-zinc-700 px-4 flex justify-between items-center gap-4 rounded-full max-w-xs">
+        <h1 class="text-3xl font-bold text-black uppercase">
+            3 piece kids ensemble
+        </h1>
 
-                <div class="p-1 bg-pink-500  rounded-full shadow-md shadow-pink-300">
+        <p class="font-extralight text-black ">
+            T-shirt - Jacket - Pants
+        </p>
 
-                </div>
-
-                <p >
-                    40% off the 2nd one
-                </p>
-               </div>
-                
-
-                
-                
-                <div class=" text-6xl text-white font-bold mb-4 ">
-                    Get one + 40 off the second
-                    
-                </div>
-
-                <p class="max-w-xl mb-4 ">
-                    describing how the offer works  describing how the offer works  describing how the offer works  describing how the offer works  blah blah blah blah blah blah
-                </p>
-                
-                <button class="btn max-w-xs">
-                    GET offer
-                </button>
-            </div>
+        <div class="h-2 w-10 bg-black">
 
             
-
-            <img class="absolute -z-10 opacity-50" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/6571d8b21de3e9904cb1bcf6_1024px-Zara_Logo%201.png" alt="">
-        </div>
-        
-        
     </div>
-</div>
 
-<!-- <div class="w-full flex justify-center items-center text-2xl font-bold">
+    
 
-    <h1>HIGH QUALITY DURABLE MATERIAL</h1>
+    <div class="mt-5">
+        <img src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/1/photo_2_2023-12-09_18-05-24.jpg" alt="">
+    </div>
 
-</div> -->
+</section>
 
-<section class="flex justify-center pt-10" >
-    <div class="max-w-[1200px]">
-        <div class="w-full flex justify-center items-center text-4xl font-bold md:p-10">
-            <h1>POPULAR PRODUCTS</h1>
+<section class="min-h-screen bg-white">
+
+    <div class="  ">
+        <div class="h-10 w-2 bg-black">
+
         </div>
-        
-        
-        <div class="grid md:grid-cols-4 grid-cols-1  gap-4 w-full" >
-            
-            <div class="flex flex-col px-10 ">
+        <h1 class="text-3xl font-bold text-black uppercase">
+            available in 5 colors
+        </h1>
+        <p class="font-extralight text-black">
+            Pink - Pink - Pink - Pink - Pink
+        </p>
 
-                <img src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/6571e5731adc384709740a56_photo_5_2023-12-06_18-47-04.jpg" alt="">
-
-                <div class="justify-between mb-4 text-sm py-5 text-zinc-400">
-                    
-                    <p>
-                       WHATEVER JUMPSUIT 1
-                    </p>
-
-                    <p>
-                        250 MAD
-                    </p>
-    
-                    
-                </div>
-
-            </div>
-
-            <div class="flex flex-col px-10 ">
-
-                <img src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/6571e5731adc384709740a56_photo_5_2023-12-06_18-47-04.jpg" alt="">
-
-                <div class="justify-between mb-4 text-sm py-5 text-zinc-400">
-                    
-                    <p>
-                       WHATEVER JUMPSUIT 1
-                    </p>
-
-                    <p>
-                        250 MAD
-                    </p>
-    
-                    
-                </div>
-
-            </div>
-
-            <div class="flex flex-col px-10 ">
-
-                <img src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/6571e5731adc384709740a56_photo_5_2023-12-06_18-47-04.jpg" alt="">
-
-                <div class="justify-between mb-4 text-sm py-5 text-zinc-400">
-                    
-                    <p>
-                       WHATEVER JUMPSUIT 1
-                    </p>
-
-                    <p>
-                        250 MAD
-                    </p>
-    
-                    
-                </div>
-
-            </div>
-
-            <div class="flex flex-col px-10 ">
-
-                <img src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/6571e5731adc384709740a56_photo_5_2023-12-06_18-47-04.jpg" alt="">
-
-                <div class="justify-between mb-4 text-sm py-5 text-zinc-400">
-                    
-                    <p>
-                       WHATEVER JUMPSUIT 1
-                    </p>
-
-                    <p>
-                        250 MAD
-                    </p>
-    
-                    
-                </div>
-
-            </div>
-            
-        
-        </div>
-
+       <div class="flex flex-row gap-2  pt-5">
+        <div class="p-2 bg-black rounded-full w-6 h-6 "></div>
+        <div class="p-2 bg-pink-600 rounded-full w-6 h-6 "></div>
+        <div class="p-2 bg-pink-600 rounded-full w-6 h-6 "></div>
+        <div class="p-2 bg-pink-600 rounded-full w-6 h-6 "></div>
+        <div class="p-2 bg-black rounded-full w-6 h-6 "></div>
+       </div>
         
 
     </div>
+
+    <div class="max-h-screen overflow-hidden mt-10">
+        <video class="" autoplay muted loop>
+            <source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/videos/5+colors.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+</section>
+<section>
+    <div class="max-h-screen overflow-hidden mt-10">
+        <video class="" autoplay muted loop>
+            <source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/videos/COD.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+    </div>
+
+    <div class="max-w-sm flex justify-center items-center pt-5">
+        <button class="btn w-[90%] bg-transparent border-zinc-500  shadow-indigo-400">
+            GET offer
+        </button>
+    </div>
+   
 </section>
