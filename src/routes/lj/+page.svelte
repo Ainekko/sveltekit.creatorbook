@@ -1,4 +1,11 @@
 <div >
+<div class="w-screen h-20 flex justify-center items-center bg-white text-black font-thin text-sm">
+
+    <p>
+        FREE DELIVERY & CASH ON DELIVERY
+    </p>
+
+</div>
     <div class="hero w-auto">
         <div class="flex flex-col md:flex-row w-full max-h-screen">
             
@@ -11,39 +18,57 @@
             <div class="max-h-[30%] overflow-hidden">
                 <img src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/1/photo_5_2023-12-09_18-05-24.jpg" alt="">
             </div>
-            <div class="w-full  h-full  relative flex  justify-center items-center p-5 md:p-0">
+            <div class="w-full  h-full  relative flex  justify-center items-center p-4 md:p-0">
                 
 
-                <div class=" flex flex-col justify-around items-start gap-2 h-96">
-                   <div class=" px-4 flex justify-between items-center gap-4 rounded-full max-w-xs">
+                <div class=" flex flex-col justify-between items-start gap-2 h-96 ">
+                    
+                    <div class="w-full mt-20">
 
-                    <div class="p-1 bg-pink-500  rounded-full shadow-md shadow-pink-300 animate-ping ">
+                        <div class=" px flex justify-start items-center gap-4 rounded-full max-w-xs ">
+
+                            <div class="p-1 bg-pink-500  rounded-full shadow-md shadow-pink-300 animate-ping ">
+    
+                            </div>
+    
+                            <p class="uppercase font-extralight" >
+                                3 piece Zara jumpsuit winter offer
+                            </p>
+                        </div>
+                            
+                        
+                        <div class=" text-4xl text-white font-bold uppercase mt-5  ">
+                            Take 2 and get 30% discount  
+                        </div>
+
+                        <p class="font-extralight text-sm max-w-[200px] text-zinc-400 mt-2">
+
+                            1-8 ans 3 piece kids ensemble T-shirt - Pants - Jacket
+    
+                         </p>
 
                     </div>
 
-                    <p class="uppercase font-extralight" >
-                        3 piece Zara jumpsuit winter offer
-                    </p>
-                   </div>
-                    
-
-                    
-                    
-                    <div class=" text-3xl text-white font-bold uppercase mb-4">
-                        Take 2 and get 30% discount
+                    <div class="w-full order-last">
                         
-                        
+    
+                        <p class="uppercase font-extralight mb-2">
+                            offer available till 01/01
+                        </p>
+                        <button class="btn w-full bg-transparent border-zinc-500  shadow-indigo-400">
+                            GET offer
+                        </button>
                     </div>
 
                     
-                    <button class="btn w-full bg-transparent border-zinc-500  shadow-indigo-400">
-                        GET offer
-                    </button>
+
+                    
+                    
                 </div>
 
                 
     
-                <img class="absolute -z-10" src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/6571d8b21de3e9904cb1bcf6_1024px-Zara_Logo%201.png" alt="">
+                <img class="absolute -z-10 " src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/6571d8b21de3e9904cb1bcf6_1024px-Zara_Logo%201.png" alt="">
             </div>
             
             
