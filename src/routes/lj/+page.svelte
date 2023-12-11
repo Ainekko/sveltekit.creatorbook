@@ -76,15 +76,15 @@
     </div>
 </div>
 
-<section class=" mt-5 bg-white">
+<section class=" mt-5 bg-white h-auto flex justify-center items-center py-20">
 
-   
+   <div class="h-[80%] flex flex-col justify-center gap-5  ">
 
-    <div class="">
+    <div class="h-28 p-5">
         
-        <div class="h-10 w-2 bg-white"></div>
+        <!-- <div class="h-10 w-2 bg-black"></div> -->
 
-        <h1 class="text-3xl font-bold text-black uppercase">
+        <h1 class="text-2xl font-bold text-black uppercase">
             3 piece kids ensemble
         </h1>
 
@@ -92,42 +92,70 @@
             T-shirt - Jacket - Pants
         </p>
 
-        <div class="h-2 w-10 bg-black">
+        
 
             
     </div>
 
     
+    <div class="h-28 p-5 ">
 
-    <div class="mt-5">
-        <img src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/1/photo_2_2023-12-09_18-05-24.jpg" alt="">
+        <!-- <div class="h-10 w-2 bg-black"></div> -->
+
+        <!-- <div class="h-2 w-10 bg-black"></div> -->
+        
+        <h1 class="text-2xl font-bold text-black uppercase">
+            High-quality material
+        </h1>
+
+        <p class="font-extralight text-black ">
+            Imported from turkey
+        </p>
+        
+
+
     </div>
 
-</section>
+    <div class="h-28 p-5 ">
 
-<section class="min-h-screen bg-white">
+        <!-- <div class="h-10 w-2 bg-black"></div> -->
 
-    <div class="  ">
-        <div class="h-10 w-2 bg-black">
-
-        </div>
-        <h1 class="text-3xl font-bold text-black uppercase">
+        <!-- <div class="h-2 w-10 bg-black"></div> -->
+        
+        <h1 class="text-2xl font-bold text-black uppercase">
             available in 5 colors
         </h1>
-        <p class="font-extralight text-black">
-            Pink - Pink - Pink - Pink - Pink
-        </p>
+        
 
-       <div class="flex flex-row gap-2  pt-5">
-        <div class="p-2 bg-black rounded-full w-6 h-6 "></div>
-        <div class="p-2 bg-pink-600 rounded-full w-6 h-6 "></div>
-        <div class="p-2 bg-pink-600 rounded-full w-6 h-6 "></div>
-        <div class="p-2 bg-pink-600 rounded-full w-6 h-6 "></div>
-        <div class="p-2 bg-black rounded-full w-6 h-6 "></div>
+       <div class="flex flex-row gap-2">
+        <div class="p-2 bg-black  w-6 h-6 "></div>
+        <div class="p-2 bg-pink-600  w-6 h-6 "></div>
+        <div class="p-2 bg-pink-600  w-6 h-6 "></div>
+        <div class="p-2 bg-pink-600  w-6 h-6 "></div>
+        <div class="p-2 bg-black  w-6 h-6 "></div>
        </div>
         
 
     </div>
+
+
+   </div>
+
+    
+
+    
+
+    
+
+</section>
+
+<!-- <div class="mt-5">
+    <img src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/1/photo_2_2023-12-09_18-05-24.jpg" alt="">
+</div> -->
+
+<section class="min-h-screen bg-white">
+
+    
 
     <div class="max-h-screen overflow-hidden mt-10">
         <video class="" autoplay muted loop>
