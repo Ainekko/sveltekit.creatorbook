@@ -23,17 +23,17 @@
 
                 <div class=" flex flex-col justify-between items-start gap-2 h-96 ">
                     
-                    <div class="w-full mt-20">
+                    <div class="w-full mt-[30%]">
 
                         <div class=" px flex justify-start items-center gap-4 rounded-full max-w-xs ">
 
-                            <div class="p-1 bg-pink-500  rounded-full shadow-md shadow-pink-300 animate-ping ">
+                            <div class="p-1 bg-pink-500  rounded-full shadow-md shadow-pink-300  ">
     
                             </div>
     
-                            <p class="uppercase font-extralight" >
+                            <!-- <p class="uppercase font-extralight" >
                                 3 piece Zara jumpsuit winter offer
-                            </p>
+                            </p> -->
                         </div>
                             
                         
