@@ -21,9 +21,9 @@
             <div class="w-full  h-full  relative flex  justify-center items-center p-4 md:p-0">
                 
 
-                <div class=" flex flex-col justify-between items-start gap-2 h-96 ">
+                <div class=" flex flex-col justify-between items-start gap-2 h-auto  ">
                     
-                    <div class="w-full mt-[30%]">
+                    <div class="w-full mt-[30]">
 
                         <div class=" px flex justify-start items-center gap-4 rounded-full max-w-xs ">
 
@@ -49,7 +49,7 @@
 
                     </div>
 
-                    <div class="w-full order-last">
+                    <div class="w-full order-last mt-[15%]">
                         
     
                         <p class="uppercase font-extralight mb-2">
