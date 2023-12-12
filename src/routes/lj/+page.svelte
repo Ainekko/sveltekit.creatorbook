@@ -6,8 +6,8 @@
     </p>
 
 </div>
-    <div class="hero w-auto">
-        <div class="flex flex-col md:flex-row w-full max-h-screen">
+    <div class="hero w-auto ">
+        <div class="flex flex-col md:flex-row w-full max-h-screen rounded-full">
             
             <div class="max-h-screen overflow-hidden">
                 <!-- <video class="" autoplay muted loop>
@@ -15,10 +15,11 @@
                     Your browser does not support the video tag.
                 </video> -->
             </div>
-            <div class="max-h-[30%] overflow-hidden">
+            <div class="h-64 overflow-hidden">
                 <img src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/1/photo_5_2023-12-09_18-05-24.jpg" alt="">
             </div>
-            <div class="w-full  h-full  relative flex  justify-center items-center p-4 md:p-0">
+            
+            <div class="w-full  h-full  relative flex  justify-center items-center p-4 md:p-0 rounded-full">
                 
 
                 <div class=" flex flex-col justify-between items-start gap-2 h-auto  ">
@@ -37,7 +38,7 @@
                         </div>
                             
                         
-                        <div class=" text-4xl text-white font-bold uppercase mt-5  ">
+                        <div class=" text-3xl text-white font-bold uppercase mt-5  ">
                             Take 2 and get 30% discount  
                         </div>
 
@@ -76,21 +77,39 @@
     </div>
 </div>
 
-<section class=" mt-5 bg-white h-auto flex justify-center items-center py-20">
+<section class=" mt-5 bg-zinc-100 h-auto grid grid-cols-1 justify-center items-center pb-10 rounded-t-md text-black">
+    <div class="h-80 overflow-hidden rounded-t-md">
+        <!-- <img class="object-cover" src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/1/photo_1_2023-12-09_18-05-24.jpg" alt=""> -->
 
-   <div class="h-[80%] flex flex-col justify-center gap-5  ">
+        <!-- <video class="" autoplay muted loop>
+            <source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/videos/3piece+v2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video> -->
 
-    <div class="h-28 p-5">
+        <video class="" autoplay muted loop>
+            <source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/videos/5+colors.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+
+   <div class="h-[80%] flex flex-col justify-center gap-5 w-96 ">
+
+    <div class="h-auto p-5 ">
         
         <!-- <div class="h-10 w-2 bg-black"></div> -->
 
-        <h1 class="text-2xl font-bold text-black uppercase">
+        <h1 class="text-2xl font-normal uppercase">
             3 piece kids ensemble
         </h1>
 
-        <p class="font-extralight text-black ">
+        <p class="font-extralight">
             T-shirt - Jacket - Pants
         </p>
+
+        <!-- <p class="font-extralight text-sm max-w-xs text-zinc-500 ">
+            This is a little description of this product so describe the age and all of the stuff
+        </p> -->
 
         
 
@@ -104,11 +123,11 @@
 
         <!-- <div class="h-2 w-10 bg-black"></div> -->
         
-        <h1 class="text-2xl font-bold text-black uppercase">
+        <h1 class="text-2xl font-normal uppercase">
             High-quality material
         </h1>
 
-        <p class="font-extralight text-black ">
+        <p class="font-extralight  ">
             Imported from turkey
         </p>
         
@@ -116,30 +135,12 @@
 
     </div>
 
-    <div class="h-28 p-5 ">
-
-        <!-- <div class="h-10 w-2 bg-black"></div> -->
-
-        <!-- <div class="h-2 w-10 bg-black"></div> -->
-        
-        <h1 class="text-2xl font-bold text-black uppercase">
-            available in 5 colors
-        </h1>
-        
-
-       <div class="flex flex-row gap-2">
-        <div class="p-2 bg-black  w-6 h-6 "></div>
-        <div class="p-2 bg-pink-600  w-6 h-6 "></div>
-        <div class="p-2 bg-pink-600  w-6 h-6 "></div>
-        <div class="p-2 bg-pink-600  w-6 h-6 "></div>
-        <div class="p-2 bg-black  w-6 h-6 "></div>
-       </div>
-        
-
-    </div>
+    
 
 
    </div>
+
+   
 
     
 
@@ -149,11 +150,32 @@
 
 </section>
 
+<div class="h-28 p-5 bg-zinc-950 shadow-md rounded-t-md">
+
+    <!-- <div class="h-10 w-2 bg-black"></div> -->
+
+    <!-- <div class="h-2 w-10 bg-black"></div> -->
+    
+    <h1 class="text-2xl font-normal uppercase mb-2">
+        available in 5 colors
+    </h1>
+    
+
+   <div class="flex flex-row gap-2 items-center">
+    <div class="p-2 bg-black  w-1 h-1 "></div>
+    <div class="p-2 bg-pink-600  w-1 h-1 "></div>
+    <div class="p-2 bg-pink-600  w-1 h-1 "></div>
+    <div class="p-2 bg-pink-600  w-1 h-1 "></div>
+    <div class="p-2 bg-black  w-1 h-1 "></div>
+   </div>
+    
+
+</div>
 <!-- <div class="mt-5">
     <img src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/1/photo_2_2023-12-09_18-05-24.jpg" alt="">
 </div> -->
 
-<section class="min-h-screen bg-white">
+<!-- <section class="min-h-screen bg-white">
 
     
 
@@ -164,7 +186,7 @@
         </video>
     </div>
 
-</section>
+</section> -->
 <section>
     <div class="max-h-screen overflow-hidden mt-10">
         <video class="" autoplay muted loop>
