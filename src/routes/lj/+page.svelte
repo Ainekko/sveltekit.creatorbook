@@ -79,6 +79,83 @@
 
 <section class=" mt-5 bg-zinc-100 h-auto grid grid-cols-1 justify-center items-center pb-10 rounded-t-md text-black">
     <div class="h-80 overflow-hidden rounded-t-md">
+        <img class="object-cover" src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/1/photo_1_2023-12-09_18-05-24.jpg" alt="">
+
+    </div>
+    
+
+   <div class="h-[80%] flex flex-col justify-center gap-5 w-96 ">
+
+    <div class="h-auto p-5 ">
+        
+        <!-- <div class="h-10 w-2 bg-black"></div> -->
+
+        <h1 class="text-3xl font-bold uppercase">
+            3 piece girls ensemble
+        </h1>
+
+        <p class="font-extralight">
+            T-shirt - Jacket - Pants
+        </p>
+
+        <!-- <p class="font-extralight text-sm max-w-xs text-zinc-500 ">
+            This is a little description of this product so describe the age and all of the stuff
+        </p> -->
+
+        
+
+            
+    </div>
+
+   </div>
+
+   
+
+    
+
+    
+
+    
+
+</section>
+
+<section class=" mt-5 bg-zinc-100 h-auto grid grid-cols-1 justify-center items-center pb-10 rounded-t-md text-black">
+    <div class="h-80 overflow-hidden rounded-t-md">
+        <img class="object-cover" src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/1/photo_1_2023-12-09_18-05-24.jpg" alt="">
+
+    </div>
+    
+
+   <div class="h-[80%] flex flex-col justify-center gap-5 w-96 ">
+
+    <div class="h-auto p-5 ">
+        
+        <!-- <div class="h-10 w-2 bg-black"></div> -->
+
+        <h1 class="text-3xl font-bold uppercase">
+            3 piece boys ensemble
+        </h1>
+
+        <p class="font-extralight">
+            T-shirt - Jacket - Pants
+        </p>
+
+        <!-- <p class="font-extralight text-sm max-w-xs text-zinc-500 ">
+            This is a little description of this product so describe the age and all of the stuff
+        </p> -->
+
+        
+
+            
+    </div>
+
+   </div>    
+
+</section>
+
+
+<section class=" mt- bg-zinc-100 h-auto grid grid-cols-1 justify-center items-center pb-10 rounded-t- text-black">
+    <!-- <div class="h-80 overflow-hidden rounded-t-md"> -->
         <!-- <img class="object-cover" src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/1/photo_1_2023-12-09_18-05-24.jpg" alt=""> -->
 
         <!-- <video class="" autoplay muted loop>
@@ -86,11 +163,11 @@
             Your browser does not support the video tag.
         </video> -->
 
-        <video class="" autoplay muted loop>
+        <!-- <video class="" autoplay muted loop>
             <source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/videos/5+colors.mp4" type="video/mp4">
             Your browser does not support the video tag.
-        </video>
-    </div>
+        </video> -->
+    <!-- </div> -->
     
 
    <div class="h-[80%] flex flex-col justify-center gap-5 w-96 ">
@@ -187,6 +264,47 @@
     </div>
 
 </section> -->
+
+<section class=" mt-5 bg-zinc-100 h-auto grid grid-cols-1 justify-center items-center pb-10 rounded-t-md text-black">
+    
+
+   <div class="h-[80%] flex flex-col justify-center gap-5 w-96 ">
+
+    <div class="h-auto p-5 flex flex-col gap-2 ">
+        
+       
+
+        <div class="collapse collapse-arrow ">
+            <input type="radio" name="my-accordion-2" checked="checked" /> 
+            <div class="collapse-title text-xl font-medium">
+                How many sizes do you have?
+            </div>
+            <div class="collapse-content"> 
+              <p class="font-extralight"> We have all the 1-8 ans sizes blah blah blah 
+                We have all the 1-8 ans sizes blah blah blah </p>
+            </div>
+          </div>
+          <div class="collapse collapse-arrow ">
+            <input type="radio" name="my-accordion-2" /> 
+            <div class="collapse-title text-xl font-medium">
+                When can i expect my delivery?
+
+            </div>
+            <div class="collapse-content"> 
+              <p>You will get it in 3 days sizes blah blah blah 
+                We have all the 1-8 ans sizes blah blah blah </p>
+            </div>
+          </div>
+          
+
+            
+    </div>
+
+   </div>    
+
+</section>
+
+
 <section>
     <div class="max-h-screen overflow-hidden mt-10">
         <video class="" autoplay muted loop>
