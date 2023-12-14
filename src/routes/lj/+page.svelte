@@ -321,3 +321,57 @@
     </div>
    
 </section>
+
+<section>
+    <form id="orderForm" class="max-w-md mx-auto p-4 border border-black bg-white rounded-md">
+        <div class="mb-4">
+            <label class="block mb-2">Gender:</label>
+            <div class="flex space-x-4">
+                <input type="checkbox" id="genderBoys" name="gender" value="boys">
+                <label for="genderBoys">Boys</label>
+
+                <input type="checkbox" id="genderGirls" name="gender" value="girls">
+                <label for="genderGirls">Girls</label>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label class="block mb-2">Colors:</label>
+            <div class="flex space-x-4">
+                <input type="checkbox" class="color-checkbox bg-red-500 border-red-500" id="colorRed" name="colors" value="red">
+                <label for="colorRed" class="text-red-500">Red</label>
+
+                <input type="checkbox" class="color-checkbox bg-pink-500 border-pink-500" id="colorPink" name="colors" value="pink">
+                <label for="colorPink" class="text-pink-500">Pink</label>
+
+                <input type="checkbox" class="color-checkbox bg-purple-500 border-purple-500" id="colorPurple" name="colors" value="purple">
+                <label for="colorPurple" class="text-purple-500">Purple</label>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label class="block mb-2">Size:</label>
+            <div class="flex space-x-4">
+                <input type="checkbox" id="sizeSmall" name="size" value="small">
+                <label for="sizeSmall">Small</label>
+
+                <input type="checkbox" id="sizeMedium" name="size" value="medium">
+                <label for="sizeMedium">Medium</label>
+
+                <input type="checkbox" id="sizeLarge" name="size" value="large">
+                <label for="sizeLarge">Large</label>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label class="block mb-2">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" min="1" required class="w-full border border-black rounded-md py-2 px-3">
+        </div>
+
+        <button type="button" onclick="calculateDiscount()" class="bg-black text-white py-2 px-4 mt-4">Calculate Discount</button>
+
+        <p class="mt-4">Total Price: $<span id="totalPrice">0.00</span></p>
+
+        <button type="submit" class="bg-black text-white py-2 px-4 mt-4">Submit Order</button>
+    </form>
+</section>
