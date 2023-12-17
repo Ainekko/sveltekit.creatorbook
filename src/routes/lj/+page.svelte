@@ -15,7 +15,44 @@
                     Your browser does not support the video tag.
                 </video> -->
             </div>
+            
+            <div class="w-full h-32 bg-red-600 text-white flex flex-col justify-between p-5">
+
+                <h1 class="text-5xl font-semibold">
+                    PROMO! -30%
+                </h1>
+                <p>
+                    3 piece kids ensemble
+                </p>
+
+            </div>
+
+
+            
             <div class="h-64 overflow-hidden">
+                <div class="carousel carousel-center max-w-md p-4 space-x-4 bg-neutral rounded-box">
+                    <div class="carousel-item h-64">
+                      <img src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/1/photo_5_2023-12-09_18-05-24.jpg" class="" />
+                    </div> 
+                    <div class="carousel-item">
+                      <img src="https://daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.jpg" class="rounded-box" />
+                    </div> 
+                    <div class="carousel-item h-64">
+                      <img src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/1/photo_5_2023-12-09_18-05-24.jpg" class="" />
+                    </div> 
+                    <div class="carousel-item">
+                      <img src="https://daisyui.com/images/stock/photo-1494253109108-2e30c049369b.jpg" class="rounded-box" />
+                    </div> 
+                    <div class="carousel-item">
+                      <img src="https://daisyui.com/images/stock/photo-1550258987-190a2d41a8ba.jpg" class="rounded-box" />
+                    </div> 
+                    <div class="carousel-item">
+                      <img src="https://daisyui.com/images/stock/photo-1559181567-c3190ca9959b.jpg" class="rounded-box" />
+                    </div> 
+                    <div class="carousel-item">
+                      <img src="https://daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.jpg" class="rounded-box" />
+                    </div>
+                  </div>
                 <img src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/1/photo_5_2023-12-09_18-05-24.jpg" alt="">
             </div>
             
