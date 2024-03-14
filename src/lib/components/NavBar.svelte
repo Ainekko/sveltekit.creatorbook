@@ -47,11 +47,11 @@
         <li><a href="/">Ai-assitants</a></li>
       </ul>
     </div> -->
-    <div class="navbar-end  w-full ">
+    <div class="navbar-end  w-full flex flex-row gap-5 ">
       
-      <a href="https://marketing.creatorbook.tech/contact-us" class="pr-4 ">Contact us</a>
+      <a  href="https://marketing.creatorbook.tech/contact-us" class="p-4 border bg-transparent border-zinc-900 rounded-full">Contact us</a>
       
-      <a class="btn rounded-xl bg-zinc-900 text-white hover:bg-slate-300 hover:text-black" href="/signup">Sign up / Login</a>
+      <a class="btn rounded-full w-32 shadow- border-none shadow-[#ffff] bg-yellow-300 text-zinc-900   hover:bg-slate-300 hover:text-black" href="/signup">Sign up / Login</a>
       
     </div>
   </div>

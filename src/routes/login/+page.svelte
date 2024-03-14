@@ -28,7 +28,7 @@
       };
   
       try {
-        const response = await fetch('https://api.creatorbook.tech/users/login/', {
+        const response = await fetch('http://127.0.0.1:8000/users/login/', {
           method: 'POST',
           headers: {
             'content-type': 'application/json',

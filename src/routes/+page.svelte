@@ -72,6 +72,15 @@
   </script>
   
   <style>
+
+@keyframes slide {
+            0% { background-position-x: 0%; }
+            100% { background-position-x: 100%; }
+        }
+        .animate-slide {
+            animation: slide 10s linear infinite; /* Adjust the duration and timing function as needed */
+        }
+
 	/* Container styles */
 	.container {
 	  max-width: 1200px; /* Adjust the maximum width as needed */
@@ -106,48 +115,53 @@
 	
 
 	
-<section class="hero min-h-[90vh]">
-	<div class="container relative">
-		<div class="w-full h-full -z-10  flex items-center justify-center  -mt-10 absolute">
-			<img src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/65294c89ce2e4b9e38d0f9eb_Creatorbook%20logo%20black.png" alt="" class="absolute -z-10  object-cover opacity-50">
-
-		</div>
-		<div class="w-full flex justify-center items-center flex-col pt-16">
-			<h1 class="text-element font-normal text-6xl md:text-8xl text-center text-white mb-5">
-				Take your ideas to new heights.
-			</h1>
-			<p class="second-text-element mt-3 text-lg text-center mb-5">
-				Validate and grow your ideas the right way <span class="text-white">effortlessly</span> 
-			</p>
-			<div class="flex flex-col md:flex-row justify-center items-center gap-4">
-				<button class="flex justify-center items-center third-text-element border w-32 h-10 md:h-20 border-zinc-700 rounded-full p-4 text-sm hidden ">
-					Contact us
-				</button>
-				<a href="https://www.creatorbook.tech/signup" class="third-text-element flex justify-center items-center  bg-zinc-950 text-white shadow shadow-indigo-500/50 w-36 h-36 border-zinc-700 rounded-full p-4 text-sm hover:bg- hover:shadow-indigo-300 ">
-					sign up
-				</a>
-				<button class="third-text-element border w-32 h-10 md:h-20 border-zinc-700 rounded-full p-4 text-sm hidden ">
-					See plans
-				</button>
+	<section class="hero min-h-[92vh]" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/background-+2.jpg'); background-size: cover; background-position: center;">
+		<div class="grid grid-cols-2 h-full p-4">
+			<div class="container flex col-span-2">
+				<div class="w-full flex justify-center items-start flex-col pt- ">
+					<div class="w-full flex flex-row justify- gap-10  font-thin ">
+						<div class="w-auto pl-1 h-16 flex flex-row justify-center items-center gap-2 bg-transparent b border-transparent border-r-zinc-900 shadow-sm  rounded-br-3sxl  p-">
+							<div class="w-2 h-2 bg-[#fdc4ff] rounded-full border border-stone-900"></div>
+							<p >
+								Research
+							</p>
+						</div>
+						<div class="w-auto pl-1 h-16 flex flex-row justify-center items-center gap-2 bg-transparent border border-transparent border-b-zinc-900 shadow-sm  rounded-br-3sxl  p-">
+							<div class="w-2 h-2 bg-[#fdc4ff] rounded-full border border-stone-900"></div>
+							<p>
+								Validate
+							</p>
+						</div>
+						<div class="w-auto pl-1 h-16 flex flex-row justify-center items-center gap-2 bg-transparent border border-transparent border-t-zinc-900 shadow-sm  rounded-br-3sxl  p-">
+							<div class="w-2 h-2 bg-[#fdc4ff] rounded-full border border-stone-900"></div>
+							<p>
+								Market
+							</p>
+						</div>
+					</div>
+					<h1 class="text-element font-light text-6xl md:text-9xl text-left text-white mb-10">
+						Building Tech Breakthroughs
+					</h1>
+					<div class="flex flex-col md:flex-row justify-center items-center gap-4 p-4">
+						<a class="btn w-52 h-auto  flex flex-row justify-evenly items-center rounded-full shadow- border-none shadow-2xl shadow-yellow-200/95 bg-yellow-400 text-zinc-900   hover:bg-slate-300 hover:text-black z-50" href="/signup">
+							<div class="w-1 h-6 rounded-full bg-black shadow-md "></div>
+							Sign up / Login</a>
+						<button class="third-text-element border w-32 h-10 md:h-20 border-zinc-700 rounded-full p-4 text-sm hidden ">
+							See plans
+						</button>
+					</div>
+				</div>
 			</div>
-			
-
 		</div>
-		
-		<!-- <div class="second-text-element font-medium text-xl h-10 w-60 bg-orange-500 rounded-md flex justify-center items-center text-black p-2 shadow-lg shadow-red-500/50 mt-10">
-			
-			<p>
-				Marketing & validation
-			</p>
+		<div class="w-full h-full flex justify-end items-end relative px-24 ">
+			<div class="w-[600px] p-12 h-full   flex items-center justify-center absolute">
+				<img src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/65294c89ce2e4b9e38d0f9eb_Creatorbook%20logo%20black.png" alt="" class="absolute -z-10  object-cover opacity-50">
+			</div>
 		</div>
-		<div class="third-text-element font-medium text-xl h-10 w-40 bg-indigo-400 rounded-md flex justify-center items-center text-black p-2 shadow- shadow-violet-100/30 blur-0 mt-3 -ml-5">
-			<p class="box">
-				Ai_assistants
-			</p>
-		</div> -->
+	</section>
+	
 
-	</div>
-</section>
+
 
 <section class="mb bg-white w-full min-h-screen pt-10 rounded-t-md">
 	<div class="container flex flex-col ">
