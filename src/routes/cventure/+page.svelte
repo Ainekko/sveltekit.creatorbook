@@ -99,7 +99,7 @@
         <div class="bg-violet-700 rounded-lg shadow-md p-6 custom-box md:col-span-2 relative" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/_4fa7d8e7-309f-4716-b785-2479d554837a.jpeg');">
             <div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-60 blur-2xl"></div>
             <div class="overlay">
-                <a href="#" class="mt-2">Learn More</a>
+                <a href="/" class="mt-2">Learn More</a>
             </div>
             <div class="relative z-10">
                 <h2 class="text-2xl font-semibold mb-2">Nebulae Portraits</h2>
@@ -111,7 +111,7 @@
         <div class="bg-violet-800 rounded-lg shadow-md p-10 custom-box relative" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/_31bcf3ab-f1ea-4da6-8c57-9e81319248c8.jpeg');">
             <div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-50 blur-2xl"></div>
             <div class="overlay">
-                <a href="#" class="mt-2">Explore</a>
+                <a href="/" class="mt-2">Explore</a>
             </div>
             <div class="relative z-10">
                 <h2 class="text-2xl font-semibold mb-2">Dynamic Animations</h2>
@@ -123,7 +123,7 @@
         <div class="bg-violet-600 rounded-lg shadow-md p-6 custom-box relative" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/_245c1a75-03fa-4a2a-8e7f-ddc1f12b7b90.jpeg');">
             <div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-50 blur-2xl"></div>
             <div class="overlay">
-                <a href="#" class="mt-2">Unlock Now</a>
+                <a href="/" class="mt-2">Unlock Now</a>
             </div>
             <div class="relative z-10">
                 <h2 class="text-2xl font-semibold mb-2">Unlockable Content</h2>
@@ -147,7 +147,7 @@
 <div class="bg-violet-800 rounded-lg shadow-md p-6 custom-box mt-4 relative" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/_21dc8f2e-83eb-449c-9cc9-518bd148c693.jpeg');">
     <div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-50 blur-2xl"></div>
     <div class="overlay">
-        <a href="#" class="mt-2">View Collection</a>
+        <a href="/" class="mt-2">View Collection</a>
     </div>
     <div class="relative z-10">
         <h2 class="text-2xl font-semibold mb-2">Limited Editions</h2>

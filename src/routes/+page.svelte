@@ -104,6 +104,70 @@
     0% { transform: translateX(100%); } /* Move text to the right */
     100% { transform: translateX(-100%); } /* Move text to the left */
 }
+
+.custom-box {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            height: 200px; /* Set the height of each box */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .custom-box:hover .overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            transform: translateY(100%);
+            z-index: 1; /* Ensure the overlay is above the black layer */
+        }
+
+        .overlay h2,
+        .overlay p {
+            color: white;
+            text-align: left; /* Align text to the left */
+            padding: 0 10px; /* Add padding to make text consistent */
+        }
+
+        .overlay a {
+            background-color: #4c51bf;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .overlay a:hover {
+            background-color: #4338ca;
+        }
+
+        /* Black layer */
+        .custom-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0.5, 0, 0, 0);
+            backdrop-filter: blur(0px); /* Add blur effect */
+            z-index: 0; /* Ensure the black layer is behind everything */
+        }
   </style>
   
   <main class="">
@@ -115,7 +179,7 @@
 	
 
 	
-	<section class="hero min-h-[92vh]" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/background-+2.jpg'); background-size: cover; background-position: center;">
+	<section class="hero min-h-[92vh]" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/background-+2.jpg'); background-size:cover; background-position:right md:background-position: center;">
 		<div class="grid grid-cols-2 h-full p-4">
 			<div class="container flex col-span-2">
 				<div class="w-full flex justify-center items-start flex-col pt- ">
@@ -139,15 +203,16 @@
 							</p>
 						</div>
 					</div>
-					<h1 class="text-element font-light text-6xl md:text-9xl text-left text-white mb-10">
-						Building Tech Breakthroughs
+					<h1 class="text-element font-light text-6xl md:text-9xl text-left text-white mb-10 flex flex-col">
+						Building Tech Breakthroughs 
 					</h1>
 					<div class="flex flex-col md:flex-row justify-center items-center gap-4 p-4">
-						<a class="btn w-52 h-auto  flex flex-row justify-evenly items-center rounded-full shadow- border-none shadow-2xl shadow-yellow-200/95 bg-yellow-400 text-zinc-900   hover:bg-slate-300 hover:text-black z-50" href="/signup">
-							<div class="w-1 h-6 rounded-full bg-black shadow-md "></div>
-							Sign up / Login</a>
-						<button class="third-text-element border w-32 h-10 md:h-20 border-zinc-700 rounded-full p-4 text-sm hidden ">
-							See plans
+						<button class="third-text-element border w-52 h-10 md:h-20 border-zinc-900 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center  shadow-  shadow-2xl shadow-yellow-200/20 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 " href="/signup">
+							<div class="w-2 h-2 bg-[#fffbbd] rounded-full bg-yellow-400 animate-pulse"></div>
+							Get Started
+						</button>
+						<button class="third-text-element border w-32 h-10 md:h-20 border-zinc-700 rounded-full p-4 text-sm bg-black">
+							See Plans
 						</button>
 					</div>
 				</div>
@@ -172,28 +237,29 @@
 			</h2>
 		</div>
 
-		<div class="w-full h-full flex flex-col md:flex-row p-3 text-black font-normal text-2xl md:text-4xl  mt-10">
+		<div class="w-full h-full flex flex-col md:flex-col p-3 text-black font-normal text-2xl md:text-4xl  mt-10">
 				<div class="flex flex-col max-w-xl mb-5">
 					
-					<p class="text-element md:mb-5">
+					<p class="text-element md:mb-">
 					 	We help start up founders avoid wasting time, money, and effort on ideas with limited potential,
 						feel more confident about their decisions, and stay ahead of the game.
 					</p>
-					<p class="text-element mb-8">
+					<p class="text-element mb-">
 						
 				   </p>
 
-				   <div class="second-text-element font-medium text-xl h-10 w-60 bg-orange-500 rounded-md flex justify-center items-center text-black p-2 shadow-lg shadow-red-500/50 mt-10">
-			
-					<p>
-						Marketing & validation
-					</p>
-				</div>
-				<div class="third-text-element font-medium text-xl h-10 w-40  bg-zinc-900 rounded-md  text-white flex justify-center items-center p-2 shadow-lg shadow-indigo-500/50  mt-3 -ml-5">
+				   <!-- <div class="second-text-element font-medium text-xl h-10 w-60 bg-orange-500 rounded-md flex justify-center items-center text-black p-2 shadow-lg shadow-red-500/50 mt-10">
+				
+						<p>
+							Marketing & validation
+						</p>
+					
+					</div> -->
+				<!-- <div class="third-text-element font-medium text-xl h-10 w-40  bg-zinc-900 rounded-md  text-white flex justify-center items-center p-2 shadow-lg shadow-indigo-500/50  mt-3 -ml-5">
 					<p class="box">
 						Ai_assistants
 					</p>
-				</div>
+				</div> -->
 
 
 				</div>
@@ -201,9 +267,60 @@
 				
 				<div class="w-full flex justify-center items-center">
 
+					<div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 text-xs text-white">
+						<!-- Box 1 -->
+						<div class="bg-violet-700 rounded-lg shadow-md p-6 custom-box md:col-span-2 relative text-element" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/_4fa7d8e7-309f-4716-b785-2479d554837a.jpeg');">
+							<div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-60 blur-2xl"></div>
+							<div class="overlay">
+								<a href="#" class="mt-2">Learn More</a>
+							</div>
+							<div class="relative z-10">
+								<h2 class="text-2xl font-semibold mb-2 text-white">Nebulae Portraits</h2>
+								<p class="text-gray-200">Capture cosmic essence with unique designs.</p>
+							</div>
+						</div>
+				
+						<!-- Box 2 -->
+						<div class="bg-violet-800 rounded-lg shadow-md p-10 custom-box relative second-text-element" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/_31bcf3ab-f1ea-4da6-8c57-9e81319248c8.jpeg');">
+							<div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-50 blur-2xl"></div>
+							<div class="overlay">
+								<a href="#" class="mt-2">Explore</a>
+							</div>
+							<div class="relative z-10">
+								<h2 class="text-2xl font-semibold mb-2">Dynamic Animations</h2>
+								<p class="text-gray-200">Watch your NFTs evolve like real nebulae.</p>
+							</div>
+						</div>
+				
+						<!-- Box 3 -->
+						<div class="bg-violet-600 rounded-lg shadow-md p-6 custom-box relative third-text-element" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/_245c1a75-03fa-4a2a-8e7f-ddc1f12b7b90.jpeg');">
+							<div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-50 blur-2xl"></div>
+							<div class="overlay">
+								<a href="#" class="mt-2">Unlock Now</a>
+							</div>
+							<div class="relative z-10">
+								<h2 class="text-2xl font-semibold mb-2">Unlockable Content</h2>
+								<p class="text-gray-200">Discover hidden cosmic secrets.</p>
+							</div>
+						</div>
+				
+						<!-- Box 4 -->
+					<div class="bg-violet-700 rounded-lg shadow-md p-8 custom-box col-span-1 md:col-span-2 relative third-text-element" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/_0196f90a-2393-4680-adfd-2dc919477ea.jpeg');">
+						
+						<div class="relative z-10">
+							<h2 class="text-2xl font-semibold mb-2 text-white">Interactive Constellations</h2>
+							<p class="text-gray-200 ">Arrange NFTs into personalized cosmic tapestries.</p>
+							<button class="bg-violet-900 text-white py-2 px-4 rounded-md mt-4">Get Started</button>
+						</div>
+					</div>
+
 					<a href="https://www.creatorbook.tech/signup" class="third-text-element flex justify-center items-center  bg-zinc-950 text-white shadow-lg shadow-indigo-500/50 w-36 h-36 border-zinc-700 rounded-full p-4 text-sm hover:shadow-indigo-200 hover:-translate-y-1  hover:bg-zinc-900  ">
 						sign up
 					</a>
+				
+				</div>
+
+					
 
 				</div>
 				
