@@ -281,7 +281,7 @@
 						</div>
 				
 						<!-- Box 2 -->
-						<div class="bg-violet-800 rounded-lg shadow-md p-10 custom-box relative second-text-element" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/_31bcf3ab-f1ea-4da6-8c57-9e81319248c8.jpeg');">
+						<div class="bg-violet-800 rounded-lg shadow-md p-10 custom-box relative second-text-element" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/background-+2.jpg');">
 							<div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-50 blur-2xl"></div>
 							<div class="overlay">
 								<a href="#" class="mt-2">Explore</a>
