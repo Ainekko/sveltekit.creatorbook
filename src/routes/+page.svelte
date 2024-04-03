@@ -275,8 +275,8 @@
 								<a href="#" class="mt-2">Learn More</a>
 							</div>
 							<div class="relative z-10">
-								<h2 class="text-2xl font-semibold mb-2 text-white">Nebulae Portraits</h2>
-								<p class="text-gray-200">Capture cosmic essence with unique designs.</p>
+								<h2 class="text-2xl font-semibold mb-2 text-white">Find inspiration</h2>
+								<p class="text-gray-200">Never run out of ideas with our AI assistants</p>
 							</div>
 						</div>
 				
@@ -287,8 +287,8 @@
 								<a href="#" class="mt-2">Explore</a>
 							</div>
 							<div class="relative z-10">
-								<h2 class="text-2xl font-semibold mb-2">Dynamic Animations</h2>
-								<p class="text-gray-200">Watch your NFTs evolve like real nebulae.</p>
+								<h2 class="text-2xl font-semibold mb-2">Unlimited designs</h2>
+								<p class="text-gray-200">One click get a landing page built for your next project</p>
 							</div>
 						</div>
 				
@@ -296,11 +296,11 @@
 						<div class="bg-violet-600 rounded-lg shadow-md p-6 custom-box relative third-text-element" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/_245c1a75-03fa-4a2a-8e7f-ddc1f12b7b90.jpeg');">
 							<div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-50 blur-2xl"></div>
 							<div class="overlay">
-								<a href="#" class="mt-2">Unlock Now</a>
+								<a href="#" class="mt-2">Learn more</a>
 							</div>
 							<div class="relative z-10">
-								<h2 class="text-2xl font-semibold mb-2">Unlockable Content</h2>
-								<p class="text-gray-200">Discover hidden cosmic secrets.</p>
+								<h2 class="text-2xl font-semibold mb-2">Marketing</h2>
+								<p class="text-gray-200">We set the marketing the right way</p>
 							</div>
 						</div>
 				
