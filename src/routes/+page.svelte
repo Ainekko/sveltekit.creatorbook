@@ -10,7 +10,7 @@
 	onMount(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    gsap.utils.toArray('.text-element').forEach((element, index) => {
+    gsap.utils.toArray('.text-element').forEach((element:any, index:any) => {
       gsap.from(element, {
         opacity: 0,
         y: 50,
@@ -29,7 +29,7 @@
 	
 	
 
-    gsap.utils.toArray('.second-text-element').forEach((element, index) => {
+    gsap.utils.toArray('.second-text-element').forEach((element: any, index:any) => {
       gsap.from(element, {
         opacity: 0,
         y: 50,
@@ -164,9 +164,17 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0.5, 0, 0, 0);
+            /* background-color: rgba(0.5, 0, 0, 0); */
             backdrop-filter: blur(0px); /* Add blur effect */
             z-index: 0; /* Ensure the black layer is behind everything */
+        }
+
+		.neon-circle {
+            width: 100px;
+            height: 100px;
+            background-color: #FFA500; /* Neon orange color */
+            border-radius: 50%;
+            box-shadow: 0 0 10px #FFA500, 0 0 20px #FFA500, 0 0 30px #FFA500;
         }
   </style>
   
@@ -264,13 +272,14 @@
 
 				</div>
 
+
 				
 				<div class="w-full flex justify-center items-center">
 
 					<div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 text-xs text-white">
 						<!-- Box 1 -->
 						<div class="bg-violet-700 rounded-lg shadow-md p-6 custom-box md:col-span-2 relative text-element" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/_4fa7d8e7-309f-4716-b785-2479d554837a.jpeg');">
-							<div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-60 blur-2xl"></div>
+							<div class="absolute top-0 left-0 w-2/4 h-3/4 bg-black opacity-90 blur-2xl"></div>
 							<div class="overlay">
 								<a href="#" class="mt-2">Learn More</a>
 							</div>
@@ -278,11 +287,12 @@
 								<h2 class="text-2xl font-semibold mb-2 text-white">Find inspiration</h2>
 								<p class="text-gray-200">Never run out of ideas with our AI assistants</p>
 							</div>
+
 						</div>
 				
 						<!-- Box 2 -->
 						<div class="bg-violet-800 rounded-lg shadow-md p-10 custom-box relative second-text-element" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/background-+2.jpg');">
-							<div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-50 blur-2xl"></div>
+							<div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-90 blur-2xl"></div>
 							<div class="overlay">
 								<a href="#" class="mt-2">Explore</a>
 							</div>
@@ -294,7 +304,7 @@
 				
 						<!-- Box 3 -->
 						<div class="bg-violet-600 rounded-lg shadow-md p-6 custom-box relative third-text-element" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/_245c1a75-03fa-4a2a-8e7f-ddc1f12b7b90.jpeg');">
-							<div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-50 blur-2xl"></div>
+							<div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-90 blur-2xl"></div>
 							<div class="overlay">
 								<a href="#" class="mt-2">Learn more</a>
 							</div>
