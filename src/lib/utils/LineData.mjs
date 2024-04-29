@@ -5,6 +5,7 @@ export const data = {
       backgroundColor: [
         'hsl(1,100%,0%)',
         'hsl(16, 100%, 55%)',
+        'hsl(33, 100%, 55%)',
         'rgba(124, 180, 92, 0.5)',
         
       ],
@@ -15,5 +16,5 @@ export const data = {
       label: 'My dataset', // for legend
     },
   ],
-  labels: ['Sign ups', 'Pre-orders', 'Emails collected',],
+  labels: ['Sign ups', 'Pre-orders','hooks', 'Emails collected',],
 };
