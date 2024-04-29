@@ -1,7 +1,7 @@
 export const data = {
   datasets: [
     {
-      data: [300, 100 , 50,],
+      data: [300, 100 , 50, 69],
       backgroundColor: [
         'hsl(1,100%,0%)',
         'hsl(16, 100%, 55%)',
