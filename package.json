@@ -42,12 +42,12 @@
 		"ai": "^2.2.14",
 		"chart.js": "^4.4.2",
 		"chartjs": "^0.3.24",
+		"d3": "^7.9.0",
 		"d3-array": "^3.2.4",
 		"d3-scale": "^4.0.2",
 		"dotenv": "^16.3.1",
 		"gsap": "^3.12.2",
 		"langchain": "^0.0.163",
-		"layerchart": "^0.36.2",
 		"openai": "^4.11.1",
 		"svelte-chartjs": "^3.1.5"
 	}
