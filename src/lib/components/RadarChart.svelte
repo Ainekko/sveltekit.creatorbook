@@ -13,7 +13,7 @@
     let newMetrics = [
       { axis: "", value: 50 },
       { axis: "", value: 60 },
-      { axis: "", value: 70 }
+      { axis: "", value: 70 },
     ];
   
     // Define the colors for the datasets
