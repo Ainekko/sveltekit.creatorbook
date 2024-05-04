@@ -21,8 +21,8 @@
     let newDatasetColor = "green";
   
     // Dimensions for the SVG
-    const width = 400;
-    const height = 400;
+    const width = 300;
+    const height = 300;
     const margin = { top: 50, right: 50, bottom: 50, left: 50 };
     const radius = Math.min(width, height) / 2 - Math.max(...Object.values(margin));
   

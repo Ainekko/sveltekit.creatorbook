@@ -8,19 +8,27 @@
 
 <NavBar />
 
-<div class="w-screen min-h-screen flex flex-row justify-center ">
-  <div class="pl-10 pt-10 pr-10 flex flex-col justify-items-start items-start text-white gap-16 max-w-[500px] ">
-    <h1 class="text-3xl  font-bold uppercase border border-transparent border-r-zinc-600 pr-10">summary</h1>
+<div class="w-screen h-screen flex flex-row justify-center ">
+  <div class="p h-screen pt- pr-10 flex flex-col justify-center items-start text-zinc-300 gap-20 max-w-[1000px]">
+    <h1 class="text-3xl  font-bold text-violet-200  border border-transparent border-r-zinc-600 pr-10">Summary</h1>
 
-    <p class="text-zinc-400 ">
+   <div class="flex flex-col gap-10">
+
+           
+    <p class="text-violet-100 font-thin max-w-[800px]">
       This is a test to see how the summary text will show like if the summary HTML element stops showing for nowhere it's annoying af!
       This is a test to see how the summary text will show like if the summary HTML element stops showing for nowhere it's annoying af!
     </p>
 
-    <button class="third-text-element border w-52 h-10 md:h-20 border-zinc-900 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center  shadow-  shadow-2xl shadow-yellow-200/20 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 ">
-      <div class="w-2 h-2 bg-[#fffbbd] rounded-full bg-yellow-400 animate-pulse"></div>
-      Get Started
+    <button class="third-text-element border  w-52 h-10 md:h-20 border-zinc-900 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center  shadow-  shadow-2xl shadow-yellow-200/20 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 ">
+        <div class="w-2 h-2 bg-[#fffbbd] rounded-full bg-yellow-400 animate-pulse"></div>
+        Get Started
     </button>
+
+   </div>
+
+
+
 
   </div>
   
@@ -49,7 +57,7 @@
         
       </div>
       
-      <div class="flex flex-row justify-around items-center gap-5">
+      <div class="flex flex-col-reverse justify-around items-center gap-5">
         
         <RadarChart/>
         <AreaChart/>
