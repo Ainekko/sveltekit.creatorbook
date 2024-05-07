@@ -33,19 +33,19 @@ import { env } from '$env/dynamic/private';
  
 import type { RequestHandler } from './$types';
 
-const pinecone = new Pinecone({
-  apiKey: process.env.PINECONE_API_KEY || '',
-  environment: process.env.PINECONE_ENVIRONMENT || '',
-});
+// const pinecone = new Pinecone({
+//   apiKey: process.env.PINECONE_API_KEY || '123',
+//   environment: process.env.PINECONE_ENVIRONMENT || '123',
+// });
 
-const pineconeIndex = pinecone.Index('rechat');
+// const pineconeIndex = pinecone.Index('rechat');
 
-const embeddings = new OpenAIEmbeddings({
-  openAIApiKey: process.env.OPENAI_API_KEY || '',
-  batchSize: 512,
-});
+// const embeddings = new OpenAIEmbeddings({
+//   openAIApiKey: process.env.OPENAI_API_KEY || '',
+//   batchSize: 512,
+// });
 
-const pineconeStore = new PineconeStore(embeddings, { pineconeIndex });
+// const pineconeStore = new PineconeStore(embeddings, { pineconeIndex });
 
 
 
@@ -178,15 +178,15 @@ export const POST = (async ({ request }) => {
 
 
 
-    const Rdocs = await pineconeStore.similaritySearch(currentMessageContent, 2, {
+    // const Rdocs = await pineconeStore.similaritySearch(currentMessageContent, 2, {
      
-    });
+    // });
 
     let context = ''
 
-    for (const doc of Rdocs) {
-      context += doc.pageContent + ' ';
-    }
+    // for (const doc of Rdocs) {
+    //   context += doc.pageContent + ' ';
+    // }
 
     context = context.trim();
 
