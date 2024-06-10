@@ -49,6 +49,7 @@
 		"gsap": "^3.12.2",
 		"langchain": "^0.0.163",
 		"openai": "^4.40.0",
-		"svelte-chartjs": "^3.1.5"
+		"svelte-chartjs": "^3.1.5",
+		"uuid": "^9.0.1"
 	}
 }

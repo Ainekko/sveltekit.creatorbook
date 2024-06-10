@@ -41,6 +41,9 @@ dependencies:
   svelte-chartjs:
     specifier: ^3.1.5
     version: 3.1.5(chart.js@4.4.2)(svelte@4.2.15)
+  uuid:
+    specifier: ^9.0.1
+    version: 9.0.1
 
 devDependencies:
   '@fontsource/fira-mono':

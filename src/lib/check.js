@@ -1,13 +1,16 @@
 // retrieve user data
 import { goto } from '$app/navigation';
-export async function checkAndDeleteToken() {
+export async function checkAndDeleteToken(token) {
     
-    const token = localStorage.getItem('token');
-    //const token = '123343134565778976'; // Get the token from local storage
+    // const token = localStorage.getItem('token');
+    console.log(token)
+   // const token = '123343134565778976'; // Get the token from local storage
   
     if (token) {
       // Token exists, send a request to your Django endpoint to check its validity
-      const response = await fetch('https://api.creatorbook.tech/users/check/', {
+
+      console.log('Token exists, Running check')
+      const response = await fetch('http://127.0.0.1:8000/users/check/', {
         method: 'GET',
         headers: {
           'Authorization': `Token ${token}`,

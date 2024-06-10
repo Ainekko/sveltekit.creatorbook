@@ -74,23 +74,24 @@
     ];
     </script>
   
+<div class="bg-white w-full">
   <div class="drawer w-full ">
 
     <!-- You can open the modal using ID.showModal() method -->
 
 
-<dialog id="my_modal_3" class="modal">
-  <div class="modal-box">
-    <form method="dialog">
-      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-    </form>
-    <h3 class="font-bold text-lg font-mono">Hello!</h3>
-    <p class="mb-5 text-base font-mono">please log in to use the assistant!</p>
-    
-    <a class="btn rounded-full bg-zinc-950 shadow-lg shadow-indigo-900 text-white border-none px-8 mb-4" href="/login">login</a>
-    <p class="py-1 text-xs ">Press ESC key or click on ✕ button to close</p>
-  </div>
-</dialog>
+        <dialog id="my_modal_3" class="modal">
+          <div class="modal-box">
+            <form method="dialog">
+              <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            <h3 class="font-bold text-lg font-mono">Hello!</h3>
+            <p class="mb-5 text-base font-mono">please log in to use the assistant!</p>
+            
+            <a class="btn rounded-full bg-zinc-950 shadow-lg shadow-indigo-900 text-white border-none px-8 mb-4" href="/login">login</a>
+            <p class="py-1 text-xs ">Press ESC key or click on ✕ button to close</p>
+          </div>
+        </dialog>
 
     <input id="my-drawer" type="checkbox" class="drawer-toggle" />
   
@@ -101,12 +102,12 @@
       <!-- Page content here -->
       
       <div class="flex flex-col justify-between md:flex-row min-w-full min-h-[90vh] md:h-[90vh] relative">
-        <label for="my-drawer" class=" absolute flex flex-row justify-center items-center gap-2 shadow shadow-xl p-4 rounded-full text-slate-100 bg-zinc-950 cursor-pointer ">
+        <!-- <label for="my-drawer" class=" absolute flex flex-row justify-center items-center gap-2 shadow shadow-xl p-4 rounded-full text-slate-100 bg-zinc-950 cursor-pointer "> -->
           
          <!-- <img src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/6501e7915d557f01f3be447c_system-solid-9-inbox.gif" alt="" class="max-w-[15%] max-h-5">  -->
          <div class="w-2 h-2 bg-[#fdc4ff] rounded-full border border-stone-900"></div>
 
-          Free downloads!</label>
+          <!-- Free downloads!</label> -->
         <!-- <div class="basis-1/4 p-3 max-h-screen overflow-scroll ">
           <div class="flex flex-col justify-center items-center">
             <p>Free Downloads</p>
@@ -190,11 +191,11 @@
         
     </div>
     </div> 
-    <div class="drawer-side">
-      <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-      <ul class="menu p-4  w-60 md:w-80 min-h-full bg-base-200 text-base-content">
+    <!-- <div class="drawer-side"> -->
+      <!-- <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+      <ul class="menu p-4  w-60 md:w-80 min-h-full bg-base-200 text-base-content"> -->
         <!-- Sidebar content here -->
-        <div class="flex flex-row gap-3 flex-wrap justify-center card ">
+        <!-- <div class="flex flex-row gap-3 flex-wrap justify-center card ">
           {#each freeDownloads as item (item.title)}
           <div class="mb-4 w-[100px] border-stone-600 shadow-slate-600 shadow-md card-body rounded-xl p-4">
             <a href={item.link} target="_blank">
@@ -202,14 +203,15 @@
               <p class="mt-2 text-xs font-mono">{item.title}</p>
             </a>
           </div>
-        {/each}
+          {/each} -->
         </div>
-        <li><a>Sidebar Item 1</a></li>
+        <!-- <li><a>Sidebar Item 1</a></li>
         <li><a>Sidebar Item 2</a></li>
         
-      </ul>
-    </div>
-  </div>
+      </ul> -->
+    <!-- </div> -->
+  <!-- </div> -->
   
     
   
+</div>
