@@ -1,60 +1,54 @@
 <script lang="ts">
-  import NavBar from "$lib/components/NavBar.svelte";
-  import { onMount } from 'svelte';
   import { writable, get } from 'svelte/store';
+  import { v4 as uuidv4 } from 'uuid';
   import { submitWIPIdea, submitFavedIdea, fetchWIPIdeas } from '$lib/db';
   import { wipIdeasStore } from '$lib/stores';
+  import { marked } from 'marked';
 
-  import { useChat } from 'ai/svelte';
-  import { v4 as uuidv4 } from 'uuid';
+  // Store to track if an idea has been generated
+  let ideaGenerated = writable(false);
 
-  /** @type {import('./$types').PageData} */
-
-  const { input, handleSubmit, messages } = useChat();
-
-  export let data;
-
-  let isLoggedIn = true;
-  let message = writable("Loading message...");
-
-  let idea = '';
-
+  // Store for the startup idea details
   let startupIdea = writable({
-  title: '',
-  category: '',
-  description: '',
-  uuid: '' // Generate UUID when initializing the idea
-});
+    title: '',
+    category: '',
+    description: '',
+    uuid: '' // Generate UUID when initializing the idea
+  });
 
+  // Store to track the loading state
+  let isLoading = writable(false);
+
+  // Function to generate a new startup idea
   async function generateIdea() {
-    const response = await fetch('/generate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
+    isLoading.set(true); // Set loading to true when function starts
+    try {
+      const response = await fetch('/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response.ok) {
+        const newIdea = await response.json();
+        newIdea.uuid = uuidv4(); // Assign a UUID to the new idea
+        console.log(newIdea);
+        startupIdea.set(newIdea);
+        ideaGenerated.set(true); // Update state to indicate idea has been generated
+      } else {
+        console.error('Failed to fetch idea');
+        alert('Failed to fetch idea');
       }
-    });
-    if (response.ok) {
-      const newIdea = await response.json();
-      newIdea.uuid = uuidv4(); // Assign a UUID to the new idea
-      console.log(newIdea)
-      startupIdea.set(newIdea);
-    } else {
-      console.error('Failed to fetch idea');
-      alert('Failed to fetch idea');
+    } catch (error) {
+      console.error('Error generating idea:', error);
+    } finally {
+      isLoading.set(false); // Set loading to false when function completes
     }
   }
 
   const token = localStorage.getItem('token');
 
-  onMount(() => {
-    const savedIdea = localStorage.getItem('startupIdea');
-    if (savedIdea) {
-      startupIdea.set(JSON.parse(savedIdea));
-    } else {
-      generateIdea();
-    }
-  });
-
+  // Function to load existing ideas
   async function loadIdeas() {
     try {
       const ideas = await fetchWIPIdeas(token);
@@ -64,14 +58,13 @@
     }
   }
 
+  // Function to handle submission of a work-in-progress idea
   function handleWIPIdea() {
     const idea = get(startupIdea);
-    console.log(idea.uuid)
     submitWIPIdea(token, idea)
       .then(() => {
         console.log('WIP idea submitted successfully');
         alert('WIP idea submitted successfully');
-
         loadIdeas();
       })
       .catch(error => {
@@ -80,6 +73,7 @@
       });
   }
 
+  // Function to handle submission of a favorite idea
   function handleFavedIdea() {
     const idea = get(startupIdea);
     submitFavedIdea(token, idea)
@@ -94,24 +88,45 @@
   }
 </script>
 
-<div class="h-screen w-full flex flex-col justify-center items-center gap-5 text-white p-10 bg-zinc-950 rounded-md">
+<style>
+  /* Optional: Additional styling for better visuals */
+  .loading-text {
+    @apply text-xl rounded-full font-normal text-zinc-500;
+  }
+</style>
+
+<div class="min-h-screen w-full flex flex-col justify-center items-center gap-5 text-white p-10 bg-zinc-950 rounded-md">
   <div class="w-full h-full flex flex-row justify-between items-start"> 
     <div>
-      <h1 class="text-2xl text-white font-medium border border-transparent  border-b-zinc-600 rounded-full pb-2">
-        {$startupIdea.title}
+      <h1 class="text-2xl text-white font-medium border border-transparent border-b-zinc-600 rounded-full pb-2">
+        <!-- Conditionally show the title if idea is generated -->
+        {#if $ideaGenerated}
+          {$startupIdea.title}
+        {/if}
       </h1>
-      <div class="max-w-[700px]">
-        <p class="">
-          <span class="loading loading-ring loading-md"></span>
-          {$startupIdea.description}
+      <div class="max-w-[700px] text-zinc-400 pt-3">
+        <p>
+          
+          <!-- Conditionally show the description or loading message -->
+          {#if $ideaGenerated}
+            {@html marked($startupIdea.description)}
+          {:else}
+            <div class="flex justify-center items-center gap-2 mt-20">
+              <span class="loading loading-ring loading-md"></span> 
+              {#if !$isLoading}
+                <span class="loading-text">Click <span class=" ">Generate</span>  to Start</span>
+              {/if}
+            </div>
+          {/if}
         </p>
       </div>
     </div>
     <div class="flex flex-row justify-center items-center gap-2">
-      <div class="h-1 w-1 bg-pink-400 p-1 rounded-full shadow shadow-md shadow-pink-600"></div>
-      <h2>
-        {$startupIdea.category}
-      </h2>
+      <div class="h-1 w-1 bg-pink-400 p-1 rounded-full shadow shadow-md shadow-pink-600 text-zinc-500"></div>
+      <!-- Conditionally show the category if idea is generated -->
+      {#if $ideaGenerated}
+        <h2 class="text-zinc-500">{$startupIdea.category}</h2>
+      {/if}
     </div>
   </div>
 
@@ -119,17 +134,20 @@
     <div>
       <div class="p-3 flex flex-col grow pt-">
         <div class="p-3 w-full text-white flex flex-row-reverse justify-center">
-          <button on:click={handleWIPIdea} class="btn bg-transparent  border border-zinc-700 ml-5 shadow-xl shadow-black/40 rounded-full">
+          <button on:click={handleWIPIdea} class="btn bg-transparent border border-zinc-700 ml-5 shadow-xl shadow-black/40 rounded-full">
             Build a landing page                    
           </button>
-          <button on:click={handleFavedIdea} class="btn bg-transparent  border border-zinc-700 ml-5 shadow-xl shadow-black/40 rounded-full">
+          <button on:click={handleFavedIdea} class="btn bg-transparent border border-zinc-700 ml-5 shadow-xl shadow-black/40 rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="white" viewBox="0 0 24 24" stroke="none">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
             Save for later
           </button>
           <button on:click={generateIdea} class="btn bg-yellow-400 text-black border-transparent ml-5 shadow-xl shadow-black/40 rounded-full">
-            <span class="loading loading-ring loading-md"></span>
+            <!-- Conditionally show the loading spinner based on isLoading state -->
+            {#if $isLoading}
+              <span class="loading loading-ring loading-md"></span>
+            {/if}
             Generate                    
           </button>
         </div>

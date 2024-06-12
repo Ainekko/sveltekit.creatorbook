@@ -3,6 +3,7 @@
     let username = '';
     let email = '';
     let password = '';
+    let loading = false;
 
     const twitter_auth_url = 'https://api.creatorbook.tech/o/login/twitter'
 
@@ -17,47 +18,53 @@
       goto('/dashboard');
     }
   
-    async function submitForm() {
-      const userData = {
-        username,
-        email,
-        password,
+    /**
+     * @param {{ preventDefault: () => void; }} event
+     */
+     async function register(event) {
+      event.preventDefault();
+      loading = true; // Start loading
+  
+      const user_data = {
+        username: username,
+        email: email,
+        password: password,
       };
   
       try {
-        const response = await fetch("http://127.0.0.1:8000/users/register/", {
-          method: "POST",
+        const response = await fetch('http://127.0.0.1:8000/users/register/', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify(userData),
+          body: JSON.stringify(user_data),
         });
   
         if (response.status === 201) {
-          const responseData = await response.json();
-          const token = responseData.token
-          localStorage.setItem('token', token)
+          const res_data = await response.json();
+          token = res_data.token;
+          console.log("Token:", res_data.token);
           document.cookie = `auth_token=${token}; path=/`;
-          console.log("Token:", responseData.token); // Log the token
-          goto('/dashboard')
-  
-          // You can also redirect the user to another page or perform other actions here.
+          localStorage.setItem('token', token);
+          goto('/dashboard');
         } else {
-          console.error("Registration failed with status:", response.status);
+          console.error("registering failed with status:", response.status);
         }
       } catch (error) {
         console.error("Error submitting form:", error);
+      } finally {
+        loading = false; // Stop loading
       }
     }
   </script>
 
   
-  <div class="bg-white h-screen w-max[1440px] flex justify-center items-center">
+  <div class="bg- h-screen w-max[1440px] flex justify-center items-center">
     
-    <div class="h-screen w-screen max-w-[1200px] flex justify-center items-center overflow-hidden text-black ">
+    <div class="h-screen w-screen max-w-[1200px] flex justify-center items-center overflow-hidden text- ">
       <div class="card bg-dark  flex justify-center items-center w-80 shadow-xl p-5 ">
         <p class="font-bold">Sign Up:</p>
-        <form class="card-body " on:submit={submitForm}>
+        <form class="card-body " on:submit={register}>
           <input type="username" placeholder="username" bind:value={username} class="input input-bordered border rounded-full text-white" />
           <input type="email" placeholder="email" bind:value={email} class="input input-bordered border rounded-full text-white" />
           <input type="password" placeholder="password" bind:value={password} class="input input-bordered border rounded-full text-white" />
@@ -69,7 +76,13 @@
   
           
           
-          <input type="submit" value="Sign Up" class="btn btn-neutral rounded-full bg-zinc-950 shadow-xl shadow-indigo-900" />
+          <input type="submit" value="Sign Up" class="btn btn-neutral rounded-full bg-zinc-950 shadow-xl shadow-violet-700/40" />
+
+          {#if loading}
+            <span class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                <span class="loading loading-ring loading-md"></span> 
+            </span>
+          {/if}
         </form>
 
         <!-- <button class=" btn rounded-xl p-4 shadow shadow-violet-200  hover:shadow-xl border-none text-white text-sans flex flex-row gap-4 border overflow-hidden w-auto min-w-[200px] flex-row-reverse shadow-md shadow-black" on:click={handle_twitter_login}>

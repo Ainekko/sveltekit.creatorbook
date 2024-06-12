@@ -11,7 +11,7 @@
 <style>
     /* Container styles */
     .container {
-      max-width: 1200px; /* Adjust the maximum width as needed */
+      max-width: 1400px; /* Adjust the maximum width as needed */
       margin: 0 auto; /* Center the container horizontally */
       padding: 0 20px; /* Optional padding to create spacing from the edges */
     }
@@ -24,10 +24,11 @@
   
   
   
-<div class="main bg-white">
+<div class="main bg-">
     
     <div class="container ">
-      <LightNav/>
+      <!-- <LightNav/> -->
+      <NavBar />
       <slot />
     </div>
 </div> 

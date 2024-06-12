@@ -236,16 +236,16 @@
 
 
 
-<section class="mb bg-white w-full min-h-screen pt-10 rounded-t-md">
+<section class="mb bg-white text-black w-full min-h-screen pt-10 rounded-t-md ">
 	<div class="container flex flex-col ">
 		<div class="flex justify-start items-center gap-2">
 			<div class="h-4 w-1 rounded-full bg-[#fdc4ff]shadow-xl shadow-indigo-950"></div>
-			<h2 class="text-xl font-normal text-black">
+			<h2 class="text-xl font-normal ">
 				Our mission
 			</h2>
 		</div>
 
-		<div class="w-full h-full flex flex-col md:flex-col p-3 text-black font-normal text-2xl md:text-4xl  mt-10">
+		<div class="w-full h-full flex flex-col md:flex-col p-3  font-normal text-2xl md:text-4xl  mt-10">
 				<div class="flex flex-col max-w-xl mb-5">
 					
 					<p class="text-element md:mb-">

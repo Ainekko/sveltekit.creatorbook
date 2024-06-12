@@ -18,10 +18,10 @@
 
   function drawChart() {
     const x = scaleTime()
-      .domain(extent(data, (d) => d.date))
+      .domain(extent(data, (/** @type {{ date: any; }} */ d) => d.date))
       .range([0, width]);
 
-    const maxDataValue = Math.max(...data.map(d => d.value));
+    const maxDataValue = Math.max(...data.map((/** @type {{ value: any; }} */ d) => d.value));
     const yTickCount = 5;
     const y = scaleLinear()
       .domain([0, Math.ceil(maxDataValue / yTickCount) * yTickCount])
@@ -38,8 +38,8 @@
       .domain([0, data.length]);
 
     const lineGenerator = line()
-      .x((d) => x(d.date))
-      .y((d) => y(d.value))
+      .x((/** @type {{ date: any; }} */ d) => x(d.date))
+      .y((/** @type {{ value: any; }} */ d) => y(d.value))
       .curve(d3.curveBasis);
 
     svg.append('filter')
@@ -65,8 +65,8 @@
       .selectAll('stop')
       .data(data)
       .enter().append('stop')
-      .attr('offset', (_, i) => (i / (data.length - 1)) * 100 + '%')
-      .attr('stop-color', (d) => colorScale(data.indexOf(d)));
+      .attr('offset', (/** @type {any} */ _, /** @type {number} */ i) => (i / (data.length - 1)) * 100 + '%')
+      .attr('stop-color', (/** @type {any} */ d) => colorScale(data.indexOf(d)));
 
     svg.append('path')
       .datum(data)
@@ -100,23 +100,23 @@
       .data(data)
       .enter().append('text')
       .attr('class', 'x-label')
-      .attr('x', (d) => x(d.date))
+      .attr('x', (/** @type {{ date: any; }} */ d) => x(d.date))
       .attr('y', height + 20)
       .attr('text-anchor', 'middle')
       .attr('fill', 'rgb(113,113,122)')
       .attr('font-size', '10px')
-      .text((d) => timeFormat("%m/%d")(d.date));
+      .text((/** @type {{ date: any; }} */ d) => timeFormat("%m/%d")(d.date));
 
     svg.selectAll('.y-label')
       .data(y.ticks(yTickCount))
       .enter().append('text')
       .attr('class', 'y-label')
       .attr('x', -10)
-      .attr('y', (d) => y(d))
+      .attr('y', (/** @type {any} */ d) => y(d))
       .attr('text-anchor', 'end')
       .attr('fill', 'rgb(113,113,122)')
       .attr('font-size', '10px')
-      .text((d) => d);
+      .text((/** @type {any} */ d) => d);
   }
 </script>
 

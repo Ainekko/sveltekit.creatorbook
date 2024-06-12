@@ -6,40 +6,68 @@
   import RadarChart from '$lib/components/RadarChart.svelte';
   import AreaChart from '$lib/components/AreaChart.svelte';
 
+  import { marked } from 'marked';
+
+
+  // Svelte stores to manage state
   let idea = writable({ title: '' });
   let ideaMetrics = writable(null);
 
+  // Derived store to get UUID from the URL
   const uuid = derived(page, $page => $page.params.uuid);
 
+  // Function to fetch idea from the server
   async function fetchIdea(uuid: string) {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://127.0.0.1:8000/ideas/${uuid}/`, {
-          headers: {
-              'Authorization': `Token ${token}`
-          }
-      });
-
-      if (response.ok) {
-          const data = await response.json();
-          idea.set(data);
-          ideaMetrics.set(data.metrics || null);
-      } else {
-          console.error('Failed to fetch idea');
-          ideaMetrics.set(null);
+    const token = localStorage.getItem('token');
+    const response = await fetch(`http://127.0.0.1:8000/ideas/${uuid}/`, {
+      headers: {
+        'Authorization': `Token ${token}`
       }
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      idea.set(data);
+      ideaMetrics.set(data.metrics || null);
+      // Cache the idea data
+      localStorage.setItem(`idea-${uuid}`, JSON.stringify(data));
+    } else {
+      console.error('Failed to fetch idea');
+      ideaMetrics.set(null);
+    }
   }
 
-  $: $uuid, fetchIdea($uuid);
+  // Function to load idea (from cache or fetch from server)
+  function loadIdea(uuid: string) {
+    // Check if the idea is already cached
+    const cachedIdea = localStorage.getItem(`idea-${uuid}`);
+    if (cachedIdea) {
+      // Parse and set the cached idea data
+      const data = JSON.parse(cachedIdea);
+      idea.set(data);
+      ideaMetrics.set(data.metrics || null);
+      console.log('Loaded idea from cache');
+    } else {
+      // Fetch from server if not cached
+      fetchIdea(uuid);
+    }
+  }
 
+  // Watch for changes in the derived UUID and load idea
+  $: $uuid, loadIdea($uuid);
+
+  // Initial fetch/load when the component mounts
   onMount(() => {
-      fetchIdea(get(uuid));
+    loadIdea(get(uuid));
   });
 
+  // Monitor the availability of data
   let dataAvailable = false;
   ideaMetrics.subscribe(value => {
     dataAvailable = !!value;
   });
 
+  // Default metrics and placeholder data for testing or in case of null
   const defaultMetrics = [
     { axis: "Pre-Orders", value: 120 },
     { axis: "Emails Collected", value: 80 },
@@ -64,12 +92,12 @@
 
 <div class="min-h-screen min-w-">
   <div class="min-h-screen flex flex-col-reverse justify-center items-center">
-    <div class="px-5 py-2 pb-10 w-[950px] border border-zinc-700 rounded-md h-auto pt- flex flex-col justify-center items-start text-zinc-300 gap-10 max-w-">
-      <h1 class="text-2xl font-bold text-violet-200 border border-transparent border-r-zinc-600 pr-10">Summary</h1>
+    <div class="px-5 py-2 pb-10 w-[950px] border border-zinc-700 rounded-md h-auto flex flex-col justify-center items-start text-zinc-300 gap-10">
+      <h1 class="text-2xl font-bold text-violet-200 border-r border-zinc-600 pr-10">Summary</h1>
 
       <div class="flex flex-col gap-10">
         <p class="text-zinc-400 font-light max-w-[500px]">
-         {$idea.description}
+          {@html marked($idea.description)}
         </p>
 
         <button class="third-text-element border w-52 h-10 md:h-20 border-zinc-900 rounded-full p-4 text-sm flex flex-row justify-evenly items-center shadow- shadow-2xl shadow-yellow-200/20 bg-yellow- hover:bg-slate-300 hover:text-black z-50">
@@ -80,13 +108,13 @@
     </div>
 
     <aside class="pr-10">
-      <div class="min- w-auto flex flex-col gap-5 justify-start items-c bg-whit ">
+      <div class="flex flex-col gap-5 justify-start items-center">
         <div class="stats shadow">
           <div class="stat">
             <div class="stat-figure text-primary">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
             </div>
-            <div class="stat-title">Total Likes</div>
+            <div class="stat-title">Total Sign ups</div>
             <div class="stat-value text-primary text-zinc-200">_</div>
             <div class="stat-desc">_% more than last month</div>
           </div>

@@ -1,6 +1,6 @@
 // retrieve user data
 import { goto } from '$app/navigation';
-export async function checkAndDeleteToken(token) {
+export async function checkAndDeleteToken(token : string) {
     
     // const token = localStorage.getItem('token');
     console.log(token)
@@ -21,7 +21,7 @@ export async function checkAndDeleteToken(token) {
         // Token is not valid, delete it from local storage
         console.log('not valid')
         localStorage.removeItem('token');
-        goto('/login');
+        goto('/');
 
        
 

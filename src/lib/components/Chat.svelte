@@ -82,10 +82,10 @@
       </script>
 
 
-<div class="p-3 flex flex-col grow pt-20 min-h-svh ">
+<div class="p-3 flex flex-col grow pt-20 min-h-svh bg-zinc-950 ">
           
     <div class="flex-none flex flex-row w-full justify- items-center sticky top-0 inset-x-0  ">
-      <p class="font-light text-base text-left rounded-xl   shadow shadow-xl shadow-zinc-600/40 p-2">How did we do this month?</p>
+      <!-- <p class="font-light text-base text-left rounded-xl   shadow shadow-xl shadow-zinc-600/40 p-2">How did we do this month?</p> -->
 
       <div class="flex flex-col gap-2">
         {#each $messages as message}
@@ -107,8 +107,8 @@
       
     <div class="p-3 w-full">
       <form on:submit={handleSubmit} class="flex justify-center items-center">
-        <div class="w-full md:max-w-[600px] rounded-full flex bg-zinc-950 items-center shadow-xl shadow-indigo-500/35">
-          <textarea class="w-full min-h-full px-6 py-4 bg-zinc-950 rounded-full focus:outline-none text-white" bind:value={$input} placeholder="Ask anything..." />
+        <div class="w-full md:max-w-[600px] rounded-xl flex bg-transparent items-center shadow- border border-zinc-800 shadow-indigo-500/35">
+          <input class="w-full min-h-full px-6 py-4 bg-transparent rounded-xl  border-zinc-700 focus:outline-none text-zinc-300 font-normal overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-zinc-900 hover:scrollbar-thumb-zinc-400 hover:scrollbar-track-zinc-700" bind:value={$input} placeholder="Ask anything..." />
           <button type="submit" class="right-0 m-2 min-w-6 min-h-6 px-6 py-3 text-slate-950 hover:text-slate-300 rounded-full bg-zinc-600 " disabled={!isLoggedIn}  >
             <!-- Replace with your SVG button icon -->
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="16" height="16" viewBox="0 0 16 16" stroke="red">
@@ -128,3 +128,26 @@
     </div>
     
 </div>
+
+
+<style>
+  ::-webkit-scrollbar {
+    width: 5px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    background: #464646;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #2f2f2f;
+    border-radius: 5px;
+}
+ 
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #101010;
+}
+</style>

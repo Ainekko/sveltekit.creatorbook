@@ -1,5 +1,10 @@
 import { error } from '@sveltejs/kit';
 
+
+
+import 'dotenv/config'
+
+
 /** @type {import('./$types').RequestHandler} */
 /** @type {import('@sveltejs/adapter-vercel').Config} */
 
@@ -42,7 +47,7 @@ export async function POST({ url }) {
 
   const run = await openai.beta.threads.runs.createAndPoll(thread.id, {
     assistant_id: 'asst_yd5XAIu8PKlcneBWKmc1VMAQ',
-    additional_instructions: 'Doable start up idea for a solo founder',
+    additional_instructions: 'Organize the description with subheadings and new lines using mark down. for example overview then new line when the overview is finished start a sub heading with marketing related part in a new line',
   });
 
   console.log('Run finished with status: ' + run.status);

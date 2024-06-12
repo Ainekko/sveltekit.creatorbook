@@ -1,3 +1,40 @@
+<script>
+	import { goto } from "$app/navigation";
+
+
+
+
+
+    let token = localStorage.getItem('token');
+    function logout() {
+    console.log(`fetching with ${token}`)
+    fetch('http://127.0.0.1:8000/users/logout/', {
+
+        
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}` // Replace token with actual token value
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Logged out successfully');
+            localStorage.removeItem('token');
+            console.log('token')
+            goto('/');
+
+            // Redirect the user to the login page or perform any other action
+        } else {
+            console.error('Failed to logout:', response.status);
+        }
+    })
+    .catch(error => {
+        console.error('Error during logout:', error);
+    });
+}
+</script>
+
 <a href="/dashboard" class="p-2">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
     
@@ -51,9 +88,9 @@
     <div class="flex w-full justify-end items-center gap-10 m-auto">
 
         <div>
-            <p class="font-mono text-sm">May-22-2024</p>
+            <p class="font-mono text-sm"></p>
         </div> 
-        <a class="rounded-full w-24 h-10 flex flex-row justify-center items-center  shadow- border shadow-[#ffff] bg-pink-600 bg-transparent border border-zinc-700 text-zinc-200   hover:bg-slate-300 hover:text-black" href="/signup">Log out</a>
+        <a on:click={logout} class="rounded-full w-24 h-10 flex flex-row justify-center items-center  shadow- border shadow-[#ffff] bg-pink-600 bg-transparent border border-zinc-700 text-zinc-200   hover:bg-slate-300 hover:text-black" href="/signup">Log out</a>
            
     </div>
     
