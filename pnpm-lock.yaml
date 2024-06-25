@@ -30,7 +30,7 @@ dependencies:
     specifier: ^16.4.5
     version: 16.4.5
   gsap:
-    specifier: ^3.12.2
+    specifier: ^3.12.5
     version: 3.12.5
   langchain:
     specifier: ^0.0.163

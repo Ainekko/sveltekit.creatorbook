@@ -5,6 +5,9 @@
 
 	import { gsap } from "gsap/dist/gsap";
 	import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+	import Pricing from "$lib/components/Pricing.svelte";
+	import ContactUs from "$lib/components/ContactUs.svelte";
+	import Faq from "$lib/components/Faq.svelte";
 
 
 	onMount(() => {
@@ -62,10 +65,26 @@
       });
     });
 
+	gsap.utils.toArray('.fourth-text-element').forEach((element, index) => {
+      gsap.from(element, {
+        opacity: 0,
+        y: 50,
+        duration: 0.9,
+		delay: 0.4,
+        scrollTrigger: {
+			stagger: 0.5,
+          trigger: element,
+          start: 'top bottom',
+          end: 'center center',
+          toggleActions: 'play none none reverse',
+          delay: 0.9, // Calculate delay based on the index
+        },
+      });
+    });
+
   });
 
-
-
+ 
 
 	
 	
@@ -199,7 +218,7 @@
 							</p>
 						</div>
 						<div class="w-auto pl-1 h-16 flex flex-row justify-center items-center gap-2 bg-transparent border border-transparent border-b-zinc-900 shadow-sm  rounded-br-3sxl  p-">
-							<div class="w-2 h-2 bg-[#fdc4ff] rounded-full border border-stone-900"></div>
+			x				<div class="w-2 h-2 bg-[#fdc4ff] rounded-full border border-stone-900"></div>
 							<p>
 								Validate
 							</p>
@@ -215,10 +234,10 @@
 						Building Tech Breakthroughs 
 					</h1>
 					<div class="flex flex-col md:flex-row justify-center items-center gap-4 p-4">
-						<button class="third-text-element border w-52 h-10 md:h-20 border-zinc-900 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center  shadow-  shadow-2xl shadow-yellow-200/20 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 " href="/signup">
+						<a href="/signup" class="third-text-element border w-52 h-10 md:h-20 border-zinc-900 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center  shadow-  shadow-2xl shadow-yellow-200/20 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 ">
 							<div class="w-2 h-2 bg-[#fffbbd] rounded-full bg-yellow-400 animate-pulse"></div>
-							Get Started
-						</button>
+							Get Started - It's Free!
+						</a>
 						<button class="third-text-element border w-32 h-10 md:h-20 border-zinc-700 rounded-full p-4 text-sm bg-black">
 							See Plans
 						</button>
@@ -234,21 +253,29 @@
 	</section>
 	
 
+<section class="min-h-screen bg-black flex flex-col justify-center items-center hidden">
+	<div>
+		<h1 class="text-6xl font-extralight">
+			my name is <span class="bg-gradient-to-r fourth-text-element from-violet-600 via-pink-500 to-violet-500 text-transparent bg-clip bg-clip-text text-6xl underline mb-2"> lina</span>
+		</h1>
+	</div>
+</section>
 
-
-<section class="mb bg-white text-black w-full min-h-screen pt-10 rounded-t-md ">
+<section class="mb bg-white text-black w-full min-h-scre min-h-96 py-10 rounded-t-md rounded-b-md">
 	<div class="container flex flex-col ">
+
 		<div class="flex justify-start items-center gap-2">
 			<div class="h-4 w-1 rounded-full bg-[#fdc4ff]shadow-xl shadow-indigo-950"></div>
-			<h2 class="text-xl font-normal ">
+			<h2 class="text-xl font-normal text-black">
 				Our mission
 			</h2>
 		</div>
+		
 
 		<div class="w-full h-full flex flex-col md:flex-col p-3  font-normal text-2xl md:text-4xl  mt-10">
-				<div class="flex flex-col max-w-xl mb-5">
+				<div class="flex flex-row w-full justify-between items-center mb-5">
 					
-					<p class="text-element md:mb-">
+					<p class="text-element max-w-xl md:mb-">
 					 	We help start up founders avoid wasting time, money, and effort on ideas with limited potential,
 						feel more confident about their decisions, and stay ahead of the game.
 					</p>
@@ -256,91 +283,231 @@
 						
 				   </p>
 
-				   <!-- <div class="second-text-element font-medium text-xl h-10 w-60 bg-orange-500 rounded-md flex justify-center items-center text-black p-2 shadow-lg shadow-red-500/50 mt-10">
+				   <a href="/signup" class="third-text-element flex justify-center items-center  bg-zinc-950 text-white shadow-lg shadow-indigo-500/50 w-36 h-36 border-zinc-700 rounded-full p-4 text-sm hover:shadow-indigo-200 hover:-translate-y-1  hover:bg-zinc-900  ">
+					sign up
+				   </a>
+
 				
-						<p>
-							Marketing & validation
-						</p>
-					
-					</div> -->
-				<!-- <div class="third-text-element font-medium text-xl h-10 w-40  bg-zinc-900 rounded-md  text-white flex justify-center items-center p-2 shadow-lg shadow-indigo-500/50  mt-3 -ml-5">
-					<p class="box">
-						Ai_assistants
+
+
+				</div>
+				<div class="second-text-element font-medium text-xl h-10 w-60 bg-orange-500 rounded-md flex justify-center items-center text-black p-2 shadow-lg shadow-red-500/50 mt-10">
+				
+					<p>
+						Marketing & validation
 					</p>
-				</div> -->
-
-
-				</div>
-
-
-				
-				<div class="w-full flex justify-center items-center">
-
-					<div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 text-xs text-white">
-						<!-- Box 1 -->
-						<div class="bg-violet-700 rounded-lg shadow-md p-6 custom-box md:col-span-2 relative text-element" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/_4fa7d8e7-309f-4716-b785-2479d554837a.jpeg');">
-							<div class="absolute top-0 left-0 w-2/4 h-3/4 bg-black opacity-90 blur-2xl"></div>
-							<div class="overlay">
-								<a href="#" class="mt-2">Learn More</a>
-							</div>
-							<div class="relative z-10">
-								<h2 class="text-2xl font-semibold mb-2 text-white">Find inspiration</h2>
-								<p class="text-gray-200">Never run out of ideas with our AI assistants</p>
-							</div>
-
-						</div>
-				
-						<!-- Box 2 -->
-						<div class="bg-violet-800 rounded-lg shadow-md p-10 custom-box relative second-text-element" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/background-+2.jpg');">
-							<div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-90 blur-2xl"></div>
-							<div class="overlay">
-								<a href="#" class="mt-2">Explore</a>
-							</div>
-							<div class="relative z-10">
-								<h2 class="text-2xl font-semibold mb-2">Unlimited designs</h2>
-								<p class="text-gray-200">One click get a landing page built for your next project</p>
-							</div>
-						</div>
-				
-						<!-- Box 3 -->
-						<div class="bg-violet-600 rounded-lg shadow-md p-6 custom-box relative third-text-element" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/_245c1a75-03fa-4a2a-8e7f-ddc1f12b7b90.jpeg');">
-							<div class="absolute top-0 left-0 w-3/4 h-3/4 bg-black opacity-90 blur-2xl"></div>
-							<div class="overlay">
-								<a href="#" class="mt-2">Learn more</a>
-							</div>
-							<div class="relative z-10">
-								<h2 class="text-2xl font-semibold mb-2">Marketing</h2>
-								<p class="text-gray-200">We set the marketing the right way</p>
-							</div>
-						</div>
-				
-						<!-- Box 4 -->
-					<div class="bg-violet-700 rounded-lg shadow-md p-8 custom-box col-span-1 md:col-span-2 relative third-text-element" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/_0196f90a-2393-4680-adfd-2dc919477ea.jpeg');">
-						
-						<div class="relative z-10">
-							<h2 class="text-2xl font-semibold mb-2 text-white">Interactive Constellations</h2>
-							<p class="text-gray-200 ">Arrange NFTs into personalized cosmic tapestries.</p>
-							<button class="bg-violet-900 text-white py-2 px-4 rounded-md mt-4">Get Started</button>
-						</div>
-					</div>
-
-					<a href="https://www.creatorbook.tech/signup" class="third-text-element flex justify-center items-center  bg-zinc-950 text-white shadow-lg shadow-indigo-500/50 w-36 h-36 border-zinc-700 rounded-full p-4 text-sm hover:shadow-indigo-200 hover:-translate-y-1  hover:bg-zinc-900  ">
-						sign up
-					</a>
-				
-				</div>
-
-					
-
-				</div>
 				
 			</div>
+			<div class="third-text-element font-medium text-xl h-10 w-40  bg-zinc-900 rounded-md  text-white flex justify-center items-center p-2 shadow-lg shadow-indigo-500/50  mt-3 -ml-5">
+				<p class="box">
+					Ai_assistants
+				</p>
+			</div>
+
+
+				
+				
+
+					
+
+				</div>
+				
+		
 
 		
 		
 
 	</div>
 </section>
+
+<section class="mb bg-black text-black w-full flex justify-center items-center min-h-screen pt-10 rounded-t-md font-mono font-thin hidden" >
+	<div class="container flex flex-col">
+		<h1 class="text-4xl text-purple-200 mb-5 font-thin  max-w-[600px]">
+			Generate Ideas, Validate Quickly, and <span class="bg-gradient-to-r from-violet-600 via-pink-500 to-violet-500  text-transparent bg-clip bg-clip-text">Launch with Confidence</span>
+		</h1>
+
+		<div class="w-full flex justify-center items-center">
+			<div class="w-full h-full grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 lg:grid-cols-3 gap-1 text-xs text-white">
+				
+				<!-- Box 1 -->
+				<div class="relative third-text-element bg-transparent border border-zinc-700 rounded-md min-h-full shadow-md p-6 custom-box md:col-span-1 md:row-span-3 group overflow-hidden">
+					<!-- Glowing effect div -->
+					<div class="absolute bottom-2 left-1/2 transform -translate-x-1/1 w-2/6 h-2/3 bg-purple-500 blur-[100px] opacity-60 rounded-full z-0"></div>
+					<div class="relative flex flex-col justify-between gap-10 z-10">
+						<div>
+							<h1 class="text-5xl text-purple-400">01 - </h1>
+							<h2 class="text-2xl font-semibold mb-2 text-purple-200">Find Inspiration</h2>
+							<p class="text-purple-100">Unleash endless ideas with our AI-powered tools designed to spark your creativity and push your boundaries.</p>
+						</div>
+						<img class="w-full m-auto rounded-xl mt-24 fourth-text-element" src="./src/lib/images/Genx.jpg" alt="">
+					</div>
+					<!-- Hover Overlay -->
+					<div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 transition-opacity duration-300 flex justify-center items-center group-hover:opacity-100 z-20">
+						<a href="#" class="text-white text-lg font-semibold">Learn More</a>
+					</div>
+				</div>
+		
+				<!-- Box 2 -->
+				<div class="relative third-text-element bg-transparent border border-zinc-700 rounded-lg shadow-md p-10 custom-box group overflow-hidden">
+					<!-- Glowing effect div -->
+					<div class="absolute bottom-2 left-1/2 transform -translate-x-1/1 w-2/6 h-2/3 bg-green-500 blur-[100px] opacity-60 rounded-full z-0"></div>
+					<div class="relative z-10">
+						<h1 class="text-5xl text-green-300">02 - </h1>
+						<h2 class="text-2xl font-semibold mb-2 text-green-200">Get a Landing Page</h2>
+						<p class="text-green-100">With just one click, receive a beautifully designed landing page tailored for your project within two business days.</p>
+					</div>
+					<!-- Hover Overlay -->
+					<div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 transition-opacity duration-300 flex justify-center items-center group-hover:opacity-100 z-20">
+						<a href="#" class="text-white text-lg font-semibold">Explore</a>
+					</div>
+				</div>
+		
+				<!-- Box 3 -->
+				<div class="relative third-text-element bg-transparent border border-zinc-700 rounded-lg shadow-md p-6 md:row-span-1 md:col-span-1 min-h-full custom-box group overflow-hidden">
+					<!-- Glowing effect div -->
+					<div class="absolute bottom-2 left-1/2 transform -translate-x-1/1 w-2/6 h-2/3 bg-orange-400 blur-[100px] opacity-60 rounded-full z-0"></div>
+					<div class="relative z-10">
+						<h1 class="text-5xl text-pink-300">03 - </h1>	
+						<h2 class="text-2xl font-semibold mb-2 text-pink-200">Boost Your Marketing</h2>
+						<p class="text-pink-100">Utilize our expert marketing strategies to effectively engage your target audience and grow your brand presence.</p>
+					</div>
+					<!-- Hover Overlay -->
+					<div class="absolute inset-0 bg-zinc-900 bg-opacity-70 opacity-0 transition-opacity duration-300 flex justify-center items-center group-hover:opacity-100 z-20">
+						<a href="#" class="text-white text-lg font-semibold">Learn More</a>
+					</div>
+				</div>
+		
+				<!-- Box 4 (First Instance) -->
+				<div class="relative third-text-element bg-gradien-to-br from-violet-900 to-purple-300 text-purple-200 rounded-lg shadow-md p-8 custom-box col-span-2 md:col-span-2">
+					<!-- No additional glowing effect needed here -->
+					<div class="relative z-10">
+						<h2 class="bg-gradient-to-r from-violet-600 via-pink-500 to-violet-500  text-transparent bg-clip bg-clip-text text-2xl mb-2 ">Get Started Today</h2>
+						<p class="max-w-[500px] mb-5">Join us now to start validating your ideas with our efficient and easy-to-follow 3-step process designed for quick success.</p>
+						<!-- <button class="bg-violet-900 text-white py-2 px-4 rounded-md mt-4">Get Started</button> -->
+						<a href="/signup" class="third-text-element border w-52 h-10 md:h-16 border-zinc-900 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center  shadow-  shadow-2xl shadow-yellow-200/10 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 ">
+							<div class="w-2 h-2 bg-[#fffbbd] rounded-full bg-yellow-400 animate-pulse"></div>
+							Get Started
+						</a>
+					</div>
+				</div>
+		
+				<!-- Box 4 (Second Instance) -->
+				<!-- <div class="relative bg-transparent border border-zinc-700 rounded-lg shadow-md p-8 custom-box col-span-1 md:col-span-3 group overflow-hidden">
+					<div class="absolute bottom-2 left-1/2 transform -translate-x-1/1 w-2/6 h-2/3 bg-blue-500 blur-[100px] opacity-60 rounded-full z-0"></div>
+					<div class="relative z-10">
+						<h2 class="text-2xl font-semibold mb-2 text-blue-200">Interactive Constellations</h2>
+						<p class="text-blue-100">Arrange NFTs into personalized cosmic tapestries.</p>
+						<button class="bg-blue-900 text-white py-2 px-4 rounded-md mt-4">Get Started</button>
+					</div>
+					<div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 transition-opacity duration-300 flex justify-center items-center group-hover:opacity-100 z-20">
+						<a href="#" class="text-white text-lg font-semibold">Learn More</a>
+					</div>
+				</div> -->
+		
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+<section class="h-auto w-screen flex flex-col  justify-center items-start px-10 pt-32 pt-10 rounded-lg ">
+	<h1 class="text-4xl third-text-element text-purple-200 mb-10 font-thin  max-w-[600px]">
+		Generate Ideas, Validate Quickly, and <span class="bg-gradient-to-r from-violet-600 via-pink-500 to-violet-500 fourth-text-element text-transparent bg-clip bg-clip-text">Launch with Confidence</span>
+	</h1>
+	<div class=" grid grid-cols-3 grid-rows-2 gap-3 min-h-[700px] max-w-[]">
+
+		<div class="relative  col-span-2 row-span-2  third-text-element bg-transparent border border-zinc-700 rounded-md md:min-h-[700px] shadow-md p-6 custom-box  group overflow-hidden">
+			<!-- Glowing effect div -->
+			<div class="absolute bottom-2 left-1/2 transform -translate-x-1/1 w-2/6 h-2/3 bg-purple-500 blur-[100px] opacity-60 rounded-full z-0"></div>
+			<div class="relative flex flex-col justify-between gap-10 z-10">
+				<div>
+					<h1 class="text-5xl text-purple-400">01 - </h1>
+					<h2 class="text-2xl font-semibold mb-2 text-purple-200">Find Inspiration</h2>
+					<p class="text-purple-100">Unleash endless ideas with our AI-powered tools designed to spark your creativity and push your boundaries.</p>
+				</div>
+				<img class="w-full  m-auto rounded-xl mt-5 fourth-text-element" src="./src/lib/images/Genx.jpg" alt="">
+			</div>
+			
+		</div>
+
+
+		<div class="relative min-h-full third-text-element bg-transparent border border-zinc-700 rounded-lg shadow-md p-10 custom-box group overflow-hidden" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/background-+2.jpg'); background-size:cover; background-position:right md:background-position: center;" >
+			<!-- Glowing effect div -->
+			<div class="absolute bottom-2 left-1/5 transform -translate-x-1/2 w-2/6 h-2/3 bg-green-500 blur-[100px] opacity-20 rounded-full z-0"></div>
+			<div class="relative  z-10">
+				<h1 class="text-5xl text-green-300">02 - </h1>
+				<h2 class="text-2xl font-semibold mb-2 text-green-200">Get a Landing Page</h2>
+				<p class="text-green-100">With just one click, receive a beautifully designed landing page tailored for your project within two business days.</p>
+			</div>
+			
+		</div>
+
+		<div class="relative third-text-element bg-transparent border border-zinc-700 rounded-lg shadow-md p-6 md:row-span-1 md:col-span-1 min-h-full custom-box group overflow-hidden">
+			<!-- Glowing effect div -->
+			<div class="absolute bottom-2 left-1/2 transform -translate-x-1/1 w-2/6 h-2/3 bg-orange-400 blur-[100px] opacity-60 rounded-full z-0"></div>
+			<div class="relative z-10">
+				<h1 class="text-5xl text-pink-300">03 - </h1>	
+				<h2 class="text-2xl font-semibold mb-2 text-pink-200">Reach Your Audience</h2>
+				<p class="text-pink-100">Utilize our expert marketing strategies to effectively engage your target audience and grow your brand presence.</p>
+			</div>
+
+			
+			
+		</div>
+
+		<div class="relative third-text-element bg-transparent border border-zinc-700 rounded-lg shadow-md p-6 md:row-span- md:col-span-3 md:min-h-[700px] custom-box group overflow-hidden">
+			<!-- Glowing effect div -->
+			<div class="absolute bottom-2 left-1/2 transform -translate-x-1/1 w-2/6 h-2/3 bg-orange-400 blur-[100px] opacity-60 rounded-full z-0"></div>
+			<div class="relative z-10">
+				<h1 class="text-5xl text-pink-300">03 - </h1>	
+				<h2 class="text-2xl font-semibold mb-2 text-pink-200">Data and Analytics</h2>
+				<p class="text-pink-100">Track your project's data and progress.</p>
+			</div>
+
+			
+			
+		</div>
+		
+
+		
+
+	</div>
+
+	<div class=" pb-56 third-text-element bg-gradien-to-br from-violet-900 to-purple-300 text-purple-200 rounded-lg shadow-md p-8 custom-box col-span-2 md:col-span-2">
+		<!-- No additional glowing effect needed here -->
+		<div class="relative z-10">
+			<h2 class="bg-gradient-to-r from-violet-600 via-pink-500 to-violet-500  text-transparent bg-clip bg-clip-text text-2xl mb-2 ">Get Started Today</h2>
+			<p class="max-w-[500px] mb-5">Join us now to start validating your ideas with our efficient and easy-to-follow 3-step process designed for quick success.</p>
+			<!-- <button class="bg-violet-900 text-white py-2 px-4 rounded-md mt-4">Get Started</button> -->
+			<a href="/signup" class="third-text-element border w-52 h-10 md:h-16 border-zinc-900 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center  shadow-  shadow-2xl shadow-yellow-200/10 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 ">
+				<div class="w-2 h-2 bg-[#fffbbd] rounded-full bg-yellow-400 animate-pulse"></div>
+				Get Started
+			</a>
+		</div>
+	</div>
+
+
+</section>  
+  
+  
+  
+<section class="pricing min-h-screen  flex flex-col justify-center items-center">
+	<Pricing />
+</section>
+
+<section class="contactus  min-h-screen  flex flex-col justify-center items-center">
+    <ContactUs /> 
+</section>
+
+<section class="contactus  min-h-screen  flex flex-col justify-center items-center">
+    <Faq />
+</section>
+
+
+  
+  
+
 
 <div class="w-screen h-72 md:h-96 flex justify-center items-center text-xl md:text-5xl font-mono text-zinc-700 p-5">
     <h1 class="text-element">
@@ -646,6 +813,8 @@
 
 	
 </main>
+
+
   
   
   

@@ -5,23 +5,20 @@
   import { wipIdeasStore } from '$lib/stores';
   import { marked } from 'marked';
 
-  // Store to track if an idea has been generated
+  // Stores to manage state
   let ideaGenerated = writable(false);
+  let isLoading = writable(false);
+  let alertState = writable({ show: false, message: '', type: 'success' });
 
-  // Store for the startup idea details
   let startupIdea = writable({
     title: '',
     category: '',
     description: '',
-    uuid: '' // Generate UUID when initializing the idea
+    uuid: ''
   });
 
-  // Store to track the loading state
-  let isLoading = writable(false);
-
-  // Function to generate a new startup idea
   async function generateIdea() {
-    isLoading.set(true); // Set loading to true when function starts
+    isLoading.set(true);
     try {
       const response = await fetch('/generate', {
         method: 'POST',
@@ -31,90 +28,111 @@
       });
       if (response.ok) {
         const newIdea = await response.json();
-        newIdea.uuid = uuidv4(); // Assign a UUID to the new idea
+        newIdea.uuid = uuidv4();
         console.log(newIdea);
         startupIdea.set(newIdea);
-        ideaGenerated.set(true); // Update state to indicate idea has been generated
+        ideaGenerated.set(true);
       } else {
         console.error('Failed to fetch idea');
-        alert('Failed to fetch idea');
+        showAlert('Failed to fetch idea', 'error');
       }
     } catch (error) {
       console.error('Error generating idea:', error);
+      showAlert('Error generating idea', 'error');
     } finally {
-      isLoading.set(false); // Set loading to false when function completes
+      isLoading.set(false);
     }
   }
 
   const token = localStorage.getItem('token');
 
-  // Function to load existing ideas
   async function loadIdeas() {
     try {
       const ideas = await fetchWIPIdeas(token);
       wipIdeasStore.set(ideas);
     } catch (error) {
       console.error('Failed to load ideas:', error);
+      showAlert('Failed to load ideas', 'error');
     }
   }
 
-  // Function to handle submission of a work-in-progress idea
   function handleWIPIdea() {
     const idea = get(startupIdea);
     submitWIPIdea(token, idea)
       .then(() => {
         console.log('WIP idea submitted successfully');
-        alert('WIP idea submitted successfully');
+        showAlert('WIP idea submitted successfully', 'success');
         loadIdeas();
       })
       .catch(error => {
         console.error('Failed to submit WIP idea', error);
-        alert('Failed to submit WIP idea');
+        showAlert('Failed to submit WIP idea', 'error');
       });
   }
 
-  // Function to handle submission of a favorite idea
   function handleFavedIdea() {
     const idea = get(startupIdea);
     submitFavedIdea(token, idea)
       .then(() => {
         console.log('Faved idea submitted successfully');
-        alert('Faved idea submitted successfully');
+        showAlert('Faved idea submitted successfully', 'success');
       })
       .catch(error => {
         console.error('Failed to submit Faved idea', error);
-        alert('Failed to submit Faved idea');
+        showAlert('Failed to submit Faved idea', 'error');
       });
+  }
+
+  // Function to show the alert
+  function showAlert(message :string, type : any) {
+    alertState.set({ show: true, message, type });
+    // Hide the alert after 3 seconds
+    setTimeout(() => {
+      alertState.set({ show: false, message: '', type: 'success' });
+    }, 3000);
   }
 </script>
 
 <style>
-  /* Optional: Additional styling for better visuals */
-  .loading-text {
-    @apply text-xl rounded-full font-normal text-zinc-500;
+  .alert {
+    @apply fixed top-4 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded shadow-md;
+  }
+  .alert-success {
+    @apply bg-green-500 text-white;
+  }
+  .alert-error {
+    @apply bg-red-500 text-white;
   }
 </style>
 
+<!-- Main UI -->
 <div class="min-h-screen w-full flex flex-col justify-center items-center gap-5 text-white p-10 bg-zinc-950 rounded-md">
+  <!-- Conditionally render the alert -->
+  {#if $alertState.show}
+    <div class={`alert ${$alertState.type === 'success' ? 'alert-success' : 'alert-error'}`}>
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>{$alertState.message}</span>
+    </div>
+  {/if}
+
   <div class="w-full h-full flex flex-row justify-between items-start"> 
     <div>
       <h1 class="text-2xl text-white font-medium border border-transparent border-b-zinc-600 rounded-full pb-2">
-        <!-- Conditionally show the title if idea is generated -->
         {#if $ideaGenerated}
           {$startupIdea.title}
         {/if}
       </h1>
       <div class="max-w-[700px] text-zinc-400 pt-3">
         <p>
-          
-          <!-- Conditionally show the description or loading message -->
           {#if $ideaGenerated}
             {@html marked($startupIdea.description)}
           {:else}
             <div class="flex justify-center items-center gap-2 mt-20">
               <span class="loading loading-ring loading-md"></span> 
               {#if !$isLoading}
-                <span class="loading-text">Click <span class=" ">Generate</span>  to Start</span>
+                <span class="loading-text">Click <span>Generate</span> to Start</span>
               {/if}
             </div>
           {/if}
@@ -123,16 +141,15 @@
     </div>
     <div class="flex flex-row justify-center items-center gap-2">
       <div class="h-1 w-1 bg-pink-400 p-1 rounded-full shadow shadow-md shadow-pink-600 text-zinc-500"></div>
-      <!-- Conditionally show the category if idea is generated -->
       {#if $ideaGenerated}
         <h2 class="text-zinc-500">{$startupIdea.category}</h2>
       {/if}
     </div>
   </div>
 
-  <div class="h-auto w-full flex flex-col justify-between rounded-md p-5 bg- text-white">
+  <div class="h-auto w-full flex flex-col justify-between rounded-md p-5 text-white">
     <div>
-      <div class="p-3 flex flex-col grow pt-">
+      <div class="p-3 flex flex-col grow">
         <div class="p-3 w-full text-white flex flex-row-reverse justify-center">
           <button on:click={handleWIPIdea} class="btn bg-transparent border border-zinc-700 ml-5 shadow-xl shadow-black/40 rounded-full">
             Build a landing page                    
@@ -144,7 +161,6 @@
             Save for later
           </button>
           <button on:click={generateIdea} class="btn bg-yellow-400 text-black border-transparent ml-5 shadow-xl shadow-black/40 rounded-full">
-            <!-- Conditionally show the loading spinner based on isLoading state -->
             {#if $isLoading}
               <span class="loading loading-ring loading-md"></span>
             {/if}
