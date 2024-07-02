@@ -32,9 +32,14 @@ export async function POST({ request }) {
         logo: true,
       },
       checkoutData: {
+        "custom": {
+
+          user_id: userID,
+
+        },
         email: userEmail,
-        name: userName,
-        user_id: userID,
+        // name: userName,
+       
       },
       expiresAt: null,
       preview: false,
