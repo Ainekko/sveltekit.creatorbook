@@ -5,7 +5,7 @@ import { createCheckout, lemonSqueezySetup } from '@lemonsqueezy/lemonsqueezy.js
 
 import 'dotenv/config'
 
-//node20
+//node20x
 
 // Configure the SDK with your API key
 lemonSqueezySetup({
