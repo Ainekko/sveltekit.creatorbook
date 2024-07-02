@@ -1,5 +1,5 @@
 <script>
-    import {get_user} from '$lib/check'
+  import {get_user} from '$lib/check'
 	import { onMount } from 'svelte';
 
 

@@ -1,7 +1,35 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import {get_user} from '$lib/check'
+	import { onMount } from 'svelte';
     let plan = 'free'; // default to free plan
+
+
+let user_email = ''; 
+let user_name = '';
+let user_id = 4;   
+
+
+    onMount(async () => {
+    const user_data = await get_user();
+
+    if (user_data) {
+      // Use the user data as needed, e.g., set it in component state
+      user_name = user_data.username;
+      user_id = user_data.user_id;
+      user_email = user_data.email;
+
+
+      console.log(user_email);
+      console.log(user_id);
+      console.log(user_email);
+      
+      // Add other user data fields as needed
+    } else {
+      // Handle the case when user data cannot be fetched
+    }
+  });
+
   
     function selectPlan(selectedPlan: string) {
         plan = selectedPlan;
@@ -12,13 +40,41 @@
         if (plan === 'free') {
             goto('/dashboard');
         } else {
-           async function to_start_the_checkout(){
-            let userData = await get_user(); // Get the user. it uses the knox token to authenticate and retrieves the user
+        //    async function to_start_the_checkout(){
+        //     let userData = await get_user(); // Get the user. it uses the knox token to authenticate and retrieves the user
 
-            // inside the userData i will have the userid, email and username returned from django.
-            // i need now a function to return and redirect to the checkout URL
-           }
+        //     // inside the userData i will have the userid, email and username returned from django.
+        //     // i need now a function to return and redirect to the checkout URL
+        //    }
+
+        handlePaidPlan();
         }
+    }
+
+    async function handlePaidPlan() {
+      try {
+        // Make a POST request to your backend to create a checkout
+        const response = await fetch('/plans/checkout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ userEmail: user_email,  userID: user_id })
+        });
+  
+        if (response.ok) {
+          const { url } = await response.json();
+          console.log('Received checkout URL:', url);
+  
+          // Redirect to the checkout URL
+          window.location.href = url;
+        } else {
+          const error = await response.json();
+          console.error('Error:', error);
+        }
+      } catch (error) {
+        console.error('Exception while creating checkout:', error);
+      }
     }
 </script>
 
