@@ -5,12 +5,10 @@
   import { get } from 'svelte/store';
   import RadarChart from '$lib/components/RadarChart.svelte';
   import AreaChart from '$lib/components/AreaChart.svelte';
-
   import { marked } from 'marked';
 
-
   // Svelte stores to manage state
-  let idea = writable({ title: '' });
+  let idea = writable({ title: '', description: '' });
   let ideaMetrics = writable(null);
 
   // Derived store to get UUID from the URL
@@ -97,7 +95,7 @@
 
       <div class="flex flex-col gap-10">
         <p class="text-zinc-400 font-light max-w-[500px]">
-          {@html marked($idea.description)}
+          {@html marked($idea.description || '')}
         </p>
 
         <button class="third-text-element border w-52 h-10 md:h-20 border-zinc-900 rounded-full p-4 text-sm flex flex-row justify-evenly items-center shadow- shadow-2xl shadow-yellow-200/20 bg-yellow- hover:bg-slate-300 hover:text-black z-50">
