@@ -46,7 +46,7 @@ onMount(async () => {
 
 
       console.log(user_email);
-      
+      console.log(subscription_status)
       // Add other user data fields as needed
     } else {
       // Handle the case when user data cannot be fetched
