@@ -1,15 +1,18 @@
 
 <script>
 import {get_user} from '$lib/check'
-	import AreaChart from '$lib/components/AreaChart.svelte';
-	import PolarChart from '$lib/components/PolarChart.svelte';
-	import RadarChart from '$lib/components/RadarChart.svelte';
+import AreaChart from '$lib/components/AreaChart.svelte';
+import PolarChart from '$lib/components/PolarChart.svelte';
+import RadarChart from '$lib/components/RadarChart.svelte';
 import { onMount } from 'svelte';
-	import { writable } from 'svelte/store';
+import { writable } from 'svelte/store';
+
+import {userStore} from '$lib/stores'
 
 let username = '' ;
 let user_id = 0;
 let user_email = '';
+let subscription_status = '';
 
 let ideaMetrics = writable(null);
 
@@ -34,9 +37,12 @@ onMount(async () => {
 
     if (user_data) {
       // Use the user data as needed, e.g., set it in component state
-      username = user_data.username;
-      user_id = user_data.user_id;
-      user_email = user_data.email;
+      userStore.set({
+                username: user_data.username,
+                user_id: user_data.user_id,
+                user_email: user_data.email,
+                subscription_status: user_data.subscription_status
+            });
 
 
       console.log(user_email);
