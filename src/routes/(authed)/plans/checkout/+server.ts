@@ -40,7 +40,7 @@ export async function POST({ request }) {
         email: userEmail,
         custom: {
 
-          // user_id: userID
+          "user_id": userID
 
         }
         // name: userName,
