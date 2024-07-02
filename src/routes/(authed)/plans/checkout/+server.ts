@@ -32,11 +32,11 @@ export async function POST({ request }) {
         logo: true,
       },
       checkoutData: {
-        custom: {
+        // custom: {
 
-          user_id: userID,
+        //   user_id: userID,
 
-        },
+        // },
         email: userEmail,
         // name: userName,
        
