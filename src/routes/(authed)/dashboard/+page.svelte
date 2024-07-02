@@ -9,6 +9,7 @@ import { onMount } from 'svelte';
 
 let username = '' ;
 let user_id = 0;
+let user_email = '';
 
 let ideaMetrics = writable(null);
 
@@ -34,7 +35,11 @@ onMount(async () => {
     if (user_data) {
       // Use the user data as needed, e.g., set it in component state
       username = user_data.username;
-      user_id = user_data.user_id
+      user_id = user_data.user_id;
+      user_email = user_data.email;
+
+
+      console.log(user_email);
       
       // Add other user data fields as needed
     } else {

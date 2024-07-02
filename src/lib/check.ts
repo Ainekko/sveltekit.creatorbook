@@ -10,7 +10,7 @@ export async function checkAndDeleteToken(token : string) {
       // Token exists, send a request to your Django endpoint to check its validity
 
       console.log('Token exists, Running check')
-      const response = await fetch('http://127.0.0.1:8000/users/check/', {
+      const response = await fetch('https://api.creatorbook.tech/users/check/', {
         method: 'GET',
         headers: {
           'Authorization': `Token ${token}`,
@@ -73,7 +73,7 @@ export async function get_user() {
   try {
     const token = localStorage.getItem('token');
     if (token) {
-      const response = await fetch('http://127.0.0.1:8000/users/get_user/', {
+      const response = await fetch('https://api.creatorbook.tech/users/get_user/', {
         method: 'GET',
         headers: {
           'Authorization': `Token ${token}`,

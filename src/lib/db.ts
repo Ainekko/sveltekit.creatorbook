@@ -8,7 +8,7 @@ export async function submitWIPIdea(token: string | null, idea: any) {
 
     show()
     
-    const response = await fetch('http://127.0.0.1:8000/ideas/submit-wip-idea/', {
+    const response = await fetch('https://api.creatorbook.tech/ideas/submit-wip-idea/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export async function submitWIPIdea(token: string | null, idea: any) {
 }
 
 export async function submitFavedIdea(token: string | null, idea: any) {
-    const response = await fetch('http://127.0.0.1:8000/ideas/submit-faved-idea/', {
+    const response = await fetch('https://api.creatorbook.tech/ideas/submit-faved-idea/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export async function submitFavedIdea(token: string | null, idea: any) {
 
 
 export async function fetchWIPIdeas(token: string | null) {
-    const response = await fetch('http://127.0.0.1:8000/ideas/wip-ideas/', {
+    const response = await fetch('https://api.creatorbook.tech/ideas/wip-ideas/', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
