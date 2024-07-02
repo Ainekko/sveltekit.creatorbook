@@ -46,6 +46,9 @@ export async function POST({ request }) {
       testMode: true,
     };
 
+
+    console.log('New Checkout Object:', newCheckout);
+
     // Creating the checkout session
     const { statusCode, error, data } = await createCheckout(storeId, variantId, newCheckout);
 
