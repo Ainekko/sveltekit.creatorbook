@@ -8,7 +8,7 @@
     let token = localStorage.getItem('token');
     function logout() {
     console.log(`fetching with ${token}`)
-    fetch('http://127.0.0.1:8000/users/logout/', {
+    fetch('https://api.creatorbook.tech/users/logout/', {
 
         
         method: 'POST',
