@@ -12,8 +12,8 @@ onMount(async () => {
 
     if (user_data) {
       // Use the user data as needed, e.g., set it in component state
-      const username = user_data.username;
-      const user_id = user_data.user_id;
+      user_name = user_data.username;
+      user_id = user_data.user_id;
       user_email = user_data.email;
 
 

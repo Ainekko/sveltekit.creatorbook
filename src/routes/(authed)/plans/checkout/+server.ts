@@ -34,7 +34,7 @@ export async function POST({ request }) {
       checkoutData: {
         email: userEmail,
         name: userName,
-        // user_id: userID,
+        user_id: userID,
       },
       expiresAt: null,
       preview: false,
