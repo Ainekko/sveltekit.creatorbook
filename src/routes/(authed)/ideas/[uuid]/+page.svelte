@@ -8,7 +8,7 @@
   import { marked } from 'marked';
 
   // Svelte stores to manage state
-  let idea = writable({ title: '' });
+  let idea = writable({ title: '', description: '' });
   let ideaMetrics = writable(null);
 
   // Derived store to get UUID from the URL

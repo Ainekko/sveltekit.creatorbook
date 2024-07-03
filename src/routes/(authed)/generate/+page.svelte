@@ -17,24 +17,32 @@
     uuid: ''
   });
 
-  async function fetchResult(taskId) {
+  // Function to fetch results from a task
+  async function fetchResult(taskId: string) {
     let result;
     while (!result) {
-      const response = await fetch(`/generate/?taskId=${taskId}`);
-      const data = await response.json();
-      if (data.status === 'completed') {
-        result = data.result;
-      } else if (data.status === 'failed' || data.status === 'error') {
-        console.error('Task failed or encountered an error:', data.result);
-        showAlert('Task failed or encountered an error', 'error');
+      try {
+        const response = await fetch(`/generate/?taskId=${taskId}`);
+        const data = await response.json();
+        if (data.status === 'completed') {
+          result = data.result;
+        } else if (data.status === 'failed' || data.status === 'error') {
+          console.error('Task failed or encountered an error:', data.result);
+          showAlert('Task failed or encountered an error', 'error');
+          break;
+        } else {
+          await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for 2 seconds before polling again
+        }
+      } catch (error) {
+        console.error('Error while fetching result:', error);
+        showAlert('Error while fetching result', 'error');
         break;
-      } else {
-        await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for 2 seconds before polling again
       }
     }
     return result;
   }
 
+  // Function to generate a new startup idea
   async function generateIdea() {
     isLoading.set(true);
     try {
@@ -68,6 +76,7 @@
 
   const token = localStorage.getItem('token');
 
+  // Function to load WIP ideas
   async function loadIdeas() {
     try {
       const ideas = await fetchWIPIdeas(token);
@@ -78,6 +87,7 @@
     }
   }
 
+  // Function to handle submission of a WIP idea
   function handleWIPIdea() {
     const idea = get(startupIdea);
     submitWIPIdea(token, idea)
@@ -92,6 +102,7 @@
       });
   }
 
+  // Function to handle submission of a faved idea
   function handleFavedIdea() {
     const idea = get(startupIdea);
     submitFavedIdea(token, idea)
@@ -105,8 +116,8 @@
       });
   }
 
-  // Function to show the alert
-  function showAlert(message: string, type: any) {
+  // Function to show alerts
+  function showAlert(message: string, type: string) {
     alertState.set({ show: true, message, type });
     // Hide the alert after 3 seconds
     setTimeout(() => {
@@ -114,7 +125,6 @@
     }, 3000);
   }
 </script>
-
 
 <style>
   .alert {
@@ -149,8 +159,9 @@
       </h1>
       <div class="max-w-[700px] text-zinc-400 pt-3">
         <p>
-          {#if $ideaGenerated}
-            {@html marked($startupIdea.description)}
+          {#if $ideaGenerated && $startupIdea.description}
+            <!-- Safeguard the marked conversion with a check -->
+            {@html marked($startupIdea.description || '')}
           {:else}
             <div class="flex justify-center items-center gap-2 mt-20">
               <span class="loading loading-ring loading-md"></span> 
