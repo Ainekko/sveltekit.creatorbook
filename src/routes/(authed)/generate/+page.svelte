@@ -17,6 +17,24 @@
     uuid: ''
   });
 
+  async function fetchResult(taskId) {
+    let result;
+    while (!result) {
+      const response = await fetch(`/generate/?taskId=${taskId}`);
+      const data = await response.json();
+      if (data.status === 'completed') {
+        result = data.result;
+      } else if (data.status === 'failed' || data.status === 'error') {
+        console.error('Task failed or encountered an error:', data.result);
+        showAlert('Task failed or encountered an error', 'error');
+        break;
+      } else {
+        await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for 2 seconds before polling again
+      }
+    }
+    return result;
+  }
+
   async function generateIdea() {
     isLoading.set(true);
     try {
@@ -27,14 +45,18 @@
         }
       });
       if (response.ok) {
-        const newIdea = await response.json();
-        newIdea.uuid = uuidv4();
-        console.log(newIdea);
-        startupIdea.set(newIdea);
-        ideaGenerated.set(true);
+        const data = await response.json();
+        const taskId = data.taskId;
+        const newIdea = await fetchResult(taskId);
+        if (newIdea) {
+          newIdea.uuid = uuidv4();
+          console.log(newIdea);
+          startupIdea.set(newIdea);
+          ideaGenerated.set(true);
+        }
       } else {
-        console.error('Failed to fetch idea');
-        showAlert('Failed to fetch idea', 'error');
+        console.error('Failed to start idea generation');
+        showAlert('Failed to start idea generation', 'error');
       }
     } catch (error) {
       console.error('Error generating idea:', error);
@@ -84,7 +106,7 @@
   }
 
   // Function to show the alert
-  function showAlert(message :string, type : any) {
+  function showAlert(message: string, type: any) {
     alertState.set({ show: true, message, type });
     // Hide the alert after 3 seconds
     setTimeout(() => {
@@ -92,6 +114,7 @@
     }, 3000);
   }
 </script>
+
 
 <style>
   .alert {

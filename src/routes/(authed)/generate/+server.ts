@@ -1,85 +1,84 @@
+import { v4 as uuidv4 } from 'uuid';
 import { error } from '@sveltejs/kit';
-
-
-
-import 'dotenv/config'
-
-
-/** @type {import('./$types').RequestHandler} */
-/** @type {import('@sveltejs/adapter-vercel').Config} */
-
+import 'dotenv/config';
 import OpenAI from 'openai';
 
-/**
- * Example of streaming a response from an assistant
- */
-
+// Initialize OpenAI client
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY ||'',
-  organization:'org-h7LXws3paWquocr1Ln69i9m0',
+  apiKey: process.env.OPENAI_API_KEY || '',
+  organization: 'org-h7LXws3paWquocr1Ln69i9m0',
   project: "proj_mlf8kbytfNAkxssW3Zeki45y",
 });
 
-/** @type {import('./$types').RequestHandler} */
-export async function POST({ url }) {
+// In-memory storage for task results
+const tasks: { [key: string]: { status: string; result: any } } = {};
 
-  // const assistant = await openai.beta.assistants.create({
-  //   model: 'gpt-4-1106-preview',
-  //   name: 'Math Tutor',
-  //   instructions: '',
-  //   // tools = [],
-  // });
-
-  const assistantId = process.env.OPENAI_GNE ||'';
-  console.log('Created Assistant with Id: ' + assistantId);
-
-  const thread = await openai.beta.threads.create({
-    messages: [
-      {
-        role: 'user',
-        content: 'I want a unique start up idea that is doable to create and market as a solo founder',
-      },
-    ],
-  });
-
-  let threadId = thread.id;
-  console.log('Created thread with Id: ' + threadId);
-
-  const run = await openai.beta.threads.runs.createAndPoll(thread.id, {
-    assistant_id: 'asst_yd5XAIu8PKlcneBWKmc1VMAQ',
-    additional_instructions: 'Organize the description with subheadings and new lines using mark down. for example overview then new line when the overview is finished start a sub heading with marketing related part in a new line',
-  });
-
-  console.log('Run finished with status: ' + run.status);
-
-  let msg;
-  if (run.status == 'completed') {
-    const messages = await openai.beta.threads.messages.list(thread.id);
-    for (const message of messages.getPaginatedItems()) 
-
-    if (message.role === 'assistant') {
-      // Assuming each message.content is an array and we want the text from the first content item
-      msg = JSON.parse(message.content[0].text.value + '\n'); // Concatenate each assistant message with a newline
-    }
-    
-  }
-  console.log(msg.title)
-
-
-  if (msg) {
-    return new Response(JSON.stringify(msg), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+// Task processing function
+async function processTask(taskId: string, input: string) {
+  try {
+    const thread = await openai.beta.threads.create({
+      messages: [
+        {
+          role: 'user',
+          content: input,
+        },
+      ],
     });
-  } else {
-    return new Response(JSON.stringify({ error: 'No message received from the assistant.' }), {
+
+    const threadId = thread.id;
+
+    const run = await openai.beta.threads.runs.createAndPoll(threadId, {
+      assistant_id: 'asst_yd5XAIu8PKlcneBWKmc1VMAQ',
+      additional_instructions: 'Organize the description with subheadings and new lines using markdown.',
+    });
+
+    if (run.status === 'completed') {
+      const messages = await openai.beta.threads.messages.list(threadId);
+      let msg;
+      for (const message of messages.getPaginatedItems()) {
+        if (message.role === 'assistant') {
+          msg = JSON.parse(message.content[0].text.value + '\n');
+        }
+      }
+      tasks[taskId] = { status: 'completed', result: msg };
+    } else {
+      tasks[taskId] = { status: 'failed', result: null };
+    }
+  } catch (error) {
+    tasks[taskId] = { status: 'error', result: error.message };
+  }
+}
+
+export async function POST({ url }) {
+  const input = 'I want a unique start up idea that is doable to create and market as a solo founder'; // Customize this input as needed
+  const taskId = uuidv4();
+  tasks[taskId] = { status: 'processing', result: null };
+  
+  processTask(taskId, input);
+
+  return new Response(JSON.stringify({ taskId }), {
+    status: 202,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+export async function GET({ url }) {
+  const taskId = url.searchParams.get('taskId');
+  if (!taskId || !tasks[taskId]) {
+    return new Response(JSON.stringify({ error: 'Task not found' }), {
       status: 404,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
   }
-  
-  }
+
+  return new Response(JSON.stringify(tasks[taskId]), {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}

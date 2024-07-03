@@ -32,7 +32,7 @@
 
 <div class="flex flex-col p-5 w-full max-w-[900px]">
   <h1 class="text-2xl font-medium text-zinc-300 mb-5">
-    Ideas in Progress
+    Projects in Progress
   </h1>
   <div class="grid">
     {#each $wipIdeasStore as idea (idea.uuid)}
