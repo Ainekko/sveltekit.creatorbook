@@ -5,9 +5,7 @@
   import { get } from 'svelte/store';
   import RadarChart from '$lib/components/RadarChart.svelte';
   import AreaChart from '$lib/components/AreaChart.svelte';
-
   import { marked } from 'marked';
-
 
   // Svelte stores to manage state
   let idea = writable({ title: '' });
@@ -17,48 +15,45 @@
   const uuid = derived(page, $page => $page.params.uuid);
 
   // Function to fetch idea from the server
-  async function fetchIdea(uuid: string) {
+  async function fetchIdea(uuid: string, forceRefresh = false) {
     const token = localStorage.getItem('token');
-    const response = await fetch(`https://api.creatorbook.tech/ideas/${uuid}/`, {
-      headers: {
-        'Authorization': `Token ${token}`
+
+    // Fetch from server if forceRefresh is true or data is not cached
+    if (forceRefresh || !localStorage.getItem(`idea-${uuid}`)) {
+      const response = await fetch(`https://api.creatorbook.tech/ideas/${uuid}/`, {
+        headers: {
+          'Authorization': `Token ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        idea.set(data);
+        ideaMetrics.set(data.metrics || null);
+        // Cache the idea data
+        localStorage.setItem(`idea-${uuid}`, JSON.stringify(data));
+      } else {
+        console.error('Failed to fetch idea');
+        ideaMetrics.set(null);
       }
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      idea.set(data);
-      ideaMetrics.set(data.metrics || null);
-      // Cache the idea data
-      localStorage.setItem(`idea-${uuid}`, JSON.stringify(data));
     } else {
-      console.error('Failed to fetch idea');
-      ideaMetrics.set(null);
-    }
-  }
-
-  // Function to load idea (from cache or fetch from server)
-  function loadIdea(uuid: string) {
-    // Check if the idea is already cached
-    const cachedIdea = localStorage.getItem(`idea-${uuid}`);
-    if (cachedIdea) {
-      // Parse and set the cached idea data
-      const data = JSON.parse(cachedIdea);
-      idea.set(data);
-      ideaMetrics.set(data.metrics || null);
-      console.log('Loaded idea from cache');
-    } else {
-      // Fetch from server if not cached
-      fetchIdea(uuid);
+      // Load from cache
+      const cachedIdea = localStorage.getItem(`idea-${uuid}`);
+      if (cachedIdea) {
+        const data = JSON.parse(cachedIdea);
+        idea.set(data);
+        ideaMetrics.set(data.metrics || null);
+        console.log('Loaded idea from cache');
+      }
     }
   }
 
   // Watch for changes in the derived UUID and load idea
-  $: $uuid, loadIdea($uuid);
+  $: $uuid, fetchIdea($uuid, true);
 
   // Initial fetch/load when the component mounts
   onMount(() => {
-    loadIdea(get(uuid));
+    fetchIdea(get(uuid), true);
   });
 
   // Monitor the availability of data
