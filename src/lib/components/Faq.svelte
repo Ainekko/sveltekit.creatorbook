@@ -10,23 +10,23 @@
     <div class="w-1/2 flex flex-col justify-center items-center gap-2">
         <div class="collapse collapse-plus bg-base-200">
             <input type="radio" name="my-accordion-3" checked="checked" />
-            <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>
+            <div class="collapse-title text-xl font-medium">What exactly is free?</div>
             <div class="collapse-content">
-              <p>hello</p>
+              <p>It's free to use our assistant to find new project ideas</p>
             </div>
           </div>
           <div class="collapse collapse-plus bg-base-200">
             <input type="radio" name="my-accordion-3" />
-            <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>
+            <div class="collapse-title text-xl font-medium">How do you differ from just another Agency?</div>
             <div class="collapse-content">
-              <p>hello</p>
+              <p>Appart from our validation services we offer AI assistants to come up with ideas and track your projects analytics</p>
             </div>
           </div>
           <div class="collapse collapse-plus bg-base-200">
             <input type="radio" name="my-accordion-3" />
-            <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>
+            <div class="collapse-title text-xl font-medium">What's your validation process?</div>
             <div class="collapse-content">
-              <p>hello</p>
+              <p>We start the validation with building a landing page and marketing materials customized for your project to collect emails and pre-orders</p>
             </div>
           </div>
     </div>

@@ -83,7 +83,7 @@
               <div class="w-2 h-2 bg-[#fdc4ff] rounded-full"></div>
               <p>
                   {$userStore.username}
-                  {$userStore.subscription_status}
+                  <!-- {$userStore.subscription_status} -->
                   {#if $userStore.user_id === 2} 🍒 {/if}
               </p>
           </div>

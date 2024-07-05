@@ -49,7 +49,7 @@
     </div> -->
     <div class="navbar-end  w-full flex flex-row gap-5 ">
       
-      <a  href="https://marketing.creatorbook.tech/contact-us" class="p-4 border bg-transparent border-zinc-900 rounded-full">Contact us</a>
+      <a  href="#contactus" class="p-4 border bg-transparent border-zinc-900 rounded-full">Contact us</a>
       
       <a class="btn rounded-full w-32 shadow- border-none shadow-[#ffff] bg-yellow-300 text-zinc-900   hover:bg-slate-300 hover:text-black" href="/signup">Sign up / Login</a>
       

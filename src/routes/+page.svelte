@@ -426,7 +426,7 @@
 					<h2 class="text-2xl font-semibold mb-2 text-purple-200">Find Inspiration</h2>
 					<p class="text-purple-100">Unleash endless ideas with our AI-powered tools designed to spark your creativity and push your boundaries.</p>
 				</div>
-				<img class="w-full  m-auto rounded-xl mt-5 fourth-text-element" src="./src/lib/images/Genx.jpg" alt="">
+				<img class="w-full  m-auto rounded-xl mt-5 fourth-text-element" src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/createrbook+final/new+cb+assets/Genx.jpg" alt="">
 			</div>
 			
 		</div>
@@ -463,6 +463,8 @@
 				<h1 class="text-5xl text-pink-300">03 - </h1>	
 				<h2 class="text-2xl font-semibold mb-2 text-pink-200">Data and Analytics</h2>
 				<p class="text-pink-100">Track your project's data and progress.</p>
+				<video src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/createrbook+final/dashboard+vd1.mp4" autoplay></video>
+
 			</div>
 
 			
@@ -496,11 +498,11 @@
 	<Pricing />
 </section>
 
-<section class="contactus  min-h-screen  flex flex-col justify-center items-center">
+<section id="contactus" class="contactus  min-h-auto  flex flex-col justify-center items-center mb-20">
     <ContactUs /> 
 </section>
 
-<section class="contactus  min-h-screen  flex flex-col justify-center items-center">
+<section class="contactus  min-h-auto  flex flex-col justify-center items-center">
     <Faq />
 </section>
 
@@ -514,7 +516,7 @@
 		Explore all of your ideas and only keep the best.
     </h1>
 </div>
-<section class="bg-white w-full min-h-screen pt-10 rounded-t-md">
+<section class="bg-white w-full min-h-screen pt-10 rounded-t-md hidden">
 	<div class="container flex flex-col ">
 		<div class="flex justify-start items-center gap-2">
 			<div class="h-4 w-1 rounded-full bg-[#fdc4ff]shadow-xl shadow-indigo-950"></div>
@@ -561,7 +563,7 @@
 	</div>
 </section>
 
-<div class="w-screen h-72 md:h-96 flex justify-center items-center text-xl md:text-5xl font-mono text-zinc-700 p-5">
+<div class="w-screen h-72 md:h-96 flex justify-center items-center text-xl md:text-5xl font-mono text-zinc-700 p-5 hidden">
     <h1 class="text-element">
 		Take full advatage of the power of ai
     </h1>
@@ -569,7 +571,7 @@
 
 
 
-<section class="mb bg-white w-full min-h-screen pt-10 rounded-t-md">
+<section class="mb bg-white w-full min-h-screen pt-10 rounded-t-md hidden">
 	<div class="container flex flex-col ">
 		<div class="flex justify-start items-center gap-2">
 			<div class="h-4 w-1 rounded-full bg-[#fdc4ff]shadow-xl shadow-indigo-950"></div>
@@ -580,7 +582,7 @@
 
 		
 
-		<div class="w-full h-full flex  flex-col md:flex-row p-3 text-black font-normal text-3xl md:text-4xl  mt-10">
+		<div class="w-full h-full flex  flex-col md:flex-row p-3 text-black font-normal text-3xl md:text-4xl  mt-10 ">
 				<div class="flex flex-col max-w-xl">
 					<!-- <p class="text-element mb-11 text-3xl font-light">
 						Explore all of your ideas and only keep the best.
@@ -640,13 +642,13 @@
 	
 </section>
 
-<div class="w-screen h-72 md:h-96 flex justify-center items-center text-xl md:text-5xl font-mono text-zinc-700 p-5">
+<div class="w-screen h-72 md:h-96 flex justify-center items-center text-xl md:text-5xl font-mono text-zinc-700 p-5 hidden">
     <h1 class="text-element">
 		Let's make your time count
     </h1>
 </div>
 
-<section class="pricing bg-white min-h-screen h-auto py-10">
+<section class="pricing bg-white min-h-screen h-auto py-10 hidden">
 
 	<div class="w-full flex justify-center items-center p-5 md:pt-10 hover:text-black">
 		<h1 class="md:text-3xl">
