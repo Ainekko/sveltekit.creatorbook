@@ -49,7 +49,7 @@
     </div> -->
     <div class="navbar-end  w-full flex flex-row gap-5 ">
       
-      <a  href="#contactus" class="p-4 border bg-transparent border-zinc-900 rounded-full">Contact us</a>
+      <a  href="https://calendly.com/ahlaqachhafid/let-s-talk-about-what-we-can-bring-to-the-table" class="p-4 border bg-transparent border-zinc-900 rounded-full">Book a call</a>
       
       <a class="btn rounded-full w-32 shadow- border-none shadow-[#ffff] bg-yellow-300 text-zinc-900   hover:bg-slate-300 hover:text-black" href="/signup">Sign up / Login</a>
       

@@ -9,7 +9,7 @@ import 'dotenv/config'
 
 // Configure the SDK with your API key
 lemonSqueezySetup({
-  apiKey: process.env.LEMON_TEST_APIKEY || '', // Ensure your API key is set
+  apiKey: process.env.LEMON_API_KEY || '', // Ensure your API key is set
 });
 
 export async function POST({ request }) {
@@ -19,7 +19,7 @@ export async function POST({ request }) {
     console.log(userEmail, userID)
     
     const storeId = process.env.LEMON_STORE_ID;
-    const variantId = 428733;
+    const variantId = 426584;
 
     const newCheckout = {
       productOptions: {
