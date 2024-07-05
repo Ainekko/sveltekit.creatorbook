@@ -238,9 +238,10 @@
 							<div class="w-2 h-2 bg-[#fffbbd] rounded-full bg-yellow-400 animate-pulse"></div>
 							Get Started - It's Free!
 						</a>
-						<button class="third-text-element border w-32 h-10 md:h-20 border-zinc-700 rounded-full p-4 text-sm bg-black">
-							See Plans
-						</button>
+						<a href="/#pricing" class="third-text-element border w-auto px-10 h-10 md:h-20 border-zinc-800 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center bg-black  shadow-  shadow-2xl shadow-yellow-200/20 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 ">
+							
+							See pricing
+						</a>
 					</div>
 				</div>
 			</div>
@@ -494,12 +495,20 @@
   
   
   
-<section class="pricing min-h-screen  flex flex-col justify-center items-center">
+<section id="pricing" class="pricing min-h-screen  flex flex-col justify-center items-center">
 	<Pricing />
 </section>
 
 <section id="contactus" class="contactus  min-h-auto  flex flex-col justify-center items-center mb-20">
     <ContactUs /> 
+</section>
+
+<section>
+	<!-- Calendly badge widget begin -->
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+<script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: 'https://calendly.com/ahlaqachhafid/let-s-talk-about-what-we-can-bring-to-the-table?hide_event_type_details=1&hide_gdpr_banner=1', text: 'Book a call', color: '#1a1a1a', textColor: '#ffffff', branding: undefined }); }</script>
+<!-- Calendly badge widget end -->
 </section>
 
 <section class="contactus  min-h-auto  flex flex-col justify-center items-center">
