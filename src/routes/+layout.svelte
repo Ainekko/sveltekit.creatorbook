@@ -19,6 +19,13 @@
   <main class="overflow-hidden">
     
     <slot />
+    <section>
+      <!-- Calendly badge widget begin -->
+      <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+      <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+      <script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: 'https://calendly.com/ahlaqachhafid/let-s-talk-about-what-we-can-bring-to-the-table?hide_event_type_details=1&hide_gdpr_banner=1', text: 'Book a call', color: '#1a1a1a', textColor: '#ffffff', branding: undefined }); }</script>
+      <!-- Calendly badge widget end -->
+    </section>
       
     <!-- <footer class="footer items-center p-4 text-neutral-content mt-4 flex justify-center bg-white flex-col md:flex-row rounded-t-xl">
       <Deal /> 
