@@ -46,8 +46,8 @@
 </script>
 
 <div class="bg- h-screen w-max[1440px] flex justify-center items-center">
-  <div class="h-screen w-screen max-w-[1050px] flex justify-center items-center overflow-hidden text-">
-      <div class="card bg-dark flex justify-center items-center w-1/2 shadow-xl p-5 rounded-md">
+  <div class="h-screen w-screen  md:max-w-[1050px] flex justify-center items-center overflow-hidden text-">
+      <div class="card bg-dark flex justify-center items-center md:w-1/2 shadow-xl p-5 rounded-md">
           <p class="font-normal text-lg text-zinc-200">Sign Up:</p>
           <form class="card-body w-full" on:submit={register}>
               <input type="text" placeholder="username" bind:value={username} class="input input-bordered bg-zinc-900 border border-zinc-950 rounded-xl text-white py-7 mb-2" />

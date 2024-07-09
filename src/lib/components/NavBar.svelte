@@ -49,9 +49,9 @@
     </div> -->
     <div class="navbar-end  w-full flex flex-row gap-5 ">
       
-      <a  href="https://calendly.com/ahlaqachhafid/let-s-talk-about-what-we-can-bring-to-the-table" class="p-3 md:p-4 border bg-transparent border-zinc-900 rounded-full">Book a call</a>
+      <a  href="https://calendly.com/ahlaqachhafid/let-s-talk-about-what-we-can-bring-to-the-table" class="p-3 text-sm md:p-4 border bg-transparent border-zinc-900 rounded-full">Book a call</a>
       
-      <a class="btn rounded-full md:w-32 shadow- border-none shadow-[#ffff] bg-yellow-300 text-zinc-900   hover:bg-slate-300 hover:text-black" href="/signup">Sign up / Login</a>
+      <a class="btn rounded-full p-2 w-auto text-sm md:w-32 shadow- border-none shadow-[#ffff] bg-yellow-300 text-zinc-900   hover:bg-slate-300 hover:text-black" href="/signup">Sign up / Login</a>
       
     </div>
   </div>
