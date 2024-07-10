@@ -1,5 +1,7 @@
 <script>
- 
+
+    import { inject } from '@vercel/analytics';
+
     import "../app.css";
     import Deal from '$lib/components/Deal.svelte'
     //import {checkAndDeleteToken} from '$lib/check'
