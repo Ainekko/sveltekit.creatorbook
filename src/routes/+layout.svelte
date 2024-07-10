@@ -15,6 +15,7 @@
   //checkAndDeleteToken();
     // PADDING HAD A 20px PADDING
 
+    inject()
 
   </script>
   
