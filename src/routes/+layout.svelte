@@ -15,9 +15,9 @@
 <svelte:head>
   <title>Validation as a service for startups</title>
   <meta name="description" content="Get top-tier validation services for your startup. Focus on building while we handle the validation process for you.">
-  <meta property="og:title" content="Validation as a service for startups">
+  <meta property="og:title" content="Validation as a service for upcoming startups">
   <meta property="og:description" content="Get top-tier validation services for your startup. Focus on building while we handle the validation process for you.">
-  <meta property="og:image" content="https://your-image-link.com/image.jpg">
+  <meta property="og:image" content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/createrbook+final/new+cb+assets/Home.jpg">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Validation as a service for startups">
