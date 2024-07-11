@@ -22,7 +22,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Validation as a service for startups">
   <meta name="twitter:description" content="Get top-tier validation services for your startup. Focus on building while we handle the validation process for you.">
-  <meta name="twitter:image" content="https://your-image-link.com/image.jpg">
+  <meta name="twitter:image" content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/createrbook+final/new+cb+assets/Home.jpg">
 </svelte:head>
 
 <main class="overflow-hidden">
