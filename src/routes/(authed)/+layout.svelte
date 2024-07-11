@@ -54,7 +54,7 @@
     <AuthedNav />
 </div>
 
-<main class="flex flex-row">
+<main class="flex flex-col-reverse  md:flex-row">
 
     
     <nav class="w-[700px] max-w-[500px]">

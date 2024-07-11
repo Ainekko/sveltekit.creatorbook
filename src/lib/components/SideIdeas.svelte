@@ -30,13 +30,13 @@
   }
 </script>
 
-<div class="flex flex-col p-5 w-full max-w-[900px]">
+<div class="flex flex-col p-5  md:w-full max-w-[350px] md:max-w-[900px]">
   <h1 class="text-2xl font-medium text-zinc-300 mb-5">
     Projects in Progress
   </h1>
-  <div class="grid">
+  <div class="grid w-full">
     {#each $wipIdeasStore as idea (idea.uuid)}
-      <a href={`/ideas/${idea.uuid}`} class="w-full border border-zinc-900 rounded-sm p-4 hover:bg-zinc-800 transition"
+      <a href={`/ideas/${idea.uuid}`} class="md:w-full border border-zinc-900 rounded-sm p-4 hover:bg-zinc-800 transition"
          in:fly={{ y: 20, duration: 500 }}>
         <div class="flex items-center gap-3">
           <div class="avatar">
@@ -44,7 +44,7 @@
               <img src={generateRandomGradient()} alt="Avatar Tailwind CSS Component" />
             </div>
           </div>
-          <div class="flex flex-row gap-2 w-full">
+          <div class="flex flex-col md:flex-row gap-2  md:w-full">
             <div class="font-bold w-full">{idea.title}</div>
             <div class="text-sm opacity-50 w-full">{idea.category}</div>
           </div>

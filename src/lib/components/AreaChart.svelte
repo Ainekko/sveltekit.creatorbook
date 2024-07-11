@@ -9,7 +9,7 @@
   let data = areaChartData;
 
   const margin = { top: 20, right: 30, bottom: 30, left: 40 };
-  const width = 550 - margin.left - margin.right;
+  const width = 350 - margin.left - margin.right;
   const height = 200 - margin.top - margin.bottom;
 
   onMount(() => {

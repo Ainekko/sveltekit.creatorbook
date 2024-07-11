@@ -35,19 +35,23 @@
 }
 </script>
 
-<a href="/dashboard" class="p-2">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-    
-    <!-- <span class="badge badge-sm">99+</span> -->
-  </a>
-<div class="flex flex-row justify-between w-[80%] w-full  ">
-    <ul class="menu w-full gap-10 bg-base-200 lg:menu-horizontal rounded-box bg-black">
+
+<div class="flex flex-row justify-between md:w-[100%] w-full  ">
+    <ul class="menu w-full md:gap-10 bg-base-200 menu-horizontal rounded-box bg-black">
         <!-- <li>
           <a href="/dashboard">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
             
           </a>
         </li> -->
+
+        <li>
+            <a href="/dashboard" class="p-">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                
+                <!-- <span class="badge badge-sm">99+</span> -->
+              </a>
+        </li>
 
         <li class="bg-zinc-rounded-full">
         
@@ -85,7 +89,7 @@
 
     
    
-    <div class="flex w-full justify-end items-center gap-10 m-auto">
+    <div class="flex w-full justify-end items-center md:gap-10 m-auto">
 
         <div>
             <p class="font-mono text-sm"></p>

@@ -49,8 +49,8 @@
   $: $userStore;
 </script>
 
-<div class="min-h-[70vh] h-screen w-auto pl-5 pt-5">
-  <div class="stats shadow">
+<div class="min-h-[70vh] h-auto md:h-screen flex flex-col w-[350px] md:w-auto pl-5 pt-5">
+  <div class="stats shadow  h- flex flex-col-reverse md:flex-row">
       <div class="stat">
           <div class="stat-figure text-primary">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current">
@@ -79,7 +79,7 @@
                   <div class="w-16 rounded-full"></div>
               </div>
           </div>
-          <div class="px-4 py-2 w-48 h-8 flex flex-row items-center gap-3 bg-zinc-950 rounded-full max-w-[200px]">
+          <div class="px-4 py-2 w-48  h-8 flex  flex-row items-center gap-3 bg-zinc-950 rounded-full max-w-[200px]">
               <div class="w-2 h-2 bg-[#fdc4ff] rounded-full"></div>
               <p>
                   {$userStore.username}
@@ -93,8 +93,14 @@
       </div>
   </div>
 
-  <div class="flex flex-row gap-5 justify-center items-center w-full">
-      <AreaChart dataAvailable={dataAvailable} areaChartData={dataAvailable ? ideaMetrics : placeholderAreaData} />
-      <RadarChart />
+  <div class="flex flex-col md:flex-row  gap-5 justify-center items-center md:w-full ">
+      <div class="bg-zinc-950 flex justify-center items-center h-full rounded-xl p-5">
+        <AreaChart dataAvailable={dataAvailable} areaChartData={dataAvailable ? ideaMetrics : placeholderAreaData}  />
+      </div>
+
+      <div class="bg-zinc-950 rounded-xl p-5">
+        <RadarChart />
+      </div>
+      
   </div>
 </div>
