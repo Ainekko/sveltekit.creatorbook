@@ -91,7 +91,7 @@
   </script>
 
 <svelte:head>
-	<title>Validation as a service for tech startups</title>
+	<title>Validation as a service for upcoming tech startups</title>
 	<meta name="description" content="Get top-tier validation services for your startup. Focus on building while we handle the validation process for you.">
 	<meta property="og:title" content="Validation as a service for upcoming startups">
 	<meta property="og:description" content="Get top-tier validation services for your startup. Focus on building while we handle the validation process for you.">
