@@ -246,9 +246,11 @@
 					<h1 class="text-element font-light text-5xl  md:text-9xl text-left text-white mb-5 md:mb-10 flex flex-col">
 						Building Tech Breakthroughs 
 					</h1>
-					<p class="fourth-text-element font-thin text-xl max-w-[700px]  md:text-xl text-left text-zinc-400  pb-5 md:pb-10 flex flex-col z-1000 shadow-xl shadow-black">
-						Validation as a service for tech startups. Marketing Plan, Landing page design and key insights to make data driven decisions.
-					</p>
+					<div>
+						<p class="fourth-text-element font-thin text-xl max-w-[600px]  md:text-xl text-left text-zinc-400  pb-5 md:pb-10 flex flex-col z-1000 shadow-xl shadow-black">
+							Validation as a service for tech startups. Marketing Plan, Landing page design and key insights to make data driven decisions.
+						</p>
+					</div>
 					<div class="flex flex-col md:flex-row justify-center md:items-center gap-4 p-4">
 						<a href="/signup" class="third-text-element bg-black md:bg-transparent border w-52  md:h-20 border-zinc-900 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center  shadow-  shadow-2xl shadow-yellow-200/20 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 ">
 							<div class="w-2 h-2 bg-[#fffbbd] rounded-full bg-yellow-400 animate-pulse"></div>
