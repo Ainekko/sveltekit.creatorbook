@@ -1,5 +1,6 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
+	import Weird from '$lib/components/Weird.svelte';
     import { onMount } from 'svelte';
   
     let username = '';
@@ -96,7 +97,8 @@
     });
   </script>
   
-  <div class="bg- h-screen w-max[1440px] flex justify-center items-center">
+  <div class="bg- h-screen w-max[1440px] flex flex-col md:flex-row justify-center items-center">
+    <Weird />
     <div class="h-screen w-screen  md:max-w-[1050px] flex justify-center items-center overflow-hidden text-">
       <div class="card bg-dark flex justify-center items-center md:w-1/2 shadow-xl p-5 rounded-md">
         <p class="font-normal text-lg text-zinc-200">Sign Up:</p>

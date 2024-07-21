@@ -8,6 +8,7 @@
 	import Pricing from "$lib/components/Pricing.svelte";
 	import ContactUs from "$lib/components/ContactUs.svelte";
 	import Faq from "$lib/components/Faq.svelte";
+	import Weird from "$lib/components/Weird.svelte";
 
 
 	onMount(() => {
@@ -246,9 +247,9 @@
 					<h1 class="text-element font-light text-5xl  md:text-9xl text-left text-white mb-5 md:mb-10 flex flex-col">
 						Building Tech Breakthroughs 
 					</h1>
-					<div>
-						<p class="fourth-text-element font-thin text-xl max-w-[600px]  md:text-xl text-left text-zinc-400  pb-5 md:pb-10 flex flex-col z-1000 shadow-xl shadow-black">
-							Validation as a service for tech startups. Marketing Plan, Landing page design and key insights to make data driven decisions.
+					<div class="p-4 shadow shadow-xl shadow-black">
+						<p class="third-text-element font-thin text-xl md:max-w-[800px] md:text-xl text-left text-zinc-400  pb-5 md:pb-10  z-1000 shadow shadow-xl shadow-black">
+							Validation as a service for tech startups. Marketing Plan, Landing page design and key insights to make <span class="fourth-text-element text-white">data driven decisions</span>
 						</p>
 					</div>
 					<div class="flex flex-col md:flex-row justify-center md:items-center gap-4 p-4">
@@ -310,18 +311,8 @@
 
 
 				</div>
-				<div class="second-text-element font-medium text-xl h-10 w-60 bg-orange-500 rounded-md flex justify-center items-center text-black p-2 shadow-lg shadow-red-500/50 mt-10">
 				
-					<p>
-						Marketing & validation
-					</p>
-				
-			</div>
-			<div class="third-text-element font-medium text-xl h-10 w-40  bg-zinc-900 rounded-md  text-white flex justify-center items-center p-2 shadow-lg shadow-indigo-500/50  mt-3 -ml-5">
-				<p class="box">
-					Ai_assistants
-				</p>
-			</div>
+				<Weird />
 
 
 				
