@@ -49,7 +49,7 @@
     function handleCredentialResponse(response: any) {
       const id_token = response.credential;
   
-      fetch('https://api.creatorbook.tech/users/oauth/', {
+      fetch('https://api.creatorbook.tech/users/gauth/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
