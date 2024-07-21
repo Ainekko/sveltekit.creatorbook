@@ -120,7 +120,7 @@
         </form>
   
         <!-- Google OAuth Button -->
-        <div id="google-signin-button"></div>
+        <div class="bg-transparent" id="google-signin-button"></div>
       </div>
     </div>
   </div>
