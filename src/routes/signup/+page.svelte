@@ -67,7 +67,7 @@
         if (res_data) {
           token = res_data.token;
           localStorage.setItem('token', token);
-          goto('/dashboard');
+          goto('/plans');
         }
       })
       .catch(error => {
