@@ -105,8 +105,11 @@
           <input type="email" placeholder="email" bind:value={email} class="input input-bordered bg-zinc-900 border border-zinc-950 rounded-xl text-white py-7 mb-2" />
           <input type="password" placeholder="password" bind:value={password} class="input input-bordered bg-zinc-900 border border-zinc-950 rounded-xl text-white py-7 mb-2" />
           
+          
           <input type="submit" value="Sign Up" class="btn btn-neutral flex flex-row text-center justify-center items-center rounded-xl bg-white text-black p-0 h-14 text-base shadow-xl shadow-violet-300/40 mt-4" />
-  
+            <div class="divider"></div>
+          <div class="bg-transparent" id="google-signin-button"></div>
+
           <div class="label cursor-pointer mt-5">
             Already a user?
             <a href="/login" class="link bg-gradient-to-r from-violet-600 via-pink-500 to-violet-500 text-transparent bg-clip bg-clip-text text-xl underline mb-2 link">Log in</a>
@@ -120,7 +123,7 @@
         </form>
   
         <!-- Google OAuth Button -->
-        <div class="bg-transparent" id="google-signin-button"></div>
+        
       </div>
     </div>
   </div>
