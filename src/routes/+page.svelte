@@ -409,12 +409,12 @@
 	<h1 class="text-4xl third-text-element text-purple-200 mb-10 font-thin  max-w-[600px]">
 		Start a project, Validate Quickly, and <span class="bg-gradient-to-r from-violet-600 via-pink-500 to-violet-500 fourth-text-element text-transparent bg-clip bg-clip-text">Launch with Confidence</span>
 	</h1>
-	<div class=" grid grid-cols-1 md:grid-cols-3 grid-rows-2 gap-3 min-h-[700px] max-w-[]">
+	<div class=" grid grid-cols-1 md:grid-cols-3 grid-rows-2 gap-3  min-h-[700px] max-w-[]">
 
-		<div class="relative min-h-[300px]  md:col-span-2 md:row-span-2  third-text-element bg-transparent border border-zinc-700 rounded-md md:min-h-[700px] shadow-md p-6 custom-box  group md:overflow-hidden">
+		<div class="relative min-h-[400px]  md:col-span-2 md:row-span-2  third-text-element bg-transparent border border-zinc-700 rounded-md md:min-h-[700px] shadow-md p-6 custom-box  group md:overflow-hidden">
 			<!-- Glowing effect div -->
 			<div class="absolute bottom-2 left-1/2 transform -translate-x-1/1 w-2/6 h-2/3 bg-purple-500 blur-[100px] opacity-60 rounded-full z-0"></div>
-			<div class="relative flex flex-col justify-between gap-10 z-10">
+			<div class="relative flex flex-col justify-between gap-5 md:gap-10 z-10">
 				<div class="max-w-[700px]">
 					<h1 class="text-5xl text-purple-400">01 - </h1>
 					<h2 class="text-2xl font-semibold mb-2 text-purple-200">Start a project</h2>
