@@ -5,6 +5,7 @@
         import { useChat } from 'ai/svelte';
         import {checkAndDeleteToken} from '$lib/check';
         import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
   
        
     
@@ -82,12 +83,16 @@
       </script>
 
 
-<div class="p-3 flex flex-col grow pt-20 min-h-svh bg-zinc-950 ">
+<div in:fly class="p-3 flex flex-col grow pt-5 min-h-[500px] max-h-[700px] w-[600px] max-w-[600px] bg-zinc-950 border border-zinc-700 rounded-xl scroll-y-auto relative ">
           
-    <div class="flex-none flex flex-row w-full justify- items-center sticky top-0 inset-x-0  ">
+    <div class="flex-none flex flex-col w-full justify- items-center sticky top-0 inset-x-0  ">
       <!-- <p class="font-light text-base text-left rounded-xl   shadow shadow-xl shadow-zinc-600/40 p-2">How did we do this month?</p> -->
 
-      <div class="flex flex-col gap-2">
+      <p class="font-mono text-zinc-700">
+        BETA ASSISTANT 
+      </p>
+      
+      <div class="flex flex-col gap-2 scroll-y-auto">
         {#each $messages as message}
           <div class="flex">
             <div class="{message.role === 'assistant' ? 'font-light text-base text-left rounded-xl border border-zinc-800 p-2' : 'font-light text-base text-left rounded-xl shadow shadow-xl shadow-zinc-600/40 p-2'} rounded-xl p-2 px-3">
@@ -105,8 +110,8 @@
         
     </div>
       
-    <div class="p-3 w-full">
-      <form on:submit={handleSubmit} class="flex justify-center items-center">
+    <div class="p-3 w-full top-0 buttom-0 flex justify-center items-center min-h-[100px] ">
+      <form on:submit={handleSubmit} class="flex justify-center items-center ">
         <div class="w-full md:max-w-[600px] rounded-xl flex bg-transparent items-center shadow- border border-zinc-800 shadow-indigo-500/35">
           <input class="w-full min-h-full px-6 py-4 bg-transparent rounded-xl  border-zinc-700 focus:outline-none text-zinc-300 font-normal overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-zinc-900 hover:scrollbar-thumb-zinc-400 hover:scrollbar-track-zinc-700" bind:value={$input} placeholder="Ask anything..." />
           <button type="submit" class="right-0 m-2 min-w-6 min-h-6 px-6 py-3 text-slate-950 hover:text-slate-300 rounded-full bg-zinc-600 " disabled={!isLoggedIn}  >

@@ -345,8 +345,8 @@
 				<div class="relative flex flex-col justify-between gap-10 z-10">
 				  <div>
 					<h1 class="text-5xl text-purple-400">01 - </h1>
-					<h2 class="text-2xl font-semibold mb-2 text-purple-200">Find Inspiration</h2>
-					<p class="text-purple-100">Unleash endless ideas with our AI-powered tools designed to spark your creativity and push your boundaries.</p>
+					<h2 class="text-2xl font-semibold mb-2 text-purple-200">Start a project</h2>
+					<p class="text-purple-100">Tell us about your project idea or use AI-powered tools designed to spark your creativity and get Inspiration.</p>
 				  </div>
 				  <img class="w-full m-auto rounded-xl mt-24 fourth-text-element" src="./src/lib/images/Genx.jpg" alt="">
 				</div>
@@ -405,9 +405,9 @@
 
 
 
-<section class="h-auto w-screen flex flex-col  justify-center items-start px-10 pt-32 pt-10 rounded-lg ">
+<section class="h-auto w-screen flex flex-col  justify-center items-start px-10 pt-32 pt-10 rounded-lg  ">
 	<h1 class="text-4xl third-text-element text-purple-200 mb-10 font-thin  max-w-[600px]">
-		Generate Ideas, Validate Quickly, and <span class="bg-gradient-to-r from-violet-600 via-pink-500 to-violet-500 fourth-text-element text-transparent bg-clip bg-clip-text">Launch with Confidence</span>
+		Start a project, Validate Quickly, and <span class="bg-gradient-to-r from-violet-600 via-pink-500 to-violet-500 fourth-text-element text-transparent bg-clip bg-clip-text">Launch with Confidence</span>
 	</h1>
 	<div class=" grid grid-cols-1 md:grid-cols-3 grid-rows-2 gap-3 min-h-[700px] max-w-[]">
 
@@ -415,10 +415,10 @@
 			<!-- Glowing effect div -->
 			<div class="absolute bottom-2 left-1/2 transform -translate-x-1/1 w-2/6 h-2/3 bg-purple-500 blur-[100px] opacity-60 rounded-full z-0"></div>
 			<div class="relative flex flex-col justify-between gap-10 z-10">
-				<div>
+				<div class="max-w-[700px]">
 					<h1 class="text-5xl text-purple-400">01 - </h1>
-					<h2 class="text-2xl font-semibold mb-2 text-purple-200">Find Inspiration</h2>
-					<p class="text-purple-100">Unleash endless ideas with our AI-powered tools designed to spark your creativity and push your boundaries.</p>
+					<h2 class="text-2xl font-semibold mb-2 text-purple-200">Start a project</h2>
+					<p class="text-purple-100">Tell us about your ideas use our AI-powered tools to spark some ideas and and we start the validation process.</p>
 				</div>
 				<img class="w-full  m-auto rounded-xl mt-5 fourth-text-element" src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/createrbook+final/new+cb+assets/Genx.jpg" alt="">
 			</div>
@@ -432,7 +432,7 @@
 			<div class="relative  z-10">
 				<h1 class="text-5xl text-green-300">02 - </h1>
 				<h2 class="text-2xl font-semibold mb-2 text-green-200">Get a Landing Page</h2>
-				<p class="text-green-100">With just one click, receive a beautifully designed landing page tailored for your project within two business days.</p>
+				<p class="text-green-100">We start the validation by delivering a landing page designed to validate your project. With just one click, receive a beautifully designed landing page within two business days.</p>
 			</div>
 			
 		</div>
@@ -443,7 +443,7 @@
 			<div class="relative z-10">
 				<h1 class="text-5xl text-pink-300">03 - </h1>	
 				<h2 class="text-2xl font-semibold mb-2 text-pink-200">Reach Your Audience</h2>
-				<p class="text-pink-100">Utilize our expert marketing strategies to effectively engage your target audience and grow your brand presence.</p>
+				<p class="text-pink-100">We put in the time and effort to organically offer value and engage your target audience aiming to collect emails, sign ups and pre-orders.</p>
 			</div>
 
 			
@@ -453,10 +453,10 @@
 		<div class="relative min-h-[300px] third-text-element bg-transparent border border-zinc-700 rounded-lg shadow-md p-6 md:row-span- md:col-span-3 md:min-h-[700px] custom-box group md:overflow-hidden">
 			<!-- Glowing effect div -->
 			<div class="absolute bottom-2 left-1/2 transform -translate-x-1/1 w-2/6 h-2/3 bg-orange-400 blur-[100px] opacity-60 rounded-full z-0"></div>
-			<div class="relative z-10">
+			<div class="relative z-10 ">
 				<h1 class="text-5xl text-pink-300">04 - </h1>	
-				<h2 class="text-2xl font-semibold mb-2 text-pink-200">Data and Analytics</h2>
-				<p class="text-pink-100">Track your project's data and progress.</p>
+				<h2 class="text-2xl font-semibold mb-2 text-pink-200">Decide the winner</h2>
+				<p class="text-pink-100 max-w-[700px]">See and track each of your project's data and progress to confidently make data driven decisions</p>
 				<video src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/createrbook+final/dashboard+vd1.mp4" autoplay></video>
 
 			</div>
