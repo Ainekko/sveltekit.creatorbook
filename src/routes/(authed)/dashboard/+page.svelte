@@ -8,6 +8,7 @@
   import { writable } from 'svelte/store';
 	import Chat from '$lib/components/Chat.svelte';
 	import { fly } from 'svelte/transition';
+	import IdeaForm from '$lib/components/IdeaForm.svelte';
 
   let ideaMetrics = writable(null);
 
@@ -119,6 +120,26 @@
           
         </div>
 
+        <div in:fly class="w-full h-full col-span- ">
+            <div class="text-sm flex w-full h-full justify-center items-center flex gap-2">
+                <a in:fly={{ y: 20, duration: 500 }} class="flex flex-row gap-2 w-auto h-26 border rounded-xl p-2 border-zinc-800" href="/generate">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="CurrentColor" viewBox="0 0 24 24"><path d="M11 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM14.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path><path fill-rule="evenodd" d="M12 1a1 1 0 0 1 1 1v.5h4a3 3 0 0 1 3 3V9a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V5.5a3 3 0 0 1 3-3h4V2a1 1 0 0 1 1-1ZM7 4.5h10a1 1 0 0 1 1 1V9a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V5.5a1 1 0 0 1 1-1Z" clip-rule="evenodd"></path><path d="M6 21c0-.974.551-1.95 1.632-2.722C8.71 17.508 10.252 17 12 17c1.749 0 3.29.508 4.369 1.278C17.449 19.05 18 20.026 18 21a1 1 0 1 0 2 0c0-1.788-1.016-3.311-2.469-4.35-1.455-1.038-3.414-1.65-5.53-1.65-2.118 0-4.077.611-5.532 1.65C5.016 17.69 4 19.214 4 21a1 1 0 1 0 2 0Z"></path></svg>
+                    <span class="hidde bg-gradient-to-r from-violet-600 via-pink-500 to-violet-500 fourth-text-element text-transparent bg-clip bg-clip-text">Find idea</span>
+                </a>
+    
+                <button in:fly={{ y: 20, duration: 500 }} class="flex flex-row gap-2 w-auto h-26 border rounded-xl p-2 border-zinc-800" popovertarget="chat-popover">
+                    Chat with your data
+                </button>
+
+                <button in:fly={{ y: 20, duration: 500 }} class="flex flex-row gap-2 w-auto h-26 border rounded-xl p-2 border-zinc-800" popovertarget="idea-popover">
+                    Submit a project
+                </button>
+    
+                
+            </div>
+    
+        </div>
+
         <div in:fly={{ y: 20, duration: 500 }} class="min-w-full flex flex-row-reverse justify-between items-center p-2 ">
 
             <p class="text-2xl text-white font-semibold">
@@ -166,7 +187,7 @@
 
     </div>
 
-    <div in:fly class="w-full h-full col-span- mt-5 mb-5 ">
+    <!-- <div in:fly class="w-full h-full col-span- mt-5 mb-5 ">
         <div class="flex w-full h-full justify-center items-center flex gap-2">
             <a in:fly={{ y: 20, duration: 500 }} class="flex flex-row gap-2 w-auto h-26 border rounded-xl p-5 border-zinc-800" href="/generate">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="CurrentColor" viewBox="0 0 24 24"><path d="M11 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM14.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path><path fill-rule="evenodd" d="M12 1a1 1 0 0 1 1 1v.5h4a3 3 0 0 1 3 3V9a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V5.5a3 3 0 0 1 3-3h4V2a1 1 0 0 1 1-1ZM7 4.5h10a1 1 0 0 1 1 1V9a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V5.5a1 1 0 0 1 1-1Z" clip-rule="evenodd"></path><path d="M6 21c0-.974.551-1.95 1.632-2.722C8.71 17.508 10.252 17 12 17c1.749 0 3.29.508 4.369 1.278C17.449 19.05 18 20.026 18 21a1 1 0 1 0 2 0c0-1.788-1.016-3.311-2.469-4.35-1.455-1.038-3.414-1.65-5.53-1.65-2.118 0-4.077.611-5.532 1.65C5.016 17.69 4 19.214 4 21a1 1 0 1 0 2 0Z"></path></svg>
@@ -180,7 +201,7 @@
             
         </div>
 
-    </div>
+    </div> -->
     
     
 
@@ -208,7 +229,7 @@
         <div class="w-full flex flex-row justify-between">
             <div class="text-xs text-zinc-400 font-extralight rounded-xl bg-zinc-900 w-auto h-auto p-2">
 
-                Category
+                Lead magnet
     
             </div>
             <div class="logo p-2 w-10 h-10 rounded-full bg-white">
@@ -235,3 +256,15 @@
     <Chat />
 
 </div>
+
+<div class="relative  " in:fly={{ y: 20, duration: 500 }} id="idea-popover" popover='manual'>
+
+    <button class="absolute top-0 right-0 p-2 font-mono z-10" popovertarget="idea-popover" popovertargetaction="hide">
+        X close
+    </button>
+
+    <IdeaForm />
+
+</div>
+
+
