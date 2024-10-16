@@ -245,21 +245,21 @@
 						</div>
 					</div>
 					<h1 class="text-element font-light text-5xl  md:text-9xl text-left text-white mb-5 md:mb-10 flex flex-col">
-						Building Tech Breakthroughs 
+						S-tier project validation
 					</h1>
 					<div class="p-4 shadow shadow-xl shadow-black">
-						<p class="third-text-element font-thin text-xl md:max-w-[800px] md:text-xl text-left text-zinc-400  pb-5 md:pb-10  z-1000 shadow shadow-xl shadow-black">
-							Validation as a service for tech startups. Marketing Plan, Landing page design and key insights to make <span class="fourth-text-element text-white">data driven decisions</span>
+						<p class="third-text-element font-thin text-xl md:max-w-[600px] md:text-xl text-left text-zinc-400  pb-5 md:pb-10  z-1000 shadow shadow-xl shadow-black">
+							Validation as a service for tech startups. Landing page design, Marketing Plan and key insights to make <span class="fourth-text-element text-white">data driven decisions</span>
 						</p>
 					</div>
 					<div class="flex flex-col md:flex-row justify-center md:items-center gap-4 p-4">
 						<a href="/signup" class="third-text-element bg-black md:bg-transparent border w-52  md:h-20 border-zinc-900 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center  shadow-  shadow-2xl shadow-yellow-200/20 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 ">
 							<div class="w-2 h-2 bg-[#fffbbd] rounded-full bg-yellow-400 animate-pulse"></div>
-							Get Started - It's Free!
+							Get FREE Demo
 						</a>
 						<a href="/#pricing" class="third-text-element border w-auto px-10  md:h-20 border-zinc-800 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center bg-black  shadow-  shadow-2xl shadow-yellow-200/20 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 ">
 							
-							See pricing
+							See Pricing
 						</a>
 					</div>
 				</div>
@@ -271,6 +271,36 @@
 			</div>
 		</div>
 	</section>
+
+
+<section class="new-hero min-h-screen hidden">
+	<div class="grid grid-cols-2 min-h-screen">
+
+		<div class="min-w-full min-h-full col-span-1 rounded-r-xl p-10 bg-white justify-between items-center">
+			<h1 class="text-7xl text-black font-bold">
+				S-tier project validation
+			</h1>
+
+			<div class="p- ">
+				<p class="third-text-element font-extralight text-sm md:max-w-[800px] md:text-xl text-left  pb-5 md:pb-10  z-1000 text-black">
+					Validation as a service for tech startups. Landing page design, Marketing Plan and key insights to make <span class="fourth-text-element text-black">data driven decisions</span>
+				</p>
+			</div>
+			<div class="flex flex-col md:flex-row justify-center md:items-center gap-4 p-4">
+				<a href="/signup" class="third-text-element bg-black md:bg-transparent border w-52  md:h-20 border-zinc-900 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center  shadow-  shadow-2xl shadow-yellow-200/20 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 ">
+					<div class="w-2 h-2 bg-[#fffbbd] rounded-full bg-yellow-400 animate-pulse"></div>
+					Get Started - It's Free!
+				</a>
+				<a href="/#pricing" class="third-text-element border w-auto px-10  md:h-20 border-zinc-800 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center bg-black  shadow-  shadow-2xl shadow-yellow-200/20 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 ">
+					
+					See pricing
+				</a>
+			</div>
+
+		</div>
+
+	</div>
+</section>
 	
 
 <section class="min-h-screen bg-black flex flex-col justify-center items-center hidden">
@@ -293,24 +323,26 @@
 		
 
 		<div class="w-full h-full flex flex-col md:flex-col p-3  font-normal text-2xl md:text-4xl  mt-10">
-				<div class="flex flex-col md:flex-row w-full justify-between items-center mb-5">
+			<div class="flex flex-col gap-5 md:flex-row w-full justify-between items-center mb-5">
+
+				<p class="text-element max-w-xl md:mb-">
+					We help start up founders avoid wasting time, money, and effort on ideas with limited potential,
+					feel more confident about their decisions, and stay ahead of the game.
+				</p>
+			
+				<div class="video-container mb-">
+					<!-- Embedded video without controls, autoplaying and looping infinitely -->
+					<video class="rounded-xl shadow-lg shadow-indigo-500/50 hover:shadow-indigo-200" width="450" height="215" autoplay muted loop>
+						<source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/videos/hired+vd.mp4" type="video/mp4">
+						Your browser does not support the video tag.
+					</video>
+
 					
-					<p class="text-element max-w-xl md:mb-">
-					 	We help start up founders avoid wasting time, money, and effort on ideas with limited potential,
-						feel more confident about their decisions, and stay ahead of the game.
-					</p>
-					<p class="text-element mb-">
-						
-				   </p>
-
-				   <a href="/signup" class="third-text-element flex justify-center items-center  bg-zinc-950 text-white shadow-lg shadow-indigo-500/50 w-36 h-36 border-zinc-700 rounded-full p-4 text-sm hover:shadow-indigo-200 hover:-translate-y-1  hover:bg-zinc-900  ">
-					sign up
-				   </a>
-
-				
-
-
 				</div>
+			
+			</div>
+			
+			
 				
 				<Weird />
 
@@ -418,7 +450,7 @@
 				<div class="max-w-[700px]">
 					<h1 class="text-5xl text-purple-400">01 - </h1>
 					<h2 class="text-2xl font-semibold mb-2 text-purple-200">Start a project</h2>
-					<p class="text-purple-100">Tell us about your ideas use our AI-powered tools to spark some ideas and and we start the validation process.</p>
+					<p class="text-purple-100">Tell us about your idea or use our AI-powered tools to spark some ideas and start the validation process.</p>
 				</div>
 				<img class="w-full  m-auto rounded-xl mt-5 fourth-text-element" src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/createrbook+final/new+cb+assets/Genx.jpg" alt="">
 			</div>
