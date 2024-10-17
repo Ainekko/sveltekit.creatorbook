@@ -10,10 +10,10 @@
     goto('/dashboard');
   }
 
-  const twitter_auth_url = 'https://api.creatorbook.tech/o/login/twitter';
+  const twitter_auth_url = 'https://api.s-tierproject.online/o/login/twitter';
 
   const handle_twitter_login = () => {
-    window.location.href = twitter_auth_url;
+    window.location.href = twitter_auth_url; 
   };
 
   async function log_in(event) {
@@ -26,7 +26,7 @@
     };
 
     try {
-      const response = await fetch('https://api.creatorbook.tech/users/login/', {
+      const response = await fetch('https://api.s-tierproject.online/users/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

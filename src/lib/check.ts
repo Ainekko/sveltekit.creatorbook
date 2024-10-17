@@ -73,7 +73,7 @@ export async function get_user() {
   try {
     const token = localStorage.getItem('token');
     if (token) {
-      const response = await fetch('https://api.creatorbook.tech/users/get_user/', {
+      const response = await fetch('https://api.s-tierproject.online/users/get_user/', {
         method: 'GET',
         headers: {
           'Authorization': `Token ${token}`,
@@ -102,7 +102,7 @@ export async function get_user() {
 
 export async function get_docs() {
   
-  const response = await fetch('https://api.creatorbook.tech/ai_chat/get_docs/', {
+  const response = await fetch('https://api.s-tierproject.online/ai_chat/get_docs/', {
     method: 'GET',
     headers: {
       //'Authorization': `Token ${token}`,

@@ -24,7 +24,7 @@
       };
   
       try {
-        const response = await fetch('https://api.creatorbook.tech/users/register/', {
+        const response = await fetch('https://api.s-tierproject.online/users/register/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -50,7 +50,7 @@
     function handleCredentialResponse(response: any) {
       const id_token = response.credential;
   
-      fetch('https://api.creatorbook.tech/users/gauth/', {
+      fetch('https://api.s-tierproject.online/users/gauth/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

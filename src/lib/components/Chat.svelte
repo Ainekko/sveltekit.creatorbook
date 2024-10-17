@@ -5,7 +5,7 @@
         import { useChat } from 'ai/svelte';
         import {checkAndDeleteToken} from '$lib/check';
         import { onMount } from 'svelte';
-	import { fly } from 'svelte/transition';
+	      import { fly } from 'svelte/transition';
   
        
     
