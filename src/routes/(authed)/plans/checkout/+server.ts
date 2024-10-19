@@ -18,7 +18,7 @@ export async function POST({ request }) {
 
     console.log(userEmail, userID)
     
-    const storeId = process.env.LEMON_STORE_ID;
+    const storeId =12604 || process.env.LEMON_STORE_ID;
     const variantId = 426584;
 
     const newCheckout = {
