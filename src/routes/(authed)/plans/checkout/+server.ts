@@ -9,7 +9,7 @@ import 'dotenv/config'
 
 // Configure the SDK with your API key
 lemonSqueezySetup({
-  apiKey: process.env.LEMON_TEST_APIKEY || '', // Ensure your API key is set
+  apiKey: process.env.LEMON_API_KEY || '', // Ensure your API key is set
 });
 
 export async function POST({ request }) {
