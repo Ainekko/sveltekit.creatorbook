@@ -10,7 +10,7 @@ export async function checkAndDeleteToken(token : string) {
       // Token exists, send a request to your Django endpoint to check its validity
 
       console.log('Token exists, Running check')
-      const response = await fetch('https://api.creatorbook.tech/users/check/', {
+      const response = await fetch('https://api.s-tierproject.online/users/check/', {
         method: 'GET',
         headers: {
           'Authorization': `Token ${token}`,
