@@ -220,7 +220,7 @@
 	
 
 	
-	<section class="hero min-h-[92vh]" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/background-+2.jpg'); background-size:cover; background-position:right md:background-position: center;">
+	<section class="hero min-h-[92vh]" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/background-+2.jpg'); background-size:cover; background-position:right md:background-position: right;">
 		<div class="grid grid-cols-2 h-full p-4">
 			<div class="container flex col-span-2">
 				<div class="w-full flex justify-center items-start flex-col pt- ">
@@ -232,7 +232,7 @@
 							</p>
 						</div>
 						<div class="w-auto pl-1 h-16 flex flex-row justify-center items-center gap-2 bg-transparent border border-transparent border-b-zinc-900 shadow-sm  rounded-br-3sxl  p-">
-			x				<div class="w-2 h-2 bg-[#fdc4ff] rounded-full border border-stone-900"></div>
+						<div class="w-2 h-2 bg-[#fdc4ff] rounded-full border border-stone-900"></div>
 							<p>
 								Validate
 							</p>
@@ -265,11 +265,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="w-full h-full flex justify-end items-end relative px-24 ">
-			<div class="w-[600px] p-12 h-full   flex items-center justify-center absolute">
-				<img src="https://uploads-ssl.webflow.com/638ca0b6c42934441d908d49/65294c89ce2e4b9e38d0f9eb_Creatorbook%20logo%20black.png" alt="" class="absolute -z-10  object-cover opacity-50">
-			</div>
-		</div>
+		
+		
 	</section>
 
 
@@ -303,16 +300,10 @@
 </section>
 	
 
-<section class="min-h-screen bg-black flex flex-col justify-center items-center hidden">
-	<div>
-		<h1 class="text-6xl font-extralight">
-			my name is <span class="bg-gradient-to-r fourth-text-element from-violet-600 via-pink-500 to-violet-500 text-transparent bg-clip bg-clip-text text-6xl underline mb-2"> lina</span>
-		</h1>
-	</div>
-</section>
 
-<section class="mb bg-white text-black w-full min-h-scre min-h-96 py-10 rounded-t-md rounded-b-md">
-	<div class="container flex flex-col ">
+
+<section class=" bg-white text-black max-w-screen flex justify-center items-center md:min-h-screen p-0 min-h py-10 rounded-t-md rounded-b-md">
+	<div class="w-full max-w-[1450px] flex flex-col ">
 
 		<div class="flex justify-start items-center gap-2">
 			<div class="h-4 w-1 rounded-full bg-[#fdc4ff]shadow-xl shadow-indigo-950"></div>
@@ -322,37 +313,26 @@
 		</div>
 		
 
-		<div class="w-full h-full flex flex-col md:flex-col p-3  font-normal text-2xl md:text-4xl  mt-10">
-			<div class="flex flex-col gap-5 md:flex-row w-full justify-between items-center mb-5">
-
-				<p class="text-element max-w-xl md:mb-">
-					We help start up founders avoid wasting time, money, and effort on ideas with limited potential,
+		<div class="w-full h-full grid grid-cols-1 md:grid-cols-3 gap-2 p-2 font-normal text-2xl md:text-4xl  mt-10 ">
+			<!-- Left Column -->
+			<div class="w-full col-span-1 flex flex-col md:flex- justify-between gap-5">
+				<p class="text-element max-w-xl">
+					We help startup founders avoid wasting time, money, and effort on ideas with limited potential,
 					feel more confident about their decisions, and stay ahead of the game.
 				</p>
-			
-				<div class="video-container mb-">
-					<!-- Embedded video without controls, autoplaying and looping infinitely -->
-					<video class="rounded-xl shadow-lg shadow-indigo-500/50 hover:shadow-indigo-200" width="450" height="215" autoplay muted loop>
-						<source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/videos/hired+vd.mp4" type="video/mp4">
-						Your browser does not support the video tag.
-					</video>
-
-					
-				</div>
-			
-			</div>
-			
-			
-				
+		
 				<Weird />
-
-
-				
-				
-
-					
-
-				</div>
+			</div>
+		
+			<!-- Right Column (Video takes both rows) -->
+			<div class="row-span-2 h- col-span-2 max-h-full col-span- flex justify-center items-center shadow shadow-2xl rounded-md">
+				<video class="w-full h-full object-cover" autoplay loop muted>
+					<source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/s-teir/stier+vd+1+edt+1+comp.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
+			</div>
+		</div>
+		
 				
 		
 
