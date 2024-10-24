@@ -89,34 +89,33 @@
   </script> -->
 
 
-<div class="flex flex-col hidden  md:block max-w-96">
-    <div class="second-text-element font-medium text-base md:text-xl h- md:h-10 w- bg-orange-500 rounded-md flex justify-center items-center text-black p-2 shadow-lg shadow-red-500/50 mt-10 -ml-5">
-				
-        <p>
-            1-Submit a project
-        </p>
-    
-    </div>
+<div class="flex flex-col justify-center items-center  md:block text-base font-medium max-w-80 p-5">
+  <a href="/signup" class="third-text-element bg-black text-white md:bg-black border w-52  md:h-20 border-zinc-900 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center  shadow-  shadow-2xl shadow-yellow-200/20 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 ">
+    <div class="w-2 h-2 bg-black rounded-full bg-yellow-400 animate-pulse"></div>
+    Get FREE Demo
+  </a>
     
     
     
     
     
-    <div class="third-text-element font-medium text-base md:text-xl h- md:h-10 w-  bg-violet-300  rounded-md   text-black flex justify-center items-center p-2 shadow-lg shadow-indigo-500/50 text-black  mt-3 -ml-5">
+    <div class="hidden">
+      <div class="third-text-element    h- md:h-10 w-  bg-violt-200  rounded-full   text-black flex justify-center items-center p-2 shdow shdow-indigo-500/50 text-black border  mt-3 -ml-5">
         <p class="box">
             2-Get a landing page
         </p>
     </div>
     
-    <div class="third-text-element font-medium text-base md:text-xl h- md:h-10 w-  bg-violet-200 rounded-md  flex justify-center items-center p-2 shadow-lg shadow-indigo-500/50 text-black  mt-3 -ml-5">
+    <div class="third-text-element   h- md:h-10 w-  bg-violt-200 rounded-full  flex justify-center items-center p-2 shdow-lg shdow-indigo-500/50 text-black border mt-3 -ml-5">
         <p class="box">
             3-Get content for marketing
         </p>
     </div>
 
-    <div class="third-text-element font-medium text-base md:text-xl h- md:h-10 w- bg-violet-500 rounded-md  flex justify-center items-center p-2 shadow-lg shadow-indigo-500/50 text-black  mt-3 -ml-5">
+    <div class="third-text-element   h- md:h-10 w- bg-violt-500 rounded-full flex justify-center items-center p-2 shdow-lg shdow-indigo-500/50 text-black border border-zinc-400  mt-3 -ml-5">
       <p class="box">
           4-Get useful data to decide the winner
       </p>
   </div>
+    </div>
 </div>

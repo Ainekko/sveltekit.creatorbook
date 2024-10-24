@@ -302,7 +302,7 @@
 
 
 
-<section class=" bg-white text-black max-w-screen flex justify-center items-center md:min-h-screen p-0 min-h py-10 rounded-t-md rounded-b-md">
+<section id="mission" class="  bg-white text-black max-w-screen flex justify-center items-center md:min-h-screen p-0 min-h py-10 rounded-t-md rounded-b-md">
 	<div class="w-full max-w-[1450px] flex flex-col ">
 
 		<div class="flex justify-start items-center gap-2">
