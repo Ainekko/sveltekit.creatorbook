@@ -1,7 +1,9 @@
 <script lang="ts">
     import { writable } from 'svelte/store';
     import { v4 as uuidv4 } from 'uuid';
-    import { submitWIPIdea } from '$lib/db';
+    import { submitWIPIdea, fetchWIPIdeas } from '$lib/db';
+    import { wipIdeasStore } from '$lib/stores';
+
   
     // Form fields for a new WIP idea
     let title = writable('');
@@ -12,6 +14,16 @@
     let alertState = writable({ show: false, message: '', type: 'success' });
   
     const token = localStorage.getItem('token');
+
+    async function loadIdeas() {
+    try {
+      const ideas = await fetchWIPIdeas(token);
+      wipIdeasStore.set(ideas);
+    } catch (error) {
+      console.error('Failed to load ideas:', error);
+      showAlert('Failed to load ideas', 'error');
+    }
+  }
   
     // Function to handle form submission
     async function handleFormSubmit(event: Event) {
@@ -27,6 +39,7 @@
       try {
         await submitWIPIdea(token, idea);
         showAlert('WIP idea submitted successfully', 'success');
+        loadIdeas();
         // Clear form after submission
         title.set('');
         category.set('');
@@ -74,7 +87,7 @@
       </div>
     {/if}
   
-    <form on:submit={handleFormSubmit} class="w-full max-w-md">
+    <form on:submit={handleFormSubmit} class="w-full max-w- md:w-[800px] ">
       <div class="mb-4">
         <label class="block text-zinc-500 text-sm font-normal mb-2" for="title">
           Title
