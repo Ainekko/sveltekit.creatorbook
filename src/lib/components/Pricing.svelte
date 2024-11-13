@@ -65,7 +65,7 @@
                              </h1>
                             <div class="mb-5 text-2xl font-bold">
                                 <p>
-                                    $8.599/m
+                                    $8,599/m
                                 </p>
                             </div>
                             <div class="w-full text-base font-medium border border-transparent border-t- border-t-blac p- mb-5">
