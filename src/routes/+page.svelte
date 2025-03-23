@@ -302,7 +302,47 @@
 
 
 
-<section id="mission" class="  bg-white text-black max-w-screen flex justify-center items-center md:min-h-screen p-0 min-h py-10 rounded-t-md rounded-b-md">
+<section id="mission" class="  bg-white text-black max-w-screen flex justify-center items-center md:min-h-screen p-0 min-h py-10 rounded-t-md rounded-b-md hidden">
+	<div class="w-full max-w-[1450px] flex flex-col ">
+
+		<div class="flex justify-start items-center gap-2">
+			<div class="h-4 w-1 rounded-full bg-[#fdc4ff]shadow-xl shadow-indigo-950"></div>
+			<h2 class="text-xl font-normal text-black">
+				Our mission
+			</h2>
+		</div>
+		
+
+		<div class="w-full h-full grid grid-cols-1 md:grid-cols-3 gap-2 p-2 font-normal text-2xl md:text-4xl  mt-10">
+			<!-- Left Column -->
+			<div class="w-full col-span-1 flex flex-col md:flex- justify-between gap-5">
+				<p class="text-element max-w-xl">
+					We help startup founders avoid wasting time, money, and effort on ideas with limited potential,
+					feel more confident about their decisions, and stay ahead of the game.
+				</p>
+		
+				<Weird />
+			</div>
+		
+			<!-- Right Column (Video takes both rows) -->
+			<div class="row-span-2 h- col-span-2 max-h-full col-span- flex justify-center items-center shadow shadow-2xl rounded-md">
+				<video class="w-full h-full object-cover" autoplay loop muted>
+					<source src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/s-teir/stier+vd+1+edt+1+comp.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
+			</div>
+		</div>
+		
+				
+		
+
+		
+		
+
+	</div>
+</section>
+
+<section id="mission" class="  bg-white text-black max-w-screen flex justify-center items-center md:min-h-screen p-0 min-h py-10 rounded-t-md rounded-b-md hidden">
 	<div class="w-full max-w-[1450px] flex flex-col ">
 
 		<div class="flex justify-start items-center gap-2">
@@ -341,6 +381,7 @@
 
 	</div>
 </section>
+
 
 <section class="mb bg-black text-black w-full flex justify-center items-center min-h-screen pt-10 rounded-t-md font-mono font-thin hidden" >
 	<div class="container flex flex-col">
