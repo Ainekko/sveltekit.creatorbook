@@ -2,6 +2,7 @@
   import { get } from 'svelte/store';
   import { wipIdeasStore } from '$lib/stores';
   import { fly } from 'svelte/transition';
+  // import { Plus } from 'lucide-svelte';
 
   function generateRandomGradient() {
     const canvas = document.createElement('canvas');
@@ -28,9 +29,14 @@
     // Convert canvas to data URL
     return canvas.toDataURL();
   }
+
+  function addNewIdea() {
+    // Placeholder function - you'll want to implement the actual logic to add a new idea
+    console.log('Add new idea clicked');
+  }
 </script>
 
-<div class="flex flex-col p-5  md:w-full max-w-[350px] md:max-w-[900px]">
+<div class="flex flex-col p-5 md:w-full max-w-[350px] md:max-w-[900px]">
   <h1 class="text-2xl font-medium text-zinc-300 mb-5">
     Projects in Progress
   </h1>
@@ -44,13 +50,23 @@
               <img src={generateRandomGradient()} alt="Avatar Tailwind CSS Component" />
             </div>
           </div>
-          <div class="flex flex-col md:flex-row gap-2  md:w-full">
+          <div class="flex flex-col md:flex-row gap-2 md:w-full">
             <div class="font-bold w-full">{idea.title}</div>
             <div class="text-sm opacity-50 w-full">{idea.category}</div>
           </div>
         </div>
       </a>
     {/each}
+  </div>
+
+  <!-- Add New Idea Button -->
+  <div class="">
+    <button 
+      on:click={addNewIdea} 
+      class="w-full bg-zinc-700 text-zinc-200 rounded-full p-3 hover:bg-zinc-600 transition shadow-lg"
+    >
+      +
+    </button>
   </div>
 </div>
 

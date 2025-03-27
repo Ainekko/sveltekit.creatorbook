@@ -1,4 +1,4 @@
-<div class="navbar bg-base-10 w-full ">
+<div class="navbar bg-base-10 w-full bg-white ">
     <div class="navbar-start">
       <!-- <div class="dropdown">
         

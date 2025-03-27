@@ -9,6 +9,8 @@
 	import ContactUs from "$lib/components/ContactUs.svelte";
 	import Faq from "$lib/components/Faq.svelte";
 	import Weird from "$lib/components/Weird.svelte";
+	import PrawCry from "$lib/components/prawCry.svelte";
+	import PrawHero from "$lib/components/PrawHero.svelte";
 
 
 	onMount(() => {
@@ -218,56 +220,155 @@
 	  <p class="font-mono font-thin">Alpha launch!</p>
 	</div> -->
 	
-
-	
-	<section class="hero min-h-[92vh]" style="background-image: url('https://rechatcreatorbook.s3.us-west-2.amazonaws.com/DallE+3/background-+2.jpg'); background-size:cover; background-position:right md:background-position: right;">
-		<div class="grid grid-cols-2 h-full p-4">
-			<div class="container flex col-span-2">
-				<div class="w-full flex justify-center items-start flex-col pt- ">
-					<div class="w-32 md:w-full flex flex-row justify- gap-5 md:gap-10  font-thin ">
-						<div class="w-auto pl-1 h-16 flex flex-row justify-center items-center gap-2 bg-transparent b border-transparent border-r-zinc-900 shadow-sm  rounded-br-3sxl  p-">
-							<div class="w-2 h-2 bg-[#fdc4ff] rounded-full border border-stone-900"></div>
-							<p >
-								Research
-							</p>
-						</div>
-						<div class="w-auto pl-1 h-16 flex flex-row justify-center items-center gap-2 bg-transparent border border-transparent border-b-zinc-900 shadow-sm  rounded-br-3sxl  p-">
-						<div class="w-2 h-2 bg-[#fdc4ff] rounded-full border border-stone-900"></div>
-							<p>
-								Validate
-							</p>
-						</div>
-						<div class="w-auto pl-1 h-16 flex flex-row justify-center items-center gap-2 bg-transparent border border-transparent border-t-zinc-900 shadow-sm  rounded-br-3sxl  p-">
-							<div class="w-2 h-2 bg-[#fdc4ff] rounded-full border border-stone-900"></div>
-							<p>
-								Market
-							</p>
-						</div>
-					</div>
-					<h1 class="text-element font-light text-5xl  md:text-9xl text-left text-white mb-5 md:mb-10 flex flex-col">
-						S-tier project validation
-					</h1>
-					<div class="p-4 shadow shadow-xl shadow-black">
-						<p class="third-text-element font-thin text-xl md:max-w-[600px] md:text-xl text-left text-zinc-400  pb-5 md:pb-10  z-1000 shadow shadow-xl shadow-black">
-							Validation as a service for tech startups. Landing page design, Marketing Plan and key insights to make <span class="fourth-text-element text-white">data driven decisions</span>
-						</p>
-					</div>
-					<div class="flex flex-col md:flex-row justify-center md:items-center gap-4 p-4">
-						<a href="/signup" class="third-text-element bg-black md:bg-transparent border w-52  md:h-20 border-zinc-900 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center  shadow-  shadow-2xl shadow-yellow-200/20 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 ">
-							<div class="w-2 h-2 bg-[#fffbbd] rounded-full bg-yellow-400 animate-pulse"></div>
-							Get FREE Demo
-						</a>
-						<a href="/#pricing" class="third-text-element border w-auto px-10  md:h-20 border-zinc-800 rounded-full p-4 text-sm   flex flex-row justify-evenly items-center bg-black  shadow-  shadow-2xl shadow-yellow-200/20 bg-yellow-   hover:bg-slate-300 hover:text-black z-50 ">
-							
-							See Pricing
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		
+	<section>
+		<PrawHero />
 	</section>
+	
+	
+	<section class="agent-showcase min-h-[92vh] bg-white py-20 px-8 hidden">
+		<div class="max-w-6xl mx-auto">
+		  <!-- Section Header -->
+		  <div class="flex items-center gap-4 mb-12">
+			<div class="w-10 h-10 rounded-full bg-black flex items-center justify-center">
+			  <div class="w-3 h-3 bg-[#fffbbd] rounded-full animate-pulse"></div>
+			</div>
+			<h2 class="text-3xl md:text-4xl font-semibold">Reddit Research Agent</h2>
+		  </div>
+		  
+		  <!-- Two Column Layout -->
+		  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+			<!-- Left Column: Description -->
+			<div class="flex flex-col justify-center">
+			  <h3 class="text-2xl font-medium mb-6">Competitive intelligence at your fingertips</h3>
+			  <ul class="space-y-4">
+				<li class="flex items-start gap-3">
+				  <div class="mt-1 w-5 h-5 rounded-full bg-black flex items-center justify-center flex-shrink-0">
+					<div class="w-2 h-2 bg-[#fdc4ff] rounded-full"></div>
+				  </div>
+				  <p class="text-zinc-700">Analyzes your website and discovers relevant competitors</p>
+				</li>
+				<li class="flex items-start gap-3">
+				  <div class="mt-1 w-5 h-5 rounded-full bg-black flex items-center justify-center flex-shrink-0">
+					<div class="w-2 h-2 bg-[#fdc4ff] rounded-full"></div>
+				  </div>
+				  <p class="text-zinc-700">Scans Reddit for valuable competitor intelligence</p>
+				</li>
+				<li class="flex items-start gap-3">
+				  <div class="mt-1 w-5 h-5 rounded-full bg-black flex items-center justify-center flex-shrink-0">
+					<div class="w-2 h-2 bg-[#fdc4ff] rounded-full"></div>
+				  </div>
+				  <p class="text-zinc-700">Compares your marketing strategy against competitors</p>
+				</li>
+				<li class="flex items-start gap-3">
+				  <div class="mt-1 w-5 h-5 rounded-full bg-black flex items-center justify-center flex-shrink-0">
+					<div class="w-2 h-2 bg-[#fdc4ff] rounded-full"></div>
+				  </div>
+				  <p class="text-zinc-700">Creates customized marketing strategy recommendations</p>
+				</li>
+				<li class="flex items-start gap-3">
+				  <div class="mt-1 w-5 h-5 rounded-full bg-black flex items-center justify-center flex-shrink-0">
+					<div class="w-2 h-2 bg-[#fdc4ff] rounded-full"></div>
+				  </div>
+				  <p class="text-zinc-700">Generates ready-to-use blog and Reddit content</p>
+				</li>
+			  </ul>
+			  
+			  <div class="mt-8">
+				<a href="#pricing" class="inline-flex items-center px-6 py-3 text-sm font-medium text-white bg-black rounded-full hover:bg-zinc-800 transition">
+				  See full capabilities
+				  <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+				  </svg>
+				</a>
+			  </div>
+			</div>
+			
+			<!-- Right Column: Interactive Demo -->
+			<div>
+			  <div class="bg-zinc-50 border border-zinc-200 rounded-2xl p-8 shadow-sm">
+				<!-- Terminal-like header -->
+				<div class="flex items-center justify-between mb-6">
+				  <div class="flex items-center gap-2">
+					<div class="w-3 h-3 rounded-full bg-rose-400"></div>
+					<div class="w-3 h-3 rounded-full bg-amber-400"></div>
+					<div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+				  </div>
+				  <div class="text-sm text-zinc-500">Reddit Research Agent Demo</div>
+				  <div class="w-4"></div> <!-- Spacer for alignment -->
+				</div>
+				
+				<!-- Form -->
+				<form class="space-y-6">
+				  <div>
+					<label for="website-url" class="block text-sm font-medium text-zinc-700 mb-1">Your website URL</label>
+					<div class="relative">
+					  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+						<svg class="h-5 w-5 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+						</svg>
+					  </div>
+					  <input type="url" name="website-url" id="website-url" class="pl-10 block w-full rounded-lg border border-zinc-300 bg-white py-3 px-4 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" placeholder="https://yourbusiness.com">
+					</div>
+				  </div>
+				  
+				  <div>
+					<label for="business-type" class="block text-sm font-medium text-zinc-700 mb-1">Business type</label>
+					<select id="business-type" name="business-type" class="block w-full rounded-lg border border-zinc-300 bg-white py-3 px-4 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent">
+					  <option value="" selected disabled>Select your business type</option>
+					  <option value="ecommerce">E-commerce</option>
+					  <option value="saas">SaaS</option>
+					  <option value="service">Service Business</option>
+					  <option value="local">Local Business</option>
+					  <option value="content">Content Creator</option>
+					</select>
+				  </div>
+				  
+				  <div>
+					<label for="marketing-goals" class="block text-sm font-medium text-zinc-700 mb-1">Marketing goals (optional)</label>
+					<textarea id="marketing-goals" name="marketing-goals" rows="3" class="block w-full rounded-lg border border-zinc-300 bg-white py-3 px-4 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" placeholder="What are your main marketing objectives?"></textarea>
+				  </div>
+				  
+				  <div class="flex items-center justify-between pt-2">
+					<div class="flex items-center">
+					  <input id="sample-data" name="sample-data" type="checkbox" class="h-4 w-4 text-black border-zinc-300 rounded focus:ring-black">
+					  <label for="sample-data" class="ml-2 block text-sm text-zinc-700">Use sample data</label>
+					</div>
+					
+					<button type="submit" class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-black hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
+					  <span>Analyze</span>
+					  <div class="ml-2 w-4 h-4 rounded-full bg-[#fffbbd]"></div>
+					</button>
+				  </div>
+				</form>
+				
+				<!-- Result preview (static for demo) -->
+				<div class="mt-8 pt-6 border-t border-zinc-200">
+				  <div class="flex items-center gap-2 mb-4">
+					<div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+					<p class="text-sm font-medium text-zinc-700">Results preview</p>
+				  </div>
+				  
+				  <div class="space-y-3 text-sm text-zinc-600">
+					<p class="font-medium">Discovered 3 relevant competitors</p>
+					<div class="flex gap-2">
+					  <span class="px-2 py-1 bg-zinc-100 rounded-full text-xs">Competitor A</span>
+					  <span class="px-2 py-1 bg-zinc-100 rounded-full text-xs">Competitor B</span>
+					  <span class="px-2 py-1 bg-zinc-100 rounded-full text-xs">Competitor C</span>
+					</div>
+					<p>Strategy recommendation: <span class="text-black">Focus on Reddit community engagement</span></p>
+					<p class="text-xs text-zinc-400">Complete analysis includes blog post and Reddit content examples</p>
+				  </div>
+				</div>
+			  </div>
+			  
+			  <!-- Social proof -->
+			  <div class="mt-6 px-4">
+				<p class="text-sm text-zinc-500 text-center">Trusted by 100+ businesses to improve their marketing strategy</p>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </section>
 
 
 <section class="new-hero min-h-screen hidden">
@@ -297,6 +398,10 @@
 		</div>
 
 	</div>
+</section>
+
+<section>
+	<PrawCry />
 </section>
 	
 
