@@ -58,7 +58,7 @@ export async function submitFavedIdea(token: string | null, idea: any) {
 
 
 export async function fetchWIPIdeas(token: string | null) {
-    const response = await fetch('https://api.s-tierproject.online/ideas/wip-ideas/', {
+    const response = await fetch('https://api.s-tierproject.online/projects/projects/', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

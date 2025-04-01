@@ -29,6 +29,7 @@
   async function loadIdeas() {
     try {
       const ideas = await fetchWIPIdeas(token);
+      console.log(ideas)
       wipIdeasStore.set(ideas);
     } catch (error) {
       console.error('Failed to load ideas:', error);

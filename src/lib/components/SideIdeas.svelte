@@ -87,8 +87,8 @@
     Started Projects 
   </h1>
   <div class="grid w-full">
-    {#each $wipIdeasStore as idea (idea.uuid)}
-      <a href={`/ideas/${idea.uuid}`} class="md:w-full border border-zinc-900 rounded-sm p-4 hover:bg-zinc-800 transition"
+    {#each $wipIdeasStore as idea (idea.id)}
+      <a href={`/projects/${idea.id}`} class="md:w-full border border-zinc-900 rounded-sm p-4 hover:bg-zinc-800 transition"
          in:fly={{ y: 20, duration: 500 }}>
         <div class="flex items-center gap-3">
           <div class="avatar">
@@ -97,8 +97,8 @@
             </div>
           </div>
           <div class="flex flex-col md:flex-row gap-2 md:w-full">
-            <div class="font-bold w-full">{idea.title}</div>
-            <div class="text-sm opacity-50 w-full">{idea.category}</div>
+            <div class="font-bold w-full">{idea.name}</div>
+            <div class="text-sm opacity-50 w-full">{idea.url}</div>
           </div>
         </div>
       </a>
