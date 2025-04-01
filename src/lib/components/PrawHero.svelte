@@ -43,13 +43,15 @@
           </p>
         </div>
         <div class="flex flex-col md:flex-row justify-center md:items-center gap-4 p-4">
-          <a href="/signup" class="third-text-element bg-bl md:bg-transparent border w-52 md:h-20 border-zinc-900 rounded-full p-4 text-sm flex flex-row justify-evenly items-center shadow-2xl shadow-yellow-200/20 hover:bg-slate-300 hover:text-black z-50 bg-black hidden">
-            <div class="w-2 h-2 bg-[#fffbbd] rounded-full bg-yellow-400 animate-pulse"></div>
-            Get FREE Demo
-          </a>
+          
           <a href="/#pricing" class="third-text-element border w-auto px-10 md:h-20 border-zinc-800 rounded-full p-4 text-sm flex flex-row justify-between gap-5 items-center bg-black shadow-2xl shadow-yellow-200/20 hover:bg-slate-300 hover:text-white z-50">
             <div class="w-2 h-2 bg-[#fffbbd] rounded-full bg-yellow-400 animate-pulse"></div>
             Try FREE Demo
+          </a>
+
+          <a href="/signup" class="third-text-element bg-zinc border w-52 md:h-20 border-zinc-300 rounded-full p-4 text-sm flex flex-row justify-evenly items-center shadow-2xl shadow-yellow-200/20 hover:bg-zinc-300 hover:text-black z-50  text-zinc-900">
+            
+            Contact Us
           </a>
         </div>
       </div>

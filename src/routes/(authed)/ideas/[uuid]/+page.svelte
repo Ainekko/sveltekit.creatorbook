@@ -100,36 +100,36 @@
   $: $activeTab;
 </script>
 
-<div class="min-h-[70vh] h-auto md:h-screen flex flex-col w-full pl-5 pt-5 bg-white text-gray-800">
-  <div class="px-4 py-2 w-auto h-8 flex flex-row items-center gap-3 bg-gray-100 rounded-full shadow-sm mb-6" in:fly={{ y: 20, duration: 500 }}>
-    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-    <p class="font-medium">
+<div class="min-h-[70vh] h-auto md:h-screen flex flex-col w-full pl-5 pt-5 bg-zinc-900 text-zinc-100">
+  <div class="px-4 py-2 w-auto h-8 flex flex-row items-center gap-3 bg-zinc-800 rounded-full shadow-sm mb-6" in:fly={{ y: 20, duration: 500 }}>
+    <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+    <p class="font-medium text-zinc-100">
       {$userStore?.username || 'Client'} 
-      {#if $userStore?.subscription_status === 'premium'} <span class="text-amber-500">★</span> {/if}
+      {#if $userStore?.subscription_status === 'premium'} <span class="text-amber-400">★</span> {/if}
     </p>
   </div>
 
   <div class="flex flex-col md:flex-row gap-6 w-full pr-5">
     <!-- Overview panel -->
-    <div class="bg-gray-50 rounded-xl shadow-sm p-6 md:w-1/3" in:fly={{ y: 20, duration: 500 }}>
-      <h2 class="text-2xl font-bold mb-4 text-gray-900">Marketing AI Dashboard</h2>
+    <div class="bg-zinc-800 rounded-xl shadow-sm p-6 md:w-1/3" in:fly={{ y: 20, duration: 500 }}>
+      <h2 class="text-2xl font-bold mb-4 text-zinc-100">Marketing AI Dashboard</h2>
       
       {#if $marketingAnalysis}
         <div class="mb-6">
-          <h3 class="text-lg font-semibold mb-2">Website Analysis</h3>
-          <div class="p-4 bg-white rounded-lg shadow-inner">
-            <p class="font-medium text-gray-800">{$marketingAnalysis.website_analysis.business_name}</p>
-            <p class="text-gray-600 text-sm mb-2">{$marketingAnalysis.website_analysis.industry}</p>
-            <p class="text-gray-700 mb-3">{$marketingAnalysis.website_analysis.description}</p>
+          <h3 class="text-lg font-semibold mb-2 text-zinc-200">Website Analysis</h3>
+          <div class="p-4 bg-zinc-700 rounded-lg shadow-inner">
+            <p class="font-medium text-zinc-100">{$marketingAnalysis.website_analysis.business_name}</p>
+            <p class="text-zinc-300 text-sm mb-2">{$marketingAnalysis.website_analysis.industry}</p>
+            <p class="text-zinc-200 mb-3">{$marketingAnalysis.website_analysis.description}</p>
             
             <div class="mt-3">
-              <p class="text-sm font-medium text-gray-700">Target Audience:</p>
-              <p class="text-sm text-gray-600">{$marketingAnalysis.website_analysis.target_audience}</p>
+              <p class="text-sm font-medium text-zinc-200">Target Audience:</p>
+              <p class="text-sm text-zinc-300">{$marketingAnalysis.website_analysis.target_audience}</p>
             </div>
             
             <div class="mt-3">
-              <p class="text-sm font-medium text-gray-700">Key Features:</p>
-              <ul class="list-disc list-inside text-sm text-gray-600">
+              <p class="text-sm font-medium text-zinc-200">Key Features:</p>
+              <ul class="list-disc list-inside text-sm text-zinc-300">
                 {#each $marketingAnalysis.website_analysis.key_features as feature}
                   <li>{feature}</li>
                 {/each}
@@ -139,52 +139,52 @@
         </div>
         
         <div>
-          <h3 class="text-lg font-semibold mb-2">Current Marketing</h3>
-          <div class="p-4 bg-white rounded-lg shadow-inner">
+          <h3 class="text-lg font-semibold mb-2 text-zinc-200">Current Marketing</h3>
+          <div class="p-4 bg-zinc-700 rounded-lg shadow-inner">
             <div class="flex justify-between mb-2">
-              <p class="text-sm font-medium text-gray-700">Social Presence:</p>
-              <p class="text-sm text-gray-600">{$marketingAnalysis.current_marketing_strategy.social_presence.join(', ')}</p>
+              <p class="text-sm font-medium text-zinc-200">Social Presence:</p>
+              <p class="text-sm text-zinc-300">{$marketingAnalysis.current_marketing_strategy.social_presence.join(', ')}</p>
             </div>
             
             <div class="flex justify-between mb-2">
-              <p class="text-sm font-medium text-gray-700">Content Focus:</p>
-              <p class="text-sm text-gray-600">{$marketingAnalysis.current_marketing_strategy.content_focus}</p>
+              <p class="text-sm font-medium text-zinc-200">Content Focus:</p>
+              <p class="text-sm text-zinc-300">{$marketingAnalysis.current_marketing_strategy.content_focus}</p>
             </div>
             
             <div class="flex justify-between mb-2">
-              <p class="text-sm font-medium text-gray-700">Engagement:</p>
-              <p class="text-sm text-gray-600">{$marketingAnalysis.current_marketing_strategy.engagement_rate}</p>
+              <p class="text-sm font-medium text-zinc-200">Engagement:</p>
+              <p class="text-sm text-zinc-300">{$marketingAnalysis.current_marketing_strategy.engagement_rate}</p>
             </div>
           </div>
         </div>
       {/if}
       
       <div class="mt-6 flex flex-col gap-2">
-        <button class="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
+        <button class="w-full py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium">
           Request New Analysis
         </button>
-        <button class="w-full py-2 px-4 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium" popovertarget="chat-popover">
+        <button class="w-full py-2 px-4 bg-zinc-700 border border-zinc-600 text-zinc-200 rounded-lg hover:bg-zinc-600 transition-colors text-sm font-medium" popovertarget="chat-popover">
           Chat with Marketing AI
         </button>
       </div>
     </div>
     
     <!-- Main content area -->
-    <div class="bg-white md:w-2/3 rounded-xl" in:fly={{ y: 20, duration: 500, delay: 200 }}>
+    <div class="bg-zinc-800 md:w-2/3 rounded-xl" in:fly={{ y: 20, duration: 500, delay: 200 }}>
       <!-- Tabs -->
-      <div class="flex border-b border-gray-200">
+      <div class="flex border-b border-zinc-700">
         <button 
-          class="px-4 py-2 font-medium text-sm {$activeTab === 'competitors' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}"
+          class="px-4 py-2 font-medium text-sm {$activeTab === 'competitors' ? 'border-b-2 border-green-500 text-green-400' : 'text-zinc-300 hover:text-zinc-100'}"
           on:click={() => activeTab.set('competitors')}>
           Competitor Analysis
         </button>
         <button 
-          class="px-4 py-2 font-medium text-sm {$activeTab === 'strategy' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}"
+          class="px-4 py-2 font-medium text-sm {$activeTab === 'strategy' ? 'border-b-2 border-green-500 text-green-400' : 'text-zinc-300 hover:text-zinc-100'}"
           on:click={() => activeTab.set('strategy')}>
           Strategy Recommendations
         </button>
         <button 
-          class="px-4 py-2 font-medium text-sm {$activeTab === 'content' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}"
+          class="px-4 py-2 font-medium text-sm {$activeTab === 'content' ? 'border-b-2 border-green-500 text-green-400' : 'text-zinc-300 hover:text-zinc-100'}"
           on:click={() => activeTab.set('content')}>
           Sample Content
         </button>
@@ -194,32 +194,32 @@
       <div class="p-4">
         {#if $activeTab === 'competitors' && $marketingAnalysis}
           <div>
-            <h2 class="text-xl font-bold mb-4">Reddit Competitor Analysis</h2>
-            <p class="text-gray-600 mb-4">Based on Reddit data, we've identified these key competitors and analyzed their marketing strategies.</p>
+            <h2 class="text-xl font-bold mb-4 text-zinc-100">Reddit Competitor Analysis</h2>
+            <p class="text-zinc-300 mb-4">Based on Reddit data, we've identified these key competitors and analyzed their marketing strategies.</p>
             
             <div class="grid md:grid-cols-2 gap-4">
               {#each $marketingAnalysis.competitors_analysis as competitor}
-                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow bg-gray-50">
+                <div class="border border-zinc-700 rounded-lg p-4 hover:shadow-md transition-shadow bg-zinc-700">
                   <div class="flex justify-between items-center mb-2">
-                    <h3 class="font-bold">{competitor.name}</h3>
-                    <span class="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded-full">{competitor.reddit_mentions} mentions</span>
+                    <h3 class="font-bold text-zinc-100">{competitor.name}</h3>
+                    <span class="text-sm bg-zinc-600 text-zinc-200 px-2 py-1 rounded-full">{competitor.reddit_mentions} mentions</span>
                   </div>
-                  <p class="text-sm text-gray-500 mb-1">{competitor.domain}</p>
+                  <p class="text-sm text-zinc-400 mb-1">{competitor.domain}</p>
                   <div class="flex gap-2 mb-2">
-                    <span class="text-sm font-medium">Sentiment:</span>
-                    <span class="text-sm {competitor.sentiment.includes('positive') ? 'text-green-600' : 'text-orange-600'}">{competitor.sentiment}</span>
+                    <span class="text-sm font-medium text-zinc-300">Sentiment:</span>
+                    <span class="text-sm {competitor.sentiment.includes('positive') ? 'text-green-400' : 'text-amber-400'}">{competitor.sentiment}</span>
                   </div>
                   <div class="mb-2">
-                    <p class="text-sm font-medium">Marketing Channels:</p>
+                    <p class="text-sm font-medium text-zinc-300">Marketing Channels:</p>
                     <div class="flex flex-wrap gap-1 mt-1">
                       {#each competitor.marketing_channels as channel}
-                        <span class="text-xs bg-gray-200 px-2 py-1 rounded-full">{channel}</span>
+                        <span class="text-xs bg-zinc-600 px-2 py-1 rounded-full text-zinc-200">{channel}</span>
                       {/each}
                     </div>
                   </div>
                   <div>
-                    <p class="text-sm font-medium">Content Strategy:</p>
-                    <p class="text-sm text-gray-600">{competitor.content_strategy}</p>
+                    <p class="text-sm font-medium text-zinc-300">Content Strategy:</p>
+                    <p class="text-sm text-zinc-300">{competitor.content_strategy}</p>
                   </div>
                 </div>
               {/each}
@@ -227,42 +227,42 @@
           </div>
         {:else if $activeTab === 'strategy' && $marketingAnalysis}
           <div>
-            <h2 class="text-xl font-bold mb-4">AI-Generated Strategy Recommendations</h2>
-            <p class="text-gray-600 mb-4">Based on your website analysis and competitor research, here are our recommended marketing strategies.</p>
+            <h2 class="text-xl font-bold mb-4 text-zinc-100">AI-Generated Strategy Recommendations</h2>
+            <p class="text-zinc-300 mb-4">Based on your website analysis and competitor research, here are our recommended marketing strategies.</p>
             
             <div class="grid md:grid-cols-2 gap-4 mb-6">
-              <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
-                <h3 class="font-medium mb-2">Recommended Channels</h3>
+              <div class="border border-zinc-700 rounded-lg p-4 bg-zinc-700">
+                <h3 class="font-medium mb-2 text-zinc-200">Recommended Channels</h3>
                 <div class="flex flex-wrap gap-2">
                   {#each $marketingAnalysis.strategy_recommendations.primary_channels as channel}
-                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">{channel}</span>
+                    <span class="bg-zinc-600 text-zinc-200 px-2 py-1 rounded-full text-sm">{channel}</span>
                   {/each}
                 </div>
               </div>
               
-              <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
-                <h3 class="font-medium mb-2">Content Focus</h3>
+              <div class="border border-zinc-700 rounded-lg p-4 bg-zinc-700">
+                <h3 class="font-medium mb-2 text-zinc-200">Content Focus</h3>
                 <div class="flex flex-wrap gap-2">
                   {#each $marketingAnalysis.strategy_recommendations.content_types as type}
-                    <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-sm">{type}</span>
+                    <span class="bg-zinc-600 text-zinc-200 px-2 py-1 rounded-full text-sm">{type}</span>
                   {/each}
                 </div>
               </div>
             </div>
             
-            <div class="border border-gray-200 rounded-lg p-4 mb-6 bg-gray-50">
-              <h3 class="font-medium mb-2">Positioning Strategy</h3>
-              <p class="text-gray-700">{$marketingAnalysis.strategy_recommendations.positioning}</p>
+            <div class="border border-zinc-700 rounded-lg p-4 mb-6 bg-zinc-700">
+              <h3 class="font-medium mb-2 text-zinc-200">Positioning Strategy</h3>
+              <p class="text-zinc-300">{$marketingAnalysis.strategy_recommendations.positioning}</p>
             </div>
             
-            <div class="border border-gray-200 rounded-lg p-4 mb-6 bg-gray-50">
-              <h3 class="font-medium mb-2">Community Strategy</h3>
-              <p class="text-gray-700">{$marketingAnalysis.strategy_recommendations.community_strategy}</p>
+            <div class="border border-zinc-700 rounded-lg p-4 mb-6 bg-zinc-700">
+              <h3 class="font-medium mb-2 text-zinc-200">Community Strategy</h3>
+              <p class="text-zinc-300">{$marketingAnalysis.strategy_recommendations.community_strategy}</p>
             </div>
             
             <div>
-              <h3 class="font-medium mb-2">Action Plan</h3>
-              <ul class="list-disc list-inside space-y-2 text-gray-700 pl-2">
+              <h3 class="font-medium mb-2 text-zinc-200">Action Plan</h3>
+              <ul class="list-disc list-inside space-y-2 text-zinc-300 pl-2">
                 {#each $marketingAnalysis.strategy_recommendations.action_items as item}
                   <li>{item}</li>
                 {/each}
@@ -271,19 +271,19 @@
           </div>
         {:else if $activeTab === 'content' && $marketingAnalysis}
           <div>
-            <h2 class="text-xl font-bold mb-4">AI-Generated Sample Content</h2>
-            <p class="text-gray-600 mb-4">Based on our analysis, here are sample content pieces optimized for your audience and marketing goals.</p>
+            <h2 class="text-xl font-bold mb-4 text-zinc-100">AI-Generated Sample Content</h2>
+            <p class="text-zinc-300 mb-4">Based on our analysis, here are sample content pieces optimized for your audience and marketing goals.</p>
             
             <div class="mb-6">
-              <h3 class="font-medium text-lg mb-2">Sample Reddit Post</h3>
-              <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 whitespace-pre-line">
+              <h3 class="font-medium text-lg mb-2 text-zinc-200">Sample Reddit Post</h3>
+              <div class="border border-zinc-700 rounded-lg p-4 bg-zinc-700 whitespace-pre-line text-zinc-200">
                 {$marketingAnalysis.sample_content.reddit_post}
               </div>
             </div>
             
             <div>
-              <h3 class="font-medium text-lg mb-2">Sample Blog Post</h3>
-              <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 whitespace-pre-line">
+              <h3 class="font-medium text-lg mb-2 text-zinc-200">Sample Blog Post</h3>
+              <div class="border border-zinc-700 rounded-lg p-4 bg-zinc-700 whitespace-pre-line text-zinc-200">
                 {$marketingAnalysis.sample_content.blog_post}
               </div>
             </div>
@@ -295,8 +295,8 @@
 </div>
 
 <div class="relative" in:fly={{ y: 20, duration: 500 }} id="chat-popover" popover="manual">
-  <div class="bg-white rounded-xl shadow-lg p-4 max-w-md w-full">
-    <button class="absolute top-2 right-2 p-2 text-gray-500 hover:text-gray-700" popovertarget="chat-popover" popovertargetaction="hide">
+  <div class="bg-zinc-800 rounded-xl shadow-lg p-4 max-w-md w-full">
+    <button class="absolute top-2 right-2 p-2 text-zinc-400 hover:text-zinc-200" popovertarget="chat-popover" popovertargetaction="hide">
       <span class="font-mono">✕</span>
     </button>
     
@@ -305,8 +305,8 @@
 </div>
 
 <div class="relative" in:fly={{ y: 20, duration: 500 }} id="idea-popover" popover="manual">
-  <div class="bg-white rounded-xl shadow-lg p-4 max-w-md w-full">
-    <button class="absolute top-2 right-2 p-2 text-gray-500 hover:text-gray-700" popovertarget="idea-popover" popovertargetaction="hide">
+  <div class="bg-zinc-800 rounded-xl shadow-lg p-4 max-w-md w-full">
+    <button class="absolute top-2 right-2 p-2 text-zinc-400 hover:text-zinc-200" popovertarget="idea-popover" popovertargetaction="hide">
       <span class="font-mono">✕</span>
     </button>
     
