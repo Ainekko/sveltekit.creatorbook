@@ -16,16 +16,31 @@
 </script>
 
 <svelte:head>
-  <title>Validation as a service for tech startups</title>
-  <meta name="description" content="Get top-tier validation services for your startup. Focus on building while we handle the validation process for you.">
-  <meta property="og:title" content="Validation as a service for upcoming startups">
-  <meta property="og:description" content="Get top-tier validation services for your startup. Focus on building while we handle the validation process for you.">
-  <meta property="og:image" content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/createrbook+final/new+cb+assets/Home.jpg">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Validation as a service for upcoming startups">
-  <meta name="twitter:description" content="Get top-tier validation services for your startup. Focus on building while we handle the validation process for you.">
-  <meta name="twitter:image" content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/createrbook+final/new+cb+assets/Home.jpg">
+	<title>Ai marketing agents for saas</title>
+	<meta
+		name="description"
+		content="Be the first to catch latest industry trends, create targeted content and grow"
+	/>
+	<meta property="og:title" content="Ai marketing agents for saas" />
+	<meta
+		property="og:description"
+		content="Be the first to catch latest industry trends, create targeted content and grow"
+	/>
+	<meta
+		property="og:image"
+		content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/createrbook+final/new+cb+assets/Home.jpg"
+	/>
+	<meta property="og:type" content="website" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="Ai marketing agents for saas" />
+	<meta
+		name="twitter:description"
+		content="Be the first to catch latest industry trends, create targeted content and grow"
+	/>
+	<meta
+		name="twitter:image"
+		content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/createrbook+final/new+cb+assets/Home.jpg"
+	/>
 </svelte:head>
 
 <main class="min-h-screen bg-whit">
