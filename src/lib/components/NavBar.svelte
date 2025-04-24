@@ -51,15 +51,15 @@
         
         
         
-        <a href="/services" class="flex items-center gap-1 text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-1 hover:bg-zinc-800/60">
+        <a href="/#" class="flex items-center gap-1 text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-1 hover:bg-zinc-800/60">
           <span>Services</span>
         </a>
         
-        <a href="/pricing" class="flex items-center gap-1 text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-1 hover:bg-zinc-800/60">
+        <a href="/#" class="flex items-center gap-1 text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-1 hover:bg-zinc-800/60">
           <span>Pricing</span>
         </a>
         
-        <a href="/blog" class="flex items-center gap-1 text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-1 hover:bg-zinc-800/60">
+        <a href="/#" class="flex items-center gap-1 text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-1 hover:bg-zinc-800/60">
           <span>Blog</span>
         </a>
       </div>

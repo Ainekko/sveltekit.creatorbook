@@ -13,15 +13,15 @@
 </script>
 
 <svelte:head>
-	<title>Validation as a service for upcoming tech startups</title>
+	<title>Ai marketing agents for saas</title>
 	<meta
 		name="description"
-		content="Get top-tier validation services for your startup. Focus on building while we handle the validation process for you."
+		content="Be the first to catch latest industry trends, create targeted content and grow"
 	/>
-	<meta property="og:title" content="Validation as a service for upcoming startups" />
+	<meta property="og:title" content="Ai marketing agents for saas" />
 	<meta
 		property="og:description"
-		content="Get top-tier validation services for your startup. Focus on building while we handle the validation process for you."
+		content="Be the first to catch latest industry trends, create targeted content and grow"
 	/>
 	<meta
 		property="og:image"
@@ -29,10 +29,10 @@
 	/>
 	<meta property="og:type" content="website" />
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="Validation as a service for upcoming startups" />
+	<meta name="twitter:title" content="Ai marketing agents for saas" />
 	<meta
 		name="twitter:description"
-		content="Get top-tier validation services for your startup. Focus on building while we handle the validation process for you."
+		content="Be the first to catch latest industry trends, create targeted content and grow"
 	/>
 	<meta
 		name="twitter:image"
