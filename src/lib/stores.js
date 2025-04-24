@@ -8,3 +8,7 @@ export const userStore = writable({
     user_email: '',
     subscription_status: ''
 });
+
+
+
+export const isLoggedIn = writable(false);

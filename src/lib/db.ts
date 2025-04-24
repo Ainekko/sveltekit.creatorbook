@@ -1,7 +1,8 @@
 // src/lib/db.ts
 import type { Project, AnalysisResult } from './types';
 
-
+let basePraw = "https://praw-hell-cry.vercel.app"
+// let basePraw = "http://127.0.0.1:8000"
 
 
 /**
@@ -12,7 +13,50 @@ import type { Project, AnalysisResult } from './types';
  * @param marketingGoals The marketing goals
  * @param analysisData The analysis result data
  * @returns The saved project data
+ * 
  */
+
+
+import { goto } from "$app/navigation";
+import { isLoggedIn } from './stores';
+
+
+
+
+
+    export function logout() {
+            let token = localStorage.getItem('token');
+
+            console.log(`fetching with ${token}`)
+            fetch('https://api.s-tierproject.online/users/logout/', {
+
+                
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${token}` // Replace token with actual token value
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Logged out successfully');
+                    localStorage.removeItem('token');
+                    isLoggedIn.set(false);
+                    console.log('token')
+                    goto('/');
+
+                    // Redirect the user to the login page or perform any other action
+                } else {
+                    console.error('Failed to logout:', response.status);
+                }
+            })
+            .catch(error => {
+                console.error('Error during logout:', error);
+            });
+            }
+
+
+
 
 export async function submitWIPIdea(token: string | null, idea: any) {
 
@@ -75,69 +119,184 @@ export async function fetchWIPIdeas(token: string | null) {
 
 
 export async function saveProject(
-    token: string | null,
-    userId: number,
-    clientUrl: string,
-    businessType: string,
-    marketingGoals: string,
-    analysisData: AnalysisResult
-  ): Promise<Project> {
-    try {
-      // Extract business name from analysis or use URL as fallback
-      const projectName = analysisData.website_analysis?.business_name || 
-                          new URL(clientUrl).hostname.replace('www.', '');
-      
-      const projectData = {
-        user_id: userId,
-        name: projectName,
-        url: clientUrl,
-        business_type: businessType,
-        goals: marketingGoals,
-        data: analysisData,
-        created_at: new Date().toISOString()
-      };
-      
-      const response = await fetch('https://api.s-tierproject.online/projects/create_projects/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${token}`
+  token: string | null,
+  clientUrl: string,
+  businessType: string,
+  marketingGoals: string,
+  analysisData: AnalysisResult
+): Promise<Project> {
+  try {
+    const projectData = {
+      url: clientUrl,
+      business_type: businessType,
+      marketing_goals: marketingGoals,  // Changed from 'goals'
+      result: analysisData,            // Changed from 'data'
+      // Remove 'name' as it doesn't exist in your model
+      // Remove 'created_at' as it's read-only
+    };
+    
+    const response = await fetch('https://api.s-tierproject.online/projects/create_projects/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${token}`
       },
-        body: JSON.stringify(projectData)
-      });
-      
-      if (!response.ok) throw new Error('Failed to save project');
-      
-      return await response.json();
-      
-    } catch (e) {
-      throw new Error('Failed to save project: ' + (e instanceof Error ? e.message : String(e)));
-    }
+      body: JSON.stringify(projectData)
+    });
+    
+    if (!response.ok) throw new Error('Failed to save project');
+    
+    return await response.json();
+    
+  } catch (e) {
+    throw new Error('Failed to save project: ' + (e instanceof Error ? e.message : String(e)));
   }
+}
   
   /**
    * Fetches a website analysis from the backend
    * @param url The URL to analyze
    * @returns The analysis result
    */
-  export async function analyzeWebsite(url: string): Promise<AnalysisResult> {
+  export async function analyzeWebsite(url: string): Promise<{ task_id: string }> {
     if (!url) {
       throw new Error("Please enter a website URL");
     }
+
+    console.log(`[${new Date().toISOString()}] Starting analysis for URL: ${url}`);
   
-    try {
-      // Make API request to Django backend
-      const response = await fetch(`http://127.0.0.1:8000/cry_praw/analyze/?url=${encodeURIComponent(url)}`);
-      
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
+    const response = await fetch(`${basePraw}/cry_praw/analyze/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ url })
+    });
+  
+    if (!response.ok) {
+      console.error(`[${new Date().toISOString()}] Analysis API error:`, response.status, await response.text());
+      throw new Error(`API error: ${response.status}`);
+    }
+  
+    const data = await response.json();
+    console.log(`[${new Date().toISOString()}] Received task ID: ${data.task_id}`);
+    return { task_id: data.task_id };
+  }
+
+  
+
+  export async function pollTaskResult(
+    task_id: string,
+    options: {
+      initialDelay?: number;
+      interval?: number;
+      timeout?: number;
+      onProgress?: (status: string, elapsed: number) => void;
+    } = {}
+  ): Promise<AnalysisResult> {
+    const {
+      initialDelay = 2 * 60 * 1000,  // Wait 2 minutes before first poll
+      interval = 30 * 1000,          // Poll every 30 seconds
+      timeout = 6 * 60 * 1000,       // Timeout after 6 minutes
+      onProgress
+    } = options;
+
+    const startTime = Date.now();
+    let pollCount = 0;
+
+    console.log(`[${new Date().toISOString()}] Starting poll process for task ${task_id}`);
+    console.log(`Initial delay: ${initialDelay/1000}s, Poll interval: ${interval/1000}s, Timeout: ${timeout/1000}s`);
+
+    // Initial delay to give GitHub Actions time to process
+    console.log(`[${new Date().toISOString()}] Waiting ${initialDelay/1000} seconds before first poll...`);
+    await new Promise(resolve => setTimeout(resolve, initialDelay));
+
+    async function poll(): Promise<AnalysisResult> {
+      const elapsed = Date.now() - startTime;
+      pollCount++;
+
+      // Check for timeout
+      if (elapsed >= timeout) {
+        const errorMsg = `Analysis timed out after ${elapsed/1000} seconds (${pollCount} attempts)`;
+        console.error(`[${new Date().toISOString()}] ${errorMsg}`);
+        throw new Error(errorMsg);
       }
+
+      try {
+        console.log(`[${new Date().toISOString()}] Poll #${pollCount}: Checking status for task ${task_id}`);
+        
+        const res = await fetch(`${basePraw}/cry_praw/task-status/${task_id}/`);
+        
+        if (!res.ok) {
+          console.error(`[${new Date().toISOString()}] Status API error:`, res.status, await res.text());
+          throw new Error(`Status check failed: ${res.status}`);
+        }
+
+        const data = await res.json();
+        console.log(`[${new Date().toISOString()}] Poll #${pollCount} status:`, data.status);
+
+        // Call progress callback if provided
+        if (onProgress) {
+          onProgress(data.status, elapsed);
+        }
+
+        if (data.status === 'complete') {
+          console.log(`[${new Date().toISOString()}] Analysis complete after ${elapsed/1000} seconds (${pollCount} attempts)`);
+          
+          // The results are already parsed by the Django view
+          if (!data.results) {
+            throw new Error("Complete status but no results found");
+          }
+          
+          // Log a preview of the results
+          console.log(`[${new Date().toISOString()}] Results preview:`, {
+            analysis_data: Object.keys(data.results.analysis_data || {}),
+            timestamp: data.results.timestamp
+          });
+          
+          return data.results;
+        }
+
+        if (data.status === 'failed') {
+          const errorMsg = `Analysis failed: ${data.error || 'Unknown error'}`;
+          console.error(`[${new Date().toISOString()}] ${errorMsg}`);
+          throw new Error(errorMsg);
+        }
+
+        // Wait and retry
+        console.log(`[${new Date().toISOString()}] Waiting ${interval/1000} seconds before next poll...`);
+        await new Promise(resolve => setTimeout(resolve, interval));
+        return poll();
+      } catch (error) {
+        console.error(`[${new Date().toISOString()}] Poll #${pollCount} error:`, error);
+        throw error;
+      }
+    }
+
+    return poll();
+  }
   
-      return await response.json();
-    } catch (err) {
-      throw new Error(`Error analyzing website: ${err instanceof Error ? err.message : String(err)}`);
+  
+  export async function analyzeWebsiteAndWait(
+    url: string,
+    onProgress?: (status: string, elapsed: number) => void
+  ): Promise<AnalysisResult> {
+    console.log(`[${new Date().toISOString()}] Starting analysis workflow for: ${url}`);
+    
+    try {
+      const { task_id } = await analyzeWebsite(url);
+      console.log(`[${new Date().toISOString()}] Task ID received: ${task_id}`);
+      
+      const result = await pollTaskResult(task_id, { onProgress });
+      
+      console.log(`[${new Date().toISOString()}] Analysis workflow completed successfully`);
+      return result;
+    } catch (error) {
+      console.error(`[${new Date().toISOString()}] Analysis workflow failed:`, error);
+      throw error;
     }
   }
+  
   
   /**
    * Type definitions to support the database functions

@@ -5,9 +5,11 @@
   import { onMount } from 'svelte';
   import { userStore } from '$lib/stores';
   import { get_user } from '$lib/check';
-  // import { Plus } from 'lucide-svelte';
+  import { page } from '$app/stores'; // Import page store to determine active route
+  import { ChevronDown, ChevronRight } from 'lucide-svelte'; // For expand/collapse icons
 
   function generateRandomGradient() {
+    // Your existing gradient function
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     const width = 100;
@@ -16,27 +18,33 @@
     canvas.width = width;
     canvas.height = height;
 
-    // Generate random colors for gradient
     const color1 = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
     const color2 = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
 
-    // Create gradient
     const gradient = ctx.createLinearGradient(0, 0, width, height);
     gradient.addColorStop(0, color1);
     gradient.addColorStop(1, color2);
 
-    // Fill with gradient
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
 
-    // Convert canvas to data URL
     return canvas.toDataURL();
   }
 
   function addNewIdea() {
-    // Placeholder function - you'll want to implement the actual logic to add a new idea
     console.log('Add new idea clicked');
   }
+  
+  // For tracking which project submenus are expanded
+  let expandedProjects = {};
+  
+  function toggleProject(projectId) {
+    expandedProjects[projectId] = !expandedProjects[projectId];
+    expandedProjects = {...expandedProjects}; // Force reactivity
+  }
+
+  // Check if a project is the current active project
+  $: activeProjectId = $page.params.id;
 
   // Generate avatar gradient once for the user
   const userAvatarGradient = generateRandomGradient();
@@ -54,6 +62,12 @@
       } else {
         console.error('User data could not be fetched.');
       }
+
+      // Set all projects to expanded by default
+      $wipIdeasStore.forEach(project => {
+        expandedProjects[project.id] = true;
+      });
+      expandedProjects = {...expandedProjects}; // Force reactivity
     } catch (error) {
       console.error('An error occurred while fetching user data:', error);
     }
@@ -63,7 +77,7 @@
   $: $userStore;
 </script>
 
-<div class="flex flex-col p-5 md:w-full max-w-[350px] md:max-w-[900px]">
+<div class="flex flex-col p-5 md:w-full max-w-[250px] md:max-w-[500px]">
   <!-- User welcome section -->
   <div class="px-4 py-4 flex items-center gap-3 bg-zinc- rounded-lg shadow-sm mb-6" 
        in:fly={{ y: 20, duration: 500 }}>
@@ -84,28 +98,87 @@
   </div>
   
   <h1 class="text-2xl font-medium text-zinc-300 mb-5">
-    Started Projects 
+    Projects 
   </h1>
-  <div class="grid w-full">
-    {#each $wipIdeasStore as idea (idea.id)}
-      <a href={`/projects/${idea.id}`} class="md:w-full border border-zinc-900 rounded-sm p-4 hover:bg-zinc-800 transition"
-         in:fly={{ y: 20, duration: 500 }}>
-        <div class="flex items-center gap-3">
-          <div class="avatar">
-            <div class="mask mask-squircle w-12 h-12">
-              <img src={generateRandomGradient()} alt="Avatar Tailwind CSS Component" />
+  
+  <!-- Projects with nested navigation -->
+  <div class="flex flex-col gap-2">
+    {#each $wipIdeasStore as project (project.id)}
+      <div class="border border-zinc-900 rounded-xl overflow-hidden">
+        <!-- Project header -->
+        <div 
+          class="flex items-center justify-between p-4 cursor-pointer hover:bg-zinc-800 transition"
+          class:bg-zinc-800={activeProjectId === project.id}
+          on:click={() => toggleProject(project.id)}
+        >
+          <div class="flex items-center gap-3">
+            <div class="avatar">
+              <div class="mask mask-squircle w-10 h-10">
+                <img src={generateRandomGradient()} alt="Project Avatar" />
+              </div>
             </div>
+            <div class="font-bold">{project.url}</div>
           </div>
-          <div class="flex flex-col md:flex-row gap-2 md:w-full">
-            <div class="font-bold w-full">{idea.name}</div>
-            <div class="text-sm opacity-50 w-full">{idea.url}</div>
+          <div>
+            {#if expandedProjects[project.id]}
+              <ChevronDown size={18} />
+            {:else}
+              <ChevronRight size={18} />
+            {/if}
           </div>
         </div>
-      </a>
+        
+        <!-- Project subnav - conditionally visible -->
+        {#if expandedProjects[project.id]}
+          <div class="pl-14 border-t border-zinc-800 relative" transition:fly={{ y: -20, duration: 200 }}>
+            <!-- Vertical connector line for the entire submenu -->
+            <div class="absolute left-7 top-0 bottom-0 w-px bg-zinc-700"></div>
+            
+            <!-- Competitors link with connector -->
+            <div class="relative">
+              <!-- Horizontal connector line -->
+              <div class="absolute left-0 top-1/2 w-3 h-px bg-zinc-700"></div>
+              <a 
+                href={`/projects/${project.id}/competitors`}
+                class="block py-2 px-4 text-sm hover:bg-zinc-800 transition border-b border-zinc-900 ml-3"
+                class:text-amber-400={$page.url.pathname.includes(`/project/${project.id}/competitors`)}
+              >
+                Competitors
+              </a>
+            </div>
+            
+            <!-- SEO link with connector -->
+            <div class="relative">
+              <!-- Horizontal connector line -->
+              <div class="absolute left-0 top-1/2 w-3 h-px bg-zinc-700"></div>
+              <a 
+                href={`/projects/${project.id}/seo`}
+                class="block py-2 px-4 text-sm hover:bg-zinc-800 transition border-b border-zinc-900 ml-3" 
+                class:text-amber-400={$page.url.pathname.includes(`/project/${project.id}/keywords`)}
+              >
+                Seo
+              </a>
+            </div>
+            
+            <!-- Reddit link with connector -->
+            <div class="relative">
+              <!-- Horizontal connector line -->
+              <div class="absolute left-0 top-1/2 w-3 h-px bg-zinc-700"></div>
+              <a 
+                href={`/projects/${project.id}/reddit`}
+                class="block py-2 px-4 text-sm hover:bg-zinc-800 transition ml-3"
+                class:text-amber-400={$page.url.pathname.includes(`/project/${project.id}/content-plan`)}
+              >
+                Reddit
+              </a>
+            </div>
+          </div>
+        {/if}
+      </div>
     {/each}
   </div>
 
-  <!-- Add New Idea Button -->
+  <!-- Add New Project Button -->
   <div class="mt-4">
     <button 
       on:click={addNewIdea} 
@@ -115,11 +188,3 @@
     </button>
   </div>
 </div>
-
-<style>
-  .grid {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  }
-</style>

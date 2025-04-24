@@ -1,4 +1,4 @@
-<section class="hero min-h-[92vh] relative overflow-hidden bg-gray-50">
+<section class="hero min-h-[92vh]  relative overflow-hidden bg-gray-50">
   <!-- Subtle gradient background elements -->
   <div class="absolute inset-0 z-0">
     <!-- Soft gradient accent in corner -->
@@ -11,7 +11,7 @@
     </div>
   </div>
   
-  <div class="flex w-full h-full justify-center items-center px-4 md:px-28 py-20 relative z-10">
+  <div class="flex w-full max-w-[1400px] h-full justify-center items-center px-4 md:px-28 py-20 relative z-10">
     <div class="container flex flex-col md:flex-row">
       <div class="w-full md:w-1/2 flex justify-center items-start flex-col pt-">
         <div class="w-32 md:w-full flex flex-row justify- gap-5 md:gap-10 mb-10 font-thin text-black hidden">
@@ -34,12 +34,12 @@
             </p>
           </div>
         </div>
-        <h1 class="text-element font-semibold max-w-[600px] text-4xl md:text-7xl text-left text-zinc-800 mb-5 md:mb-5 flex flex-col">
-          AI Agents and designs to bring your marketing up to date
+        <h1 class="text-element font-medium text-4xl max-w-[600px] text-zinc-950 tracking-tight lg:text-6xl">
+          AI Agents to bring your marketing up to date
         </h1>
         <div class="p-4">
-          <p class="third-text-element font-normal text-xl md:max-w-[600px] md:text-xl text-left text-zinc-500 pb-5 md:pb-10 z-1000">
-            10x your marketing with AI agents, get a slick and modern design <span class="fourth-text-element text-black">all in one place</span>
+          <p class="third-text-element font-normal text-xl md:max-w-[600px] md:text-xl text-left text-zinc-500 pb-5 md:pb-10  z-1000">
+            10x your marketing, grow your socials and get a slick modern design <span class="fourth-text-element text-black">all in one place</span>
           </p>
         </div>
         <div class="flex flex-col md:flex-row justify-center md:items-center gap-4 p-4">

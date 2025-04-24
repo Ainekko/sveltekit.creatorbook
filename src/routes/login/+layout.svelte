@@ -1,8 +1,8 @@
 <script lang="ts">
     import type { LayoutData } from './$types';
-    import NavBar from "$lib/components/NavBar.svelte";
-    import LightNav from '$lib/components/LightNav.svelte';
 
+
+  
     
     export let data: LayoutData;
 </script>
@@ -28,7 +28,6 @@
     
     <div class="container ">
       <!-- <LightNav/> -->
-      <NavBar />
       <slot />
     </div>
 </div> 

@@ -2,7 +2,10 @@
   import { inject } from '@vercel/analytics';
   import "../app.css";
   import Deal from '$lib/components/Deal.svelte';
+	import NavBar from '$lib/components/NavBar.svelte';
   // import { checkAndDeleteToken } from '$lib/check';
+
+
 
   const tokenCheckInterval = 24 * 60 * 60 * 1000; // 24 hours
   // Set up the interval to call the token check function
@@ -25,8 +28,13 @@
   <meta name="twitter:image" content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/createrbook+final/new+cb+assets/Home.jpg">
 </svelte:head>
 
-<main class="overflow-hidden">
-  <slot />
+<main class="min-h-screen bg-whit">
+  <div class="sticky top-0 z-50 ">
+    <NavBar />
+  </div>
+  <div class="overflow-hidden">
+    <slot />
+  </div>
   <section>
     <!-- Calendly badge widget begin -->
     <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">

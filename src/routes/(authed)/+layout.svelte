@@ -1,5 +1,4 @@
 <script lang="ts">
-	import AuthedNav from "$lib/components/AuthedNav.svelte";
 	import SideIdeas from "$lib/components/SideIdeas.svelte";
     
     
@@ -8,7 +7,7 @@
 	import { goto } from "$app/navigation";
 
   import { fetchWIPIdeas } from '$lib/db';
-  import { wipIdeasStore } from '$lib/stores';
+  import { isLoggedIn, wipIdeasStore } from '$lib/stores';
 
 
 
@@ -41,6 +40,7 @@
     onMount(async () => {
       try {
         checkAndDeleteToken(token);
+        isLoggedIn.set(true)
         loadIdeas();
       } catch (error) {
         console.error('Token check failed:', error);
@@ -51,9 +51,7 @@
 
 </script>
 
-<div class="w-full flex justify-start px-5 items-center">
-    <AuthedNav />
-</div>
+
 
 <main class="flex flex-col-reverse  md:flex-row">
 
