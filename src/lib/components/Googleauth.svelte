@@ -153,4 +153,14 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
+    /* Add this to your style section */
+    :global(.google-auth-container div) {
+    background: transparent !important;
+    }
+
+    :global(.google-auth-container div[role="button"]) {
+    /* Override Google button styles */
+    box-shadow: none !important;
+    /* Add any other overrides you need */
+}
 </style>
