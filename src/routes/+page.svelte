@@ -49,7 +49,7 @@
 
 	
 
-	<section>
+	<section class="hidden">
 		<PrawCry />
 	</section>
 
