@@ -4,6 +4,6 @@
 
 </script>
 
-<section>
+<section class="w-full">
   <StartNewPraw />
 </section>

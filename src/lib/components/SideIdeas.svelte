@@ -6,7 +6,8 @@
   import { userStore } from '$lib/stores';
   import { get_user } from '$lib/check';
   import { page } from '$app/stores'; // Import page store to determine active route
-  import { ChevronDown, ChevronRight } from 'lucide-svelte'; // For expand/collapse icons
+  import { ChevronDown, ChevronRight, Plus } from 'lucide-svelte'; // Added Plus icon
+  import StartNewPraw from './startNewPraw.svelte';
 
   function generateRandomGradient() {
     // Your existing gradient function
@@ -77,9 +78,10 @@
   $: $userStore;
 </script>
 
-<div class="flex flex-col p-5 md:w-full max-w-[250px] md:max-w-[500px]">
+<!-- Main container with fixed height -->
+<div class="flex flex-col h-screen p-5 md:w-full max-w-[250px] md:max-w-[500px]">
   <!-- User welcome section -->
-  <div class="px-4 py-4 flex items-center gap-3 bg-zinc- rounded-lg shadow-sm mb-6" 
+  <div class="px-4 py-4 flex items-center gap-3 bg-zinc- rounded-lg shadow-sm mb-4" 
        in:fly={{ y: 20, duration: 500 }}>
     <div class="avatar">
       <div class="mask rounded-full w-12 h-12">
@@ -97,94 +99,125 @@
     </div>
   </div>
   
-  <h1 class="text-2xl font-medium text-zinc-300 mb-5">
+  <h1 class="text-2xl font-medium text-zinc-300 mb-3">
     Projects 
   </h1>
   
-  <!-- Projects with nested navigation -->
-  <div class="flex flex-col gap-2">
-    {#each $wipIdeasStore as project (project.id)}
-      <div class="border border-zinc-900 rounded-xl overflow-hidden">
-        <!-- Project header -->
-        <div 
-          class="flex items-center justify-between p-4 cursor-pointer hover:bg-zinc-800 transition"
-          class:bg-zinc-800={activeProjectId === project.id}
-          on:click={() => toggleProject(project.id)}
-        >
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="mask mask-squircle w-10 h-10">
-                <img src={generateRandomGradient()} alt="Project Avatar" />
+  <!-- Scrollable projects container -->
+  <div class="flex-1 overflow-y-auto pr-1 mb-4" style="scrollbar-width: thin;">
+    <div class="flex flex-col gap-2">
+      {#each $wipIdeasStore as project (project.id)}
+        <div class="border border-zinc-900 rounded-xl overflow-hidden">
+          <!-- Project header -->
+          <div 
+            class="flex items-center justify-between p-4 cursor-pointer hover:bg-zinc-800 transition"
+            class:bg-zinc-800={activeProjectId === project.id}
+            on:click={() => toggleProject(project.id)}
+          >
+            <div class="flex items-center gap-3">
+              <div class="avatar">
+                <div class="mask mask-squircle w-10 h-10">
+                  <img src={generateRandomGradient()} alt="Project Avatar" />
+                </div>
+              </div>
+              <div class="font-bold">{project.url}</div>
+            </div>
+            <div>
+              {#if expandedProjects[project.id]}
+                <ChevronDown size={18} />
+              {:else}
+                <ChevronRight size={18} />
+              {/if}
+            </div>
+          </div>
+          
+          <!-- Project subnav - conditionally visible -->
+          {#if expandedProjects[project.id]}
+            <div class="pl-14 border-t border-zinc-800 relative" transition:fly={{ y: -20, duration: 200 }}>
+              <!-- Vertical connector line for the entire submenu -->
+              <div class="absolute left-7 top-0 bottom-0 w-px bg-zinc-700"></div>
+              
+              <!-- Competitors link with connector -->
+              <div class="relative">
+                <!-- Horizontal connector line -->
+                <div class="absolute left-0 top-1/2 w-3 h-px bg-zinc-700"></div>
+                <a 
+                  href={`/projects/${project.id}/competitors`}
+                  class="block py-2 px-4 text-sm hover:bg-zinc-800 transition border-b border-zinc-900 ml-3"
+                  class:text-amber-400={$page.url.pathname.includes(`/project/${project.id}/competitors`)}
+                >
+                  Competitors
+                </a>
+              </div>
+              
+              <!-- SEO link with connector -->
+              <div class="relative">
+                <!-- Horizontal connector line -->
+                <div class="absolute left-0 top-1/2 w-3 h-px bg-zinc-700"></div>
+                <a 
+                  href={`/projects/${project.id}/seo`}
+                  class="block py-2 px-4 text-sm hover:bg-zinc-800 transition border-b border-zinc-900 ml-3" 
+                  class:text-amber-400={$page.url.pathname.includes(`/project/${project.id}/keywords`)}
+                >
+                  Seo
+                </a>
+              </div>
+              
+              <!-- Reddit link with connector -->
+              <div class="relative">
+                <!-- Horizontal connector line -->
+                <div class="absolute left-0 top-1/2 w-3 h-px bg-zinc-700"></div>
+                <a 
+                  href={`/projects/${project.id}/reddit`}
+                  class="block py-2 px-4 text-sm hover:bg-zinc-800 transition ml-3"
+                  class:text-amber-400={$page.url.pathname.includes(`/project/${project.id}/content-plan`)}
+                >
+                  Reddit
+                </a>
               </div>
             </div>
-            <div class="font-bold">{project.url}</div>
-          </div>
-          <div>
-            {#if expandedProjects[project.id]}
-              <ChevronDown size={18} />
-            {:else}
-              <ChevronRight size={18} />
-            {/if}
-          </div>
+          {/if}
         </div>
-        
-        <!-- Project subnav - conditionally visible -->
-        {#if expandedProjects[project.id]}
-          <div class="pl-14 border-t border-zinc-800 relative" transition:fly={{ y: -20, duration: 200 }}>
-            <!-- Vertical connector line for the entire submenu -->
-            <div class="absolute left-7 top-0 bottom-0 w-px bg-zinc-700"></div>
-            
-            <!-- Competitors link with connector -->
-            <div class="relative">
-              <!-- Horizontal connector line -->
-              <div class="absolute left-0 top-1/2 w-3 h-px bg-zinc-700"></div>
-              <a 
-                href={`/projects/${project.id}/competitors`}
-                class="block py-2 px-4 text-sm hover:bg-zinc-800 transition border-b border-zinc-900 ml-3"
-                class:text-amber-400={$page.url.pathname.includes(`/project/${project.id}/competitors`)}
-              >
-                Competitors
-              </a>
-            </div>
-            
-            <!-- SEO link with connector -->
-            <div class="relative">
-              <!-- Horizontal connector line -->
-              <div class="absolute left-0 top-1/2 w-3 h-px bg-zinc-700"></div>
-              <a 
-                href={`/projects/${project.id}/seo`}
-                class="block py-2 px-4 text-sm hover:bg-zinc-800 transition border-b border-zinc-900 ml-3" 
-                class:text-amber-400={$page.url.pathname.includes(`/project/${project.id}/keywords`)}
-              >
-                Seo
-              </a>
-            </div>
-            
-            <!-- Reddit link with connector -->
-            <div class="relative">
-              <!-- Horizontal connector line -->
-              <div class="absolute left-0 top-1/2 w-3 h-px bg-zinc-700"></div>
-              <a 
-                href={`/projects/${project.id}/reddit`}
-                class="block py-2 px-4 text-sm hover:bg-zinc-800 transition ml-3"
-                class:text-amber-400={$page.url.pathname.includes(`/project/${project.id}/content-plan`)}
-              >
-                Reddit
-              </a>
-            </div>
-          </div>
-        {/if}
-      </div>
-    {/each}
+      {/each}
+    </div>
   </div>
-
-  <!-- Add New Project Button -->
-  <div class="mt-4">
-    <button 
-      on:click={addNewIdea} 
-      class="w-full bg-zinc-700 text-zinc-200 rounded-full p-3 hover:bg-zinc-600 transition shadow-lg"
+  
+  <!-- Add New Project Button - fixed at bottom -->
+  <div class="mt-auto mb-2">
+    <a 
+      href="/dashboard"
+      class="flex items-center justify-center gap-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-xl p-3 transition shadow-md border border-zinc-700"
+      in:fly={{ y: 10, duration: 300, delay: 300 }}
     >
-      +
-    </button>
+      <Plus size={18} />
+      <span class="font-medium">New Project</span>
+    </a>
   </div>
 </div>
+
+<style>
+  /* Custom scrollbar styling */
+  .overflow-y-auto::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .overflow-y-auto::-webkit-scrollbar-track {
+    background: rgba(39, 39, 42, 0.2); /* Zinc-800 with opacity */
+    border-radius: 8px;
+  }
+  
+  .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: rgba(82, 82, 91, 0.6); /* Zinc-600 with opacity */
+    border-radius: 8px;
+  }
+  
+  .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: rgba(113, 113, 122, 0.8); /* Zinc-500 with opacity */
+  }
+  
+  /* For Firefox */
+  .overflow-y-auto {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(82, 82, 91, 0.6) rgba(39, 39, 42, 0.2);
+  }
+</style>

@@ -85,7 +85,7 @@
               const res_data = await response.json();
               const token = res_data.token;
               localStorage.setItem('token', token);
-              goto('/plans');
+              goto('/dashboard');
           } else {
               const errorData = await response.json();
               formError = errorData.message || "Registration failed. Please try again.";
