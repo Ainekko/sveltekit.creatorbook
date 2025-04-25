@@ -87,7 +87,7 @@
   
   
   
-  <div class="min-h-screen w-full bg-zinc- p-6">
+  <div class="min-h-56 w-full bg-zinc- p-6">
     <!-- New Analysis Form -->
     <div class="max-w-2xl mx-auto bg-zinc- rounded-xl p-6 shadow-sm border border-zinc-900">
       <h2 class="text-xl font-bold mb-6 text-zinc-100">Start New Analysis</h2>
