@@ -119,7 +119,7 @@
 
 
 
-<div class="relative w-full overflow-hidden bg-gradient-to-b from-white to-purple-50 py-24">
+<div id="services" class="relative w-full overflow-hidden bg-gradient-to-b from-white to-purple-50 py-24">
     <!-- Background Elements -->
     <div class="absolute inset-0 overflow-hidden">
       <div class="absolute bottom-0 right-0 h-64 w-64 rounded-full bg-blue-100 opacity-30 blur-3xl"></div>

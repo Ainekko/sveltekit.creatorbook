@@ -51,11 +51,11 @@
         
         
         
-        <a href="/#" class="flex items-center gap-1 text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-1 hover:bg-zinc-800/60">
+        <a href="/#services" class="flex items-center gap-1 text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-1 hover:bg-zinc-800/60">
           <span>Services</span>
         </a>
         
-        <a href="/#" class="flex items-center gap-1 text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-1 hover:bg-zinc-800/60">
+        <a href="/#pricing" class="flex items-center gap-1 text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-1 hover:bg-zinc-800/60">
           <span>Pricing</span>
         </a>
         
@@ -131,15 +131,15 @@
       
       
       
-      <a href="/services" class="text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-3 hover:bg-zinc-800/60 flex items-center gap-2">
+      <a href="/#services" class="text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-3 hover:bg-zinc-800/60 flex items-center gap-2">
         <span>Services</span>
       </a>
       
-      <a href="/pricing" class="text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-3 hover:bg-zinc-800/60 flex items-center gap-2">
+      <a href="/#pricing" class="text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-3 hover:bg-zinc-800/60 flex items-center gap-2">
         <span>Pricing</span>
       </a>
       
-      <a href="/blog" class="text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-3 hover:bg-zinc-800/60 flex items-center gap-2">
+      <a href="/#" class="text-zinc-300 hover:text-white text-sm transition rounded-xl px-2 py-3 hover:bg-zinc-800/60 flex items-center gap-2">
         <span>Blog</span>
       </a>
       

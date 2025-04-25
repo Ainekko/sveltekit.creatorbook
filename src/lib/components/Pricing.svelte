@@ -1,4 +1,4 @@
-<div class="relative w-full overflow-hidden bg-white py-24">
+<div id="pricing" class="relative w-full overflow-hidden bg-white py-24">
     <!-- Background Elements -->
     <div class="absolute inset-0 overflow-hidden">
       <div class="absolute top-0 left-1/4 h-64 w-64 rounded-full bg-purple-100 opacity-30 blur-3xl"></div>
@@ -93,9 +93,9 @@
             </div>
           </div>
           
-          <button class="w-full rounded-full border border-green-600 bg-white px-6 py-3 font-medium text-green-600 hover:bg-green-50 transition-all duration-200 shadow-sm">
+          <a href="/signup" class="w-full rounded-full border border-green-600 bg-white px-6 py-3 font-medium text-green-600 hover:bg-green-50 transition-all duration-200 shadow-sm">
             Try for free
-          </button>
+          </a>
         </div>
         
         <!-- Starter Package - Now Most Popular -->
@@ -178,9 +178,9 @@
             </div>
           </div>
           
-          <button class="w-full rounded-full bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-3 font-medium text-white hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-md">
+          <a href="/signup" class="w-full rounded-full bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-3 font-medium text-white hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-md">
             Get started
-          </button>
+          </a>
         </div>
           
         <!-- Custom Package -->
@@ -259,9 +259,9 @@
             </div>
           </div>
           
-          <button class="w-full rounded-full border border-blue-600 bg-white px-6 py-3 font-medium text-blue-600 hover:bg-blue-50 transition-all duration-200 shadow-sm">
-            Book a consultation
-          </button>
+          <a href="contact-us" class="w-full rounded-full border border-blue-600 bg-white px-6 py-3 font-medium text-blue-600 hover:bg-blue-50 transition-all duration-200 shadow-sm">
+            Contact-us
+          </a>
         </div>
       </div>
   
