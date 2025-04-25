@@ -295,10 +295,10 @@
             <p class="text-zinc-600 mb-6">Let's discuss how we can build a tailored digital strategy that leverages AI to accelerate your business growth.</p>
             
             <div class="flex flex-col sm:flex-row gap-4">
-              <button class="rounded-full bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-3 font-medium text-white hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-md">
-                Schedule a consultation
-              </button>
-              <button class="rounded-full bg-white border border-zinc-200 px-6 py-3 font-medium text-zinc-800 hover:bg-zinc-50 transition-all duration-200 shadow-sm">
+              <a href="/contact-us" class="rounded-full bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-3 font-medium text-white hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-md">
+                Contact-us
+              </a>
+              <button class="rounded-full bg-white border border-zinc-200 px-6 py-3 font-medium text-zinc-800 hover:bg-zinc-50 transition-all duration-200 shadow-sm hidden">
                 View portfolio
               </button>
             </div>
