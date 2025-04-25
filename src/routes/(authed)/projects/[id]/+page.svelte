@@ -4,8 +4,11 @@
   import KeywordTrendsCard from '$lib/components/KeywordTrendsCard.svelte';
   import SelectedKeywordsCard from '$lib/components/SelectedKeywordsCard.svelte';
   import BlogPostOutlinesCard from '$lib/components/BlogPostOutlinesCard.svelte';
+  import Redditposts from '$lib/components/redditposts.svelte';
 
   export let data;
+
+  let redditPosts = data.project.result.analysis_data.create_content_plan.content_plan.socials.reddit_posts;
 
   // Project Data from backend
   const projectData = {
@@ -37,9 +40,9 @@
   });
 </script>
 
-<div class="min-h-screen bg- text-white">
-  <!-- Project Header -->
-  <header class="bg- py-4 px-6 sticky top-0 z-10">
+<div class="h-screen flex flex-col overflow-hidden bg-zinc-950 text-white">
+  <!-- Project Header - fixed height -->
+  <header class="py-4 px-6 z-10 bg-zinc-950">
     <div class="flex items-center justify-between max-w-7xl mx-auto">
       <div>
         <h1 class="text-2xl font-bold">{projectData.name}</h1>
@@ -54,8 +57,8 @@
     </div>
   </header>
 
-  <!-- Tab Navigation -->
-  <div class=" sticky top-16 z-10 border-b border-zinc-800">
+  <!-- Tab Navigation - fixed height -->
+  <div class="z-10 border-b border-zinc-800 bg-zinc-950">
     <div class="max-w-7xl mx-auto flex">
       <button 
         class="px-6 py-3 font-medium text-sm {activeTab === 'content' ? 'text-pink-400 border-b-2 border-pink-400' : 'text-zinc-400 hover:text-zinc-200'}"
@@ -78,182 +81,148 @@
     </div>
   </div>
 
-  <!-- Main Content -->
-  <main class="max-w-7xl mx-auto p-6">
-    {#if activeTab === 'content'}
-      <!-- Content Strategy View -->
-      <div class="mb-6 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <h2 class="text-xl font-semibold">Content Strategy</h2>
-          <div class="relative">
-            <button class="bg-zinc-800 rounded-md px-3 py-1 text-sm flex items-center gap-1">
-              {selectedWeek} <span class="text-xs">▼</span>
+  <!-- Main Content - Scrollable and takes remaining height -->
+  <main class="flex-1 overflow-hidden">
+    <div class="h-full max-w-7xl mx-auto p-6 overflow-y-auto pr-1" style="scrollbar-width: thin;">
+      {#if activeTab === 'content'}
+        <!-- Content Strategy View -->
+        <div class="mb-6 flex justify-between items-center">
+          <div class="flex items-center gap-3">
+            <h2 class="text-xl font-semibold">Content Strategy</h2>
+            <div class="relative">
+              <button class="bg-zinc-800 rounded-md px-3 py-1 text-sm flex items-center gap-1">
+                {selectedWeek} <span class="text-xs">▼</span>
+              </button>
+            </div>
+          </div>
+          <button 
+            on:click={generateNewContent}
+            class="bg-gradient-to-r from-violet-600 to-pink-500 hover:from-violet-700 hover:to-pink-600 px-4 py-2 rounded-md text-sm flex items-center gap-2 transition"
+          >
+            <span class="text-sm">+</span>
+            Generate New Content
+          </button>
+        </div>
+
+        <section class="p-5">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <!-- Keywords Column -->
+            <div class="border md:col-span-2 border-zinc-900 rounded-xl shadow-lg overflow-hidden">
+              <SelectedKeywordsCard keywords={data.project.result.analysis_data.create_content_plan.content_plan.seo.selected_keywords} />
+            </div>
+      
+            <div class="border md:col-span-2 border-zinc-900 rounded-xl shadow-lg overflow-hidden mb-6">
+              <KeywordTrendsCard trends={data.project.result.analysis_data.create_content_plan.content_plan.seo.industry_keyword_trends} />
+            </div>
+          </div>
+      
+          <!-- Blog Post Outlines Column - Spans 2 columns -->
+          <div class="lg:col-span-2 border border-zinc-900 rounded-xl shadow-lg overflow-hidden">
+              <BlogPostOutlinesCard 
+                outlines={data.project.result.analysis_data.create_content_plan.content_plan.seo.blog_post_outlines} 
+                on:generatePost={handleBlogPostGeneration}
+              />
+          </div>
+
+          <div> 
+            <Redditposts 
+              redditPosts={redditPosts} 
+            />
+          </div>
+        </section>
+
+        <section class="mt-5">
+          
+        </section>
+        
+      {/if}
+
+      {#if activeTab === 'competitors'}
+        <!-- Competitor Analysis Tab -->
+        <div class="mb-6">
+          <h2 class="text-xl font-semibold">Competitor Analysis</h2>
+          <p class="text-zinc-400 text-sm mt-1">Analyze competitor strategies and find market gaps</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {#each data.project.result.analysis_data.analyze_competitors.competitors_analysis as competitor}
+            <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-xl p-5 shadow-lg">
+              <div class="flex items-start justify-between">
+                <h3 class="font-bold text-violet-400 text-lg">{competitor.name}</h3>
+                <span class="bg-violet-500/20 text-violet-300 text-xs px-2 py-1 rounded-full">
+                  {competitor.relevance}
+                </span>
+              </div>
+              
+              {#if competitor.domain}
+                <p class="text-sm text-gray-300 mt-1">
+                  <a href={`https://${competitor.domain}`} target="_blank" class="hover:text-pink-400 flex items-center gap-1">
+                    <span class="text-xs">🔗</span> {competitor.domain}
+                  </a>
+                </p>
+              {:else}
+                <p class="text-sm text-gray-400 mt-1">No domain available</p>
+              {/if}
+              
+              {#if competitor.marketing_strategy}
+                <div class="mt-4 bg-zinc-800/50 p-3 rounded-lg border-l-2 border-pink-500">
+                  <p class="text-sm text-zinc-400 mb-1">Marketing Strategy:</p>
+                  <p class="text-sm text-zinc-300">{competitor.marketing_strategy}</p>
+                </div>
+              {:else}
+                <div class="mt-4 bg-zinc-800/50 p-3 rounded-lg border-l-2 border-zinc-700">
+                  <p class="text-sm text-zinc-400 italic">Marketing strategy analysis not available</p>
+                </div>
+              {/if}
+            </div>
+          {/each}
+        </div>
+      {/if}
+
+      {#if activeTab === 'performance'}
+        <!-- Performance Tab -->
+        <div class="mb-6">
+          <h2 class="text-xl font-semibold">AI Agent Performance</h2>
+          <p class="text-zinc-400 text-sm mt-1">Track your marketing growth and ROI</p>
+        </div>
+        
+        <!-- Analytics Chart Placeholder -->
+        <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-xl p-5 shadow-lg h-64 flex items-center justify-center">
+          <div class="text-center">
+            <p class="text-zinc-400">Performance analytics chart would go here</p>
+            <button class="mt-4 px-4 py-2 bg-pink-500/20 text-pink-400 rounded-md text-sm hover:bg-pink-500/30 transition">
+              Generate Analytics Report
             </button>
           </div>
         </div>
-        <button 
-          on:click={generateNewContent}
-          class="bg-gradient-to-r from-violet-600 to-pink-500 hover:from-violet-700 hover:to-pink-600 px-4 py-2 rounded-md text-sm flex items-center gap-2 transition"
-        >
-          <span class="text-sm">+</span>
-          Generate New Content
-        </button>
-      </div>
-
-      <!-- Calendar & Trends Row -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-xl shadow-lg overflow-hidden">
-          <ContentCalendarCard suggestion={data.project.result.analysis_data.create_content_plan.content_plan.content_calendar_suggestion} />
-        </div>
-        <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-xl shadow-lg overflow-hidden">
-          <KeywordTrendsCard trends={data.project.result.analysis_data.create_content_plan.content_plan.industry_keyword_trends} />
-        </div>
-      </div>
-
-      <!-- Main Content Strategy Row -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Keywords Column -->
-        <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-xl shadow-lg overflow-hidden">
-          <SelectedKeywordsCard keywords={data.project.result.analysis_data.create_content_plan.content_plan.selected_keywords} />
-        </div>
-        
-        <!-- Blog Post Outlines Column - Spans 2 columns -->
-        <div class="lg:col-span-2 bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-xl shadow-lg overflow-hidden">
-          <BlogPostOutlinesCard 
-            outlines={data.project.result.analysis_data.create_content_plan.content_plan.blog_post_outlines} 
-            on:generatePost={handleBlogPostGeneration}
-          />
-        </div>
-      </div>
-    {/if}
-
-    {#if activeTab === 'competitors'}
-      <!-- Competitor Analysis Tab -->
-      <div class="mb-6">
-        <h2 class="text-xl font-semibold">Competitor Analysis</h2>
-        <p class="text-zinc-400 text-sm mt-1">Analyze competitor strategies and find market gaps</p>
-      </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {#each data.project.result.analysis_data.analyze_competitors.competitors_analysis as competitor}
-          <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-xl p-5 shadow-lg">
-            <div class="flex items-start justify-between">
-              <h3 class="font-bold text-violet-400 text-lg">{competitor.name}</h3>
-              <span class="bg-violet-500/20 text-violet-300 text-xs px-2 py-1 rounded-full">
-                {competitor.relevance}
-              </span>
-            </div>
-            
-            {#if competitor.domain}
-              <p class="text-sm text-gray-300 mt-1">
-                <a href={`https://${competitor.domain}`} target="_blank" class="hover:text-pink-400 flex items-center gap-1">
-                  <span class="text-xs">🔗</span> {competitor.domain}
-                </a>
-              </p>
-            {:else}
-              <p class="text-sm text-gray-400 mt-1">No domain available</p>
-            {/if}
-            
-            {#if competitor.marketing_strategy}
-              <div class="mt-4 bg-zinc-800/50 p-3 rounded-lg border-l-2 border-pink-500">
-                <p class="text-sm text-zinc-400 mb-1">Marketing Strategy:</p>
-                <p class="text-sm text-zinc-300">{competitor.marketing_strategy}</p>
-              </div>
-            {:else}
-              <div class="mt-4 bg-zinc-800/50 p-3 rounded-lg border-l-2 border-zinc-700">
-                <p class="text-sm text-zinc-400 italic">Marketing strategy analysis not available</p>
-              </div>
-            {/if}
-          </div>
-        {/each}
-      </div>
-    {/if}
-
-    {#if activeTab === 'performance'}
-      <!-- Performance Tab -->
-      <div class="mb-6">
-        <h2 class="text-xl font-semibold">AI Agent Performance</h2>
-        <p class="text-zinc-400 text-sm mt-1">Track your marketing growth and ROI</p>
-      </div>
-      
-      <!-- Growth Metrics Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-xl p-5 shadow-lg">
-          <h3 class="text-pink-400 font-medium mb-4 flex items-center gap-2">
-            <span class="p-2 bg-pink-500/20 rounded-lg">📱</span>Social Growth
-          </h3>
-          <div class="flex flex-col gap-3">
-            <div class="flex justify-between items-center">
-              <span>Weekly Engagement</span>
-              <span class="text-violet-400 font-semibold">+35%</span>
-            </div>
-            <div class="h-1 w-full bg-zinc-700 rounded-full">
-              <div class="h-full bg-violet-500 rounded-full" style="width: 35%"></div>
-            </div>
-            <div class="flex justify-between items-center">
-              <span>Content Created</span>
-              <span class="text-violet-400 font-semibold">24 pieces</span>
-            </div>
-            <div class="h-1 w-full bg-zinc-700 rounded-full">
-              <div class="h-full bg-violet-500 rounded-full" style="width: 65%"></div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-xl p-5 shadow-lg">
-          <h3 class="text-pink-400 font-medium mb-4 flex items-center gap-2">
-            <span class="p-2 bg-pink-500/20 rounded-lg">🔍</span>SEO Growth
-          </h3>
-          <div class="flex flex-col gap-3">
-            <div class="flex justify-between items-center">
-              <span>Keyword Rankings</span>
-              <span class="text-green-400 font-semibold">12 in top 3</span>
-            </div>
-            <div class="h-1 w-full bg-zinc-700 rounded-full">
-              <div class="h-full bg-green-500 rounded-full" style="width: 40%"></div>
-            </div>
-            <div class="flex justify-between items-center">
-              <span>Organic Traffic</span>
-              <span class="text-green-400 font-semibold">+43%</span>
-            </div>
-            <div class="h-1 w-full bg-zinc-700 rounded-full">
-              <div class="h-full bg-green-500 rounded-full" style="width: 43%"></div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-xl p-5 shadow-lg">
-          <h3 class="text-pink-400 font-medium mb-4 flex items-center gap-2">
-            <span class="p-2 bg-pink-500/20 rounded-lg">💰</span>Lead Generation
-          </h3>
-          <div class="flex flex-col gap-3">
-            <div class="flex justify-between items-center">
-              <span>New Leads</span>
-              <span class="text-amber-400 font-semibold">3x increase</span>
-            </div>
-            <div class="h-1 w-full bg-zinc-700 rounded-full">
-              <div class="h-full bg-amber-500 rounded-full" style="width: 75%"></div>
-            </div>
-            <div class="flex justify-between items-center">
-              <span>CAC Reduction</span>
-              <span class="text-amber-400 font-semibold">-40%</span>
-            </div>
-            <div class="h-1 w-full bg-zinc-700 rounded-full">
-              <div class="h-full bg-amber-500 rounded-full" style="width: 40%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Analytics Chart Placeholder -->
-      <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-xl p-5 shadow-lg h-64 flex items-center justify-center">
-        <div class="text-center">
-          <p class="text-zinc-400">Performance analytics chart would go here</p>
-          <button class="mt-4 px-4 py-2 bg-pink-500/20 text-pink-400 rounded-md text-sm hover:bg-pink-500/30 transition">
-            Generate Analytics Report
-          </button>
-        </div>
-      </div>
-    {/if}
+      {/if}
+    </div>
   </main>
 </div>
+
+<style>
+  /* Custom scrollbar styling */
+  .overflow-y-auto::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .overflow-y-auto::-webkit-scrollbar-track {
+    background: rgba(39, 39, 42, 0.2); /* Zinc-800 with opacity */
+    border-radius: 8px;
+  }
+  
+  .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: rgba(82, 82, 91, 0.6); /* Zinc-600 with opacity */
+    border-radius: 8px;
+  }
+  
+  .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: rgba(113, 113, 122, 0.8); /* Zinc-500 with opacity */
+  }
+  
+  /* For Firefox */
+  .overflow-y-auto {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(82, 82, 91, 0.6) rgba(39, 39, 42, 0.2);
+  }
+</style>
