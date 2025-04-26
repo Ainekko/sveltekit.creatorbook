@@ -90,7 +90,7 @@
   <div class="min-h-56 w-full bg-zinc- p-6">
     <!-- New Analysis Form -->
     <div class="max-w-2xl mx-auto bg-zinc- rounded-xl p-6 shadow-sm border border-zinc-900">
-      <h2 class="text-xl font-bold mb-6 text-zinc-100">Start New Analysis</h2>
+      <h2 class="text-xl font-bold mb-6 text-zinc-100">Create New Content</h2>
       
       <form on:submit|preventDefault={handleAnalyzeWebsite} class="space-y-6">
         <div>
@@ -122,7 +122,7 @@
             class="w-full px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-black border-zinc-900 hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50"
             disabled={$isLoading}
           >
-            {$isLoading ? 'Analyzing...' : 'Analyze Website'}
+            {$isLoading ? 'Analyzing...' : 'Generate'}
           </button>
         </div>
       </form>
@@ -137,7 +137,7 @@
         <div class="mt-6 flex flex-col items-center justify-center">
           <div class="w-8 h-8 border-4 border-t-zinc-300 rounded-full animate-spin"></div>
           <p class="mt-4 text-sm text-zinc-300">Analyzing your website and competitors...</p>
-          <p class="text-xs text-zinc-400">This may take 1-2 minutes</p>
+          <p class="text-xs text-zinc-400">This may take 3-5 minutes</p>
         </div>
       {/if}
     </div>
