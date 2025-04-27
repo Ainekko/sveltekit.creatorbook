@@ -5,12 +5,11 @@
   import { onMount } from 'svelte';
   import { userStore } from '$lib/stores';
   import { get_user } from '$lib/check';
-  import { page } from '$app/stores'; // Import page store to determine active route
-  import { ChevronDown, ChevronRight, Plus } from 'lucide-svelte'; // Added Plus icon
+  import { page } from '$app/stores';
+  import { ChevronDown, ChevronRight, Plus } from 'lucide-svelte';
   import StartNewPraw from './startNewPraw.svelte';
 
   function generateRandomGradient() {
-    // Your existing gradient function
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     const width = 100;
@@ -36,18 +35,15 @@
     console.log('Add new idea clicked');
   }
   
-  // For tracking which project submenus are expanded
   let expandedProjects = {};
   
   function toggleProject(projectId) {
     expandedProjects[projectId] = !expandedProjects[projectId];
-    expandedProjects = {...expandedProjects}; // Force reactivity
+    expandedProjects = {...expandedProjects};
   }
 
-  // Check if a project is the current active project
   $: activeProjectId = $page.params.id;
 
-  // Generate avatar gradient once for the user
   const userAvatarGradient = generateRandomGradient();
 
   onMount(async () => {
@@ -64,25 +60,20 @@
         console.error('User data could not be fetched.');
       }
 
-      // Set all projects to expanded by default
       $wipIdeasStore.forEach(project => {
         expandedProjects[project.id] = true;
       });
-      expandedProjects = {...expandedProjects}; // Force reactivity
+      expandedProjects = {...expandedProjects};
     } catch (error) {
       console.error('An error occurred while fetching user data:', error);
     }
   });
 
-  // Reactive declaration
   $: $userStore;
 </script>
 
-<!-- Main container with fixed height -->
 <div class="flex flex-col h-screen p-5 md:w-full max-w-[250px] md:max-w-[500px]">
-  <!-- User welcome section -->
-  <div class="px-4 py-4 flex items-center gap-3 bg-zinc- rounded-lg shadow-sm mb-4" 
-       in:fly={{ y: 20, duration: 500 }}>
+  <div class="px-4 py-4 flex items-center gap-3 bg-zinc- rounded-lg shadow-sm mb-4" in:fly={{ y: 20, duration: 500 }}>
     <div class="avatar">
       <div class="mask rounded-full w-12 h-12">
         <img src={userAvatarGradient} alt="User Avatar" />
@@ -98,48 +89,48 @@
       </div>
     </div>
   </div>
-  
-  <h1 class="text-2xl font-medium text-zinc-300 mb-3">
-    Projects 
-  </h1>
-  
-  <!-- Scrollable projects container -->
+
+  <h1 class="text-2xl font-medium text-zinc-300 mb-3">Projects</h1>
+
   <div class="flex-1 overflow-y-auto pr-1 mb-4" style="scrollbar-width: thin;">
     <div class="flex flex-col gap-2">
       {#each $wipIdeasStore as project (project.id)}
         <div class="border border-zinc-900 rounded-xl overflow-hidden">
-          <!-- Project header -->
           <div 
-            class="flex items-center justify-between p-4 cursor-pointer hover:bg-zinc-800 transition"
+            class="flex items-center justify-between p-4 hover:bg-zinc-800 transition"
             class:bg-zinc-800={activeProjectId === project.id}
-            on:click={() => toggleProject(project.id)}
           >
-            <div class="flex items-center gap-3">
+            <!-- Project clickable link -->
+            <a 
+              href={`/projects/${project.id}`}
+              class="flex items-center gap-3"
+            >
               <div class="avatar">
                 <div class="mask mask-squircle w-10 h-10">
                   <img src={generateRandomGradient()} alt="Project Avatar" />
                 </div>
               </div>
               <div class="font-bold">{project.url}</div>
-            </div>
-            <div>
+            </a>
+
+            <!-- Toggle button -->
+            <button 
+              on:click|stopPropagation={() => toggleProject(project.id)}
+              class="p-1"
+            >
               {#if expandedProjects[project.id]}
                 <ChevronDown size={18} />
               {:else}
                 <ChevronRight size={18} />
               {/if}
-            </div>
+            </button>
           </div>
-          
-          <!-- Project subnav - conditionally visible -->
+
           {#if expandedProjects[project.id]}
             <div class="pl-14 border-t border-zinc-800 relative" transition:fly={{ y: -20, duration: 200 }}>
-              <!-- Vertical connector line for the entire submenu -->
               <div class="absolute left-7 top-0 bottom-0 w-px bg-zinc-700"></div>
               
-              <!-- Competitors link with connector -->
               <div class="relative">
-                <!-- Horizontal connector line -->
                 <div class="absolute left-0 top-1/2 w-3 h-px bg-zinc-700"></div>
                 <a 
                   href={`/projects/${project.id}/competitors`}
@@ -149,10 +140,8 @@
                   Competitors
                 </a>
               </div>
-              
-              <!-- SEO link with connector -->
+
               <div class="relative">
-                <!-- Horizontal connector line -->
                 <div class="absolute left-0 top-1/2 w-3 h-px bg-zinc-700"></div>
                 <a 
                   href={`/projects/${project.id}/seo`}
@@ -162,10 +151,8 @@
                   Seo
                 </a>
               </div>
-              
-              <!-- Reddit link with connector -->
+
               <div class="relative">
-                <!-- Horizontal connector line -->
                 <div class="absolute left-0 top-1/2 w-3 h-px bg-zinc-700"></div>
                 <a 
                   href={`/projects/${project.id}/reddit`}
@@ -181,8 +168,7 @@
       {/each}
     </div>
   </div>
-  
-  <!-- Add New Project Button - fixed at bottom -->
+
   <div class="mt-auto mb-2">
     <a 
       href="/dashboard"
@@ -196,26 +182,20 @@
 </div>
 
 <style>
-  /* Custom scrollbar styling */
   .overflow-y-auto::-webkit-scrollbar {
     width: 6px;
   }
-  
   .overflow-y-auto::-webkit-scrollbar-track {
-    background: rgba(39, 39, 42, 0.2); /* Zinc-800 with opacity */
+    background: rgba(39, 39, 42, 0.2);
     border-radius: 8px;
   }
-  
   .overflow-y-auto::-webkit-scrollbar-thumb {
-    background: rgba(82, 82, 91, 0.6); /* Zinc-600 with opacity */
+    background: rgba(82, 82, 91, 0.6);
     border-radius: 8px;
   }
-  
   .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-    background: rgba(113, 113, 122, 0.8); /* Zinc-500 with opacity */
+    background: rgba(113, 113, 122, 0.8);
   }
-  
-  /* For Firefox */
   .overflow-y-auto {
     scrollbar-width: thin;
     scrollbar-color: rgba(82, 82, 91, 0.6) rgba(39, 39, 42, 0.2);

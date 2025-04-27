@@ -3,7 +3,7 @@
 
    export let data;
 
-   let redditPosts = data.project.result.analysis_data.create_content_plan.content_plan.socials.reddit_posts;
+   let redditPosts = data.project.latest_run.result.analysis_data.create_content_plan.content_plan.socials.reddit_posts;
 </script>
 
 

@@ -1,4 +1,6 @@
 <script lang="ts">
+  // the component displaying the blog posts outlines.
+
   import { createEventDispatcher } from 'svelte';
   
   export let outlines: Array<{

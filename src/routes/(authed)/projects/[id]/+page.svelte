@@ -5,13 +5,18 @@
   import SelectedKeywordsCard from '$lib/components/SelectedKeywordsCard.svelte';
   import BlogPostOutlinesCard from '$lib/components/BlogPostOutlinesCard.svelte';
   import Redditposts from '$lib/components/redditposts.svelte';
-
+  import { updateProjectWithNewAnalysis } from '$lib/db'; // Import our new function
+  
   export let data;
 
-  let redditPosts = data.project.result.analysis_data.create_content_plan.content_plan.socials.reddit_posts;
-
+  let redditPosts = data.project.latest_run.result.analysis_data.create_content_plan.content_plan.socials.reddit_posts;
+  let isGenerating = false;
+  let generationProgress = '';
+  let generationTimeElapsed = 0;
+  
   // Project Data from backend
   const projectData = {
+    id: data?.project?.id || "",
     name: data?.project?.url || "N/A",
     url: data?.project?.url || "N/A",
     startDate: data?.project?.created_at?.split("T")[0] || "N/A"
@@ -25,12 +30,45 @@
   let selectedWeek = "Current Week";
   let activeTab = "content"; // 'content', 'competitors', 'performance'
 
-  function generateNewContent() {
-    alert("Generating new content recommendations...");
+  async function generateNewContent() {
+    try {
+      isGenerating = true;
+      generationProgress = 'Initializing analysis...';
+      
+      // Get token from localStorage
+      const token = localStorage.getItem('token');
+      
+      // Define progress callback
+      const onProgress = (status: string, elapsed: number) => {
+        generationProgress = status;
+        generationTimeElapsed = Math.round(elapsed / 1000); // Convert to seconds
+      };
+      
+      // Call our update function with progress tracking
+      const updatedProject = await updateProjectWithNewAnalysis(
+        token,
+        projectData.id,
+        projectData.url,
+        'content-refresh', // run_type
+        onProgress
+      );
+      
+      // Update the UI with the new data
+      // This is a simple approach - in a real app you might want to use stores or refresh the page
+      if (updatedProject) {
+        // Reload the page to show updated data
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error generating new content:', error);
+      alert('Failed to generate new content. Please try again.');
+    } finally {
+      isGenerating = false;
+    }
   }
 
   // Function to handle blog post generation
-  function handleBlogPostGeneration(event :any ) {
+  function handleBlogPostGeneration(event: any) {
     alert(`Queuing full blog post generation for: ${event.detail.title}`);
     // Here you would call your API endpoint when implemented
   }
@@ -97,29 +135,46 @@
           </div>
           <button 
             on:click={generateNewContent}
-            class="bg-gradient-to-r from-violet-600 to-pink-500 hover:from-violet-700 hover:to-pink-600 px-4 py-2 rounded-md text-sm flex items-center gap-2 transition"
+            class="bg-gradient-to-r from-violet-600 to-pink-500 hover:from-violet-700 hover:to-pink-600 px-4 py-2 rounded-md text-sm flex items-center gap-2 transition {isGenerating ? 'opacity-75 cursor-not-allowed' : ''}"
+            disabled={isGenerating}
           >
-            <span class="text-sm">+</span>
-            Generate New Content
+            {#if isGenerating}
+              <span class="animate-spin mr-2">⟳</span>
+              {generationProgress} ({generationTimeElapsed}s)
+            {:else}
+              <span class="text-sm">+</span>
+              Generate New Content
+            {/if}
           </button>
         </div>
+
+        {#if isGenerating}
+          <div class="bg-purple-900/20 border border-purple-900 text-purple-200 p-4 rounded-lg mb-6">
+            <h3 class="text-lg font-medium mb-2">Generating Fresh Content Analysis</h3>
+            <p>Current status: {generationProgress}</p>
+            <div class="w-full bg-zinc-800 rounded-full h-2 mt-2">
+              <div class="bg-purple-500 h-2 rounded-full animate-pulse"></div>
+            </div>
+            <p class="text-xs mt-2">This may take several minutes. Please don't close this page.</p>
+          </div>
+        {/if}
 
         <section class="p-5">
           <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <!-- Keywords Column -->
             <div class="border md:col-span-2 border-zinc-900 rounded-xl shadow-lg overflow-hidden">
-              <SelectedKeywordsCard keywords={data.project.result.analysis_data.create_content_plan.content_plan.seo.selected_keywords} />
+              <SelectedKeywordsCard keywords={data.project.latest_run.result.analysis_data.create_content_plan.content_plan.seo.selected_keywords} />
             </div>
       
             <div class="border md:col-span-2 border-zinc-900 rounded-xl shadow-lg overflow-hidden mb-6">
-              <KeywordTrendsCard trends={data.project.result.analysis_data.create_content_plan.content_plan.seo.industry_keyword_trends} />
+              <KeywordTrendsCard trends={data.project.latest_run.result.analysis_data.create_content_plan.content_plan.seo.industry_keyword_trends} />
             </div>
           </div>
       
           <!-- Blog Post Outlines Column - Spans 2 columns -->
           <div class="lg:col-span-2 border border-zinc-900 rounded-xl shadow-lg overflow-hidden">
               <BlogPostOutlinesCard 
-                outlines={data.project.result.analysis_data.create_content_plan.content_plan.seo.blog_post_outlines} 
+                outlines={data.project.latest_run.result.analysis_data.create_content_plan.content_plan.seo.blog_post_outlines} 
                 on:generatePost={handleBlogPostGeneration}
               />
           </div>
@@ -145,7 +200,7 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {#each data.project.result.analysis_data.analyze_competitors.competitors_analysis as competitor}
+          {#each data.project.latest_run.result.analysis_data.analyze_competitors.competitors_analysis as competitor}
             <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-xl p-5 shadow-lg">
               <div class="flex items-start justify-between">
                 <h3 class="font-bold text-violet-400 text-lg">{competitor.name}</h3>

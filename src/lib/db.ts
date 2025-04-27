@@ -304,3 +304,124 @@ export async function saveProject(
   export interface TypeDefinitions {
     // This is a placeholder - you should define your actual types in a separate file
   }
+
+
+
+
+/**
+ * Updates an existing project with new LLM analysis results
+ * @param token The user's authentication token
+ * @param projectId The UUID of the project to update
+ * @param url The URL to analyze again
+ * @param runType Optional category for this analysis run (e.g., 'follow-up', 'refined', etc.)
+ * @param onProgress Optional callback for tracking analysis progress
+ * @returns The updated project with the new LLM run
+ */
+export async function updateProjectWithNewAnalysis(
+  token: string | null,
+  projectId: string,
+  url: string,
+  runType: string = 'follow-up',
+  onProgress?: (status: string, elapsed: number) => void
+): Promise<any> {
+  console.log(`[${new Date().toISOString()}] Starting new analysis for existing project ${projectId}`);
+  
+  try {
+    // Step 1: Run the analysis through the LangGraph service
+    const analysisResult = await analyzeWebsiteAndWait(url, onProgress);
+    console.log(`[${new Date().toISOString()}] Analysis completed for project update`);
+    
+    // Step 2: Update the project with the new results
+    const updateData = {
+      // Include any fields you want to update in the project itself
+      // For example, you might want to update the URL if it changed
+      url: url,
+      
+      // Include the analysis result and run type for the new LLMRun
+      result: analysisResult,
+      run_type: runType
+    };
+    
+    const response = await fetch(`https://api.s-tierproject.online/projects/projects/${projectId}/update/`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${token}`
+      },
+      body: JSON.stringify(updateData)
+    });
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to update project: ${response.status} - ${errorText}`);
+    }
+    
+    const updatedProject = await response.json();
+    console.log(`[${new Date().toISOString()}] Project ${projectId} updated with new analysis run`);
+    
+    return updatedProject;
+  } catch (error) {
+    console.error(`[${new Date().toISOString()}] Failed to update project with new analysis:`, error);
+    throw new Error('Failed to update project with new analysis: ' + 
+      (error instanceof Error ? error.message : String(error)));
+  }
+}
+
+/**
+ * Gets all LLM runs for a specific project
+ * @param token The user's authentication token
+ * @param projectId The UUID of the project
+ * @returns Array of LLM runs for the project
+ */
+export async function getProjectLLMRuns(token: string | null, projectId: string): Promise<any[]> {
+  try {
+    const response = await fetch(`https://api.s-tierproject.online/projects/llm_runs/${projectId}/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${token}`
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch LLM runs: ${response.status}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error(`[${new Date().toISOString()}] Failed to fetch LLM runs:`, error);
+    throw new Error('Failed to fetch LLM runs: ' + 
+      (error instanceof Error ? error.message : String(error)));
+  }
+}
+
+/**
+ * Gets the latest LLM run for a project
+ * @param token The user's authentication token
+ * @param projectId The UUID of the project
+ * @returns The latest LLM run data
+ */
+export async function getLatestLLMRun(token: string | null, projectId: string): Promise<any> {
+  try {
+    const response = await fetch(`https://api.s-tierproject.online/projects/latest_llm_run/${projectId}/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${token}`
+      }
+    });
+    
+    if (!response.ok) {
+      if (response.status === 404) {
+        return null; // No runs found
+      }
+      throw new Error(`Failed to fetch latest LLM run: ${response.status}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error(`[${new Date().toISOString()}] Failed to fetch latest LLM run:`, error);
+    throw new Error('Failed to fetch latest LLM run: ' + 
+      (error instanceof Error ? error.message : String(error)));
+  }
+}

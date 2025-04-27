@@ -4,6 +4,8 @@
     import SelectedKeywordsCard from '$lib/components/SelectedKeywordsCard.svelte';
   
     export let data;
+
+    let seoData = data.project.latest_run.result.analysis_data.create_content_plan.content_plan.seo
   
     // Project Data from backend
     const projectData = {
@@ -25,11 +27,11 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
       <!-- Keywords Column -->
       <div class="border md:col-span-2 border-zinc-900 rounded-xl shadow-lg overflow-hidden">
-        <SelectedKeywordsCard keywords={data.project.result.analysis_data.create_content_plan.content_plan.seo.selected_keywords} />
+        <SelectedKeywordsCard keywords={seoData.selected_keywords} />
       </div>
 
       <div class="border md:col-span-2 border-zinc-900 rounded-xl shadow-lg overflow-hidden mb-6">
-        <KeywordTrendsCard trends={data.project.result.analysis_data.create_content_plan.content_plan.seo.industry_keyword_trends} />
+        <KeywordTrendsCard trends={seoData.industry_keyword_trends} />
       </div>
       
       
@@ -38,7 +40,7 @@
     <!-- Blog Post Outlines Column - Spans 2 columns -->
     <div class="lg:col-span-2 border border-zinc-900 rounded-xl shadow-lg overflow-hidden">
         <BlogPostOutlinesCard 
-          outlines={data.project.result.analysis_data.create_content_plan.content_plan.seo.blog_post_outlines} 
+          outlines={seoData.blog_post_outlines} 
           on:generatePost={handleBlogPostGeneration}
         />
     </div>
