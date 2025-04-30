@@ -1,8 +1,11 @@
 // src/lib/db.ts
-import type { Project, AnalysisResult } from './types';
+import type { Project, AnalysisResult, BlogPostOutline } from './types';
+
 
 let basePraw = "https://praw-hell-cry.vercel.app"
 // let basePraw = "http://127.0.0.1:8000"
+
+const baseS = "https://api.s-tierproject.online"
 
 
 /**
@@ -424,4 +427,125 @@ export async function getLatestLLMRun(token: string | null, projectId: string): 
     throw new Error('Failed to fetch latest LLM run: ' + 
       (error instanceof Error ? error.message : String(error)));
   }
+}
+
+
+
+
+/**
+ * Creates a full blog post from an outline using the backend API
+ * @param llmRunId The ID of the LLM run that generated the outline
+ * @param outlineIndex The index of the outline in the LLM run results
+ * @param outlineData The outline data
+ * @returns The created blog post
+ */
+export async function createBlogPostFromOutline(
+  llmRunId: string,
+  outlineIndex: number,
+  outlineData: any
+): Promise<{ taskId: string; message: string }> {
+  try {
+    const response = await fetch('/projects', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        llm_run_id: llmRunId,
+        outline_index: outlineIndex,
+        outline_data: outlineData
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Failed to create blog post');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error in createBlogPostFromOutline:', error);
+    throw error;
+  }
+}
+
+/**
+ * Saves a generated blog post to the Django backend
+ * @param blogPost The blog post data to save
+ * @param token The authentication token
+ * @returns The saved blog post
+ */
+
+
+export async function saveBlogPostToDjango(blogPost: any, token: string): Promise<any> {
+  const response = await fetch('https://api.s-tierproject.online/blog_api/posts/create_from_outline/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Token ${token}`
+    },
+    body: JSON.stringify({
+      llm_run_id: blogPost.llm_run_id,
+      outline_index: blogPost.outline_index,
+      content: blogPost.content
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.detail || 'Failed to save blog post');
+  }
+
+  return await response.json();
+}
+
+/**
+ * Polls the blog generation task status until completed
+ * @param taskId The ID of the task to poll
+ * @param onProgress Optional callback for progress updates
+ * @returns The generated blog post content
+ */
+export async function pollBlogGenerationTask(
+  taskId: string,
+  onProgress?: (status: string) => void
+): Promise<string> {
+  const maxAttempts = 60; // 5 minutes with 5-second intervals
+  let attempts = 0;
+  
+  while (attempts < maxAttempts) {
+    try {
+      const response = await fetch(`/projects?taskId=${taskId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to check task status');
+      }
+
+      const data = await response.json();
+      
+      if (data.status === 'completed') {
+        return data.result;
+      } else if (data.status === 'error' || data.status === 'failed') {
+        throw new Error(data.result || 'Task failed');
+      }
+      
+      // If still processing, update progress
+      if (onProgress) {
+        onProgress(data.status);
+      }
+      
+      // Wait 5 seconds before checking again
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      attempts++;
+    } catch (error) {
+      console.error('Error polling task status:', error);
+      throw error;
+    }
+  }
+  
+  throw new Error('Task timed out after 5 minutes');
 }

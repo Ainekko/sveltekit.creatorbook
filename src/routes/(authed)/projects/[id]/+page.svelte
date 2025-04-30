@@ -4,8 +4,14 @@
   import KeywordTrendsCard from '$lib/components/KeywordTrendsCard.svelte';
   import SelectedKeywordsCard from '$lib/components/SelectedKeywordsCard.svelte';
   import BlogPostOutlinesCard from '$lib/components/BlogPostOutlinesCard.svelte';
+  import BlogPostsCard from '$lib/components/BlogPostsCard.svelte'; // Import the new component
   import Redditposts from '$lib/components/redditposts.svelte';
-  import { updateProjectWithNewAnalysis } from '$lib/db'; // Import our new function
+  import { 
+    updateProjectWithNewAnalysis, 
+    saveBlogPostToDjango,
+    pollBlogGenerationTask,
+    createBlogPostFromOutline
+  } from '$lib/db'; // Import the updated functions
   
   export let data;
 
@@ -13,6 +19,9 @@
   let isGenerating = false;
   let generationProgress = '';
   let generationTimeElapsed = 0;
+  let blogPosts = data?.project?.latest_run?.blog_posts || []
+  let isGeneratingPost = false;
+  let currentGeneratingPostIndex = -1;
   
   // Project Data from backend
   const projectData = {
@@ -54,7 +63,6 @@
       );
       
       // Update the UI with the new data
-      // This is a simple approach - in a real app you might want to use stores or refresh the page
       if (updatedProject) {
         // Reload the page to show updated data
         window.location.reload();
@@ -67,10 +75,114 @@
     }
   }
 
-  // Function to handle blog post generation
-  function handleBlogPostGeneration(event: any) {
-    alert(`Queuing full blog post generation for: ${event.detail.title}`);
-    // Here you would call your API endpoint when implemented
+  // Handle blog post generation from outline
+  async function handleBlogPostGeneration(event: any) {
+  const outlineIndex = event.detail.index;
+  const outline = event.detail.outline;
+  const token = localStorage.getItem('token');
+
+  isGeneratingPost = true;
+  currentGeneratingPostIndex = outlineIndex;
+
+  try {
+    // Step 1: Trigger blog generation task
+    const { taskId } = await createBlogPostFromOutline(
+      data.project.latest_run.id,
+      outlineIndex,
+      outline
+    );
+
+    // Step 2: Poll for completion
+    const onProgress = (status: string) => {
+      generationProgress = `Generating blog post ${outlineIndex + 1}: ${status}`;
+    };
+    const generatedContent = await pollBlogGenerationTask(taskId, onProgress);
+
+    console.log(`submitting ${generatedContent}`)
+
+    // Step 3: Save full blog post to Django
+    const savedPost = await saveBlogPostToDjango(
+      {
+        llm_run_id: data.project.latest_run.id,
+        outline_index: outlineIndex,
+        content: generatedContent,
+      },
+      token
+    );
+
+    alert(`Blog post "${outline.title}" has been generated successfully!`);
+  } catch (error) {
+    console.error('Error in blog post generation process:', error);
+    alert(`Failed to generate blog post: ${error.message}`);
+  } finally {
+    isGeneratingPost = false;
+    currentGeneratingPostIndex = -1;
+  }
+}
+
+
+  
+  // Handle publish/unpublish events
+  async function handlePublishPost(event: any) {
+    const post = event.detail.post;
+    const token = localStorage.getItem('token');
+    
+    try {
+      const response = await fetch(`/api/blog-posts/${post.slug}/publish`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to publish post');
+      }
+      
+      // Update the post in the local list
+      blogPosts = blogPosts.map(p => 
+        p.id === post.id ? { ...p, is_published: true } : p
+      );
+      
+    } catch (error) {
+      console.error('Error publishing post:', error);
+      alert(`Failed to publish post: ${error.message}`);
+    }
+  }
+  
+  async function handleUnpublishPost(event: any) {
+    const post = event.detail.post;
+    const token = localStorage.getItem('token');
+    
+    try {
+      const response = await fetch(`/api/blog-posts/${post.slug}/unpublish`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to unpublish post');
+      }
+      
+      // Update the post in the local list
+      blogPosts = blogPosts.map(p => 
+        p.id === post.id ? { ...p, is_published: false } : p
+      );
+      
+    } catch (error) {
+      console.error('Error unpublishing post:', error);
+      alert(`Failed to unpublish post: ${error.message}`);
+    }
+  }
+  
+  async function handleEditPost(event: any) {
+    const post = event.detail.post;
+    // Redirect to edit page or open editor modal
+    window.location.href = `/blog-posts/${post.slug}/edit`;
   }
 
   onMount(() => {
@@ -115,6 +227,12 @@
         on:click={() => activeTab = 'performance'}
       >
         Performance
+      </button>
+      <button 
+        class="px-6 py-3 font-medium text-sm {activeTab === 'blogs' ? 'text-pink-400 border-b-2 border-pink-400' : 'text-zinc-400 hover:text-zinc-200'}"
+        on:click={() => activeTab = 'blogs'}
+      >
+        Blog Posts
       </button>
     </div>
   </div>
@@ -174,8 +292,9 @@
           <!-- Blog Post Outlines Column - Spans 2 columns -->
           <div class="lg:col-span-2 border border-zinc-900 rounded-xl shadow-lg overflow-hidden">
               <BlogPostOutlinesCard 
+                llmRunId = {data.project.latest_run.id}, 
                 outlines={data.project.latest_run.result.analysis_data.create_content_plan.content_plan.seo.blog_post_outlines} 
-                on:generatePost={handleBlogPostGeneration}
+                on:postCreated={handleBlogPostGeneration}
               />
           </div>
 
@@ -189,7 +308,34 @@
         <section class="mt-5">
           
         </section>
+      {/if}
+
+      {#if activeTab === 'blogs'}
+        <!-- Blog Posts Tab -->
+        <div class="mb-6">
+          <h2 class="text-xl font-semibold">Blog Posts</h2>
+          <p class="text-zinc-400 text-sm mt-1">Manage your published and draft blog posts</p>
+        </div>
         
+        {#if isGeneratingPost}
+          <div class="bg-purple-900/20 border border-purple-900 text-purple-200 p-4 rounded-lg mb-6">
+            <h3 class="text-lg font-medium mb-2">Generating Blog Post #{currentGeneratingPostIndex + 1}</h3>
+            <p>Current status: {generationProgress}</p>
+            <div class="w-full bg-zinc-800 rounded-full h-2 mt-2">
+              <div class="bg-purple-500 h-2 rounded-full animate-pulse"></div>
+            </div>
+            <p class="text-xs mt-2">This may take several minutes. Please don't close this page.</p>
+          </div>
+        {/if}
+        
+        <div class="border border-zinc-900 rounded-xl shadow-lg overflow-hidden mb-6">
+          <BlogPostsCard 
+            blogPosts={blogPosts}
+            on:publishPost={handlePublishPost}
+            on:unpublishPost={handleUnpublishPost}
+            on:editPost={handleEditPost}
+          />
+        </div>
       {/if}
 
       {#if activeTab === 'competitors'}
@@ -254,6 +400,7 @@
     </div>
   </main>
 </div>
+
 
 <style>
   /* Custom scrollbar styling */

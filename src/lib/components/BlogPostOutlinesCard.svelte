@@ -1,30 +1,52 @@
 <script lang="ts">
   // the component displaying the blog posts outlines.
-
   import { createEventDispatcher } from 'svelte';
+  import { createBlogPostFromOutline } from '$lib/db';
+  import type { BlogPostOutline, BlogPost } from '$lib/types';
   
-  export let outlines: Array<{
-    title: string;
-    target_keyword: string;
-    secondary_keywords: string[];
-    meta_description: string;
-    estimated_ranking_potential: number;
-  }> = [];
+  export let outlines: BlogPostOutline[] = [];
+  export let llmRunId: string; // Add this prop to pass the LLM run ID
   
   let expandedPosts: Record<number, boolean> = {};
+  let loading: Record<number, boolean> = {}; // Track loading state for each outline
+  let error: Record<number, string> = {}; // Track errors
   const dispatch = createEventDispatcher();
   
   function toggleExpand(index: number): void {
     expandedPosts[index] = !expandedPosts[index];
   }
   
-  function generateFullPost(index: number): void {
-    // Dispatch event to parent component
-    dispatch('generatePost', {
-      title: outlines[index].title,
-      index: index,
-      outline: outlines[index]
-    });
+  async function generateFullPost(index: number): Promise<void> {
+    loading[index] = true;
+    error[index] = '';
+    
+    try {
+     
+      const result = await createBlogPostFromOutline(
+        llmRunId, 
+        index, 
+        outlines[index] // Pass the outline data directly
+      );
+      
+      // Create a blog post object with the returned content
+      const blogPost: BlogPost = {
+        ...outlines[index],
+        content: result.result || ''
+      };
+      
+      // Dispatch event to parent component with the created blog post
+      dispatch('postCreated', {
+        blogPost,
+        index: index,
+        outline: outlines[index]
+      });
+      
+    } catch (err) {
+      error[index] = err instanceof Error ? err.message : 'Failed to create blog post';
+      console.error('Error creating blog post:', err);
+    } finally {
+      loading[index] = false;
+    }
   }
 </script>
 
@@ -74,12 +96,23 @@
                 <span class="text-zinc-300">{post.estimated_ranking_potential}/10</span>
               </div>
             </div>
+            
+            {#if error[index]}
+              <div class="text-red-400 mt-2">
+                {error[index]}
+              </div>
+            {/if}
                   
             <button
               on:click={() => generateFullPost(index)}
               class="w-full mt-3 bg-zinc-700 hover:bg-zinc-600 px-4 py-2 rounded-md text-sm flex items-center justify-center gap-2 transition"
+              disabled={loading[index]}
             >
-              Generate Full Blog Post
+              {#if loading[index]}
+                <span class="animate-pulse">Creating...</span>
+              {:else}
+                Generate Full Blog Post
+              {/if}
             </button>
           </div>
         {/if}
