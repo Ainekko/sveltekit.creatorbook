@@ -6,7 +6,7 @@
   import { userStore } from '$lib/stores';
   import { get_user } from '$lib/check';
   import { page } from '$app/stores';
-  import { ChevronDown, ChevronRight, Plus } from 'lucide-svelte';
+  import { ChevronDown, ChevronRight, Plus, Key, Settings } from 'lucide-svelte';
   import StartNewPraw from './startNewPraw.svelte';
 
   function generateRandomGradient() {
@@ -166,6 +166,24 @@
           {/if}
         </div>
       {/each}
+    </div>
+  </div>
+
+  <!-- Account & Settings Section -->
+  <div class="border-t border-zinc-800 pt-4 mb-4">
+    <h2 class="text-lg font-medium text-zinc-400 mb-2 px-2">Account</h2>
+    <div class="flex flex-col gap-1">
+      <a 
+        href="/integrations"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-zinc-800 transition"
+        class:bg-zinc-800={$page.url.pathname === '/integrations'}
+        class:text-amber-400={$page.url.pathname === '/integrations'}
+        in:fly={{ y: 10, duration: 300, delay: 200 }}
+      >
+        <Settings size={18} />
+        <span>Integrations</span>
+      </a>
+      
     </div>
   </div>
 
