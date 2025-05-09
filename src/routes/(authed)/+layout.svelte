@@ -56,9 +56,11 @@
 <main class="flex flex-col-reverse  md:flex-row">
 
     
-    <nav class="w-[700px] max-w-[500px]">
+    <nav class="w-[400px]">
         <!-- <AuthedNav /> -->
         <SideIdeas />
     </nav>
-    <slot />
+    <div class="w-full">
+      <slot />
+    </div>
 </main>

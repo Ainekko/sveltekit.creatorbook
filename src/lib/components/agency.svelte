@@ -5,6 +5,7 @@
 	import Madeforsaas from "./madeforsaas.svelte";
 	import Pricing from "./Pricing.svelte";
 	import ContactUs from '$lib/components/contactUs.svelte';
+	import Promo from "./Promo.svelte";
 
 
 
@@ -15,6 +16,8 @@
 <Agencyhero />
 <FreeAiAgents />
 <Madeforsaas />
+
+<Promo />
 
 <CustomServicesAgency />
 

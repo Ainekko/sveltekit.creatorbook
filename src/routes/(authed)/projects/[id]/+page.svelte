@@ -1,25 +1,20 @@
+<!-- src/routes/+page.svelte -->
 <script lang="ts">
   import { onMount } from 'svelte';
-  import ContentCalendarCard from '$lib/components/ContentCalendarCard.svelte';
-  import KeywordTrendsCard from '$lib/components/KeywordTrendsCard.svelte';
-  import SelectedKeywordsCard from '$lib/components/SelectedKeywordsCard.svelte';
-  import BlogPostOutlinesCard from '$lib/components/BlogPostOutlinesCard.svelte';
-  import BlogPostsCard from '$lib/components/BlogPostsCard.svelte'; // Import the new component
-  import Redditposts from '$lib/components/redditposts.svelte';
-  import { 
-    updateProjectWithNewAnalysis, 
-    saveBlogPostToDjango,
-    pollBlogGenerationTask,
-    createBlogPostFromOutline
-  } from '$lib/db'; // Import the updated functions
+  import ProjectHeader from '$lib/components/ProjectHeader.svelte';
+  import StatsOverview from '$lib/components/StatsOverview.svelte';
+  import AiStrategySuggestion from '$lib/components/AiStrategySuggestion.svelte';
+  import ContentPipeline from '$lib/components/ContentPipeline.svelte';
+  import KeywordsOverview from '$lib/components/KeywordsOverview.svelte';
+  import SocialContentPreview from '$lib/components/SocialContentPreview.svelte';
+  import WeeklyCalendar from '$lib/components/WeeklyCalendar.svelte';
+  import GenerationProgress from '$lib/components/GenerationProgress.svelte';
   
   export let data;
 
-  let redditPosts = data.project.latest_run.result.analysis_data.create_content_plan.content_plan.socials.reddit_posts;
   let isGenerating = false;
   let generationProgress = '';
   let generationTimeElapsed = 0;
-  let blogPosts = data?.project?.latest_run?.blog_posts || []
   let isGeneratingPost = false;
   let currentGeneratingPostIndex = -1;
   
@@ -31,40 +26,50 @@
     startDate: data?.project?.created_at?.split("T")[0] || "N/A"
   };
 
-  // Weekly content from LangGraph result
-  let weeklyContent = data?.project?.result?.weekly_content_plan || [];
-
-  // Competitor analysis from LangGraph result
-  let competitors = data?.project?.result?.analysis_data?.analyze_competitors?.competitors_analysis || [];
-  let selectedWeek = "Current Week";
-  let activeTab = "content"; // 'content', 'competitors', 'performance'
+  // Get content plan data
+  const contentPlan = data?.project?.latest_run?.result?.analysis_data?.create_content_plan?.content_plan || {};
+  
+  // Get blog posts, keywords, outlines
+  const blogPostOutlines = contentPlan?.seo?.blog_post_outlines || [];
+  const selectedKeywords = contentPlan?.seo?.selected_keywords || [];
+  const contentCalendarSuggestion = contentPlan?.seo?.content_calendar_suggestion || "";
+  const blogPosts = data?.project?.latest_run?.blog_posts || [];
+  
+  // Get social content
+  const redditPosts = contentPlan?.socials?.reddit_posts || [];
+  const twitterPosts = generateTwitterPosts();
+  const linkedinPosts = generateLinkedInPosts();
+  
+  // Get stats summary
+  const stats = {
+    draftPosts: blogPosts.filter(post => !post.is_published).length,
+    publishedPosts: blogPosts.filter(post => post.is_published).length,
+    scheduledSocial: 12, // Example value
+    keywordTargets: selectedKeywords.length,
+    totalContentItems: blogPostOutlines.length + redditPosts.length + twitterPosts.length + linkedinPosts.length
+  };
 
   async function generateNewContent() {
     try {
       isGenerating = true;
       generationProgress = 'Initializing analysis...';
       
-      // Get token from localStorage
       const token = localStorage.getItem('token');
       
-      // Define progress callback
       const onProgress = (status: string, elapsed: number) => {
         generationProgress = status;
-        generationTimeElapsed = Math.round(elapsed / 1000); // Convert to seconds
+        generationTimeElapsed = Math.round(elapsed / 1000);
       };
       
-      // Call our update function with progress tracking
       const updatedProject = await updateProjectWithNewAnalysis(
         token,
         projectData.id,
         projectData.url,
-        'content-refresh', // run_type
+        'content-refresh',
         onProgress
       );
       
-      // Update the UI with the new data
       if (updatedProject) {
-        // Reload the page to show updated data
         window.location.reload();
       }
     } catch (error) {
@@ -75,356 +80,205 @@
     }
   }
 
-  // Handle blog post generation from outline
   async function handleBlogPostGeneration(event: any) {
-  const outlineIndex = event.detail.index;
-  const outline = event.detail.outline;
-  const token = localStorage.getItem('token');
+    const outlineIndex = event.detail.index;
+    const outline = event.detail.outline;
+    
+    isGeneratingPost = true;
+    currentGeneratingPostIndex = outlineIndex;
 
-  isGeneratingPost = true;
-  currentGeneratingPostIndex = outlineIndex;
+    try {
+      const { taskId } = await createBlogPostFromOutline(
+        data.project.latest_run.id,
+        outlineIndex,
+        outline
+      );
 
-  try {
-    // Step 1: Trigger blog generation task
-    const { taskId } = await createBlogPostFromOutline(
-      data.project.latest_run.id,
-      outlineIndex,
-      outline
-    );
+      const onProgress = (status: string) => {
+        generationProgress = `Generating blog post ${outlineIndex + 1}: ${status}`;
+      };
+      
+      const generatedContent = await pollBlogGenerationTask(taskId, onProgress);
 
-    // Step 2: Poll for completion
-    const onProgress = (status: string) => {
-      generationProgress = `Generating blog post ${outlineIndex + 1}: ${status}`;
-    };
-    const generatedContent = await pollBlogGenerationTask(taskId, onProgress);
+      const token = localStorage.getItem('token');
+      const savedPost = await saveBlogPostToDjango(
+        {
+          llm_run_id: data.project.latest_run.id,
+          outline_index: outlineIndex,
+          content: generatedContent,
+        },
+        token
+      );
 
-    console.log(`submitting ${generatedContent}`)
+      if (savedPost) {
+        window.location.reload();
+      }
 
-    // Step 3: Save full blog post to Django
-    const savedPost = await saveBlogPostToDjango(
+      alert(`Blog post "${outline.title}" has been generated successfully!`);
+    } catch (error) {
+      console.error('Error in blog post generation process:', error);
+      alert(`Failed to generate blog post: ${error.message}`);
+    } finally {
+      isGeneratingPost = false;
+      currentGeneratingPostIndex = -1;
+    }
+  }
+  
+  // Generate sample posts for preview
+  function generateTwitterPosts() {
+    return [
       {
-        llm_run_id: data.project.latest_run.id,
-        outline_index: outlineIndex,
-        content: generatedContent,
+        content: "🚀 Just launched: 5 ways AI is transforming SaaS marketing in 2025. Our latest data shows 78% of teams using AI marketing tools report higher ROI within 90 days.",
+        hashtags: ["AI", "SaaSMarketing", "GrowthHacking"],
+        likes: 47,
+        retweets: 23,
+        comments: 12
       },
-      token
-    );
-
-    alert(`Blog post "${outline.title}" has been generated successfully!`);
-  } catch (error) {
-    console.error('Error in blog post generation process:', error);
-    alert(`Failed to generate blog post: ${error.message}`);
-  } finally {
-    isGeneratingPost = false;
-    currentGeneratingPostIndex = -1;
-  }
-}
-
-
-  
-  // Handle publish/unpublish events
-  async function handlePublishPost(event: any) {
-    const post = event.detail.post;
-    const token = localStorage.getItem('token');
-    
-    try {
-      const response = await fetch(`/api/blog-posts/${post.slug}/publish`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to publish post');
+      {
+        content: "The key to scaling your SaaS? It's not more developers. It's smarter marketing automation. Here's how our clients are saving 20+ hours/week with AI content generation.",
+        hashtags: ["MarketingAutomation", "SaaS", "AIMarketing"],
+        likes: 35,
+        retweets: 18,
+        comments: 8
+      },
+      {
+        content: "Thread: 10 SaaS marketing metrics you should track daily (but probably don't). First up: Customer Acquisition Cost (CAC) by channel.",
+        hashtags: ["SaaS", "MarketingMetrics", "CAC"],
+        likes: 64,
+        retweets: 31,
+        comments: 15
       }
-      
-      // Update the post in the local list
-      blogPosts = blogPosts.map(p => 
-        p.id === post.id ? { ...p, is_published: true } : p
-      );
-      
-    } catch (error) {
-      console.error('Error publishing post:', error);
-      alert(`Failed to publish post: ${error.message}`);
-    }
-  }
-  
-  async function handleUnpublishPost(event: any) {
-    const post = event.detail.post;
-    const token = localStorage.getItem('token');
-    
-    try {
-      const response = await fetch(`/api/blog-posts/${post.slug}/unpublish`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to unpublish post');
-      }
-      
-      // Update the post in the local list
-      blogPosts = blogPosts.map(p => 
-        p.id === post.id ? { ...p, is_published: false } : p
-      );
-      
-    } catch (error) {
-      console.error('Error unpublishing post:', error);
-      alert(`Failed to unpublish post: ${error.message}`);
-    }
-  }
-  
-  async function handleEditPost(event: any) {
-    const post = event.detail.post;
-    // Redirect to edit page or open editor modal
-    window.location.href = `/blog-posts/${post.slug}/edit`;
+    ];
   }
 
+  function generateLinkedInPosts() {
+    return [
+      {
+        content: "We analyzed 150+ SaaS companies to identify what separates the top performers from the rest. The results might surprise you - it's not product features or pricing that makes the biggest difference, but consistent, data-driven content marketing.",
+        type: "Research Report",
+        likes: 124,
+        comments: 32,
+        shares: 46
+      },
+      {
+        content: "Looking to scale your SaaS marketing without hiring an army of writers and designers? Join me this Thursday for a live workshop on \"Building an AI-Powered Content Engine for SaaS Growth\".",
+        type: "Event Promotion",
+        likes: 87,
+        comments: 14,
+        shares: 22
+      }
+    ];
+  }
+  
+  // Import necessary functions from db.js
+  import { 
+    updateProjectWithNewAnalysis, 
+    saveBlogPostToDjango,
+    pollBlogGenerationTask,
+    createBlogPostFromOutline
+  } from '$lib/db';
+  
   onMount(() => {
     // Any initialization logic
   });
 </script>
 
-<div class="h-screen flex flex-col overflow-hidden bg-zinc-950 text-white">
-  <!-- Project Header - fixed height -->
-  <header class="py-4 px-6 z-10 bg-zinc-950">
-    <div class="flex items-center justify-between max-w-7xl mx-auto">
-      <div>
-        <h1 class="text-2xl font-bold">{projectData.name}</h1>
-        <p class="text-sm opacity-80">{projectData.url}</p>
-      </div>
-      <div class="flex gap-3">
-        <button class="bg-black/20 hover:bg-black/30 px-4 py-2 rounded-md text-sm flex items-center gap-2 transition">
-          <span class="text-lg">📅</span>
-          Started on {projectData.startDate}
-        </button>
-      </div>
-    </div>
-  </header>
+<div class="min-h-screen flex flex-col bg-zinc-950 text-white">
+  <ProjectHeader 
+    projectData={projectData} 
+    isGenerating={isGenerating}
+    on:generateContent={generateNewContent}
+  />
 
-  <!-- Tab Navigation - fixed height -->
-  <div class="z-10 border-b border-zinc-800 bg-zinc-950">
-    <div class="max-w-7xl mx-auto flex">
-      <button 
-        class="px-6 py-3 font-medium text-sm {activeTab === 'content' ? 'text-pink-400 border-b-2 border-pink-400' : 'text-zinc-400 hover:text-zinc-200'}"
-        on:click={() => activeTab = 'content'}
-      >
-        Content Strategy
-      </button>
-      <button 
-        class="px-6 py-3 font-medium text-sm {activeTab === 'competitors' ? 'text-pink-400 border-b-2 border-pink-400' : 'text-zinc-400 hover:text-zinc-200'}"
-        on:click={() => activeTab = 'competitors'}
-      >
-        Competitor Analysis
-      </button>
-      <button 
-        class="px-6 py-3 font-medium text-sm {activeTab === 'performance' ? 'text-pink-400 border-b-2 border-pink-400' : 'text-zinc-400 hover:text-zinc-200'}"
-        on:click={() => activeTab = 'performance'}
-      >
-        Performance
-      </button>
-      <button 
-        class="px-6 py-3 font-medium text-sm {activeTab === 'blogs' ? 'text-pink-400 border-b-2 border-pink-400' : 'text-zinc-400 hover:text-zinc-200'}"
-        on:click={() => activeTab = 'blogs'}
-      >
-        Blog Posts
-      </button>
-    </div>
-  </div>
+  <main class="flex-grow">
+    <div class="max-w-7xl mx-auto px-6 py-6">
+      {#if isGenerating}
+        <GenerationProgress 
+          progress={generationProgress} 
+          type="content-analysis"
+        />
+      {/if}
 
-  <!-- Main Content - Scrollable and takes remaining height -->
-  <main class="flex-1 overflow-hidden">
-    <div class="h-full max-w-7xl mx-auto p-6 overflow-y-auto pr-1" style="scrollbar-width: thin;">
-      {#if activeTab === 'content'}
-        <!-- Content Strategy View -->
-        <div class="mb-6 flex justify-between items-center">
-          <div class="flex items-center gap-3">
-            <h2 class="text-xl font-semibold">Content Strategy</h2>
-            <div class="relative">
-              <button class="bg-zinc-800 rounded-md px-3 py-1 text-sm flex items-center gap-1">
-                {selectedWeek} <span class="text-xs">▼</span>
-              </button>
-            </div>
-          </div>
-          <button 
-            on:click={generateNewContent}
-            class="bg-gradient-to-r from-violet-600 to-pink-500 hover:from-violet-700 hover:to-pink-600 px-4 py-2 rounded-md text-sm flex items-center gap-2 transition {isGenerating ? 'opacity-75 cursor-not-allowed' : ''}"
-            disabled={isGenerating}
-          >
-            {#if isGenerating}
-              <span class="animate-spin mr-2">⟳</span>
-              {generationProgress} ({generationTimeElapsed}s)
-            {:else}
-              <span class="text-sm">+</span>
-              Generate New Content
-            {/if}
-          </button>
-        </div>
+      {#if isGeneratingPost}
+        <GenerationProgress 
+          progress={generationProgress} 
+          type="blog-post" 
+          postIndex={currentGeneratingPostIndex}
+        />
+      {/if}
 
-        {#if isGenerating}
-          <div class="bg-purple-900/20 border border-purple-900 text-purple-200 p-4 rounded-lg mb-6">
-            <h3 class="text-lg font-medium mb-2">Generating Fresh Content Analysis</h3>
-            <p>Current status: {generationProgress}</p>
-            <div class="w-full bg-zinc-800 rounded-full h-2 mt-2">
-              <div class="bg-purple-500 h-2 rounded-full animate-pulse"></div>
-            </div>
-            <p class="text-xs mt-2">This may take several minutes. Please don't close this page.</p>
-          </div>
-        {/if}
+      <StatsOverview stats={stats} />
 
-        <section class="p-5">
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <!-- Keywords Column -->
-            <div class="border md:col-span-2 border-zinc-900 rounded-xl shadow-lg overflow-hidden">
-              <SelectedKeywordsCard keywords={data.project.latest_run.result.analysis_data.create_content_plan.content_plan.seo.selected_keywords} />
-            </div>
+      <AiStrategySuggestion suggestion={contentCalendarSuggestion} />
+
+      <ContentPipeline 
+        outlines={blogPostOutlines}
+        blogPosts={blogPosts}
+        projectId={projectData.id}
+        isGeneratingPost={isGeneratingPost}
+        currentGeneratingPostIndex={currentGeneratingPostIndex}
+        on:generatePost={handleBlogPostGeneration}
+      />
+
+      <KeywordsOverview 
+        keywords={selectedKeywords} 
+        projectId={projectData.id}
+      />
       
-            <div class="border md:col-span-2 border-zinc-900 rounded-xl shadow-lg overflow-hidden mb-6">
-              <KeywordTrendsCard trends={data.project.latest_run.result.analysis_data.create_content_plan.content_plan.seo.industry_keyword_trends} />
-            </div>
-          </div>
-      
-          <!-- Blog Post Outlines Column - Spans 2 columns -->
-          <div class="lg:col-span-2 border border-zinc-900 rounded-xl shadow-lg overflow-hidden">
-              <BlogPostOutlinesCard 
-                llmRunId = {data.project.latest_run.id}, 
-                outlines={data.project.latest_run.result.analysis_data.create_content_plan.content_plan.seo.blog_post_outlines} 
-                on:postCreated={handleBlogPostGeneration}
-              />
-          </div>
+      <SocialContentPreview 
+        twitterPosts={twitterPosts}
+        linkedinPosts={linkedinPosts}
+        redditPosts={redditPosts}
+        projectId={projectData.id}
+      />
 
-          <div> 
-            <Redditposts 
-              redditPosts={redditPosts} 
-            />
-          </div>
-        </section>
-
-        <section class="mt-5">
-          
-        </section>
-      {/if}
-
-      {#if activeTab === 'blogs'}
-        <!-- Blog Posts Tab -->
-        <div class="mb-6">
-          <h2 class="text-xl font-semibold">Blog Posts</h2>
-          <p class="text-zinc-400 text-sm mt-1">Manage your published and draft blog posts</p>
-        </div>
-        
-        {#if isGeneratingPost}
-          <div class="bg-purple-900/20 border border-purple-900 text-purple-200 p-4 rounded-lg mb-6">
-            <h3 class="text-lg font-medium mb-2">Generating Blog Post #{currentGeneratingPostIndex + 1}</h3>
-            <p>Current status: {generationProgress}</p>
-            <div class="w-full bg-zinc-800 rounded-full h-2 mt-2">
-              <div class="bg-purple-500 h-2 rounded-full animate-pulse"></div>
-            </div>
-            <p class="text-xs mt-2">This may take several minutes. Please don't close this page.</p>
-          </div>
-        {/if}
-        
-        <div class="border border-zinc-900 rounded-xl shadow-lg overflow-hidden mb-6">
-          <BlogPostsCard 
-            blogPosts={blogPosts}
-            on:publishPost={handlePublishPost}
-            on:unpublishPost={handleUnpublishPost}
-            on:editPost={handleEditPost}
-          />
-        </div>
-      {/if}
-
-      {#if activeTab === 'competitors'}
-        <!-- Competitor Analysis Tab -->
-        <div class="mb-6">
-          <h2 class="text-xl font-semibold">Competitor Analysis</h2>
-          <p class="text-zinc-400 text-sm mt-1">Analyze competitor strategies and find market gaps</p>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {#each data.project.latest_run.result.analysis_data.analyze_competitors.competitors_analysis as competitor}
-            <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-xl p-5 shadow-lg">
-              <div class="flex items-start justify-between">
-                <h3 class="font-bold text-violet-400 text-lg">{competitor.name}</h3>
-                <span class="bg-violet-500/20 text-violet-300 text-xs px-2 py-1 rounded-full">
-                  {competitor.relevance}
-                </span>
-              </div>
-              
-              {#if competitor.domain}
-                <p class="text-sm text-gray-300 mt-1">
-                  <a href={`https://${competitor.domain}`} target="_blank" class="hover:text-pink-400 flex items-center gap-1">
-                    <span class="text-xs">🔗</span> {competitor.domain}
-                  </a>
-                </p>
-              {:else}
-                <p class="text-sm text-gray-400 mt-1">No domain available</p>
-              {/if}
-              
-              {#if competitor.marketing_strategy}
-                <div class="mt-4 bg-zinc-800/50 p-3 rounded-lg border-l-2 border-pink-500">
-                  <p class="text-sm text-zinc-400 mb-1">Marketing Strategy:</p>
-                  <p class="text-sm text-zinc-300">{competitor.marketing_strategy}</p>
-                </div>
-              {:else}
-                <div class="mt-4 bg-zinc-800/50 p-3 rounded-lg border-l-2 border-zinc-700">
-                  <p class="text-sm text-zinc-400 italic">Marketing strategy analysis not available</p>
-                </div>
-              {/if}
-            </div>
-          {/each}
-        </div>
-      {/if}
-
-      {#if activeTab === 'performance'}
-        <!-- Performance Tab -->
-        <div class="mb-6">
-          <h2 class="text-xl font-semibold">AI Agent Performance</h2>
-          <p class="text-zinc-400 text-sm mt-1">Track your marketing growth and ROI</p>
-        </div>
-        
-        <!-- Analytics Chart Placeholder -->
-        <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-xl p-5 shadow-lg h-64 flex items-center justify-center">
-          <div class="text-center">
-            <p class="text-zinc-400">Performance analytics chart would go here</p>
-            <button class="mt-4 px-4 py-2 bg-pink-500/20 text-pink-400 rounded-md text-sm hover:bg-pink-500/30 transition">
-              Generate Analytics Report
-            </button>
-          </div>
-        </div>
-      {/if}
+      <WeeklyCalendar projectId={projectData.id} />
     </div>
   </main>
 </div>
 
-
 <style>
-  /* Custom scrollbar styling */
-  .overflow-y-auto::-webkit-scrollbar {
-    width: 6px;
+  /* Global styles only - component-specific styles should be in their components */
+  :global(*) {
+    transition: background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
   }
-  
-  .overflow-y-auto::-webkit-scrollbar-track {
-    background: rgba(39, 39, 42, 0.2); /* Zinc-800 with opacity */
-    border-radius: 8px;
+
+  /* Custom scrollbar for the entire app */
+  :global(::-webkit-scrollbar) {
+    width: 8px;
+    height: 8px;
   }
-  
-  .overflow-y-auto::-webkit-scrollbar-thumb {
-    background: rgba(82, 82, 91, 0.6); /* Zinc-600 with opacity */
-    border-radius: 8px;
+
+  :global(::-webkit-scrollbar-track) {
+    background: rgba(24, 24, 27, 0.8);
   }
-  
-  .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-    background: rgba(113, 113, 122, 0.8); /* Zinc-500 with opacity */
+
+  :global(::-webkit-scrollbar-thumb) {
+    background: rgba(113, 113, 122, 0.4);
+    border-radius: 4px;
   }
-  
-  /* For Firefox */
-  .overflow-y-auto {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(82, 82, 91, 0.6) rgba(39, 39, 42, 0.2);
+
+  :global(::-webkit-scrollbar-thumb:hover) {
+    background: rgba(113, 113, 122, 0.6);
+  }
+
+  /* Focus styles for accessibility */
+  :global(button:focus), :global(a:focus), :global(input:focus), :global(select:focus), :global(textarea:focus) {
+    outline: 2px solid rgba(236, 72, 153, 0.5);
+    outline-offset: 2px;
+  }
+
+  /* Form element styling */
+  :global(input), :global(select), :global(textarea) {
+    background-color: rgba(39, 39, 42, 0.8);
+    border: 1px solid rgba(63, 63, 70, 0.8);
+    border-radius: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    color: white;
+    transition: border-color 0.2s ease;
+  }
+
+  :global(input:focus), :global(select:focus), :global(textarea:focus) {
+    border-color: #a855f7;
   }
 </style>

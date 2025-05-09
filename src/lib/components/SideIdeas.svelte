@@ -72,7 +72,7 @@
   $: $userStore;
 </script>
 
-<div class="flex flex-col h-screen p-5 md:w-full max-w-[250px] md:max-w-[500px]">
+<div class="flex flex-col h-screen p-5  md:w-[400px] ">
   <div class="px-4 py-4 flex items-center gap-3 bg-zinc- rounded-lg shadow-sm mb-4" in:fly={{ y: 20, duration: 500 }}>
     <div class="avatar">
       <div class="mask rounded-full w-12 h-12">

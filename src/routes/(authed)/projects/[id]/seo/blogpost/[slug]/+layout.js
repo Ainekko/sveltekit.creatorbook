@@ -1,14 +1,28 @@
-// routes/projects/[id]/+page.js
-export const ssr = false;
-
+// src/routes/projects/[id]/seo/blogpost/[slug]/+layout.js
 import { projectStore } from '$lib/stores';
 
-export async function load({ params, fetch }) {
+export const ssr = false;
+
+export async function load({ params, fetch, parent }) {
+  const projectId = params.id;
+  
   // Set loading state to true
   projectStore.setLoading(true);
   
   try {
-    const projectId = params.id;
+    // Check if we already have the project data in the store
+    const parentData = await parent();
+    
+    // If we already have the project data from the parent layout, use it
+    if (parentData.project) {
+      projectStore.setProject(parentData.project);
+      return {
+        slug: params.slug,
+        error: null
+      };
+    }
+    
+    // If not, fetch it
     const response = await fetch(`https://api.s-tierproject.online/projects/projects/${projectId}`);
     
     if (!response.ok) {
@@ -17,6 +31,7 @@ export async function load({ params, fetch }) {
       
       return {
         project: null,
+        slug: params.slug,
         error: errorMessage
       };
     }
@@ -28,6 +43,7 @@ export async function load({ params, fetch }) {
     
     return {
       project,
+      slug: params.slug,
       error: null
     };
   } catch (error) {
@@ -39,6 +55,7 @@ export async function load({ params, fetch }) {
     
     return {
       project: null,
+      slug: params.slug,
       error: errorMessage
     };
   }
