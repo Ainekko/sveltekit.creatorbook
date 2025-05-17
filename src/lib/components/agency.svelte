@@ -17,7 +17,6 @@
 <FreeAiAgents />
 <Madeforsaas />
 
-<Promo />
 
 <CustomServicesAgency />
 
