@@ -72,7 +72,7 @@
       </div>
 
       <!-- Search Form -->
-      <form on:submit|preventDefault={fetchLeads} class="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 shadow-xl mb-6">
+      <form on:submit|preventDefault={fetchLeads} class="bg-zinc-900 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 shadow-xl mb-6">
         <div class="flex flex-col sm:flex-row gap-4">
           <div class="flex-1">
             <label for="url" class="block text-gray-300 font-medium mb-2">Website URL</label>
@@ -88,7 +88,7 @@
           <div class="flex gap-3 items-end">
             <button
               type="submit"
-              class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
+              class="bg-gradient-to-r from-white/80 to-white hover:from-zinc-200 hover:to-zinc-300 text-zinc-950 font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
               disabled={loading}
             >
               {#if loading}
@@ -102,7 +102,7 @@
             </button>
             <button
               type="button"
-              class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg"
+              class="bg-transparent border border-zinc-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg"
               on:click={clearLocalStorage}
             >
               Clear Data
