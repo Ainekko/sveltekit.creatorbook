@@ -1,51 +1,65 @@
 <script lang="ts">
   import { get } from 'svelte/store';
-  import { wipIdeasStore } from '$lib/stores';
-  import { fly } from 'svelte/transition';
-  import { onMount } from 'svelte';
-  import { userStore } from '$lib/stores';
+  import { wipIdeasStore, userStore } from '$lib/stores';
+  import { fly, slide } from 'svelte/transition'; // Added slide transition
+  import { onMount, tick } from 'svelte';
   import { get_user } from '$lib/check';
   import { page } from '$app/stores';
-  import { ChevronDown, ChevronRight, Plus, Key, Settings } from 'lucide-svelte';
-  import StartNewPraw from './startNewPraw.svelte';
+  import { goto } from '$app/navigation';
+  import {
+    Plus,
+    Key,
+    Settings,
+    LayoutGrid,
+    FileText,
+    UserSearch,
+    BarChart3,
+    Users,
+    Share2,
+    ChevronDown,
+    ChevronUp
+  } from 'lucide-svelte';
+  import UpgradeModal from './UpgradeModule.svelte'; // Assuming this component exists
 
-  function generateRandomGradient() {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const width = 100;
-    const height = 100;
-
-    canvas.width = width;
-    canvas.height = height;
-
-    const color1 = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
-    const color2 = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
-
-    const gradient = ctx.createLinearGradient(0, 0, width, height);
-    gradient.addColorStop(0, color1);
-    gradient.addColorStop(1, color2);
-
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, width, height);
-
-    return canvas.toDataURL();
+  /**
+   * Generates a random linear gradient CSS string.
+   * Creates a gradient with two random hexadecimal colors.
+   * @returns {string} A CSS linear-gradient string.
+   */
+  function generateRandomGradient(): string {
+    const randomColor = () => '#' + ('000000' + Math.floor(Math.random() * 16677215).toString(16)).slice(-6);
+    return `linear-gradient(to top, ${randomColor()}, ${randomColor()})`;
   }
 
-  function addNewIdea() {
-    console.log('Add new idea clicked');
+  let showUpgradeModal = false;
+
+  /**
+   * Handles starting a new project, showing upgrade modal if not premium.
+   */
+  function startNewProject() {
+    if ($userStore?.subscription_status !== 'premium') {
+      showUpgradeModal = true;
+      return;
+    }
+    console.log('Starting a new project');
+    // goto('/new-project'); // Uncomment to enable navigation
   }
-  
-  let expandedProjects = {};
-  
-  function toggleProject(projectId) {
-    expandedProjects[projectId] = !expandedProjects[projectId];
-    expandedProjects = {...expandedProjects};
+
+  /**
+   * Closes the upgrade modal.
+   */
+  function closeUpgradeModal() {
+    showUpgradeModal = false;
   }
 
   $: activeProjectId = $page.params.id;
+  $: currentPath = $page.url.pathname;
 
   const userAvatarGradient = generateRandomGradient();
 
+  /**
+   * Fetches user data on component mount and updates the store.
+   */
   onMount(async () => {
     try {
       const user_data = await get_user();
@@ -59,163 +73,203 @@
       } else {
         console.error('User data could not be fetched.');
       }
-
-      $wipIdeasStore.forEach(project => {
-        expandedProjects[project.id] = true;
-      });
-      expandedProjects = {...expandedProjects};
     } catch (error) {
       console.error('An error occurred while fetching user data:', error);
     }
   });
 
   $: $userStore;
+
+  let openProjects: { [key: string]: boolean } = {};
+
+  /**
+   * Toggles the visibility of a project's sub-navigation.
+   * @param {string} projectId The ID of the project to toggle.
+   */
+  async function toggleProject(projectId: string) {
+    openProjects[projectId] = !openProjects[projectId];
+    await tick(); // Ensure DOM updates before any potential follow-up actions
+  }
 </script>
 
-<div class="flex flex-col h-screen p-5  md:w-[400px] ">
-  <div class="px-4 py-4 flex items-center gap-3 bg-zinc- rounded-lg shadow-sm mb-4" in:fly={{ y: 20, duration: 500 }}>
-    <div class="avatar">
-      <div class="mask rounded-full w-12 h-12">
-        <img src={userAvatarGradient} alt="User Avatar" />
+<div class="flex flex-col max-h-screen md:w-[350px] bg-   text-zinc-300">
+  {#if showUpgradeModal}
+    <UpgradeModal on:close={closeUpgradeModal} />
+  {/if}
+
+  <div class="flex-shrink-0 p-5" in:fly={{ y: -20, duration: 400 }}>
+    <div class="px-4 py-4 flex items-center gap-3 rounded-lg shadow-sm">
+      <div class="avatar">
+        <div class="mask rounded-full w-12 h-12">
+          <div class="w-full h-full" style="background-image: {userAvatarGradient};" />
+        </div>
       </div>
-    </div>
-    <div class="flex flex-col">
-      <span class="text-zinc-400 text-sm">Welcome back</span>
-      <div class="font-medium text-zinc-100">
-        {$userStore?.username || 'User'} 
-        {#if $userStore?.subscription_status === 'premium'} 
-          <span class="text-amber-400">★</span> 
-        {/if}
+      <div class="flex flex-col">
+        <span class="text-zinc-400 text-sm">Welcome back</span>
+        <div class="font-medium text-zinc-100">
+          {$userStore?.username || 'User'}
+          {#if $userStore?.subscription_status === 'premium'}
+            <span class="text-amber-400 ml-1">★</span>
+          {/if}
+        </div>
       </div>
     </div>
   </div>
 
-  <h1 class="text-2xl font-medium text-zinc-300 mb-3">Projects</h1>
-
-  <div class="flex-1 overflow-y-auto pr-1 mb-4" style="scrollbar-width: thin;">
-    <div class="flex flex-col gap-2">
+  <div class="flex-1 overflow-y-auto px-5 py-2 projects-scroll-area">
+    <h2 class="text-lg font-medium text-zinc-400 mb-3 px-2">Projects</h2>
+    <nav class="flex flex-col gap-1">
       {#each $wipIdeasStore as project (project.id)}
-        <div class="border border-zinc-900 rounded-xl overflow-hidden">
-          <div 
-            class="flex items-center justify-between p-4 hover:bg-zinc-800 transition"
-            class:bg-zinc-800={activeProjectId === project.id}
+        <div class="mb-1">
+          <button
+            class="flex items-center justify-between w-full px-3 py-2 rounded-md hover:bg-zinc-800 transition-colors text-zinc-300 font-medium"
+            on:click={() => toggleProject(project.id)}
+            aria-controls="project-nav-{project.id}"
+            aria-expanded={openProjects[project.id] || false}
           >
-            <!-- Project clickable link -->
-            <a 
-              href={`/projects/${project.id}`}
-              class="flex items-center gap-3"
-            >
+            <div class="flex items-center gap-3">
               <div class="avatar">
-                <div class="mask mask-squircle w-10 h-10">
-                  <img src={generateRandomGradient()} alt="Project Avatar" />
+                <div class="mask mask-squircle w-7 h-7">
+                   <div class="w-full h-full" style="background-image: {generateRandomGradient()};" />
                 </div>
               </div>
-              <div class="font-bold">{project.url}</div>
-            </a>
+              <span class="text-sm truncate" title={project.url}>{project.url}</span>
+            </div>
+            {#if openProjects[project.id]}
+              <ChevronUp size={16} class="text-zinc-400 flex-shrink-0" />
+            {:else}
+              <ChevronDown size={16} class="text-zinc-400 flex-shrink-0" />
+            {/if}
+          </button>
 
-            <!-- Toggle button -->
-            <button 
-              on:click|stopPropagation={() => toggleProject(project.id)}
-              class="p-1"
+          {#if openProjects[project.id]}
+            <div
+              id="project-nav-{project.id}"
+              class="ml-4 pl-3 border-l border-zinc-700 mt-1 flex flex-col gap-1"
+              transition:slide={{ duration: 200 }}
             >
-              {#if expandedProjects[project.id]}
-                <ChevronDown size={18} />
-              {:else}
-                <ChevronRight size={18} />
-              {/if}
-            </button>
-          </div>
+              <a
+                href={`/projects/${project.id}`}
+                class="flex items-center gap-3 px-4 py-2 rounded-md hover:bg-zinc-800 transition text-sm text-zinc-400"
+                class:bg-zinc-800={currentPath === `/projects/${project.id}` && !currentPath.includes('/seo') && !currentPath.includes('/socials') && !currentPath.includes('/competitors') && !currentPath.includes('/reddit-leads')}
+                class:text-amber-400={currentPath === `/projects/${project.id}` && !currentPath.includes('/seo') && !currentPath.includes('/socials') && !currentPath.includes('/competitors') && !currentPath.includes('/reddit-leads')}
+              >
+                <LayoutGrid size={16} />
+                <span>Overview</span>
+              </a>
 
-          {#if expandedProjects[project.id]}
-            <div class="pl-14 border-t border-zinc-800 relative" transition:fly={{ y: -20, duration: 200 }}>
-              <div class="absolute left-7 top-0 bottom-0 w-px bg-zinc-700"></div>
-              
-              <div class="relative">
-                <div class="absolute left-0 top-1/2 w-3 h-px bg-zinc-700"></div>
-                <a 
-                  href={`/projects/${project.id}/competitors`}
-                  class="block py-2 px-4 text-sm hover:bg-zinc-800 transition border-b border-zinc-900 ml-3"
-                  class:text-amber-400={$page.url.pathname.includes(`/project/${project.id}/competitors`)}
-                >
-                  Competitors
-                </a>
+              <div class="mt-1">
+                  <div class="flex items-center gap-2 px-4 py-1 text-zinc-500 text-xs font-medium uppercase tracking-wider">
+                      <FileText size={14} />
+                      <span>Content Plan</span>
+                  </div>
+                  <div class="ml-4 flex flex-col gap-1 mt-1">
+                      <a
+                          href={`/projects/${project.id}/seo`}
+                          class="flex items-center gap-3 px-4 py-2 rounded-md hover:bg-zinc-800 transition text-sm text-zinc-400"
+                          class:bg-zinc-800={currentPath.includes(`/projects/${project.id}/seo`)}
+                          class:text-amber-400={currentPath.includes(`/projects/${project.id}/seo`)}
+                      >
+                          <BarChart3 size={16} />
+                          <span>SEO Content</span>
+                      </a>
+                      <a
+                          href={`/projects/${project.id}/socials`}
+                          class="flex items-center gap-3 px-4 py-2 rounded-md hover:bg-zinc-800 transition text-sm text-zinc-400"
+                          class:bg-zinc-800={currentPath.includes(`/projects/${project.id}/socials`)}
+                          class:text-amber-400={currentPath.includes(`/projects/${project.id}/socials`)}
+                      >
+                          <Share2 size={16} />
+                          <span>Social Content</span>
+                      </a>
+                       <a
+                          href={`/projects/${project.id}/competitors`}
+                          class="flex items-center gap-3 px-4 py-2 rounded-md hover:bg-zinc-800 transition text-sm text-zinc-400"
+                          class:bg-zinc-800={currentPath.includes(`/projects/${project.id}/competitors`)}
+                          class:text-amber-400={currentPath.includes(`/projects/${project.id}/competitors`)}
+                      >
+                          <Users size={16} />
+                          <span>Competitors</span>
+                      </a>
+                  </div>
               </div>
 
-              <div class="relative">
-                <div class="absolute left-0 top-1/2 w-3 h-px bg-zinc-700"></div>
-                <a 
-                  href={`/projects/${project.id}/seo`}
-                  class="block py-2 px-4 text-sm hover:bg-zinc-800 transition border-b border-zinc-900 ml-3" 
-                  class:text-amber-400={$page.url.pathname.includes(`/project/${project.id}/keywords`)}
-                >
-                  Seo
-                </a>
-              </div>
-
-              <div class="relative">
-                <div class="absolute left-0 top-1/2 w-3 h-px bg-zinc-700"></div>
-                <a 
-                  href={`/projects/${project.id}/reddit`}
-                  class="block py-2 px-4 text-sm hover:bg-zinc-800 transition ml-3"
-                  class:text-amber-400={$page.url.pathname.includes(`/project/${project.id}/content-plan`)}
-                >
-                  Reddit
-                </a>
-              </div>
+               <a
+                href={`/projects/${project.id}/reddit-leads`}
+                class="flex items-center gap-3 px-4 py-2 rounded-md hover:bg-zinc-800 transition text-sm mt-1 text-zinc-400"
+                class:bg-zinc-800={currentPath.includes(`/projects/${project.id}/reddit-leads`)}
+                class:text-amber-400={currentPath.includes(`/projects/${project.id}/reddit-leads`)}
+              >
+                <UserSearch size={16} />
+                <span>Reddit Leads</span>
+              </a>
             </div>
           {/if}
         </div>
       {/each}
-    </div>
+    </nav>
   </div>
 
-  <!-- Account & Settings Section -->
-  <div class="border-t border-zinc-800 pt-4 mb-4">
-    <h2 class="text-lg font-medium text-zinc-400 mb-2 px-2">Account</h2>
-    <div class="flex flex-col gap-1">
-      <a 
+  <div class="flex-shrink-0 p-5 border-t border-zinc-800">
+    <a href="/dashboard"
+      on:click={startNewProject}
+      class="flex items-center justify-center gap-2 bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 text-zinc-300 rounded-xl p-3 transition shadow-md w-full mb-6 font-semibold"
+    >
+      <Plus size={18} />
+      <span>New Project</span>
+    </a>
+
+    <h2 class="text-lg font-medium text-zinc-400 mb-3 px-2">Account</h2>
+    <nav class="flex flex-col gap-1">
+      
+      <a
         href="/integrations"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-zinc-800 transition"
+        class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-zinc-800 transition text-zinc-400"
         class:bg-zinc-800={$page.url.pathname === '/integrations'}
         class:text-amber-400={$page.url.pathname === '/integrations'}
-        in:fly={{ y: 10, duration: 300, delay: 200 }}
       >
         <Settings size={18} />
         <span>Integrations</span>
       </a>
-      
-    </div>
-  </div>
-
-  <div class="mt-auto mb-2">
-    <a 
-      href="/dashboard"
-      class="flex items-center justify-center gap-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-xl p-3 transition shadow-md border border-zinc-700"
-      in:fly={{ y: 10, duration: 300, delay: 300 }}
-    >
-      <Plus size={18} />
-      <span class="font-medium">New Project</span>
-    </a>
+    </nav>
   </div>
 </div>
 
 <style>
-  .overflow-y-auto::-webkit-scrollbar {
-    width: 6px;
+  /* Custom scrollbar styles for Webkit (Chrome, Safari) */
+  .projects-scroll-area::-webkit-scrollbar {
+    width: 6px; /* Width of the scrollbar */
   }
-  .overflow-y-auto::-webkit-scrollbar-track {
-    background: rgba(39, 39, 42, 0.2);
-    border-radius: 8px;
+  .projects-scroll-area::-webkit-scrollbar-track {
+    background: transparent; /* Transparent track */
+    margin: 10px 0; /* Add some margin top/bottom */
   }
-  .overflow-y-auto::-webkit-scrollbar-thumb {
-    background: rgba(82, 82, 91, 0.6);
-    border-radius: 8px;
+  .projects-scroll-area::-webkit-scrollbar-thumb {
+    background: rgba(82, 82, 91, 0.5); /* Slightly darker thumb */
+    border-radius: 10px; /* Fully rounded thumb */
   }
-  .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-    background: rgba(113, 113, 122, 0.8);
+  .projects-scroll-area::-webkit-scrollbar-thumb:hover {
+    background: rgba(113, 113, 122, 0.7); /* Darker on hover */
   }
-  .overflow-y-auto {
+
+  /* Custom scrollbar styles for Firefox */
+  .projects-scroll-area {
     scrollbar-width: thin;
-    scrollbar-color: rgba(82, 82, 91, 0.6) rgba(39, 39, 42, 0.2);
+    scrollbar-color: rgba(82, 82, 91, 0.5) transparent;
+  }
+
+  /* Ensure text doesn't overlap chevron on project buttons */
+  .truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1; /* Allow text to take available space */
+    margin-right: 8px; /* Add some space before the chevron */
+  }
+
+  /* Ensure avatar images cover the area without 'img' tag, using background */
+  .mask > div {
+      background-size: cover;
+      background-position: center;
   }
 </style>

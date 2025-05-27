@@ -60,7 +60,7 @@
   }
 </script>
 
-<div class="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-800 to-zinc-900">
+<div class="min-h-screen bg-gradient-to-tr max-h-screen overflow-y-scroll from-black via-zinc-950 to-zinc-900 rounded-xl">
   <div class="max-w-7xl mx-auto p-6">
     <!-- Header Section -->
     <div class="mb-8">
