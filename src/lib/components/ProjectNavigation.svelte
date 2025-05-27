@@ -6,7 +6,7 @@
     { title: 'Overview', href: '/projects/[id]', icon: 'i-mdi-view-dashboard' },
     { title: 'SEO', href: '/projects/[id]/seo', icon: 'i-mdi-search-web' },
     { title: 'Competitors', href: '/projects/[id]/competitors', icon: 'i-mdi-account-group' },
-    { title: 'Social Content', href: '/projects/[id]/reddit', icon: 'i-mdi-social-media' }
+    { title: 'Social Content', href: '/projects/[id]/socials', icon: 'i-mdi-social-media' }
   ];
 
   // Replace [id] with actual project ID from the URL

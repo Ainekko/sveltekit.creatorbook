@@ -4,8 +4,7 @@
 
    export let data;
 
-   let redditPosts = data.project.latest_run.result.analysis_data.create_content_plan.content_plan.socials.reddit_posts;
-   let socialData = data.project.latest_run.result.analysis_data.create_content_plan.content_plan.socials;
+   let socialData = data.project.latest_run.result.analysis_data.content_plan?.socials || {};
 </script>
 
 

@@ -8,7 +8,7 @@
   </div>
   
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-96">
-    {#each data.project.latest_run.result.analysis_data.analyze_competitors.competitors_analysis as competitor}
+    {#each data.project.latest_run.result.analysis_data.competitors_analysis || {} as competitor  }
       <div class="border border-zinc-800 rounded-xl overflow-hidden">
         <div class="p-4">
           <div class="flex items-start justify-between">

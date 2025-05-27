@@ -28,7 +28,7 @@
             </span>
           </div>
           <button 
-            on:click={() => navigateToSection('social')}
+            on:click={() => navigateToSection('socials')}
             class="text-sm text-pink-400 ml-4 hover:underline flex items-center"
           >
             View All Social <span class="text-lg ml-1">→</span>
