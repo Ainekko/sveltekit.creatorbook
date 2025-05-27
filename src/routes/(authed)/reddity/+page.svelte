@@ -65,9 +65,9 @@
     <!-- Header Section -->
     <div class="mb-8">
       <div class="text-center mb-8">
-        <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2">
+        <!-- <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2">
           Reddit Lead Discovery
-        </h1>
+        </h1> -->
         <p class="text-gray-400 text-lg">Find and analyze potential leads from Reddit discussions</p>
       </div>
 
