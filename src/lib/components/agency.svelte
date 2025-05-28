@@ -6,6 +6,7 @@
 	import Pricing from "./Pricing.svelte";
 	import ContactUs from '$lib/components/contactUs.svelte';
 	import Promo from "./Promo.svelte";
+	import TechnicArch from "./TechnicArch.svelte"
 
 
 
@@ -20,7 +21,10 @@
 
 <CustomServicesAgency />
 
+
 <ContactUs />
+
+<TechnicArch />
 
 
 <Pricing />

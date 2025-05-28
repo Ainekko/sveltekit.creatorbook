@@ -1,122 +1,3 @@
-<div class="relative w-full flex-col gap-12 overflow-hidden bg-white py-10 hidden">
-    <section class="mx-auto flex max-w-screen-xl px-6 relative w-full">
-      <div class="w-full max-w-[1450px] flex flex-col">
-        <div class="flex flex-col items-start gap-4">
-          <div class="inline-flex items-center rounded-full px-4 py-1.5 font-medium text-sm border border-zinc-200 bg-white text-zinc-950">
-            <div class="mr-2 size-2 rounded-full bg-gradient-to-r from-[#FB923C] via-[#F472B6] to-[#E879F9]"></div>
-            Services
-          </div>
-          
-          <div class="flex flex-col gap-4 md:flex-row md:items-end md:gap-10">
-            <h2 class="font-medium text-4xl text-zinc-950 tracking-tight lg:text-5xl">10x more marketing with AI agents</h2>
-            <p class="max-w-[600px] text-lg text-zinc-500">We help startup founders avoid wasting time, money, and effort on ideas with limited potential.</p>
-          </div>
-        </div>
-  
-        <div class="grid gap-6 pt-8 lg:grid-cols-3 md:grid-cols-2">
-          <div class="relative flex flex-col overflow-hidden rounded-3xl border border-zinc-200 bg-white transition-all duration-300 hover:border-zinc-300">
-            <div class="p-6 flex flex-col items-start">
-              <div class="p-3 mb-4 rounded-full bg-purple-100">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 class="font-semibold text-xl text-zinc-950">Custom AI Agents</h3>
-              <p class="text-base text-zinc-500 mt-2">Automate your business with tailor-made AI agents that handle customer support, email management, and content creation - all trained on your brand voice.</p>
-              <ul class="mt-4 text-sm text-zinc-500 space-y-2">
-                <li class="flex items-center">
-                  <span class="mr-2 text-purple-600">•</span>
-                  Customer support agents that resolve issues 24/7
-                </li>
-                <li class="flex items-center">
-                  <span class="mr-2 text-purple-600">•</span>
-                  Email agents that prioritize and respond to inquiries
-                </li>
-                <li class="flex items-center">
-                  <span class="mr-2 text-purple-600">•</span>
-                  Content creation agents that maintain your brand voice
-                </li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="relative flex flex-col overflow-hidden rounded-3xl border border-zinc-200 bg-white transition-all duration-300 hover:border-zinc-300">
-            <div class="p-6 flex flex-col items-start">
-              <div class="p-3 mb-4 rounded-full bg-purple-100">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 class="font-semibold text-xl text-zinc-950">Custom Website Design</h3>
-              <p class="text-base text-zinc-500 mt-2">Stunning websites designed from scratch or redesigned in your preferred tech stack to maximize conversions and user engagement.</p>
-              <ul class="mt-4 text-sm text-zinc-500 space-y-2">
-                <li class="flex items-center">
-                  <span class="mr-2 text-purple-600">•</span>
-                  Built with WordPress, Webflow, SvelteKit or Next.js
-                </li>
-                <li class="flex items-center">
-                  <span class="mr-2 text-purple-600">•</span>
-                  Conversion-focused layouts and user flows
-                </li>
-                <li class="flex items-center">
-                  <span class="mr-2 text-purple-600">•</span>
-                  Mobile-responsive and SEO-optimized
-                </li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="relative flex flex-col overflow-hidden rounded-3xl border border-zinc-200 bg-white transition-all duration-300 hover:border-zinc-300">
-            <div class="p-6 flex flex-col items-start">
-              <div class="p-3 mb-4 rounded-full bg-purple-100">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
-              </div>
-              <h3 class="font-semibold text-xl text-zinc-950">Grow Your Socials</h3>
-              <p class="text-base text-zinc-500 mt-2">Strategic content creation for LinkedIn, Twitter, and blogs to increase traffic, improve SEO, and establish your authority.</p>
-              <ul class="mt-4 text-sm text-zinc-500 space-y-2">
-                <li class="flex items-center">
-                  <span class="mr-2 text-purple-600">•</span>
-                  LinkedIn posts that drive engagement and leads
-                </li>
-                <li class="flex items-center">
-                  <span class="mr-2 text-purple-600">•</span>
-                  Twitter threads that position you as a thought leader
-                </li>
-                <li class="flex items-center">
-                  <span class="mr-2 text-purple-600">•</span>
-                  SEO-optimized blog content that drives organic traffic
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-
-
-  
-
-  
-
-
-
-
-
-  
-
-
-
-
-  
-
-
-
-
-
 
 
 <div id="services" class="relative w-full overflow-hidden bg-gradient-to-b from-white to-purple-50 py-24">
@@ -182,7 +63,7 @@
               </div>
             </div>
             
-            <button class="group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-blue-600 group-hover:text-white rounded-full border border-zinc-200 bg-white px-6 py-2 text-sm font-medium text-zinc-800 transition-all duration-300">
+            <button class="hidden group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-blue-600 group-hover:text-white rounded-full border border-zinc-200 bg-white px-6 py-2 text-sm font-medium text-zinc-800 transition-all duration-300">
               Learn more
             </button>
           </div>
@@ -218,7 +99,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <p class="text-sm text-zinc-600">AI-powered personalization for each visitor</p>
+                <p class="text-sm text-zinc-600">AI-assistants for delightful user experience</p>
               </div>
               
               <div class="flex items-start gap-3">
@@ -231,7 +112,7 @@
               </div>
             </div>
             
-            <button class="group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-blue-600 group-hover:text-white rounded-full border border-zinc-200 bg-white px-6 py-2 text-sm font-medium text-zinc-800 transition-all duration-300">
+            <button class="hidden group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-blue-600 group-hover:text-white rounded-full border border-zinc-200 bg-white px-6 py-2 text-sm font-medium text-zinc-800 transition-all duration-300">
               Learn more
             </button>
           </div>
@@ -280,7 +161,7 @@
               </div>
             </div>
             
-            <button class="group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-blue-600 group-hover:text-white rounded-full border border-zinc-200 bg-white px-6 py-2 text-sm font-medium text-zinc-800 transition-all duration-300">
+            <button class="hidden group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-blue-600 group-hover:text-white rounded-full border border-zinc-200 bg-white px-6 py-2 text-sm font-medium text-zinc-800 transition-all duration-300">
               Learn more
             </button>
           </div>
@@ -298,9 +179,9 @@
               <a href="/contact-us" class="rounded-full bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-3 font-medium text-white hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-md">
                 Contact-us
               </a>
-              <button class="rounded-full bg-white border border-zinc-200 px-6 py-3 font-medium text-zinc-800 hover:bg-zinc-50 transition-all duration-200 shadow-sm hidden">
-                View portfolio
-              </button>
+              <a href="signup" class="rounded-full bg-white border border-zinc-200 px-6 py-3 font-medium text-zinc-800 hover:bg-zinc-50 transition-all duration-200 shadow-sm">
+                Try our free agents
+              </a>
             </div>
           </div>
           
