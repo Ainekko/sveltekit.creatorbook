@@ -59,11 +59,11 @@
     </div>
   </div>
   
-  <div class="hidden md:flex items-center gap-3">
-    <a href="/contact-us" class="text-zinc-300 hover:text-white text-sm transition flex items-center gap-2 border border-zinc-800 rounded-lg px-4 py-1.5 hover:bg-zinc-800/70 hover:border-emerald-500/50 group">
+  <div class="hidden w-full md:flex md:max-w-[700px] justify-end items-center gap-2">
+    <a href="/contact-us" class="text-zinc-300 w-1/2 hover:text-white text-sm transition flex items-center gap-2 border border-zinc-800 rounded-lg px-4 py-1.5 hover:bg-zinc-800/70 hover:border-pink-500/50 group">
         <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 group-hover:bg-emerald-300"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 group-hover:bg-emerald-400"></span>
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75 group-hover:bg-pink-300"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-pink-500 group-hover:bg-pink-400"></span>
         </span>
         <span>Build Custom Agent</span>
     </a>
@@ -71,7 +71,7 @@
     {#if $isLoggedIn}
       <button 
         on:click={handleLogout}
-        class="text-zinc-300 bg-zinc-800/50 hover:text-white text-sm transition flex items-center gap-1 border border-zinc-700 rounded-lg px-4 py-1.5 hover:bg-zinc-700/60"
+        class="text-zinc-300 bg-zinc-950 hover:text-white text-sm transition flex items-center gap-1 border border-zinc-700 rounded-lg px-4 py-1.5 hover:bg-zinc-700/60"
       >
         <span>Logout</span>
       </button>
@@ -79,7 +79,7 @@
        <Googleauth size="medium" /> 
        <button 
         on:click={handleLoginRedirect}
-        class="text-zinc-900 bg-zinc-100 hover:bg-white text-sm transition flex items-center gap-1 border border-zinc-200 rounded-lg px-4 py-1.5 font-medium hover:shadow-md hover:shadow-white/10"
+        class="text-zinc-300 bg-transparet hover:bg-white hover:text-zinc-900 text-sm transition flex items-center gap-1 border border-zinc-600 rounded-lg px-4 py-1.5 font-medium hover:shadow-md hover:shadow-white/10"
       >
         <span>Login</span>
       </button>
