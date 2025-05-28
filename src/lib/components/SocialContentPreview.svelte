@@ -4,7 +4,9 @@
     export let linkedinPosts = [];
     export let redditPosts = [];
     export let projectId = "";
-    
+    export let businessData={};
+    const businessName = businessData.business_name || 'N/A'
+
     function navigateToSection(section) {
       // Navigate to the social section
       window.location.href = `${projectId}/${section}`;
@@ -54,8 +56,8 @@
                 𝕏
               </div>
               <div class="ml-3">
-                <p class="text-white font-medium">Your Brand</p>
-                <p class="text-xs text-zinc-500">@yourbrand</p>
+                <p class="text-white font-medium">{businessName}</p>
+                <p class="text-xs text-zinc-500">{businessName}</p>
               </div>
             </div>
             
@@ -87,8 +89,8 @@
                 in
               </div>
               <div class="ml-3">
-                <p class="text-white font-medium">Your Brand</p>
-                <p class="text-xs text-zinc-500">SaaS Company</p>
+                <p class="text-white font-medium">{businessName}</p>
+                <p class="text-xs text-zinc-500">{businessName}</p>
               </div>
             </div>
             

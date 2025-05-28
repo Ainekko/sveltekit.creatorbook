@@ -28,6 +28,7 @@
 
   // Get content plan data
   const contentPlan = data?.project?.latest_run?.result?.analysis_data?.content_plan || {};
+  const businessData = data?.project?.latest_run?.result?.analysis_data?.website_analysis || {};
   
   // Get blog posts, keywords, outlines
   const blogPostOutlines = contentPlan?.seo?.blog_post_outlines || [];
@@ -183,7 +184,7 @@
   });
 </script>
 
-<div class="min-h-screen flex flex-col bg-zinc-950 text-white">
+<div class="h-screen overflow-y-scroll flex flex-col bg-zinc-950 text-white">
   <ProjectHeader 
     projectData={projectData} 
     isGenerating={isGenerating}
@@ -230,9 +231,10 @@
         linkedinPosts={linkedinPosts}
         redditPosts={redditPosts}
         projectId={projectData.id}
+        {businessData}
       />
 
-      <WeeklyCalendar projectId={projectData.id} />
+      <!-- <WeeklyCalendar projectId={projectData.id} /> -->
     </div>
   </main>
 </div>

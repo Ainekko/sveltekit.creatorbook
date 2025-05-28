@@ -1,6 +1,9 @@
 <script>
   // Props for the component
   export let socialData = {};
+  export let businessData={};
+
+  const businessName = businessData.business_name || 'N/A'
   
   // Destructure the important data from the socialData object
   let twitterPosts = socialData?.twitter_posts || [];

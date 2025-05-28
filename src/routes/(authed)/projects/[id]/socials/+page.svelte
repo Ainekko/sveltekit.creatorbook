@@ -5,6 +5,7 @@
    export let data;
 
    let socialData = data.project.latest_run.result.analysis_data.content_plan?.socials || {};
+   let businessData = data.project.latest_run.result.analysis_data?.website_analysis|| {}
 </script>
 
 
@@ -16,5 +17,5 @@
 </div> -->
 
 <div>
-  <SocialContent {socialData} />
+  <SocialContent {socialData} {businessData} />
 </div>
