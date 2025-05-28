@@ -80,7 +80,7 @@
                   <div class="inline-flex items-center rounded-full bg-gradient-to-r from-purple-100 to-blue-100 px-3 py-1 text-sm font-medium text-purple-800 mb-4">
                       Standard
                   </div>
-                  <h3 class="text-2xl font-semibold text-zinc-900 mb-2">Unlock Unlimited AI</h3>
+                  <h3 class="text-2xl font-semibold text-zinc-900 mb-2">Unlimited AI marketing agents</h3>
                   <p class="text-zinc-600 mb-6">Get full access to all AI agents with no limitations.</p>
 
                   <div class="flex items-baseline mb-6">

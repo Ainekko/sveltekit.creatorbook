@@ -59,7 +59,7 @@
     </div>
   </div>
   
-  <div class="hidden w-full p-2 md:flex md:max-w-[700px] justify-end items-center gap-2">
+  <div class="hidden w-full p-2 md:flex md:max-w-[800px] justify-end  items-center gap-2">
     <a href="/contact-us" class="text-zinc-300  w-1/3 hover:text-white text-sm transition flex items-center gap-2 border border-zinc-800 rounded-lg px-4 py-2 hover:bg-zinc-800/70 hover:border-pink-500/50 group">
         <span class="relative flex h-2 w-2">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75 group-hover:bg-pink-300"></span>
@@ -76,13 +76,17 @@
         <span>Logout</span>
       </button>
     {:else}
-       <Googleauth size="medium" /> 
-       <button 
-        on:click={handleLoginRedirect}
-        class="text-zinc-300 bg-transparet hover:bg-white hover:text-zinc-900 text-sm transition flex items-center gap-1 border border-zinc-600 rounded-lg px-4 py-1.5 font-medium hover:shadow-md hover:shadow-white/10"
-      >
-        <span>Login</span>
-      </button>
+       <div class="flex gap-2 ">
+
+        <Googleauth size="medium" /> 
+        <button 
+         on:click={handleLoginRedirect}
+         class="text-zinc-300 bg-transparet hover:bg-white hover:text-zinc-900 text-sm transition flex items-center gap-1 border border-zinc-600 rounded-lg px-4 py-1.5 font-medium hover:shadow-md hover:shadow-white/10"
+       >
+         <span>Login</span>
+       </button>
+
+       </div>
     {/if}
   </div>
   
