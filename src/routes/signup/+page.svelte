@@ -56,47 +56,68 @@
   }
 
   async function register(event: any) {
-      event.preventDefault();
-      
-      if (!validateForm()) {
-          formError = 'Please check the form for errors';
-          return;
-      }
-      
-      loading = true;
-      formError = '';
-  
-      const user_data = {
-          username,
-          email,
-          password,
-      };
-  
-      try {
-          const response = await fetch('https://api.s-tierproject.online/users/register/', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(user_data),
-          });
-  
-          if (response.status === 201) {
-              const res_data = await response.json();
-              const token = res_data.token;
-              localStorage.setItem('token', token);
-              goto('/dashboard');
-          } else {
-              const errorData = await response.json();
-              formError = errorData.message || "Registration failed. Please try again.";
-          }
-      } catch (error) {
-          formError = "Network error. Please check your connection.";
-          console.error("Error submitting form:", error);
-      } finally {
-          loading = false;
-      }
-  }
+    event.preventDefault();
+    
+    if (!validateForm()) {
+        formError = 'Please check the form for errors';
+        return;
+    }
+    
+    loading = true;
+    formError = '';
+
+    const user_data = {
+        username,
+        email,
+        password,
+    };
+
+    // ADD THIS DEBUGGING BLOCK
+    console.log("=== FRONTEND DEBUG ===");
+    console.log("username:", username, "type:", typeof username, "length:", username?.length);
+    console.log("email:", email, "type:", typeof email, "length:", email?.length);
+    console.log("password:", password, "type:", typeof password, "length:", password?.length);
+    console.log("user_data:", user_data);
+    console.log("JSON.stringify(user_data):", JSON.stringify(user_data));
+    console.log("validateForm() result:", validateForm());
+    console.log("=====================");
+
+    try {
+        const response = await fetch('https://api.s-tierproject.online/users/register/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(user_data),
+        });
+
+        console.log("Response status:", response.status);
+        console.log("Response headers:", response.headers);
+        
+        if (response.status === 201) {
+            const res_data = await response.json();
+            const token = res_data.token;
+            localStorage.setItem('token', token);
+            goto('/dashboard');
+        } else {
+            // ADD MORE DEBUGGING FOR ERROR RESPONSES
+            const responseText = await response.text();
+            console.log("Error response body:", responseText);
+            
+            try {
+                const errorData = JSON.parse(responseText);
+                formError = errorData.message || "Registration failed. Please try again.";
+            } catch (parseError) {
+                formError = "Registration failed. Server returned: " + responseText;
+            }
+        }
+    } catch (error) {
+        formError = "Network error. Please check your connection.";
+        console.error("Error submitting form:", error);
+    } finally {
+        loading = false;
+    }
+}
 
   function handleCredentialResponse(response: any) {
       loading = true;

@@ -37,7 +37,7 @@
    * Handles starting a new project, showing upgrade modal if not premium.
    */
   function startNewProject() {
-    if ($userStore?.subscription_status !== 'premium') {
+    if ($userStore?.subscription_status !== 'premium' && $wipIdeasStore.length >= 1) {
       showUpgradeModal = true;
       return;
     }

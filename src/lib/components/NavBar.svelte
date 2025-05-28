@@ -14,8 +14,8 @@
   function handleLogout() {
     logout();
     // Optionally:
-    // isLoggedIn.set(false);
-    // goto('/'); 
+    isLoggedIn.set(false);
+    goto('/'); 
   }
 
   function handleLoginRedirect() {

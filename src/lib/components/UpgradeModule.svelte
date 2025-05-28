@@ -11,7 +11,7 @@
      * Navigates to the upgrade page and then dispatches the 'close' event.
      */
     function handleUpgradeClick() {
-      goto('/upgrade'); // Navigate to the upgrade page
+      goto('/plans'); // Navigate to the upgrade page
       dispatch('close'); // Dispatch the 'close' event to notify the parent
     }
   
