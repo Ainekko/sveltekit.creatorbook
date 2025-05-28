@@ -5,10 +5,17 @@
   let blogPosts = data?.project?.latest_run?.blog_posts || [];
   let isGeneratingPost = false;
   let currentGeneratingPostIndex = -1;
+  let generationProgress = ''; // This was missing!
   let selectedPost = null;
   let showPreview = false;
   let expandedOutlines = new Set();
   let copiedItem = null;
+
+  import { 
+    saveBlogPostToDjango,
+    pollBlogGenerationTask,
+    createBlogPostFromOutline
+  } from '$lib/db';
 
   // Project Data from backend
   const projectData = {
@@ -106,9 +113,50 @@
     return text;
   }
 
-  // Placeholder functions for actions that would normally hit the backend
-  function handleGeneratePost(outline, index) {
-    alert(`Generate post functionality would be implemented here for: "${outline.title}"`);
+  // FIXED: Restored the working generation function from the first file
+  async function handleBlogPostGeneration(event) {
+    const outlineIndex = event.detail.index;
+    const outline = event.detail.outline;
+    const token = localStorage.getItem('token');
+
+    isGeneratingPost = true;
+    currentGeneratingPostIndex = outlineIndex;
+
+    try {
+      const { taskId } = await createBlogPostFromOutline(
+        data.project.latest_run.id,
+        outlineIndex,
+        outline
+      );
+
+      const onProgress = (status) => {
+        generationProgress = `Generating blog post ${outlineIndex + 1}: ${status}`;
+      };
+      const generatedContent = await pollBlogGenerationTask(taskId, onProgress);
+
+      const savedPost = await saveBlogPostToDjango(
+        {
+          llm_run_id: data.project.latest_run.id,
+          outline_index: outlineIndex,
+          content: generatedContent,
+        },
+        token
+      );
+
+      // Update local blogPosts array
+      if (savedPost) {
+        blogPosts = [...blogPosts, savedPost];
+        outlinePostMap = createOutlinePostMap(outlines, blogPosts);
+      }
+
+      alert(`Blog post "${outline.title}" has been generated successfully!`);
+    } catch (error) {
+      console.error('Error in blog post generation process:', error);
+      alert(`Failed to generate blog post: ${error.message}`);
+    } finally {
+      isGeneratingPost = false;
+      currentGeneratingPostIndex = -1;
+    }
   }
 
   function handleEditPost(post) {
@@ -138,6 +186,21 @@
     <h1 class="text-3xl font-bold text-white mb-2">Blog Content Management</h1>
     <p class="text-zinc-400">Manage your SEO-optimized blog posts and outlines</p>
   </div>
+
+  <!-- Generation Progress Indicator (RESTORED from first file) -->
+  {#if isGeneratingPost}
+    <div class="mb-4 bg-violet-900/20 border border-violet-500/30 rounded-lg p-4 text-violet-300">
+      <div class="flex items-center">
+        <div class="animate-spin mr-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+            <path d="M12 2C6.5 2 2 6.5 2 12"></path>
+          </svg>
+        </div>
+        <span>{generationProgress || 'Generating blog post...'}</span>
+      </div>
+    </div>
+  {/if}
 
   <!-- Content Calendar Suggestion -->
   {#if seoData?.content_calendar_suggestion}
@@ -317,12 +380,12 @@
           </div>
         {/if}
 
-        <!-- Action Buttons -->
+        <!-- Action Buttons (FIXED: Restored proper event handling) -->
         <div class="flex flex-wrap gap-3">
           {#if !item.post}
             <button 
-              on:click={() => handleGeneratePost(item.outline, item.index)}
-              class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 rounded-lg text-sm font-medium transition-all transform hover:scale-105"
+              on:click={() => handleBlogPostGeneration({detail: {index: item.index, outline: item.outline}})}
+              class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 rounded-lg text-sm font-medium transition-all transform hover:scale-105 {isGeneratingPost && currentGeneratingPostIndex === item.index ? 'opacity-75 cursor-not-allowed' : ''}"
               disabled={isGeneratingPost}
             >
               {isGeneratingPost && currentGeneratingPostIndex === item.index ? 
