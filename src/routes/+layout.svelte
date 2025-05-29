@@ -5,8 +5,13 @@
   import { onMount } from 'svelte';
   import posthog from 'posthog-js'
   import { browser } from '$app/environment';
+  import { page } from '$app/stores';
+
 
   inject();
+
+  let initialized = false;
+
   
   onMount(() => {
   if (browser) {
@@ -20,8 +25,16 @@
         ph.capture('test_event_simple_config', { method: 'proxy_check_simple' });
       }
     });
+    initialized = true;
   }
 });
+
+$: if (browser && initialized && $page.url.pathname) {
+  posthog.capture('$pageview', {
+    $current_url: $page.url.href,
+    $pathname: $page.url.pathname
+  });
+}
   
 </script>
 
