@@ -1,14 +1,12 @@
 <script>
   import { inject } from '@vercel/analytics';
   import "../app.css";
-  import Deal from '$lib/components/Deal.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
   import { onMount } from 'svelte';
 
   // import { checkAndDeleteToken } from '$lib/check';
 
-  import posthog from 'posthog-js'
-  import { browser } from '$app/environment';
+  
 
 
 
@@ -18,17 +16,7 @@
   // checkAndDeleteToken();
 
   inject();
-  onMount(() => {
-  if (browser) {
-    posthog.init(
-      'phc_JyJ1MIeHjGHDj50rZhIFmLSJlKm9kXjejFtBbKipRk5',
-      {
-        api_host: 'https://us.i.posthog.com',
-        person_profiles: 'always', // or 'always' to create profiles for anonymous users as well
-      }
-    )
-  }
-});
+  
 </script>
 
 <svelte:head>
