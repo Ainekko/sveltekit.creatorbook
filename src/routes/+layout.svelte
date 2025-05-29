@@ -52,7 +52,7 @@
   />
 </svelte:head>
 
-<main class="min-h-screen bg-white">
+<main class="min-h-screen">
   <div class="sticky top-0 z-50">
     <NavBar />
   </div>
