@@ -218,9 +218,9 @@
                 <!-- Tags -->
                 <div class="flex flex-wrap gap-2 mb-4">
                   {#if lead.lead_source}
-                    <span class="px-3 py-1 bg-indigo-600/20 text-indigo-300 text-xs font-medium rounded-full border border-indigo-500/30">
-                      {lead.lead_source}
-                    </span>
+                    <a href='{lead.lead_source}' class="px-3 py-1 bg-indigo-600/20 text-indigo-300 text-xs font-medium rounded-full border border-indigo-500/30">
+                      Post link
+                    </a>
                   {/if}
                   {#if lead.relevance_score}
                     <span class="px-3 py-1 text-xs font-medium rounded-full border {
