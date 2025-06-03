@@ -153,6 +153,14 @@
         </div>
       </div>
     </div>
+
+    <div class="mt-16 rounded-3xl border border-zinc-200 bg-gradient-to-r from-zinc-100 to-blue-50 p-8 text-center">
+      <h3 class="font-medium text-2xl text-zinc-900 mb-4">Ready to transform your marketing strategy?</h3>
+      <p class="text-zinc-600 mb-6 max-w-2xl mx-auto">Launch your AI-powered marketing system with a fractional cost of traditional marketing teams.</p>
+      <a href="/signup" class="inline-flex items-center justify-center rounded-xl bg-black px-6 py-3 font-medium text-white transition-all duration-200 shadow-md hover:bg-zinc-800">
+        Get started today
+      </a>
+    </div>
     
     <!-- How It Works / What Makes Us Different -->
     <div class="mt-16 bg-gradient-to-b from-zinc-50 to-white rounded-3xl border border-zinc-200 p-8">
@@ -195,12 +203,6 @@
     </div>
     
     <!-- CTA Banner -->
-    <div class="mt-16 rounded-3xl border border-zinc-200 bg-gradient-to-r from-zinc-100 to-blue-50 p-8 text-center">
-      <h3 class="font-medium text-2xl text-zinc-900 mb-4">Ready to transform your marketing strategy?</h3>
-      <p class="text-zinc-600 mb-6 max-w-2xl mx-auto">Launch your AI-powered marketing system with a fractional cost of traditional marketing teams.</p>
-      <a href="/signup" class="inline-flex items-center justify-center rounded-xl bg-black px-6 py-3 font-medium text-white transition-all duration-200 shadow-md hover:bg-zinc-800">
-        Get started today
-      </a>
-    </div>
+    
   </div>
 </div>

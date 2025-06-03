@@ -110,11 +110,11 @@
           
           <div class="p-6 bg-gradient-to-r from-zinc-50 to-white">
             <div class="flex justify-between items-center">
-              <h3 class="font-medium text-lg">AI Marketing Agent</h3>
-              <div class="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800 flex items-center">
+              <h3 class="font-medium text-zinc-950 text-lg">AI Marketing Agent</h3>
+              <!-- <div class="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800 flex items-center">
                 <span class="size-2 rounded-full bg-green-500 mr-1"></span>
                 Always Online
-              </div>
+              </div> -->
             </div>
             <div class="mt-2 flex flex-col gap-2 items-start justify-between">
               <div class="flex items-center gap-2">
