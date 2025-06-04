@@ -39,7 +39,7 @@
             username: userData.username,
             user_id: userData.user_id,
             user_email: userData.email,
-            subscription_status: userData.subscription_status
+            subscription_status: "premium"
           });
           // You might need to explicitly fetch/update wipIdeasStore here
           // if it's not handled by a layout or the store itself.

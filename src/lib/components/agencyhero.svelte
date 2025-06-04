@@ -150,3 +150,76 @@
     </div>
   </div>
 </div>
+
+
+
+<section class="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-950 flex items-center justify-center relative overflow-hidden hidden">
+  <div class="absolute inset-0 bg-gradient-to-tr from-zinc-400/8 via-transparent to-zinc-400/8"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,0.12),transparent_70%)]"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(139,92,246,0.08),transparent_50%)]"></div>
+  
+  <!-- Subtle Background SVG Elements -->
+  <svg class="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+          <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#6366f1;stop-opacity:0.3"/>
+              <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0.1"/>
+          </linearGradient>
+      </defs>
+      <path d="M0,300 Q400,100 800,200 T1600,150" stroke="url(#lineGradient)" stroke-width="2" fill="none"/>
+      <path d="M0,500 Q600,300 1200,400 T2400,350" stroke="url(#lineGradient)" stroke-width="1.5" fill="none"/>
+      <circle cx="20%" cy="30%" r="1" fill="rgba(99,102,241,0.4)"/>
+      <circle cx="80%" cy="20%" r="1.5" fill="rgba(139,92,246,0.3)"/>
+      <circle cx="15%" cy="70%" r="1" fill="rgba(99,102,241,0.2)"/>
+      <circle cx="85%" cy="80%" r="1" fill="rgba(139,92,246,0.2)"/>
+  </svg>
+  
+  <div class="relative text-center max-w-6xl px-6">
+      <!-- Floating Icons -->
+      
+      
+      
+
+      <h1 class="font-bold text-5xl md:text-7xl lg:text-8xl tracking-[-0.04em] leading-[0.82] mb-8 text-white">
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-zinc-50 via-zinc-200 to-zinc-400">
+              Building Useful
+          </span>
+          <br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-violet-400 drop-shadow-sm">
+              AI marketing tools
+          </span>
+          <br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-zinc-200 via-zinc-300 to-zinc-500">
+              for SaaS
+          </span>
+      </h1>
+      
+      <div class="flex items-center justify-center gap-6 mb-4">
+          <div class="flex items-center gap-2 text-white/60">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="m21 21-4.35-4.35"/>
+              </svg>
+              <span class="text-sm font-light">Research</span>
+          </div>
+          <div class="w-1 h-1 bg-white/40 rounded-full"></div>
+          <div class="flex items-center gap-2 text-white/60">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14.5 4h-5L7 7H4a2 2 0 00-2 2v9a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2h-3l-2.5-3z"/>
+                  <circle cx="12" cy="13" r="3"/>
+              </svg>
+              <span class="text-sm font-light">Create Content</span>
+          </div>
+          <div class="w-1 h-1 bg-white/40 rounded-full"></div>
+          <div class="flex items-center gap-2 text-white/60">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+              </svg>
+              <span class="text-sm font-light">Find Leads</span>
+          </div>
+      </div>
+      <p class="text-white/40 text-sm font-light">and more</p>
+  </div>
+</section>
