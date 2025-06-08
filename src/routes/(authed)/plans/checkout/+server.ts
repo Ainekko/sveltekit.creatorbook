@@ -5,7 +5,6 @@ import { env } from '$env/dynamic/private';
 
 const CREEM_API_KEY = 'creem_test_46rGPJyfeQBvM4KzICWyOp';
 const CREEM_BASE_URL = "https://api.creem.io/v1";
-// IMPORTANT: Double-check this PRODUCT_ID is correct, active, and valid for the CREEM_API_KEY being used.
 const PRODUCT_ID = "prod_4AZzFkSopL1wVy1yc6VceC";
 
 export const POST: RequestHandler = async ({ request, url }) => {

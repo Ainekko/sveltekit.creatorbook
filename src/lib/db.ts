@@ -2,7 +2,7 @@
 import type { Project, AnalysisResult, BlogPostOutline } from './types';
 
 
-let basePraw = "https://praw-hell-cry.vercel.app"
+let basePraw = "https://www.praw-hell-cry.vercel.app"
 // let basePraw = "http://127.0.0.1:8000"
 
 const baseS = "https://api.s-tierproject.online"
