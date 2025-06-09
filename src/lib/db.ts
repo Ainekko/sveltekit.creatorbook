@@ -156,12 +156,12 @@ export async function saveProject(
   }
 }
   
-  /**
+/**
    * Fetches a website analysis from the backend
    * @param url The URL to analyze
    * @returns The analysis result
-   */
-  export async function analyzeWebsite(url: string): Promise<{ task_id: string }> {
+*/
+export async function analyzeWebsite(url: string): Promise<{ task_id: string }> {
     if (!url) {
       throw new Error("Please enter a website URL");
     }
