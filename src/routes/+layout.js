@@ -1,4 +1,4 @@
-export const ssr = false;
+// export const ssr = false;
 // src/routes/+layout.js
 // import posthog from 'posthog-js'
 // import { browser } from '$app/environment';
