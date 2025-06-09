@@ -1,3 +1,7 @@
+<script>
+	import ButtonGetCustomAgent from "./ButtonGetCustomAgent.svelte";
+
+</script>
 <div class="relative w-full overflow-hidden bg-white">
   <!-- Background Elements hero -->
   <div class="absolute inset-0 overflow-hidden">
@@ -9,10 +13,10 @@
     <div class="grid gap-12 md:grid-cols-2 items-center">
       <!-- Left Content -->
       <div class="flex flex-col gap-6">
-        <div class="inline-flex items-center rounded-xl px-4 py-1.5 font-medium text-sm border border-zinc-200 bg-white text-zinc-950 shadow-sm">
+        <!-- <div class="inline-flex items-center rounded-xl px-4 py-1.5 font-medium text-sm border border-zinc-200 bg-white text-zinc-950 shadow-sm">
           <div class="mr-2 size-2 rounded-xl bg-gradient-to-r from-[#FB923C] via-[#F472B6] to-[#E879F9]"></div>
           AI-Powered Growth
-        </div>
+        </div> -->
         
         <h1 class="font-medium text-5xl text-zinc-950 tracking-tight md:text-7xl leading-tight">
           Grow your saas with <span class="text-transparent bg-clip-text bg-gradient-to-r from-zinc-600 to-zinc-950">AI marketing agents</span>
@@ -23,9 +27,12 @@
         </p>
         
         <div class="flex flex-col items-center sm:flex-row gap-4 mt-4">
-          <a href="/signup" class="rounded-xl bg-black px-6 py-3 font-medium text-white transition-all duration-200 shadow-md shadow-indigo-700">
+          <a href="/signup" class="rounded-xl bg-black px-6 py-3 font-medium text-white transition-all duration-200 shadow-md shadow-indigo-700/50 blur-0">
             Try it for free
           </a>
+
+          <ButtonGetCustomAgent />
+
           <p class="text-zinc-900">
             No credit card required
           </p>

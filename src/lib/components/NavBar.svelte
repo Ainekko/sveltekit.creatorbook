@@ -4,6 +4,7 @@
   import { isLoggedIn } from '$lib/stores'; // Assuming this store exists and works
   import { logout } from '$lib/db'; // Assuming this function exists
   import Googleauth from './Googleauth.svelte'; // Assuming this component exists
+	import ButtonGetCustomAgent from './ButtonGetCustomAgent.svelte';
 
   let isMenuOpen = false;
 
@@ -62,18 +63,16 @@
   
   <!-- Desktop/Tablet Actions - Hidden on mobile -->
   <div class="hidden lg:flex items-center gap-2">
-    <a href="/contact-us" class="text-zinc-300 hover:text-white text-sm transition flex items-center justify-center gap-2 border border-zinc-800 rounded-lg px-4 py-2 hover:bg-zinc-800/70 hover:border-pink-500/50 group whitespace-nowrap">
-        <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75 group-hover:bg-pink-300"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-pink-500 group-hover:bg-pink-400"></span>
-        </span>
-        <span>Get a Custom Agent</span>
-    </a>
+    
+
+
+    <ButtonGetCustomAgent bg="black" />
+
     
     {#if $isLoggedIn}
       <button 
         on:click={handleLogout}
-        class="text-zinc-300 bg-zinc-950 hover:text-white text-sm transition flex items-center gap-1 border border-zinc-700 rounded-lg px-4 py-1.5 hover:bg-zinc-700/60 whitespace-nowrap"
+        class="text-zinc-300 bg-zinc-950 hover:text-white text-sm transition flex items-center gap-1 border border-zinc-700 rounded-xl px-4 py-1.5 hover:bg-zinc-700/60 whitespace-nowrap"
       >
         <span>Logout</span>
       </button>
@@ -82,7 +81,7 @@
         <Googleauth size="medium" /> 
         <button 
          on:click={handleLoginRedirect}
-         class="text-zinc-300 bg-transparent hover:bg-white hover:text-zinc-900 text-sm transition flex items-center gap-1 border border-zinc-600 rounded-lg px-4 py-1.5 font-medium hover:shadow-md hover:shadow-white/10 whitespace-nowrap"
+         class="text-zinc-300 bg-transparent hover:bg-white hover:text-zinc-900 text-sm transition flex items-center gap-1 border border-zinc-600 rounded-xl px-4 py-1.5 font-medium hover:shadow-md hover:shadow-white/10 whitespace-nowrap"
        >
          <span>Login</span>
        </button>
