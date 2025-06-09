@@ -39,7 +39,7 @@ $: if (browser && initialized && $page.url.pathname) {
 </script>
 
 <svelte:head>
-  <title>AI Marketing Agents for SaaS | S-Tier Project</title>
+  <title>AI Marketing Agents for SaaS</title>
   <meta name="description" content="Revolutionize your SaaS marketing with AI agents. Be the first to catch latest industry trends, create targeted content and grow your business faster." />
   <meta name="keywords" content="AI marketing, SaaS marketing, marketing automation, AI agents, content creation, industry trends, business growth, marketing tools" />
   <meta name="author" content="S-Tier Project" />
