@@ -3,10 +3,12 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { env } from '$env/dynamic/private';
 
-const CREEM_API_KEY = 'creem_test_46rGPJyfeQBvM4KzICWyOp';
-const CREEM_BASE_URL = "https://api.creem.io/v1";
-const PRODUCT_ID = "prod_4AZzFkSopL1wVy1yc6VceC";
+const TEST_CREEM_API_KEY = 'creem_test_46rGPJyfeQBvM4KzICWyOp';
+const CREEM_API_KEY = 'creem_4asli88Y5vYQqQWWi49gF';
 
+const CREEM_BASE_URL = "https://api.creem.io/v1";
+const TEST_PRODUCT_ID = "prod_4AZzFkSopL1wVy1yc6VceC";
+const PRODUCT_ID = "prod_4nd93GEVK8yp1prgLVKL0s"
 export const POST: RequestHandler = async ({ request, url }) => {
     console.log('SERVER: Checkout API route called.');
 
@@ -47,10 +49,10 @@ export const POST: RequestHandler = async ({ request, url }) => {
         
         console.log('SERVER: Sending data to Creem:', JSON.stringify(checkoutData, null, 2));
         
-        const creemResponse = await fetch('https://test-api.creem.io/v1/checkouts', {
+        const creemResponse = await fetch('https://api.creem.io/v1/checkouts', {
             method: 'POST',
             headers: {
-                'x-api-key': 'creem_test_46rGPJyfeQBvM4KzICWyOp',
+                'x-api-key': `${CREEM_API_KEY}` || "",
                 'Content-Type': 'application/json',
                 'Accept': 'application/json' // Often good to specify accept header
             },

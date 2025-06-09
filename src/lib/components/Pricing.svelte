@@ -84,7 +84,7 @@
                   <p class="text-zinc-600 mb-6">Get full access to all AI agents with no limitations.</p>
 
                   <div class="flex items-baseline mb-6">
-                      <span class="text-4xl font-bold text-zinc-900">$10</span>
+                      <span class="text-4xl font-bold text-zinc-900">$30</span>
                       <span class="text-lg text-zinc-500 ml-2">/month</span>
                   </div>
               </div>
@@ -127,7 +127,7 @@
                   </div>
               </div>
 
-              <a href="/signup" class="w-full rounded-full bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-3 font-medium text-white hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-md">
+              <a href="/plans" class="w-full rounded-full bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-3 font-medium text-white hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-md">
                   Upgrade Now
               </a>
           </div>

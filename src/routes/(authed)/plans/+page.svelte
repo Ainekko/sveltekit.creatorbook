@@ -184,10 +184,10 @@
                         style="${plan === 'paid' ? 'border-image: linear-gradient(to right, #b363f1, #ec4899); border-image-slice: 1;' : ''}"
 					>
 						<h3 class="text-xl sm:text-2xl font-semibold mb-2">
-							<span class="bg-gradient-to-r from-violet-400 via-pink-500 to-rose-400 text-transparent bg-clip-text font-bold">Agency</span> Plan
+							<span class="bg-gradient-to-r from-violet-400 via-pink-500 to-rose-400 text-transparent bg-clip-text font-bold">s-tier</span> Plan
 						</h3>
-						<p class="text-zinc-300 text-2xl sm:text-3xl mb-5 font-bold">$10<span class="text-base font-normal text-zinc-400">/m</span></p>
-						<p class="text-sm text-zinc-400">Access to our validation services plus AI assistants.</p>
+						<p class="text-zinc-300 text-2xl sm:text-3xl mb-5 font-bold">$30<span class="text-base font-normal text-zinc-400">/m</span></p>
+						<p class="text-sm text-zinc-400">Access all S-tier AI Agents</p>
 					</button>
 				</div>
 			</div>
