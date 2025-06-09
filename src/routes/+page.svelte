@@ -13,6 +13,7 @@
   <meta property="og:title" content="AI Marketing Agents for SaaS | S-Tier Project" />
   <meta property="og:description" content="Revolutionize your SaaS marketing with AI agents. Be the first to catch latest industry trends, create targeted content and grow your business faster." />
   <meta property="og:image" content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/s-teir/Screenshot+2025-06-03+215039.jpg" />
+
   <meta property="og:image:alt" content="AI Marketing Agents for SaaS - Dashboard Preview" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />

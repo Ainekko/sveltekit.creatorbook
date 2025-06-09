@@ -162,11 +162,7 @@
     });
 </script>
 
-
-
 <style>
-    
-    
     .tech-icon {
         transition: all 0.3s ease;
     }
@@ -174,26 +170,24 @@
     .tech-icon:hover {
         transform: translateY(-5px);
     }
-    
-    
 </style>
 
 <div class="text-zinc-200 min-h-screen">
-    <div class="container mx-auto px-4 py-16">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
         <!-- Header Section -->
-        <div class="flex flex-col items-center justify-center mb-12" in:fade={{ duration: 300, delay: 100 }}>
+        <div class="flex flex-col items-center justify-center mb-8 sm:mb-12" in:fade={{ duration: 300, delay: 100 }}>
             <div class="inline-flex items-center rounded-full px-4 py-1.5 font-medium text-sm border border-zinc-700 bg-zinc-800/50 text-zinc-200 mb-4">
                 <div class="mr-2 w-2 h-2 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>Contact Us
             </div>
-            <h1 class="text-center font-medium text-4xl text-white tracking-tight lg:text-5xl mb-3">Get in touch</h1>
-            <p class="text-center text-lg text-zinc-400 max-w-xl">Let's discuss how our intelligent AI agents can transform your business operations</p>
+            <h1 class="text-center font-medium text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight mb-3">Get in touch</h1>
+            <p class="text-center text-base sm:text-lg text-zinc-400 max-w-xl px-4">Let's discuss how our intelligent AI agents can transform your business operations</p>
         </div>
 
-        <div class="grid grid-cols-2 lg:grid-cols-12 gap-8 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 max-w-7xl mx-auto">
             <!-- Contact Form Section -->
             <div class="lg:col-span-7" in:fly={{ y: 20, duration: 400, delay: 200 }}>
-                <div class="gradient-border glow-effect  p-8">
-                    <h2 class="text-2xl font-bold text-white mb-6">Send us a message</h2>
+                <div class="gradient-border glow-effect p-6 sm:p-8">
+                    <h2 class="text-xl sm:text-2xl font-bold text-white mb-6">Send us a message</h2>
                     
                     {#if !formSubmitted}
                         {#if formError}
@@ -203,14 +197,14 @@
                         {/if}
                         
                         <form class="space-y-6" on:submit={submitForm}>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                                 <div>
                                     <label for="name" class="block text-sm font-medium text-gray-300 mb-2">Full Name <span class="text-pink-500">*</span></label>
                                     <input 
                                         type="text" 
                                         id="name" 
                                         bind:value={formData.name}
-                                        class="w-full bg-zinc-900  text-white py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 input-focus-effect transition-all duration-200 {!nameValid && formData.name ? 'ring-1 ring-red-500' : ''}" 
+                                        class="w-full bg-zinc-900 text-white py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 input-focus-effect transition-all duration-200 {!nameValid && formData.name ? 'ring-1 ring-red-500' : ''}" 
                                         placeholder="John Doe"
                                         required
                                     >
@@ -224,7 +218,7 @@
                                         type="email" 
                                         id="email" 
                                         bind:value={formData.email}
-                                        class="w-full bg-zinc-900  text-white py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 input-focus-effect transition-all duration-200 {!emailValid && formData.email ? 'ring-1 ring-red-500' : ''}" 
+                                        class="w-full bg-zinc-900 text-white py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 input-focus-effect transition-all duration-200 {!emailValid && formData.email ? 'ring-1 ring-red-500' : ''}" 
                                         placeholder="your@email.com"
                                         required
                                     >
@@ -234,15 +228,13 @@
                                 </div>
                             </div>
                             
-                            
-                            
                             <div>
                                 <label for="message" class="block text-sm font-medium text-zinc-300 mb-2">Your Message <span class="text-pink-500">*</span></label>
                                 <textarea 
                                     id="message" 
                                     rows="5" 
                                     bind:value={formData.message}
-                                    class="w-full bg-zinc-900  text-white py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 input-focus-effect transition-all duration-200 resize-none {!messageValid && formData.message ? 'ring-1 ring-red-500' : ''}" 
+                                    class="w-full bg-zinc-900 text-white py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 input-focus-effect transition-all duration-200 resize-none {!messageValid && formData.message ? 'ring-1 ring-red-500' : ''}" 
                                     placeholder="Tell us about your project and requirements..."
                                     required
                                 ></textarea>
@@ -254,7 +246,7 @@
                             <div>
                                 <button 
                                     type="submit" 
-                                    class="w-full  border border-zinc-800 hover:bg-zinc-800 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:translate-y-[-2px] hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
+                                    class="w-full border border-zinc-800 hover:bg-zinc-800 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:translate-y-[-2px] hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
                                     disabled={loading}
                                 >
                                     {loading ? 'Sending...' : 'Send Message'}
@@ -262,15 +254,15 @@
                             </div>
                         </form>
                     {:else}
-                        <div in:fade class="text-center py-12">
+                        <div in:fade class="text-center py-8 sm:py-12">
                             <div class="w-16 h-16 bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-700">
                                 <i class="fas fa-check text-green-500 text-2xl"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-white mb-2">Thank You!</h3>
+                            <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">Thank You!</h3>
                             <p class="text-gray-400 mb-6">Your message has been sent successfully. We'll be in touch soon.</p>
                             <button 
                                 on:click={resetForm}
-                                class="px-6 py-2 bg-zinc-900  text-white font-medium rounded-xl hover:bg-zinc-700 transition-color border border-zinc-900"
+                                class="px-6 py-2 bg-zinc-900 text-white font-medium rounded-xl hover:bg-zinc-700 transition-color border border-zinc-900"
                             >
                                 Send Another Message
                             </button>
@@ -282,13 +274,8 @@
                         <h3 class="text-lg font-medium text-white mb-4">Or reach us directly:</h3>
                         <div class="space-y-4">
                             <div class="flex items-center">
-                                
-                                <a href="mailto:hi@s-tierproject.online" class="text-zinc-400 hover:text-indigo-300 transition-colors">hi@s-tierproject.online</a>
+                                <a href="mailto:hi@s-tierproject.online" class="text-zinc-400 hover:text-indigo-300 transition-colors break-all sm:break-normal">hi@s-tierproject.online</a>
                             </div>
-                            
-                            
-                            
-                            
                         </div>
                     </div>
                 </div>
@@ -297,33 +284,29 @@
             <!-- Right Section with Tech Stack and Benefits -->
             <div class="lg:col-span-5 space-y-6">
                 <!-- Tech Stack Section -->
-                <div class="gradient-border glow-effect bg-zinc-900 p-8" in:fly={{ y: 20, duration: 400, delay: 300 }}>
-                    <h3 class="text-xl font-bold text-white mb-6">Our Technology Stack</h3>
+                <div class="gradient-border glow-effect bg-zinc-900 p-6 sm:p-8" in:fly={{ y: 20, duration: 400, delay: 300 }}>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-6">Our Technology Stack</h3>
                     
-                    <div class="grid grid-cols-3 gap-4">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                         {#each techStack as tech}
-                            <div class="tech-icon flex flex-col items-center justify-center p-4 bg-zinc-800/50 rounded-xl border border-zinc-700">
-                                <div class="w-12 h-12 flex items-center justify-center mb-3">
-                                    <i class="fas {tech.icon} text-3xl {tech.color}"></i>
+                            <div class="tech-icon flex flex-col items-center justify-center p-3 sm:p-4 bg-zinc-800/50 rounded-xl border border-zinc-700">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center mb-2 sm:mb-3">
+                                    <i class="fas {tech.icon} text-2xl sm:text-3xl {tech.color}"></i>
                                 </div>
-                                <span class="text-sm text-center text-gray-300">{tech.name}</span>
+                                <span class="text-xs sm:text-sm text-center text-gray-300">{tech.name}</span>
                             </div>
                         {/each}
                     </div>
                 </div>
-                
-                
-                <!-- Stats Section -->
-                
             </div>
         </div>
     </div>
     
     {#if loading}
-        <div class="fixed inset-0 bg-black/70 flex items-center justify-center z-50" transition:fade={{ duration: 200 }}>
-            <div class="p-6 rounded-xl bg-zinc-900 shadow-xl border border-zinc-700 flex flex-col items-center">
+        <div class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" transition:fade={{ duration: 200 }}>
+            <div class="p-6 rounded-xl bg-zinc-900 shadow-xl border border-zinc-700 flex flex-col items-center max-w-sm w-full">
                 <div class="w-12 h-12 rounded-full border-4 border-t-indigo-500 border-r-indigo-500 border-b-zinc-600 border-l-zinc-600 animate-spin"></div>
-                <p class="mt-4 text-gray-300">Sending your message...</p>
+                <p class="mt-4 text-gray-300 text-center">Sending your message...</p>
             </div>
         </div>
     {/if}
