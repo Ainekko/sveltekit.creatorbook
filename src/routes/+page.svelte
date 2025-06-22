@@ -12,7 +12,7 @@
   
   <meta property="og:title" content="AI Marketing Agents for SaaS" />
   <meta property="og:description" content="Grow your SaaS marketing with AI agents. Be the first to catch latest industry trends, create targeted content and grow your business faster." />
-  <meta property="og:image" content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/s-teir/OGImg.jpg" />
+  <meta property="og:image" content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/s-teir/NEW+OG.jpg" />
 
   <meta property="og:image:alt" content="AI Marketing Agents for SaaS - Dashboard Preview" />
   <meta property="og:image:width" content="1200" />
@@ -27,7 +27,7 @@
   <meta name="twitter:creator" content="@_negativeIQ" />
   <meta name="twitter:title" content="AI Marketing Agents for SaaS" />
   <meta name="twitter:description" content="Grow your SaaS marketing with AI agents. Be the first to catch latest industry trends, create targeted content and grow your business faster." />
-  <meta name="twitter:image" content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/s-teir/OGImg.jpg" />
+  <meta name="twitter:image" content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/s-teir/NEW+OG.jpg" />
   <meta name="twitter:image:alt" content="AI Marketing Agents for SaaS - Dashboard Preview" />
   
   <meta name="theme-color" content="#000000" />
@@ -55,7 +55,7 @@
         "@type": "Organization",
         "name": "S-Tier Project"
       },
-      "image": "https://rechatcreatorbook.s3.us-west-2.amazonaws.com/s-teir/OGImg.jpg"
+      "image": "https://rechatcreatorbook.s3.us-west-2.amazonaws.com/s-teir/NEW+OG.jpg"
     }
   </script>
 </svelte:head>
