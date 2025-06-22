@@ -44,7 +44,7 @@
   
   <div class="mb-8">
     <div class="flex items-center mb-4">
-      <h2 class="text-xl font-bold text-white">Content Pipeline</h2>
+      <h2 class="text-xl font-medium text-zinc-200">Content Pipeline</h2>
       <div class="ml-auto">
         <div class="flex gap-2 items-center">
           <div class="flex gap-2">
@@ -60,7 +60,7 @@
           </div>
           <button 
             on:click={() => navigateToSection('seo')}
-            class="text-sm text-pink-400 ml-4 hover:underline flex items-center"
+            class="text-sm text-zinc-300 ml-4 hover:underline flex items-center"
           >
             View All Content <span class="text-lg ml-1">→</span>
           </button>

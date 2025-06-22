@@ -21,15 +21,15 @@
     }
   </script>
   
-  <div class="relative bg-zinc-900 rounded-lg border border-zinc-800 overflow-hidden group hover:border-pink-500/50 transition-all duration-200">
+  <div class="relative bg-zinc-950 rounded-xl border border-zinc-800 overflow-hidden group hover:border-zinc-500/50 transition-all duration-200">
     <!-- Status Indicator -->
     <div class="absolute top-3 right-3 z-10">
       {#if item.post}
-        <span class="px-2 py-1 rounded-full text-xs font-medium {item.post.is_published ? 'bg-green-900/30 text-green-400' : 'bg-yellow-900/30 text-yellow-400'}">
+        <span class="px-2 py-1 rounded-xl text-xs font-medium {item.post.is_published ? 'bg-green-900/30 text-green-400' : 'bg-yellow-900/30 text-yellow-400'}">
           {item.post.is_published ? 'Published' : 'Draft'}
         </span>
       {:else}
-        <span class="px-2 py-1 rounded-full text-xs font-medium bg-violet-900/30 text-violet-400">
+        <span class="px-2 py-1 rounded-xl text-xs font-medium bg-violet-900/30 text-violet-400">
           Outline
         </span>
       {/if}
@@ -37,7 +37,7 @@
     
     <!-- Content -->
     <div class="p-4">
-      <h3 class="font-bold text-white text-lg line-clamp-2 mb-2 group-hover:text-pink-400 transition-colors">
+      <h3 class="font-bold text-zinc-200 text-base line-clamp-2 mb-2 group-hover:text-zinc-100 transition-colors">
         {item.outline.title}
       </h3>
       
@@ -75,7 +75,7 @@
         {#if !item.post}
           <button 
             on:click={handleGeneratePost}
-            class="w-full py-2 bg-gradient-to-r from-violet-600 to-pink-500 hover:from-violet-500 hover:to-pink-400 rounded text-xs font-medium transition-all {isGenerating ? 'opacity-75 cursor-not-allowed' : ''}"
+            class="w-full py-2 bg-gradient-to-r from-violet-600 to-zinc-500 hover:from-violet-500 hover:to-pink-200 rounded text-xs font-medium transition-all {isGenerating ? 'opacity-75 cursor-not-allowed' : ''}"
             disabled={isGenerating}
           >
             {isGenerating ? 'Generating...' : 'Generate Full Post'}

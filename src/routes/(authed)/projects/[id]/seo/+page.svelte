@@ -1,4 +1,6 @@
 <script lang="ts">
+	import AiStrategySuggestion from '$lib/components/AiStrategySuggestion.svelte';
+
   export let data;
 
   let seoData = data.project.latest_run.result.analysis_data.content_plan?.seo || [];
@@ -202,30 +204,10 @@
     </div>
   {/if}
 
-  <!-- Content Calendar Suggestion -->
-  {#if seoData?.content_calendar_suggestion}
-    <div class="mb-6 bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-lg border border-blue-500/30 p-4">
-      <div class="flex items-center justify-between mb-2">
-        <h3 class="text-lg font-semibold text-white">📅 Content Calendar Suggestion</h3>
-        <button 
-          class="p-1 text-zinc-400 hover:text-white transition-colors"
-          on:click={() => copyToClipboard(seoData.content_calendar_suggestion, 'calendar')}
-          title="Copy suggestion"
-        >
-          {#if copiedItem === 'calendar'}
-            <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-            </svg>
-          {:else}
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg>
-          {/if}
-        </button>
-      </div>
-      <p class="text-blue-200 leading-relaxed">{seoData.content_calendar_suggestion}</p>
-    </div>
-  {/if}
+  
+
+  <AiStrategySuggestion suggestion={seoData?.content_calendar_suggestion} />
+
 
   <!-- Quick Stats -->
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">

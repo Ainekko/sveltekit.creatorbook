@@ -125,53 +125,7 @@
     }
   }
   
-  // Generate sample posts for preview
-  // function generateTwitterPosts() {
-  //   return [
-  //     {
-  //       content: "🚀 Just launched: 5 ways AI is transforming SaaS marketing in 2025. Our latest data shows 78% of teams using AI marketing tools report higher ROI within 90 days.",
-  //       hashtags: ["AI", "SaaSMarketing", "GrowthHacking"],
-  //       likes: 47,
-  //       retweets: 23,
-  //       comments: 12
-  //     },
-  //     {
-  //       content: "The key to scaling your SaaS? It's not more developers. It's smarter marketing automation. Here's how our clients are saving 20+ hours/week with AI content generation.",
-  //       hashtags: ["MarketingAutomation", "SaaS", "AIMarketing"],
-  //       likes: 35,
-  //       retweets: 18,
-  //       comments: 8
-  //     },
-  //     {
-  //       content: "Thread: 10 SaaS marketing metrics you should track daily (but probably don't). First up: Customer Acquisition Cost (CAC) by channel.",
-  //       hashtags: ["SaaS", "MarketingMetrics", "CAC"],
-  //       likes: 64,
-  //       retweets: 31,
-  //       comments: 15
-  //     }
-  //   ];
-  // }
-
-  // function generateLinkedInPosts() {
-  //   return [
-  //     {
-  //       content: "We analyzed 150+ SaaS companies to identify what separates the top performers from the rest. The results might surprise you - it's not product features or pricing that makes the biggest difference, but consistent, data-driven content marketing.",
-  //       type: "Research Report",
-  //       likes: 124,
-  //       comments: 32,
-  //       shares: 46
-  //     },
-  //     {
-  //       content: "Looking to scale your SaaS marketing without hiring an army of writers and designers? Join me this Thursday for a live workshop on \"Building an AI-Powered Content Engine for SaaS Growth\".",
-  //       type: "Event Promotion",
-  //       likes: 87,
-  //       comments: 14,
-  //       shares: 22
-  //     }
-  //   ];
-  // }
   
-  // Import necessary functions from db.js
   import { 
     updateProjectWithNewAnalysis, 
     saveBlogPostToDjango,
@@ -212,6 +166,11 @@
 
       <AiStrategySuggestion suggestion={contentCalendarSuggestion} />
 
+      <KeywordsOverview 
+        keywords={selectedKeywords} 
+        projectId={projectData.id}
+      />
+
       <ContentPipeline 
         outlines={blogPostOutlines}
         blogPosts={blogPosts}
@@ -221,10 +180,7 @@
         on:generatePost={handleBlogPostGeneration}
       />
 
-      <KeywordsOverview 
-        keywords={selectedKeywords} 
-        projectId={projectData.id}
-      />
+      
       
       <SocialContentPreview 
         twitterPosts={twitterPosts}

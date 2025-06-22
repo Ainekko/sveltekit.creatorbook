@@ -11,16 +11,16 @@
   
   <div class="mb-8">
     <div class="flex items-center mb-4">
-      <h2 class="text-xl font-bold text-white">Target Keywords</h2>
+      <h2 class="text-xl font-medium text-zinc-100">Target Keywords</h2>
       <button 
         on:click={() => navigateToSection('keywords')}
-        class="text-sm text-pink-400 ml-auto hover:underline flex items-center"
+        class="text-sm text-zinc-300 ml-auto hover:underline flex items-center"
       >
         View All Keywords <span class="text-lg ml-1">→</span>
       </button>
     </div>
     
-    <div class="bg-zinc-900 rounded-lg border border-zinc-800 p-5">
+    <div class="bg-zinc-950 rounded-xl border border-zinc-900 p-5">
       <div class="flex flex-wrap gap-2">
         {#each keywords.slice(0, 8) as keyword, i}
           <div class="bg-zinc-800 rounded-full px-3 py-1 flex items-center">
