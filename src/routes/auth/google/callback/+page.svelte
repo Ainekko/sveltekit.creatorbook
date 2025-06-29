@@ -59,6 +59,12 @@
         });
   
         if (!tokenResponse.ok) {
+          const errorData = await tokenResponse.text();
+          console.error('Token exchange error:', errorData);
+          throw new Error(`Failed to exchange authorization code: ${tokenResponse.status} - ${errorData}`);
+        }
+  
+        if (!tokenResponse.ok) {
           throw new Error('Failed to exchange authorization code');
         }
   
