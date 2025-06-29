@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
+	import Googleauth from '$lib/components/Googleauth.svelte';
   import { onMount } from 'svelte';
   import { fly, fade } from 'svelte/transition';
 
@@ -254,10 +255,12 @@
               <div class="flex-grow border-t border-zinc-800"></div>
           </div>
 
-          <!-- Google OAuth Button -->
+          <!-- Google OAuth Button
           <div class="flex justify-center my-2">
               <div id="google-signin-button" class="w-full"></div>
-          </div>
+          </div> -->
+
+          <Googleauth />
 
           <div class="text-center mt-6 text-zinc-400">
               Already have an account?
