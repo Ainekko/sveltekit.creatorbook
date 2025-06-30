@@ -112,35 +112,17 @@
 		}
 
 		try {
-			// Exchange authorization code for tokens
-			const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded',
-				},
-				body: new URLSearchParams({
-					client_id: GOOGLE_CLIENT_ID,
-					code: code,
-					code_verifier: codeVerifier,
-					grant_type: 'authorization_code',
-					redirect_uri: REDIRECT_URI,
-				}),
-			});
-
-			if (!tokenResponse.ok) {
-				throw new Error('Failed to exchange authorization code');
-			}
-
-			const tokenData = await tokenResponse.json();
-			const { id_token } = tokenData;
-
-			// Send to your backend
-			const backendResponse = await fetch('https://api.s-tierproject.online/users/gauth/', {
+			// Send code and verifier to backend for token exchange
+			const backendResponse = await fetch('https://api.s-tierproject.online/auth/google/callback', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({ access_token: id_token })
+				body: JSON.stringify({ 
+					code: code,
+					code_verifier: codeVerifier,
+					redirect_uri: REDIRECT_URI
+				})
 			});
 
 			if (backendResponse.status === 200) {
@@ -158,11 +140,12 @@
 					goto(redirectUrl);
 				}
 			} else {
-				throw new Error('Backend authentication failed');
+				const errorData = await backendResponse.json();
+				throw new Error(errorData.error || 'Backend authentication failed');
 			}
 
 		} catch (error) {
-			console.error('Error during token exchange:', error);
+			console.error('Error during authentication:', error);
 			if (onError) {
 				onError(error);
 			}

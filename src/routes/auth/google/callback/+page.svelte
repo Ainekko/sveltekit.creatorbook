@@ -6,7 +6,6 @@
     let status = 'Processing authentication...';
     let error = '';
   
-    // Copy the handleCallback function from your component
     async function handleCallback(urlParams: URLSearchParams) {
       const code = urlParams.get('code');
       const state = urlParams.get('state');
@@ -43,43 +42,17 @@
       try {
         status = 'Exchanging authorization code...';
         
-        // Exchange authorization code for tokens
-        const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: new URLSearchParams({
-            client_id: '144652246407-itelihabs7ns4brsead66aion8o5uo9d.apps.googleusercontent.com',
-            code: code,
-            code_verifier: codeVerifier,
-            grant_type: 'authorization_code',
-            redirect_uri: `${window.location.origin}/auth/google/callback`,
-          }),
-        });
-  
-        if (!tokenResponse.ok) {
-          const errorData = await tokenResponse.text();
-          console.error('Token exchange error:', errorData);
-          throw new Error(`Failed to exchange authorization code: ${tokenResponse.status} - ${errorData}`);
-        }
-  
-        if (!tokenResponse.ok) {
-          throw new Error('Failed to exchange authorization code');
-        }
-  
-        const tokenData = await tokenResponse.json();
-        const { id_token } = tokenData;
-  
-        status = 'Authenticating with backend...';
-  
-        // Send to your backend
+        // Send code and verifier to backend for token exchange
         const backendResponse = await fetch('https://api.s-tierproject.online/users/gauth/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ access_token: id_token })
+          body: JSON.stringify({ 
+            code: code,
+            code_verifier: codeVerifier,
+            redirect_uri: `${window.location.origin}/auth/google/callback`
+          })
         });
   
         if (backendResponse.status === 200) {
@@ -98,11 +71,12 @@
             goto('/plans');
           }, 1000);
         } else {
-          throw new Error('Backend authentication failed');
+          const errorData = await backendResponse.json();
+          throw new Error(errorData.error || 'Backend authentication failed');
         }
   
       } catch (err) {
-        console.error('Error during token exchange:', err);
+        console.error('Error during authentication:', err);
         error = 'Authentication failed: ' + (err as Error).message;
       }
     }
