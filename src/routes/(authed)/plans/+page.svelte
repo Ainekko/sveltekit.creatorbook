@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { get_user } from '$lib/check'; // Ensure this function is robust and returns expected structure
 	import { onMount } from 'svelte';
+	import { fade, fly } from 'svelte/transition';
 
 	let plan = 'free'; // default to free plan
 	let loading = false;
@@ -144,87 +145,222 @@
 	}
 </script>
 
-<div class="h-screen w-full flex justify-center items-center bg-zinc-900 text-white font-sans">
-	<div class="max-w-3xl w-full mx-auto p-4 flex flex-col justify-center items-center text-center">
-		<div class="card bg-zinc-800 flex flex-col justify-center items-center w-full shadow-xl p-6 sm:p-8 rounded-lg">
-			<p class="text-2xl sm:text-3xl text-zinc-100 font-semibold mb-6 sm:mb-8">Select Your Plan</p>
+<style>
+	.plan-card {
+		transition: all 0.3s ease;
+		cursor: pointer;
+	}
 
-			{#if error}
-				<div class="mb-4 p-3 w-full max-w-md bg-red-500/20 border border-red-500/50 rounded-md text-red-300 text-sm break-words">
-					{error}
+	.plan-card:hover {
+		transform: translateY(-2px);
+	}
+
+	.plan-card.selected {
+		transform: translateY(-1px);
+		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+	}
+</style>
+
+<div class="text-zinc-200 min-h-screen bg-zinc-900">
+	<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
+		<!-- Header Section -->
+		<div class="flex flex-col items-center justify-center mb-8 sm:mb-12" in:fade={{ duration: 300, delay: 100 }}>
+			<h1 class="text-center font-bold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight mb-3">Select Your Plan</h1>
+			<p class="text-center text-base sm:text-lg text-zinc-400 max-w-xl px-4">Choose the perfect plan to unlock the full potential of our AI agents</p>
+		</div>
+
+		<!-- Error Message -->
+		{#if error}
+			<div class="max-w-4xl mx-auto mb-6" in:fade={{ duration: 300 }}>
+				<div class="bg-gradient-to-r from-red-950 to-red-800 rounded-xl border border-red-800 p-4">
+					<div class="flex items-center">
+						<div class="mr-3 bg-red-200/20 p-2 rounded-full">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+							</svg>
+						</div>
+						<div>
+							<p class="text-red-200 text-sm">{error}</p>
+						</div>
+					</div>
 				</div>
-			{/if}
+			</div>
+		{/if}
 
-			<div class="flex flex-col sm:flex-row justify-center items-stretch gap-4 sm:gap-6 p-4 w-full">
-				<div class="flex-1 w-full">
-					<button
-						type="button"
-						on:click={() => selectPlan('free')}
-						disabled={loading}
-						class={`w-full p-6 h-full rounded-lg border-2 transition-all duration-200 ease-in-out
-                        ${plan === 'free' ? 'border-blue-500 bg-blue-500/10 ring-2 ring-blue-500' : 'border-zinc-700 hover:border-zinc-500 bg-zinc-700/50'}
-                        ${loading ? 'opacity-60 cursor-not-allowed' : 'hover:shadow-lg'}
-                        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-800 focus:ring-blue-400 text-white`}
-					>
-						<h3 class="text-xl sm:text-2xl font-semibold mb-2">Start for Free</h3>
-						<p class="text-zinc-300 text-2xl sm:text-3xl mb-5 font-bold">$0<span class="text-base font-normal text-zinc-400">/m</span></p>
-						<p class="text-sm text-zinc-400">Get access to AI assistants and basic features.</p>
-					</button>
+		<!-- Plans Section -->
+		<div class="max-w-4xl mx-auto">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+				<!-- Free Plan -->
+				<div class="plan-card bg-gradient-to-r from-zinc-950 to-zinc-800 rounded-xl border border-zinc-800 overflow-hidden p-6 {plan === 'free' ? 'selected border-blue-600' : ''}" 
+					 in:fly={{ y: 20, duration: 400, delay: 200 }}
+					 on:click={() => selectPlan('free')}
+					 on:keydown={(e) => e.key === 'Enter' && selectPlan('free')}
+					 role="button"
+					 tabindex="0"
+					 class:opacity-60={loading}
+					 class:cursor-not-allowed={loading}>
+					
+					<div class="flex items-center mb-4">
+						<div class="mr-4 bg-blue-200/20 p-2 rounded-full">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+							</svg>
+						</div>
+						<div class="flex-1">
+							<h3 class="text-lg font-bold text-white">Start for Free</h3>
+							<p class="text-xs text-blue-300/80">Perfect for getting started</p>
+						</div>
+						{#if plan === 'free'}
+							<div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center ml-4">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+								</svg>
+							</div>
+						{:else}
+							<div class="w-6 h-6 rounded-full border-2 border-zinc-600 ml-4"></div>
+						{/if}
+					</div>
+
+					<div class="mb-4">
+						<div class="flex items-baseline mb-2">
+							<span class="text-3xl font-bold text-white">$0</span>
+							<span class="text-zinc-400 ml-2 text-sm">/month</span>
+						</div>
+					</div>
+
+					<div class="space-y-2 text-zinc-300 text-sm">
+						<div class="flex items-center">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+							</svg>
+							Access to basic AI assistants
+						</div>
+						<div class="flex items-center">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+							</svg>
+							Standard response speed
+						</div>
+						<div class="flex items-center">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+							</svg>
+							Community support
+						</div>
+						<div class="flex items-center">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+							</svg>
+							Basic features included
+						</div>
+					</div>
 				</div>
 
-				<div class="flex-1 w-full">
-					<button
-						type="button"
-						on:click={() => selectPlan('paid')}
-						disabled={loading}
-						class={`w-full p-6 h-full rounded-lg border-2 transition-all duration-200 ease-in-out
-                        ${plan === 'paid' ? 'border-gradient-active ring-2 ring-pink-500' : 'border-zinc-700 hover:border-zinc-500 bg-zinc-700/50'}
-                        ${loading ? 'opacity-60 cursor-not-allowed' : 'hover:shadow-lg'}
-                        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-800 focus:ring-pink-400 text-white`}
-                        style="${plan === 'paid' ? 'border-image: linear-gradient(to right, #b363f1, #ec4899); border-image-slice: 1;' : ''}"
-					>
-						<h3 class="text-xl sm:text-2xl font-semibold mb-2">
-							<span class="bg-gradient-to-r from-violet-400 via-pink-500 to-rose-400 text-transparent bg-clip-text font-bold">s-tier</span> Plan
-						</h3>
-						<p class="text-zinc-300 text-2xl sm:text-3xl mb-5 font-bold">$30<span class="text-base font-normal text-zinc-400">/m</span></p>
-						<p class="text-sm text-zinc-400">Access all S-tier AI Agents</p>
-					</button>
+				<!-- Paid Plan -->
+				<div class="plan-card bg-gradient-to-r from-zinc-950 to-zinc-800 rounded-xl border border-zinc-800 overflow-hidden p-6 {plan === 'paid' ? 'selected border-pink-600' : ''}" 
+					 in:fly={{ y: 20, duration: 400, delay: 300 }}
+					 on:click={() => selectPlan('paid')}
+					 on:keydown={(e) => e.key === 'Enter' && selectPlan('paid')}
+					 role="button"
+					 tabindex="0"
+					 class:opacity-60={loading}
+					 class:cursor-not-allowed={loading}>
+					
+					<div class="flex items-center mb-4">
+						<div class="mr-4 bg-violet-200/20 p-2 rounded-full">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+							</svg>
+						</div>
+						<div class="flex-1">
+							<h3 class="text-lg font-bold">
+								<span class="bg-gradient-to-r from-violet-400 via-pink-500 to-rose-400 text-transparent bg-clip-text">s-tier</span>
+								<span class="text-white ml-1">Plan</span>
+							</h3>
+							<p class="text-xs text-pink-300/80">Unlock premium AI capabilities</p>
+						</div>
+						{#if plan === 'paid'}
+							<div class="w-6 h-6 rounded-full bg-gradient-to-r from-pink-500 to-violet-500 flex items-center justify-center ml-4">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+								</svg>
+							</div>
+						{:else}
+							<div class="w-6 h-6 rounded-full border-2 border-zinc-600 ml-4"></div>
+						{/if}
+					</div>
+
+					<div class="mb-4">
+						<div class="flex items-baseline mb-2">
+							<span class="text-3xl font-bold bg-gradient-to-r from-violet-400 via-pink-500 to-rose-400 text-transparent bg-clip-text">$30</span>
+							<span class="text-zinc-400 ml-2 text-sm">/month</span>
+						</div>
+					</div>
+
+					<div class="space-y-2 text-zinc-300 text-sm">
+						<div class="flex items-center">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+							</svg>
+							Access to all S-tier AI Agents
+						</div>
+						<div class="flex items-center">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+							</svg>
+							Priority response speed
+						</div>
+						<div class="flex items-center">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+							</svg>
+							Advanced AI capabilities
+						</div>
+						<div class="flex items-center">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+							</svg>
+							Premium support
+						</div>
+						<div class="flex items-center">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+							</svg>
+							Custom integrations
+						</div>
+					</div>
 				</div>
 			</div>
 
-			<button
-				on:click={submitSelection}
-				disabled={loading || (plan === 'paid' && (user_email === null || user_id === null))}
-				class={`mt-8 sm:mt-10 bg-gradient-to-r from-pink-500 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 ease-in-out transform hover:scale-105
-                ${loading || (plan === 'paid' && (user_email === null || user_id === null)) ? 'opacity-50 cursor-not-allowed filter grayscale' : ''}
-                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-800 focus:ring-pink-500`}
-			>
-				{#if loading}
-					<span class="flex items-center justify-center gap-2">
-						<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-							<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-							<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-						</svg>
-						Processing...
-					</span>
-				{:else}
-					Next
-				{/if}
-			</button>
+			<!-- Continue Button -->
+			<div class="flex justify-center mt-8 sm:mt-12" in:fly={{ y: 20, duration: 400, delay: 400 }}>
+				<button
+					on:click={submitSelection}
+					disabled={loading || (plan === 'paid' && (user_email === null || user_id === null))}
+					class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white font-semibold py-4 px-12 rounded-xl transition-all duration-300 transform hover:scale-105 {loading || (plan === 'paid' && (user_email === null || user_id === null)) ? 'opacity-50 cursor-not-allowed' : ''}"
+				>
+					{#if loading}
+						<span class="flex items-center justify-center gap-3">
+							<div class="w-5 h-5 rounded-full border-2 border-t-transparent border-white animate-spin"></div>
+							Processing...
+						</span>
+					{:else}
+						Continue with {plan === 'free' ? 'Free Plan' : 'S-tier Plan'}
+					{/if}
+				</button>
+			</div>
 		</div>
 	</div>
-</div>
 
-<style>
-	/* Custom style for active paid plan button border */
-	.border-gradient-active {
-		border-width: 2px; /* Ensure border is visible */
-		border-style: solid;
-		border-image-slice: 1;
-		border-image-source: linear-gradient(to right, #b363f1, #ec4899); /* Ensure colors are distinct */
-	}
-    /* Ensure fonts are loaded or use system fonts */
-    body {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    }
-</style>
+	<!-- Loading Overlay -->
+	{#if loading}
+		<div class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" transition:fade={{ duration: 200 }}>
+			<div class="bg-gradient-to-r from-zinc-950 to-zinc-800 rounded-xl border border-zinc-800 p-8 shadow-xl flex flex-col items-center max-w-sm w-full">
+				<div class="w-12 h-12 rounded-full border-4 border-t-indigo-500 border-r-purple-500 border-b-pink-500 border-l-zinc-600 animate-spin mb-4"></div>
+				<p class="text-gray-300 text-center">
+					{plan === 'paid' ? 'Setting up your premium plan...' : 'Processing your selection...'}
+				</p>
+			</div>
+		</div>
+	{/if}
+</div>
