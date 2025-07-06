@@ -161,152 +161,337 @@ export async function saveProject(
    * @param url The URL to analyze
    * @returns The analysis result
 */
-export async function analyzeWebsite(url: string): Promise<{ task_id: string }> {
-    if (!url) {
-      throw new Error("Please enter a website URL");
-    }
+// export async function analyzeWebsite(url: string): Promise<{ task_id: string }> {
+//     if (!url) {
+//       throw new Error("Please enter a website URL");
+//     }
 
-    console.log(`[${new Date().toISOString()}] Starting analysis for URL: ${url}`);
+//     console.log(`[${new Date().toISOString()}] Starting analysis for URL: ${url}`);
   
-    const response = await fetch(`${basePraw}/cry_praw/analyze/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ url })
-    });
+//     const response = await fetch(`${basePraw}/cry_praw/analyze/`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ url })
+//     });
   
-    if (!response.ok) {
-      console.error(`[${new Date().toISOString()}] Analysis API error:`, response.status, await response.text());
-      throw new Error(`API error: ${response.status}`);
-    }
+//     if (!response.ok) {
+//       console.error(`[${new Date().toISOString()}] Analysis API error:`, response.status, await response.text());
+//       throw new Error(`API error: ${response.status}`);
+//     }
   
-    const data = await response.json();
-    console.log(`[${new Date().toISOString()}] Received task ID: ${data.task_id}`);
-    return { task_id: data.task_id };
+//     const data = await response.json();
+//     console.log(`[${new Date().toISOString()}] Received task ID: ${data.task_id}`);
+//     return { task_id: data.task_id };
+//   }
+
+  
+
+//   export async function pollTaskResult(
+//     task_id: string,
+//     options: {
+//       initialDelay?: number;
+//       interval?: number;
+//       timeout?: number;
+//       onProgress?: (status: string, elapsed: number) => void;
+//     } = {}
+//   ): Promise<AnalysisResult> {
+//     const {
+//       initialDelay = 2 * 60 * 1000,  // Wait 2 minutes before first poll
+//       interval = 30 * 1000,          // Poll every 30 seconds
+//       timeout = 6 * 60 * 1000,       // Timeout after 6 minutes
+//       onProgress
+//     } = options;
+
+//     const startTime = Date.now();
+//     let pollCount = 0;
+
+//     console.log(`[${new Date().toISOString()}] Starting poll process for task ${task_id}`);
+//     console.log(`Initial delay: ${initialDelay/1000}s, Poll interval: ${interval/1000}s, Timeout: ${timeout/1000}s`);
+
+//     // Initial delay to give GitHub Actions time to process
+//     console.log(`[${new Date().toISOString()}] Waiting ${initialDelay/1000} seconds before first poll...`);
+//     await new Promise(resolve => setTimeout(resolve, initialDelay));
+
+//     async function poll(): Promise<AnalysisResult> {
+//       const elapsed = Date.now() - startTime;
+//       pollCount++;
+
+//       // Check for timeout
+//       if (elapsed >= timeout) {
+//         const errorMsg = `Analysis timed out after ${elapsed/1000} seconds (${pollCount} attempts)`;
+//         console.error(`[${new Date().toISOString()}] ${errorMsg}`);
+//         throw new Error(errorMsg);
+//       }
+
+//       try {
+//         console.log(`[${new Date().toISOString()}] Poll #${pollCount}: Checking status for task ${task_id}`);
+        
+//         const res = await fetch(`${basePraw}/cry_praw/task-status/${task_id}/`);
+        
+//         if (!res.ok) {
+//           console.error(`[${new Date().toISOString()}] Status API error:`, res.status, await res.text());
+//           throw new Error(`Status check failed: ${res.status}`);
+//         }
+
+//         const data = await res.json();
+//         console.log(`[${new Date().toISOString()}] Poll #${pollCount} status:`, data.status);
+
+//         // Call progress callback if provided
+//         if (onProgress) {
+//           onProgress(data.status, elapsed);
+//         }
+
+//         if (data.status === 'complete') {
+//           console.log(`[${new Date().toISOString()}] Analysis complete after ${elapsed/1000} seconds (${pollCount} attempts)`);
+          
+//           // The results are already parsed by the Django view
+//           if (!data.results) {
+//             throw new Error("Complete status but no results found");
+//           }
+          
+//           // Log a preview of the results
+//           console.log(`[${new Date().toISOString()}] Results preview:`, {
+//             analysis_data: Object.keys(data.results.analysis_data || {}),
+//             timestamp: data.results.timestamp
+//           });
+          
+//           return data.results;
+//         }
+
+//         if (data.status === 'failed') {
+//           const errorMsg = `Analysis failed: ${data.error || 'Unknown error'}`;
+//           console.error(`[${new Date().toISOString()}] ${errorMsg}`);
+//           throw new Error(errorMsg);
+//         }
+
+//         // Wait and retry
+//         console.log(`[${new Date().toISOString()}] Waiting ${interval/1000} seconds before next poll...`);
+//         await new Promise(resolve => setTimeout(resolve, interval));
+//         return poll();
+//       } catch (error) {
+//         console.error(`[${new Date().toISOString()}] Poll #${pollCount} error:`, error);
+//         throw error;
+//       }
+//     }
+
+//     return poll();
+//   }
+  
+  
+//   export async function analyzeWebsiteAndWait(
+//     url: string,
+//     onProgress?: (status: string, elapsed: number) => void
+//   ): Promise<AnalysisResult> {
+//     console.log(`[${new Date().toISOString()}] Starting analysis workflow for: ${url}`);
+    
+//     try {
+//       const { task_id } = await analyzeWebsite(url);
+//       console.log(`[${new Date().toISOString()}] Task ID received: ${task_id}`);
+      
+//       const result = await pollTaskResult(task_id, { onProgress });
+      
+//       console.log(`[${new Date().toISOString()}] Analysis workflow completed successfully`);
+//       return result;
+//     } catch (error) {
+//       console.error(`[${new Date().toISOString()}] Analysis workflow failed:`, error);
+//       throw error;
+//     }
+//   }
+  
+  
+  // Define a clear interface for the analysis result for type safety
+export interface AnalysisResult {
+  analysis_data: {
+      website_analysis?: any;
+      marketing_strategy?: any;
+      competitors?: any[];
+      competitors_analysis?: any[];
+      keyword_research?: any[];
+      content_plan?: any;
+      completed_agents?: string[];
+      status?: string;
+      agent_errors?: Record<string, string>;
+  };
+  task_type: string;
+  url: string;
+  timestamp: string;
+}
+
+// Assume basePraw is defined elsewhere, e.g., in your environment variables
+
+/**
+* Starts a new analysis task on the backend.
+* This is the primary function for initiating any workflow.
+*
+* @param url The URL to analyze.
+* @param task_type The type of task to run (e.g., 'full', 'analysis-only').
+* @param previous_task_id Optional ID of a previous task to reuse data from.
+* @returns The task_id for the newly started workflow.
+*/
+export async function startAnalysisTask(
+  url: string,
+  task_type: 'full' | 'analysis-only' | 'content-only' | 'competitor-refresh' | 'keyword-refresh',
+  previous_task_id?: string
+): Promise<{ task_id: string }> {
+  if (!url) {
+      throw new Error("Please enter a website URL");
   }
 
-  
+  console.log(`[${new Date().toISOString()}] Starting analysis for URL: ${url} with task type: ${task_type}`);
 
-  export async function pollTaskResult(
-    task_id: string,
-    options: {
+  const payload: { url: string; task_type: string; previous_task_id?: string } = {
+      url,
+      task_type,
+  };
+
+  if (previous_task_id) {
+      payload.previous_task_id = previous_task_id;
+  }
+
+  // NOTE: The endpoint in your views.py is `/start_analysis/`, not `/analyze/`
+  const response = await fetch(`${basePraw}/cry_praw/start_analysis/`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`[${new Date().toISOString()}] Analysis API error:`, response.status, errorText);
+      throw new Error(`API error: ${response.status} - ${errorText}`);
+  }
+
+  const data = await response.json();
+  console.log(`[${new Date().toISOString()}] Received task ID: ${data.task_id}`);
+  return { task_id: data.task_id };
+}
+
+
+/**
+* Polls the backend for the result of a given task_id.
+* This function remains unchanged as its logic is sound.
+*
+* @param task_id The ID of the task to poll.
+* @param options Polling configuration (delay, interval, timeout).
+* @returns The final analysis result.
+*/
+export async function pollTaskResult(
+  task_id: string,
+  options: {
       initialDelay?: number;
       interval?: number;
       timeout?: number;
       onProgress?: (status: string, elapsed: number) => void;
-    } = {}
-  ): Promise<AnalysisResult> {
-    const {
-      initialDelay = 2 * 60 * 1000,  // Wait 2 minutes before first poll
-      interval = 30 * 1000,          // Poll every 30 seconds
-      timeout = 6 * 60 * 1000,       // Timeout after 6 minutes
+  } = {}
+): Promise<AnalysisResult> {
+  const {
+      initialDelay = 2 * 60 * 1000, // Wait 2 minutes before first poll
+      interval = 30 * 1000,         // Poll every 30 seconds
+      timeout = 6 * 60 * 1000,      // Timeout after 6 minutes
       onProgress
-    } = options;
+  } = options;
 
-    const startTime = Date.now();
-    let pollCount = 0;
+  const startTime = Date.now();
+  let pollCount = 0;
 
-    console.log(`[${new Date().toISOString()}] Starting poll process for task ${task_id}`);
-    console.log(`Initial delay: ${initialDelay/1000}s, Poll interval: ${interval/1000}s, Timeout: ${timeout/1000}s`);
+  console.log(`[${new Date().toISOString()}] Starting poll process for task ${task_id}`);
+  await new Promise(resolve => setTimeout(resolve, initialDelay));
 
-    // Initial delay to give GitHub Actions time to process
-    console.log(`[${new Date().toISOString()}] Waiting ${initialDelay/1000} seconds before first poll...`);
-    await new Promise(resolve => setTimeout(resolve, initialDelay));
-
-    async function poll(): Promise<AnalysisResult> {
+  async function poll(): Promise<AnalysisResult> {
       const elapsed = Date.now() - startTime;
       pollCount++;
 
-      // Check for timeout
       if (elapsed >= timeout) {
-        const errorMsg = `Analysis timed out after ${elapsed/1000} seconds (${pollCount} attempts)`;
-        console.error(`[${new Date().toISOString()}] ${errorMsg}`);
-        throw new Error(errorMsg);
+          const errorMsg = `Analysis timed out after ${elapsed/1000} seconds.`;
+          console.error(`[${new Date().toISOString()}] ${errorMsg}`);
+          throw new Error(errorMsg);
       }
 
       try {
-        console.log(`[${new Date().toISOString()}] Poll #${pollCount}: Checking status for task ${task_id}`);
-        
-        const res = await fetch(`${basePraw}/cry_praw/task-status/${task_id}/`);
-        
-        if (!res.ok) {
-          console.error(`[${new Date().toISOString()}] Status API error:`, res.status, await res.text());
-          throw new Error(`Status check failed: ${res.status}`);
-        }
+          console.log(`[${new Date().toISOString()}] Poll #${pollCount}: Checking status for task ${task_id}`);
+          const res = await fetch(`${basePraw}/cry_praw/task-status/${task_id}/`);
 
-        const data = await res.json();
-        console.log(`[${new Date().toISOString()}] Poll #${pollCount} status:`, data.status);
-
-        // Call progress callback if provided
-        if (onProgress) {
-          onProgress(data.status, elapsed);
-        }
-
-        if (data.status === 'complete') {
-          console.log(`[${new Date().toISOString()}] Analysis complete after ${elapsed/1000} seconds (${pollCount} attempts)`);
-          
-          // The results are already parsed by the Django view
-          if (!data.results) {
-            throw new Error("Complete status but no results found");
+          if (!res.ok) {
+              throw new Error(`Status check failed: ${res.status}`);
           }
-          
-          // Log a preview of the results
-          console.log(`[${new Date().toISOString()}] Results preview:`, {
-            analysis_data: Object.keys(data.results.analysis_data || {}),
-            timestamp: data.results.timestamp
-          });
-          
-          return data.results;
-        }
 
-        if (data.status === 'failed') {
-          const errorMsg = `Analysis failed: ${data.error || 'Unknown error'}`;
-          console.error(`[${new Date().toISOString()}] ${errorMsg}`);
-          throw new Error(errorMsg);
-        }
+          const data = await res.json();
+          console.log(`[${new Date().toISOString()}] Poll #${pollCount} status:`, data.status);
 
-        // Wait and retry
-        console.log(`[${new Date().toISOString()}] Waiting ${interval/1000} seconds before next poll...`);
-        await new Promise(resolve => setTimeout(resolve, interval));
-        return poll();
+          if (onProgress) {
+              onProgress(data.status, elapsed);
+          }
+
+          if (data.status === 'complete') {
+              console.log(`[${new Date().toISOString()}] Analysis complete.`);
+              if (!data.results) {
+                  throw new Error("Complete status but no results found");
+              }
+              return data.results as AnalysisResult;
+          }
+
+          if (data.status === 'failed') {
+              const errorMsg = `Analysis failed: ${data.error || 'Unknown error'}`;
+              throw new Error(errorMsg);
+          }
+
+          await new Promise(resolve => setTimeout(resolve, interval));
+          return poll();
       } catch (error) {
-        console.error(`[${new Date().toISOString()}] Poll #${pollCount} error:`, error);
-        throw error;
+          console.error(`[${new Date().toISOString()}] Poll #${pollCount} error:`, error);
+          throw error;
       }
-    }
+  }
 
-    return poll();
-  }
-  
-  
-  export async function analyzeWebsiteAndWait(
-    url: string,
-    onProgress?: (status: string, elapsed: number) => void
-  ): Promise<AnalysisResult> {
-    console.log(`[${new Date().toISOString()}] Starting analysis workflow for: ${url}`);
-    
-    try {
-      const { task_id } = await analyzeWebsite(url);
+  return poll();
+}
+
+
+/**
+* A new high-level workflow function that determines the task type based on addons,
+* starts the analysis, and waits for the result.
+*
+* @param url The website URL.
+* @param selectedAddons A list of selected addon IDs.
+* @param onProgress Optional progress callback.
+* @returns The final analysis result.
+*/
+export async function createProjectWorkflow(
+  url: string,
+  selectedAddons: string[],
+  onProgress?: (status: string, elapsed: number) => void
+): Promise<AnalysisResult> {
+  console.log(`[${new Date().toISOString()}] Starting project workflow for: ${url}`);
+
+  // ** CORE LOGIC FIX **
+  // Determine the correct task_type based on the user's selections.
+  // If any addons are selected, we run a 'full' analysis to get all the data.
+  // Otherwise, we default to the basic 'analysis-only'.
+  const task_type = selectedAddons.length > 0 ? 'full' : 'analysis-only';
+
+  // Note: The 'find-leads' addon corresponds to a different, synchronous endpoint
+  // in your views.py (`find_leads_for_website`). Integrating it here would require
+  // a separate API call after this workflow completes. The current logic will
+  // perform a full marketing analysis if any addon is selected.
+
+  try {
+      const { task_id } = await startAnalysisTask(url, task_type);
       console.log(`[${new Date().toISOString()}] Task ID received: ${task_id}`);
-      
+
       const result = await pollTaskResult(task_id, { onProgress });
-      
-      console.log(`[${new Date().toISOString()}] Analysis workflow completed successfully`);
+
+      console.log(`[${new Date().toISOString()}] Project workflow completed successfully`);
       return result;
-    } catch (error) {
-      console.error(`[${new Date().toISOString()}] Analysis workflow failed:`, error);
+  } catch (error) {
+      console.error(`[${new Date().toISOString()}] Project workflow failed:`, error);
       throw error;
-    }
   }
-  
-  
-  /**
-   * Type definitions to support the database functions
-   */
-  export interface TypeDefinitions {
-    // This is a placeholder - you should define your actual types in a separate file
-  }
+}
+
 
 
 
@@ -321,6 +506,7 @@ export async function analyzeWebsite(url: string): Promise<{ task_id: string }> 
  * @returns The updated project with the new LLM run
  */
 export async function updateProjectWithNewAnalysis(
+  selectedAddons = ['content-only'],
   token: string | null,
   projectId: string,
   url: string,
@@ -331,7 +517,7 @@ export async function updateProjectWithNewAnalysis(
   
   try {
     // Step 1: Run the analysis through the LangGraph service
-    const analysisResult = await analyzeWebsiteAndWait(url, onProgress);
+    const analysisResult = await createProjectWorkflow(url, selectedAddons );
     console.log(`[${new Date().toISOString()}] Analysis completed for project update`);
     
     // Step 2: Update the project with the new results

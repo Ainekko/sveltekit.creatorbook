@@ -1,128 +1,118 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
-    import { userStore, wipIdeasStore } from '$lib/stores'; // Import wipIdeasStore to check project count
+    import { userStore, wipIdeasStore } from '$lib/stores';
     import { get_user } from '$lib/check';
     import { fly } from 'svelte/transition';
-    import { page } from '$app/stores';
     import { goto } from '$app/navigation';
-    import { saveProject, analyzeWebsiteAndWait } from '$lib/db';
-    import UpgradeModal from './UpgradeModule.svelte'; // Import the modal component
-  
+    import { createProjectWorkflow, saveProject, type AnalysisResult } from '$lib/db'; // Import the new workflow function
+    import UpgradeModal from './UpgradeModule.svelte';
+
     // Stores & State
     let isLoading = writable(false);
-    let error = writable(null);
-    let analysisResult = writable(null);
+    let error = writable<string | null>(null);
+    let analysisResult = writable<AnalysisResult | null>(null);
     let showTooltip = writable('');
-    let showUpgradeModal = false; // State to control modal visibility
-  
+    let showUpgradeModal = false;
+
     // Form data
     let clientUrl = '';
-    let businessType = ''; // These seem optional based on your form, keep them for saveProject
-    let marketingGoals = ''; // These seem optional based on your form, keep them for saveProject
-    let selectedAddons = [];
-  
-    // Available agent addons (No changes needed here unless descriptions need updating)
+    let businessType = '';
+    let marketingGoals = '';
+    let selectedAddons: string[] = [];
+
     const agentAddons = [
         { id: 'find-leads', name: 'Find Leads', description: 'Discover potential customers and contact information', premium: true, icon: '👤' },
         { id: 'competitor-analysis', name: 'Competitor Deep Dive', description: 'Advanced competitor research and positioning analysis', premium: true, icon: '🎯' },
         { id: 'seo-audit', name: 'SEO Audit', description: 'Comprehensive SEO analysis and recommendations', premium: false, icon: '🔍' },
         { id: 'content-strategy', name: 'Content Strategy', description: 'AI-powered content calendar and topic suggestions', premium: true, icon: '📝' }
     ];
-  
-    // Fetch user data on mount
+
     onMount(async () => {
-      try {
-        const userData = await get_user();
-        if (userData) {
-          userStore.set({
-            username: userData.username,
-            user_id: userData.user_id,
-            user_email: userData.email,
-            subscription_status: "premium"
-          });
-          // You might need to explicitly fetch/update wipIdeasStore here
-          // if it's not handled by a layout or the store itself.
-          // For now, we assume it's populated elsewhere.
-        } else {
-          error.set('User data could not be fetched.');
+        try {
+            const userData = await get_user();
+            if (userData) {
+                userStore.set({
+                    username: userData.username,
+                    user_id: userData.user_id,
+                    user_email: userData.email,
+                    subscription_status: "premium" // Hardcoded for example
+                });
+            } else {
+                error.set('User data could not be fetched.');
+            }
+        } catch (e: any) {
+            error.set('An error occurred while fetching user data: ' + e.message);
         }
-      } catch (e: any) {
-        error.set('An error occurred while fetching user data: ' + e.message);
-      }
     });
-  
+
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-  
-    // Function to toggle selected addons
-    function toggleAddon(addonId) {
+
+    function toggleAddon(addonId: string) {
         if (selectedAddons.includes(addonId)) {
             selectedAddons = selectedAddons.filter(id => id !== addonId);
         } else {
             selectedAddons = [...selectedAddons, addonId];
         }
     }
-  
-    // Function to show tooltips for premium features
-    function showTooltipFor(addonId) {
+
+    function showTooltipFor(addonId: string) {
         showTooltip.set(addonId);
-        setTimeout(() => showTooltip.set(''), 3000); // Increased duration slightly
+        setTimeout(() => showTooltip.set(''), 3000);
     }
-  
-    // Function to close the upgrade modal
+
     function closeUpgradeModal() {
-      showUpgradeModal = false;
+        showUpgradeModal = false;
     }
-  
+
     /**
      * Handles the form submission to start a new project.
-     * Checks if the user can create a new project based on their plan
-     * or shows the upgrade modal.
+     * It now calls the corrected workflow function that respects selected addons.
      */
     async function handleStartProject() {
-      // Check if user is free and already has >= 1 project
-      if ($userStore?.subscription_status !== 'premium' && $wipIdeasStore.length >= 1) {
-          showUpgradeModal = true; // Show the upgrade modal
-          return; // Stop further execution
-      }
-  
-      isLoading.set(true);
-      error.set(null);
-      analysisResult.set(null);
-  
-      try {
-          const analysisResultData = await analyzeWebsiteAndWait(clientUrl);
-          analysisResult.set(analysisResultData);
-  
-          const savedProject = await saveProject(
-              token,
-              clientUrl,
-              businessType,
-              marketingGoals,
-              analysisResultData
-          );
-  
-          isLoading.set(false);
-          // Optionally, force a refresh of wipIdeasStore before navigating
-          // or rely on navigation/layout to update it.
-          goto(`/projects/${savedProject.id}`);
-  
-      } catch (err: any) {
-          error.set(err.message || 'Something went wrong while starting the project.');
-          isLoading.set(false);
-      }
+        if ($userStore?.subscription_status !== 'premium' && $wipIdeasStore.length >= 1) {
+            showUpgradeModal = true;
+            return;
+        }
+
+        isLoading.set(true);
+        error.set(null);
+        analysisResult.set(null);
+
+        try {
+            // ** CORE LOGIC FIX **
+            // Call the new workflow function, passing in the selected addons.
+            // This ensures the backend runs the correct task type.
+            const analysisResultData = await createProjectWorkflow(clientUrl, selectedAddons);
+            analysisResult.set(analysisResultData);
+
+            const savedProject = await saveProject(
+                token,
+                clientUrl,
+                businessType,
+                marketingGoals,
+                analysisResultData
+            );
+
+            isLoading.set(false);
+            goto(`/projects/${savedProject.id}`);
+
+        } catch (err: any) {
+            error.set(err.message || 'Something went wrong while starting the project.');
+            isLoading.set(false);
+        }
     }
-  
+
     // Reactive declarations
     $: $userStore;
     $: $isLoading;
     $: $error;
     $: $analysisResult;
     $: $showTooltip;
-    $: $wipIdeasStore; // Ensure component reacts to store changes
+    $: $wipIdeasStore;
     $: isPremium = $userStore?.subscription_status === 'premium';
-  
-  </script>
+
+</script>
   
   {#if showUpgradeModal}
       <UpgradeModal on:close={closeUpgradeModal} />
