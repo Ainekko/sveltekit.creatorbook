@@ -351,7 +351,7 @@ export async function startAnalysisTask(
   }
 
   // NOTE: The endpoint in your views.py is `/start_analysis/`, not `/analyze/`
-  const response = await fetch(`${basePraw}/cry_praw/start_analysis/`, {
+  const response = await fetch(`${basePraw}/cry_praw/analyze/`, {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
