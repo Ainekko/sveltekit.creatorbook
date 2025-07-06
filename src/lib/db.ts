@@ -506,7 +506,7 @@ export async function createProjectWorkflow(
  * @returns The updated project with the new LLM run
  */
 export async function updateProjectWithNewAnalysis(
-  selectedAddons = ['content-only'],
+  selectedAddons = ['full'],
   token: string | null,
   projectId: string,
   url: string,
