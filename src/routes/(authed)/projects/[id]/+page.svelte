@@ -63,11 +63,12 @@
       };
       
       const updatedProject = await updateProjectWithNewAnalysis(
-        token,
-        projectData.id,
-        projectData.url,
-        'content-refresh',
-        onProgress
+        ['full'],           // selectedAddons
+        token,              // token
+        projectData.id,     // projectId
+        projectData.url,    // url
+        'content-refresh',  // runType
+        onProgress         // onProgress
       );
       
       if (updatedProject) {
