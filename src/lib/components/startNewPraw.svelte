@@ -83,7 +83,7 @@
             // ** CORE LOGIC FIX **
             // Call the new workflow function, passing in the selected addons.
             // This ensures the backend runs the correct task type.
-            const analysisResultData = await createProjectWorkflow(clientUrl, selectedAddons);
+            const analysisResultData = await createProjectWorkflow(clientUrl, ['analysis-only']);
             analysisResult.set(analysisResultData);
 
             const savedProject = await saveProject(
