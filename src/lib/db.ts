@@ -389,8 +389,8 @@ export async function pollTaskResult(
   } = {}
 ): Promise<AnalysisResult> {
   const {
-      initialDelay = 2 * 60 * 1000, // Wait 2 minutes before first poll
-      interval = 30 * 1000,         // Poll every 30 seconds
+      initialDelay = 30 * 1000, // Wait 2 minutes before first poll
+      interval = 5 * 1000,         // Poll every 30 seconds
       timeout = 6 * 60 * 1000,      // Timeout after 6 minutes
       onProgress
   } = options;
