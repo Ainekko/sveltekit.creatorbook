@@ -471,7 +471,7 @@ export async function createProjectWorkflow(
   // Determine the correct task_type based on the user's selections.
   // If any addons are selected, we run a 'full' analysis to get all the data.
   // Otherwise, we default to the basic 'analysis-only'.
-  const task_type = selectedAddons.length > 0 ? 'full' : 'analysis-only';
+  const task_type = 'analysis-only';
 
   // Note: The 'find-leads' addon corresponds to a different, synchronous endpoint
   // in your views.py (`find_leads_for_website`). Integrating it here would require
