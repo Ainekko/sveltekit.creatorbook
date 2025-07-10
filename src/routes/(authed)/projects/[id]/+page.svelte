@@ -141,7 +141,7 @@
 
 <div class="h-screen overflow-y-scroll flex flex-col bg-zinc-950 text-white">
   <ProjectHeader 
-    projectData={projectData} 
+    projectData={businessData} 
     isGenerating={isGenerating}
     on:generateContent={generateNewContent}
   />

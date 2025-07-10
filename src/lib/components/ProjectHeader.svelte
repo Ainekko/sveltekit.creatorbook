@@ -3,10 +3,8 @@
     import { createEventDispatcher } from 'svelte';
   
     export let projectData = {
-      id: "",
-      name: "N/A",
-      url: "N/A",
-      startDate: "N/A"
+     
+      
     };
     export let isGenerating = false;
   
@@ -20,8 +18,16 @@
   <header class="py-4 px-6 z-10 border-b border-zinc-800 bg-zinc-950 sticky top-0">
     <div class="flex items-center justify-between max-w-7xl mx-auto">
       <div>
-        <h1 class="text-base font-medium zinc-300">{projectData.name}</h1>
-        <p class="text-sm text-zinc-400">{projectData.url}</p>
+        {#if projectData.business_name}
+        <h1 class="text-base font-medium zinc-300">
+          {projectData.business_name}
+        </h1>
+      {:else}
+        <h1 class="text-base font-medium zinc-300 text-zinc-600">No business name yet</h1>
+      {/if}
+      
+        
+        <p class="text-sm text-zinc-400">{projectData.industry}</p>
       </div>
       <div class="flex gap-3">
         <div class="bg-zinc-900 px-4 py-2 rounded-md text-sm flex items-center gap-2">
