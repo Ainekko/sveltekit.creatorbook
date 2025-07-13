@@ -5,7 +5,7 @@
     import { get_user } from '$lib/check';
     import { fly } from 'svelte/transition';
     import { goto } from '$app/navigation';
-    import { createProjectWorkflow, saveProject, type AnalysisResult } from '$lib/db'; // Import the new workflow function
+    import { runAnalysisOnly, saveProject, type AnalysisResult } from '$lib/db'; // Import the new workflow function
     import UpgradeModal from './UpgradeModule.svelte';
 
     // Stores & State
@@ -83,7 +83,7 @@
             // ** CORE LOGIC FIX **
             // Call the new workflow function, passing in the selected addons.
             // This ensures the backend runs the correct task type.
-            const analysisResultData = await createProjectWorkflow(clientUrl, ['analysis-only']);
+            const analysisResultData = await runAnalysisOnly(clientUrl);
             analysisResult.set(analysisResultData);
 
             const savedProject = await saveProject(

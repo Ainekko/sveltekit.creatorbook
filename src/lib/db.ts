@@ -301,7 +301,7 @@ export async function saveProject(
 //   }
   
   
-  // Define a clear interface for the analysis result for type safety
+ // Define a clear interface for the analysis result for type safety
 export interface AnalysisResult {
   analysis_data: {
       website_analysis?: any;
@@ -319,6 +319,18 @@ export interface AnalysisResult {
   timestamp: string;
 }
 
+// Interface for previous analysis data that can be reused
+export interface PreviousAnalysisData {
+  website_analysis?: any;
+  marketing_strategy?: any;
+  competitors?: any[];
+  competitors_analysis?: any[];
+  keyword_research?: any[];
+  task_type?: string;
+  url?: string;
+  timestamp?: string;
+}
+
 // Assume basePraw is defined elsewhere, e.g., in your environment variables
 
 /**
@@ -326,31 +338,46 @@ export interface AnalysisResult {
 * This is the primary function for initiating any workflow.
 *
 * @param url The URL to analyze.
-* @param task_type The type of task to run (e.g., 'full', 'analysis-only').
-* @param previous_task_id Optional ID of a previous task to reuse data from.
+* @param task_type The type of task to run (e.g., 'full', 'analysis-only', 'content-refresh', 'competitor-refresh', 'keyword-refresh').
+* @param previous_data Optional previous analysis data for tasks that require it.
 * @returns The task_id for the newly started workflow.
 */
 export async function startAnalysisTask(
   url: string,
-  task_type: 'full' | 'analysis-only' | 'content-only' | 'competitor-refresh' | 'keyword-refresh',
-  previous_task_id?: string
+  task_type: string,
+  previous_data?: PreviousAnalysisData
 ): Promise<{ task_id: string }> {
   if (!url) {
       throw new Error("Please enter a website URL");
   }
 
-  console.log(`[${new Date().toISOString()}] Starting analysis for URL: ${url} with task type: ${task_type}`);
+  // Define task types that require previous data
+  const tasksRequiringPreviousData = ["content-only"];
+  
+  // Validate that previous_data is provided for tasks that require it
+  if (tasksRequiringPreviousData.includes(task_type) && !previous_data) {
+      throw new Error(`Task type '${task_type}' requires previous analysis data`);
+  }
 
-  const payload: { url: string; task_type: string; previous_task_id?: string } = {
+  console.log(`[${new Date().toISOString()}] Starting analysis for URL: ${url} with task type: ${task_type}`);
+  
+  if (previous_data) {
+      console.log(`[${new Date().toISOString()}] Using previous data from: ${previous_data.timestamp || 'unknown time'}`);
+  }
+
+  const payload: { 
+      url: string; 
+      task_type: string; 
+      previous_data?: PreviousAnalysisData;
+  } = {
       url,
       task_type,
   };
 
-  if (previous_task_id) {
-      payload.previous_task_id = previous_task_id;
+  if (previous_data) {
+      payload.previous_data = previous_data;
   }
 
-  // NOTE: The endpoint in your views.py is `/start_analysis/`, not `/analyze/`
   const response = await fetch(`${basePraw}/cry_praw/analyze/`, {
       method: 'POST',
       headers: {
@@ -370,7 +397,6 @@ export async function startAnalysisTask(
   return { task_id: data.task_id };
 }
 
-
 /**
 * Polls the backend for the result of a given task_id.
 * This function remains unchanged as its logic is sound.
@@ -389,8 +415,8 @@ export async function pollTaskResult(
   } = {}
 ): Promise<AnalysisResult> {
   const {
-      initialDelay = 30 * 1000, // Wait 2 minutes before first poll
-      interval = 5 * 1000,         // Poll every 30 seconds
+      initialDelay = 30 * 1000, // Wait 30 seconds before first poll
+      interval = 5 * 1000,         // Poll every 5 seconds
       timeout = 6 * 60 * 1000,      // Timeout after 6 minutes
       onProgress
   } = options;
@@ -450,36 +476,26 @@ export async function pollTaskResult(
   return poll();
 }
 
-
 /**
-* A new high-level workflow function that determines the task type based on addons,
-* starts the analysis, and waits for the result.
+* Enhanced workflow function that handles both fresh analysis and refresh operations.
+* Automatically determines if previous data is needed based on task type.
 *
 * @param url The website URL.
-* @param selectedAddons A list of selected addon IDs.
+* @param task_type The type of analysis to perform.
+* @param previous_data Optional previous analysis data (required for refresh operations).
 * @param onProgress Optional progress callback.
 * @returns The final analysis result.
 */
 export async function createProjectWorkflow(
   url: string,
-  selectedAddons: string[],
+  task_type: string,
+  previous_data?: PreviousAnalysisData,
   onProgress?: (status: string, elapsed: number) => void
 ): Promise<AnalysisResult> {
-  console.log(`[${new Date().toISOString()}] Starting project workflow for: ${url}`);
-
-  // ** CORE LOGIC FIX **
-  // Determine the correct task_type based on the user's selections.
-  // If any addons are selected, we run a 'full' analysis to get all the data.
-  // Otherwise, we default to the basic 'analysis-only'.
-  const task_type = 'full';
-
-  // Note: The 'find-leads' addon corresponds to a different, synchronous endpoint
-  // in your views.py (`find_leads_for_website`). Integrating it here would require
-  // a separate API call after this workflow completes. The current logic will
-  // perform a full marketing analysis if any addon is selected.
+  console.log(`[${new Date().toISOString()}] Starting project workflow for: ${url} with task type: ${task_type}`);
 
   try {
-      const { task_id } = await startAnalysisTask(url, task_type);
+      const { task_id } = await startAnalysisTask(url, task_type, previous_data);
       console.log(`[${new Date().toISOString()}] Task ID received: ${task_id}`);
 
       const result = await pollTaskResult(task_id, { onProgress });
@@ -492,6 +508,101 @@ export async function createProjectWorkflow(
   }
 }
 
+/**
+* Convenience function to run a fresh full analysis (no previous data needed).
+*
+* @param url The website URL.
+* @param onProgress Optional progress callback.
+* @returns The final analysis result.
+*/
+export async function runFreshAnalysis(
+  url: string,
+  onProgress?: (status: string, elapsed: number) => void
+): Promise<AnalysisResult> {
+  return createProjectWorkflow(url, 'full', undefined, onProgress);
+}
+
+/**
+* Convenience function to run analysis-only (no previous data needed).
+*
+* @param url The website URL.
+* @param onProgress Optional progress callback.
+* @returns The final analysis result.
+*/
+export async function runAnalysisOnly(
+  url: string,
+  onProgress?: (status: string, elapsed: number) => void
+): Promise<AnalysisResult> {
+  return createProjectWorkflow(url, 'analysis-only', undefined, onProgress);
+}
+
+/**
+* Convenience function to refresh content using previous analysis data.
+*
+* @param url The website URL.
+* @param previous_data The previous analysis data to build upon.
+* @param onProgress Optional progress callback.
+* @returns The final analysis result.
+*/
+export async function refreshContent(
+  url: string,
+  previous_data: PreviousAnalysisData,
+  onProgress?: (status: string, elapsed: number) => void
+): Promise<AnalysisResult> {
+  return createProjectWorkflow(url, 'full', previous_data, onProgress);
+}
+
+/**
+* Convenience function to refresh competitor analysis using previous data.
+*
+* @param url The website URL.
+* @param previous_data The previous analysis data to build upon.
+* @param onProgress Optional progress callback.
+* @returns The final analysis result.
+*/
+export async function refreshCompetitors(
+  url: string,
+  previous_data: PreviousAnalysisData,
+  onProgress?: (status: string, elapsed: number) => void
+): Promise<AnalysisResult> {
+  return createProjectWorkflow(url, 'competitor-refresh', previous_data, onProgress);
+}
+
+/**
+* Convenience function to refresh keyword research using previous data.
+*
+* @param url The website URL.
+* @param previous_data The previous analysis data to build upon.
+* @param onProgress Optional progress callback.
+* @returns The final analysis result.
+*/
+export async function refreshKeywords(
+  url: string,
+  previous_data: PreviousAnalysisData,
+  onProgress?: (status: string, elapsed: number) => void
+): Promise<AnalysisResult> {
+  return createProjectWorkflow(url, 'keyword-refresh', previous_data, onProgress);
+}
+
+// /**
+// * Utility function to extract reusable data from a completed analysis result.
+// * This helps prepare previous_data for refresh operations.
+// *
+// * @param analysisResult The completed analysis result.
+// * @returns Extracted data suitable for use as previous_data.
+// */
+// export function extractPreviousData(analysisResult: AnalysisResult): PreviousAnalysisData {
+//   return {
+//       website_analysis: analysisResult.analysis_data.website_analysis,
+//       marketing_strategy: analysisResult.analysis_data.marketing_strategy,
+//       competitors: analysisResult.analysis_data.competitors,
+//       competitors_analysis: analysisResult.analysis_data.competitors_analysis,
+//       keyword_research: analysisResult.analysis_data.keyword_research,
+//       task_type: analysisResult.task_type,
+//       url: analysisResult.url,
+//       timestamp: analysisResult.timestamp
+//   };
+// }
 
 
 
@@ -506,7 +617,7 @@ export async function createProjectWorkflow(
  * @returns The updated project with the new LLM run
  */
 export async function updateProjectWithNewAnalysis(
-  selectedAddons = ['full'],
+  task_type = 'full',
   token: string | null,
   projectId: string,
   url: string,
@@ -517,7 +628,7 @@ export async function updateProjectWithNewAnalysis(
   
   try {
     // Step 1: Run the analysis through the LangGraph service
-    const analysisResult = await createProjectWorkflow(url, selectedAddons );
+    const analysisResult = await createProjectWorkflow(url, task_type );
     console.log(`[${new Date().toISOString()}] Analysis completed for project update`);
     
     // Step 2: Update the project with the new results
