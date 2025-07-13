@@ -628,7 +628,7 @@ export async function updateProjectWithNewAnalysis(
   
   try {
     // Step 1: Run the analysis through the LangGraph service
-    const analysisResult = await createProjectWorkflow(url, task_type );
+    const analysisResult = await createProjectWorkflow(url, 'full' );
     console.log(`[${new Date().toISOString()}] Analysis completed for project update`);
     
     // Step 2: Update the project with the new results
