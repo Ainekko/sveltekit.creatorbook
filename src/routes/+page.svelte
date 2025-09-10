@@ -87,14 +87,13 @@
 		<Agency />
 	</section>
 
-  <div>
+  <!-- <div>
     <NewHero />
     <NewPricing />
 
-    <!-- <NewDashboard /> -->
     <NewAgencyHero />
 
-  </div>
+  </div> -->
 
 	
 
