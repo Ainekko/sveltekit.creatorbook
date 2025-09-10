@@ -38,6 +38,12 @@ $: if (browser && initialized && $page.url.pathname) {
   
 </script>
 
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+   @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+</style>
+
 <svelte:head>
   <title>AI Marketing Agents for SaaS</title>
   <meta name="description" content="Grow your SaaS marketing with AI agents. Be the first to catch latest industry trends, create targeted content and grow your business faster." />
@@ -100,10 +106,10 @@ $: if (browser && initialized && $page.url.pathname) {
 </svelte:head>
 
 <main class="min-h-screen">
-  <div class="sticky top-0 z-50">
+  <!-- <div class="sticky top-0 z-50">
     <NavBar />
-  </div>
-  <div class="overflow-hidden">
+  </div> -->
+  <div class="overflow-hidden ">
     <slot />
   </div>
   

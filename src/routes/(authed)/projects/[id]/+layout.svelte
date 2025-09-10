@@ -10,10 +10,7 @@
 
 <div class="project-container relative min-h-screen">
   <!-- Top Navigation -->
-  <div class="sticky top-0 px-4 pt-4 z-20">
-    
-    <ProjectNavigation />
-  </div>
+  
   
   <!-- Main Content -->
   <div class="px-4">
@@ -21,10 +18,14 @@
       <slot />
     {/key}
   </div>
+  <div class="sticky  px-4 pt-2000 z-20 border flex justify-center">
+    
+    <ProjectNavigation />
+  </div>
 </div>
 
 <style>
-  .project-container {
-    background-color: rgb(9, 9, 11); /* bg-zinc-950 equivalent */
-  }
+  /* .project-container { */
+    /* background-color: rgb(9, 9, 11); bg-zinc-950 equivalent */
+  /* } */
 </style>

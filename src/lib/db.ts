@@ -1,5 +1,10 @@
 // src/lib/db.ts
+
+// massy module that has everything to interface with the backend
+
 import type { Project, AnalysisResult, BlogPostOutline } from './types';
+
+
 
 
 let basePraw = "https://praw-hell-cry.vercel.app"

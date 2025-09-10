@@ -68,6 +68,9 @@
 	import Faq from '$lib/components/Faq.svelte';
 	import PrawCry from '$lib/components/prawCry.svelte';
 	import Agency from '$lib/components/agency.svelte';
+	import NewPricing from '$lib/components/NewPricing.svelte';
+	import NewHero from '$lib/components/NewHero.svelte';
+	import NewAgencyHero from '$lib/components/NewAgencyHero.svelte';
 
 
 	onMount(() => {
@@ -83,6 +86,15 @@
 	<section class="">
 		<Agency />
 	</section>
+
+  <div>
+    <NewHero />
+    <NewPricing />
+
+    <!-- <NewDashboard /> -->
+    <NewAgencyHero />
+
+  </div>
 
 	
 

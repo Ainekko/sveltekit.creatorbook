@@ -3,24 +3,8 @@
 	import { Coffee, Clock, Sparkles } from 'lucide-svelte';
 </script>
 
-<section class="w-full h-screen bg-zinc-950 overflow-hidden flex flex-col">
-  
-  
-  <!-- Main content - scrollable -->
-  <div class="w-full overflow-y-auto pr-1" style="scrollbar-width: thin;">
-    <div class="max-w  mx-auto p-6">
-      <!-- Main input component -->
-      <div class="mb-8 ">
-        <StartNewPraw />
-      </div>
-      
-      <!-- Expectation management cards -->
-      
-      
-      
-    </div>
-  </div>
-</section>
+
+<StartNewPraw />
 
 <style>
   /* Custom scrollbar styling */

@@ -1,4 +1,8 @@
 <script lang="ts">
+   
+   // Old seo dashboard /routes/projects/[id]/seo
+
+
 	import AiStrategySuggestion from '$lib/components/AiStrategySuggestion.svelte';
 
   export let data;

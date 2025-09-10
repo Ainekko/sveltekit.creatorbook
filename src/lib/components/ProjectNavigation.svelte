@@ -23,7 +23,7 @@
   };
 </script>
 
-<div class="mb-8 relative z-10">
+<div class="mb-8 relative z-10 max-w-[900px] flex justify-center items-center border">
   <div class="bg-zinc-900/80 backdrop-blur-sm rounded-xl shadow-lg shadow-black/20 border border-zinc-800 p-1 flex overflow-x-auto no-scrollbar">
     {#each mappedNavItems as item}
       <a 

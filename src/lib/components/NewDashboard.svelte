@@ -1,3 +1,4 @@
+```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
   import { onMount } from 'svelte';
@@ -40,17 +41,17 @@
   const agentStyles = {
     seo: {
       gradient: 'from-emerald-400 via-teal-500 to-cyan-600',
-      bgGradient: 'linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, transparent 70%)',
+      bgGradient: 'linear-gradient(135deg, rgba(16, 185, 129, 0.03) 0%, transparent 70%)',
       statusColor: 'bg-yellow-400'
     },
     twitter: {
       gradient: 'from-blue-400 via-indigo-500 to-purple-600', 
-      bgGradient: 'linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, transparent 70%)',
+      bgGradient: 'linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, transparent 70%)',
       statusColor: 'bg-emerald-400'
     },
     reddit: {
       gradient: 'from-orange-400 via-red-500 to-pink-600',
-      bgGradient: 'linear-gradient(135deg, rgba(251, 146, 60, 0.05) 0%, transparent 70%)', 
+      bgGradient: 'linear-gradient(135deg, rgba(251, 146, 60, 0.03) 0%, transparent 70%)', 
       statusColor: 'bg-zinc-400'
     }
   };
@@ -59,7 +60,7 @@
   const agents = [
     {
       id: 'seo',
-      name: 'Orion',
+      name: 'Nai',
       shortName: 'SEO',
       description: 'Master of search optimization: Handles keyword research, content outlines, search rankings, and organic traffic growth.',
       status: 'analyzing',
@@ -83,7 +84,7 @@
     },
     {
       id: 'twitter',
-      name: 'Sirius',
+      name: 'Rio',
       shortName: 'X',
       description: 'Expert in real-time engagement: Manages posts, trends, audience interaction, and growth on X (Twitter).',
       status: 'active',
@@ -107,7 +108,7 @@
     },
     {
       id: 'reddit',
-      name: 'Vega',
+      name: 'Elio',
       shortName: 'Reddit',
       description: 'Specialist in community building: Oversees posts, discussions, karma management, and subreddit engagement.',
       status: 'monitoring',
@@ -227,7 +228,7 @@
   });
 </script>
 
-<div class="min-h-screen bg-black text-white">
+<div class="min-h-screen bg-white text-gray-900">
   <main class="px-8 py-8">
     {#if isGenerating}
       <GenerationProgress 
@@ -249,7 +250,7 @@
       <!-- Left Column - Agent Overview -->
       <div class="col-span-12 lg:col-span-4 space-y-6">
         {#each agents as agent}
-          <div class="agent-card bg-zinc-950 rounded-xl border border-zinc-800 overflow-hidden hover:border-zinc-700 transition-colors duration-300 cursor-pointer" 
+          <div class="agent-card bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-gray-300 transition-colors duration-300 cursor-pointer" 
                on:click={() => selectAgent(agent.id)}
                on:keydown={(e) => e.key === 'Enter' && selectAgent(agent.id)}
                role="button"
@@ -257,18 +258,18 @@
                style="background-image: {agentStyles[agent.id].bgGradient}">
             
             <!-- Agent Header -->
-            <div class="agent-header p-6 bg-gradient-to-r {agentStyles[agent.id].gradient}">
+            <div class="agent-header p-6 bg-gradient-to-r {agentStyles[agent.id].gradient} text-white">
               <div class="flex items-center justify-between mb-4">
                 <div>
-                  <h3 class="text-xl font-bold text-white">{agent.name}</h3>
-                  <p class="text-white/80 text-sm mt-1">{agent.description}</p>
+                  <h3 class="text-xl font-bold">{agent.name}</h3>
+                  <p class="text-white/90 text-sm mt-1">{agent.description}</p>
                   <div class="flex items-center gap-2 mt-1">
                     <div class="status-dot w-2 h-2 rounded-full {agentStyles[agent.id].statusColor}"></div>
-                    <span class="text-white/80 text-sm capitalize">{agent.status}</span>
+                    <span class="text-white/90 text-sm capitalize">{agent.status}</span>
                   </div>
                 </div>
                 <div class="text-right">
-                  <div class="text-white/70 text-xs">Last scan</div>
+                  <div class="text-white/80 text-xs">Last scan</div>
                   <div class="text-white text-sm font-medium">{agent.lastScan}</div>
                 </div>
               </div>
@@ -285,9 +286,9 @@
               <div class="grid grid-cols-2 gap-4 mb-4">
                 {#each Object.entries(agent.metrics) as [key, metric]}
                   <div class="text-center">
-                    <div class="text-2xl font-bold text-white mb-1">{metric.value}</div>
-                    <div class="text-xs text-zinc-400 mb-1">{metric.label}</div>
-                    <div class="text-xs {metric.trend.includes('+') || metric.trend.includes('↑') ? 'text-emerald-400' : 'text-red-400'}">
+                    <div class="text-2xl font-bold text-gray-900 mb-1">{metric.value}</div>
+                    <div class="text-xs text-gray-500 mb-1">{metric.label}</div>
+                    <div class="text-xs {metric.trend.includes('+') || metric.trend.includes('↑') ? 'text-emerald-500' : 'text-red-500'}">
                       {metric.trend}
                     </div>
                   </div>
@@ -295,14 +296,14 @@
               </div>
 
               <!-- Quick Actions -->
-              <div class="pt-4 border-t border-zinc-800">
+              <div class="pt-4 border-t border-gray-200">
                 <button 
                   on:click|stopPropagation={() => generateAgentContent(agent.id)}
-                  class="w-full bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 mb-2"
+                  class="w-full bg-gray-100 hover:bg-gray-200 text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 mb-2"
                 >
                   Generate Content
                 </button>
-                <div class="text-xs text-zinc-500 text-center">
+                <div class="text-xs text-gray-500 text-center">
                   Click to view details
                 </div>
               </div>
@@ -317,10 +318,10 @@
           {@const agent = agents.find(a => a.id === selectedAgent)}
           
           <!-- Agent Activity Feed -->
-          <div class="bg-zinc-950 rounded-xl p-8 border border-zinc-800">
+          <div class="bg-white rounded-xl p-8 border border-gray-200">
             <div class="flex justify-between items-center mb-6">
-              <h2 class="text-sm font-medium text-zinc-400 uppercase tracking-wider">Recent Activity</h2>
-              <span class="text-xs text-zinc-500 px-3 py-1 bg-zinc-800 rounded-full">{agent.shortName}</span>
+              <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Recent Activity</h2>
+              <span class="text-xs text-gray-600 px-3 py-1 bg-gray-100 rounded-full">{agent.shortName}</span>
             </div>
 
             <div class="space-y-4">
@@ -331,10 +332,10 @@
                   </div>
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center justify-between">
-                      <p class="text-white font-medium text-sm">{activity.action}</p>
-                      <span class="text-zinc-500 text-xs">{activity.time}</span>
+                      <p class="text-gray-900 font-medium text-sm">{activity.action}</p>
+                      <span class="text-gray-500 text-xs">{activity.time}</span>
                     </div>
-                    <p class="text-zinc-400 text-sm mt-1 line-clamp-2">{activity.detail}</p>
+                    <p class="text-gray-600 text-sm mt-1 line-clamp-2">{activity.detail}</p>
                   </div>
                 </div>
               {/each}
@@ -342,65 +343,65 @@
           </div>
 
           <!-- AI Insights -->
-          <div class="bg-zinc-950 rounded-xl p-8 border border-zinc-800">
-            <h2 class="text-sm font-medium text-zinc-400 mb-6 uppercase tracking-wider">AI Insights</h2>
+          <div class="bg-white rounded-xl p-8 border border-gray-200">
+            <h2 class="text-sm font-medium text-gray-500 mb-6 uppercase tracking-wider">AI Insights</h2>
             
             <div class="space-y-4">
               {#each agent.insights as insight}
-                <div class="bg-zinc-900 rounded-xl p-4 border border-zinc-800">
+                <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
                   <div class="flex items-center justify-between mb-2">
-                    <h3 class="text-white font-medium text-sm">{insight.title}</h3>
-                    <span class="text-xs px-2 py-1 rounded-full {insight.priority === 'high' ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400'}">
+                    <h3 class="text-gray-900 font-medium text-sm">{insight.title}</h3>
+                    <span class="text-xs px-2 py-1 rounded-full {insight.priority === 'high' ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-600'}">
                       {insight.priority}
                     </span>
                   </div>
-                  <p class="text-zinc-400 text-xs">{insight.description}</p>
+                  <p class="text-gray-600 text-xs">{insight.description}</p>
                 </div>
               {/each}
             </div>
           </div>
 
           <!-- Generated Content Preview -->
-          <div class="bg-zinc-950 rounded-xl p-8 border border-zinc-800">
-            <h2 class="text-sm font-medium text-zinc-400 mb-6 uppercase tracking-wider">Ready Content</h2>
+          <div class="bg-white rounded-xl p-8 border border-gray-200">
+            <h2 class="text-sm font-medium text-gray-500 mb-6 uppercase tracking-wider">Ready Content</h2>
             
             <div class="space-y-4">
               {#if selectedAgent === 'seo'}
                 {#each blogPostOutlines.slice(0, 3) as outline}
-                  <div class="content-card bg-zinc-900 rounded-xl p-4 border border-zinc-800 hover:bg-zinc-800/50 transition-colors">
+                  <div class="content-card bg-gray-50 rounded-xl p-4 border border-gray-200 hover:bg-gray-100 transition-colors">
                     <div class="flex justify-between items-start mb-2">
-                      <h4 class="text-white font-medium text-sm flex-1 pr-4">{outline.title}</h4>
-                      <span class="text-xs text-emerald-400 px-2 py-1 bg-emerald-500/20 rounded">SEO</span>
+                      <h4 class="text-gray-900 font-medium text-sm flex-1 pr-4">{outline.title}</h4>
+                      <span class="text-xs text-emerald-600 px-2 py-1 bg-emerald-100 rounded">SEO</span>
                     </div>
-                    <p class="text-zinc-400 text-xs mb-3 line-clamp-2">{outline.meta_description}</p>
+                    <p class="text-gray-600 text-xs mb-3 line-clamp-2">{outline.meta_description}</p>
                     <div class="flex gap-2">
                       {#each outline.target_keywords?.slice(0, 2) || [] as keyword}
-                        <span class="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded">{keyword}</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">{keyword}</span>
                       {/each}
                     </div>
                   </div>
                 {/each}
               {:else if selectedAgent === 'twitter'}
                 {#each twitterPosts.slice(0, 3) as post}
-                  <div class="content-card bg-zinc-900 rounded-xl p-4 border border-zinc-800 hover:bg-zinc-800/50 transition-colors">
+                  <div class="content-card bg-gray-50 rounded-xl p-4 border border-gray-200 hover:bg-gray-100 transition-colors">
                     <div class="flex justify-between items-start mb-2">
-                      <span class="text-xs text-blue-400 px-2 py-1 bg-blue-500/20 rounded">Tweet</span>
-                      <span class="text-xs text-zinc-500">Ready to post</span>
+                      <span class="text-xs text-blue-600 px-2 py-1 bg-blue-100 rounded">Tweet</span>
+                      <span class="text-xs text-gray-500">Ready to post</span>
                     </div>
-                    <p class="text-white text-sm mb-3">{post.content}</p>
-                    <div class="text-xs text-blue-400">
+                    <p class="text-gray-900 text-sm mb-3">{post.content}</p>
+                    <div class="text-xs text-blue-600">
                       #{post.hashtags?.join(' #') || 'AI #productivity #automation'}
                     </div>
                   </div>
                 {/each}
               {:else if selectedAgent === 'reddit'}
                 {#each redditPosts.slice(0, 3) as post}
-                  <div class="content-card bg-zinc-900 rounded-xl p-4 border border-zinc-800 hover:bg-zinc-800/50 transition-colors">
+                  <div class="content-card bg-gray-50 rounded-xl p-4 border border-gray-200 hover:bg-gray-100 transition-colors">
                     <div class="flex justify-between items-start mb-2">
-                      <h4 class="text-white font-medium text-sm flex-1">{post.title}</h4>
-                      <span class="text-xs text-orange-400 px-2 py-1 bg-orange-500/20 rounded">r/{post.subreddit || 'programming'}</span>
+                      <h4 class="text-gray-900 font-medium text-sm flex-1">{post.title}</h4>
+                      <span class="text-xs text-orange-600 px-2 py-1 bg-orange-100 rounded">r/{post.subreddit || 'programming'}</span>
                     </div>
-                    <p class="text-zinc-400 text-xs line-clamp-2">{post.content}</p>
+                    <p class="text-gray-600 text-xs line-clamp-2">{post.content}</p>
                   </div>
                 {/each}
               {/if}
@@ -408,14 +409,14 @@
           </div>
         {:else}
           <!-- No Agent Selected -->
-          <div class="bg-zinc-950 rounded-xl p-16 border border-zinc-800 text-center">
-            <div class="w-16 h-16 bg-zinc-800 rounded-xl flex items-center justify-center mx-auto mb-6">
-              <svg class="w-8 h-8 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-white rounded-xl p-16 border border-gray-200 text-center">
+            <div class="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-6">
+              <svg class="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
               </svg>
             </div>
-            <h3 class="text-xl font-semibold text-white mb-3">Select an AI Agent</h3>
-            <p class="text-zinc-400 mb-6">Choose an agent from the left to see detailed analytics and content</p>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Select an AI Agent</h3>
+            <p class="text-gray-600 mb-6">Choose an agent from the left to see detailed analytics and content</p>
             <div class="flex justify-center gap-3">
               {#each agents as agent}
                 <button 
@@ -433,101 +434,77 @@
       <!-- Right Column - Global Stats & Performance -->
       <div class="col-span-12 lg:col-span-3 space-y-6">
         <!-- Overall Performance -->
-        <div class="bg-zinc-950 rounded-xl p-8 border border-zinc-800">
-          <h2 class="text-sm font-medium text-zinc-400 mb-6 uppercase tracking-wider">Performance</h2>
+        <div class="bg-white rounded-xl p-8 border border-gray-200">
+          <h2 class="text-sm font-medium text-gray-500 mb-6 uppercase tracking-wider">Performance</h2>
           
           <div class="space-y-6">
-            <div class="text-center">
-              <div class="text-3xl font-bold text-emerald-400 mb-1">94%</div>
-              <p class="text-zinc-300 text-sm mb-2">System Health</p>
-              <div class="w-full bg-zinc-800 rounded-full h-2">
-                <div class="bg-emerald-400 h-2 rounded-full" style="width: 94%"></div>
-              </div>
-            </div>
+            
 
-            <div class="grid grid-cols-2 gap-4 pt-4 border-t border-zinc-800">
+            <div class="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200">
               <div class="text-center">
-                <div class="text-xl font-bold text-white">15.2K</div>
-                <div class="text-xs text-zinc-400">Content Views</div>
-                <div class="text-xs text-emerald-400">↗ 23%</div>
+                <div class="text-xl font-bold text-gray-900">15.2K</div>
+                <div class="text-xs text-gray-500">Content Views</div>
+                <div class="text-xs text-emerald-500">↗ 23%</div>
               </div>
               <div class="text-center">
-                <div class="text-xl font-bold text-white">847</div>
-                <div class="text-xs text-zinc-400">Engagements</div>
-                <div class="text-xs text-emerald-400">↗ 12%</div>
+                <div class="text-xl font-bold text-gray-900">847</div>
+                <div class="text-xs text-gray-500">Engagements</div>
+                <div class="text-xs text-emerald-500">↗ 12%</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Agent Status -->
-        <div class="bg-zinc-950 rounded-xl p-8 border border-zinc-800">
-          <h2 class="text-sm font-medium text-zinc-400 mb-6 uppercase tracking-wider">Agent Status</h2>
-          
-          <div class="space-y-4">
-            {#each agents as agent}
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                  <div class="w-3 h-3 rounded-full bg-gradient-to-r {agentStyles[agent.id].gradient}"></div>
-                  <span class="text-white text-sm">{agent.shortName}</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <div class="w-2 h-2 rounded-full {agentStyles[agent.id].statusColor}"></div>
-                  <span class="text-zinc-400 text-xs capitalize">{agent.status}</span>
-                </div>
-              </div>
-            {/each}
-          </div>
-        </div>
+        
 
         <!-- Quick Stats -->
-        <div class="bg-zinc-950 rounded-xl p-8 border border-zinc-800">
-          <h2 class="text-sm font-medium text-zinc-400 mb-6 uppercase tracking-wider">This Week</h2>
+        <div class="bg-white rounded-xl p-8 border border-gray-200">
+          <h2 class="text-sm font-medium text-gray-500 mb-6 uppercase tracking-wider">This Week</h2>
           
           <div class="space-y-4">
             <div class="flex justify-between items-center">
-              <span class="text-zinc-300 text-sm">Content Generated</span>
+              <span class="text-gray-700 text-sm">Content Generated</span>
               <div class="text-right">
-                <span class="text-white font-semibold">{blogPostOutlines.length + twitterPosts.length + redditPosts.length}</span>
-                <span class="text-emerald-400 text-xs ml-1">+15</span>
+                <span class="text-gray-900 font-semibold">{blogPostOutlines.length + twitterPosts.length + redditPosts.length}</span>
+                <span class="text-emerald-500 text-xs ml-1">+15</span>
               </div>
             </div>
             <div class="flex justify-between items-center">
-              <span class="text-zinc-300 text-sm">Keywords Tracked</span>
+              <span class="text-gray-700 text-sm">Keywords Tracked</span>
               <div class="text-right">
-                <span class="text-white font-semibold">{selectedKeywords.length}</span>
-                <span class="text-emerald-400 text-xs ml-1">+8</span>
+                <span class="text-gray-900 font-semibold">{selectedKeywords.length}</span>
+                <span class="text-emerald-500 text-xs ml-1">+8</span>
               </div>
             </div>
             <div class="flex justify-between items-center">
-              <span class="text-zinc-300 text-sm">Opportunities</span>
+              <span class="text-gray-700 text-sm">Opportunities</span>
               <div class="text-right">
-                <span class="text-white font-semibold">23</span>
-                <span class="text-yellow-400 text-xs ml-1">+5</span>
+                <span class="text-gray-900 font-semibold">23</span>
+                <span class="text-yellow-500 text-xs ml-1">+5</span>
               </div>
             </div>
             <div class="flex justify-between items-center">
-              <span class="text-zinc-300 text-sm">Success Rate</span>
+              <span class="text-gray-700 text-sm">Success Rate</span>
               <div class="text-right">
-                <span class="text-white font-semibold">87%</span>
-                <span class="text-emerald-400 text-xs ml-1">+3%</span>
+                <span class="text-gray-900 font-semibold">87%</span>
+                <span class="text-emerald-500 text-xs ml-1">+3%</span>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Action Center -->
-        <div class="bg-zinc-950 rounded-xl p-8 border border-zinc-800">
-          <h2 class="text-sm font-medium text-zinc-400 mb-6 uppercase tracking-wider">Quick Actions</h2>
+        <div class="bg-white rounded-xl p-8 border border-gray-200">
+          <h2 class="text-sm font-medium text-gray-500 mb-6 uppercase tracking-wider">Quick Actions</h2>
           
           <div class="space-y-3">
-            <button class="w-full bg-emerald-900 hover:bg-emerald-800 text-emerald-100 px-4 py-3 rounded-xl text-sm font-medium transition-colors border border-emerald-800 hover:border-emerald-700">
+            <button class="w-full bg-emerald-100 hover:bg-emerald-200 text-emerald-900 px-4 py-3 rounded-xl text-sm font-medium transition-colors border border-emerald-200 hover:border-emerald-300">
               Generate All Content
             </button>
-            <button class="w-full bg-blue-900 hover:bg-blue-800 text-blue-100 px-4 py-3 rounded-xl text-sm font-medium transition-colors border border-blue-800 hover:border-blue-700">
+            <button class="w-full bg-blue-100 hover:bg-blue-200 text-blue-900 px-4 py-3 rounded-xl text-sm font-medium transition-colors border border-blue-200 hover:border-blue-300">
               Schedule Posts
             </button>
-            <button class="w-full bg-orange-900 hover:bg-orange-800 text-orange-100 px-4 py-3 rounded-xl text-sm font-medium transition-colors border border-orange-800 hover:border-orange-700">
+            <button class="w-full bg-orange-100 hover:bg-orange-200 text-orange-900 px-4 py-3 rounded-xl text-sm font-medium transition-colors border border-orange-200 hover:border-orange-300">
               Analyze Competitors
             </button>
           </div>
@@ -592,21 +569,21 @@
   }
 
   :global(::-webkit-scrollbar-track) {
-    background: #18181b;
+    background: #f3f4f6;
   }
 
   :global(::-webkit-scrollbar-thumb) {
-    background: #71717a66;
+    background: #d1d5db;
     border-radius: 4px;
   }
 
   :global(::-webkit-scrollbar-thumb:hover) {
-    background: #71717a99;
+    background: #9ca3af;
   }
 
   /* Focus styles for accessibility */
   :global(button:focus), :global([role="button"]:focus) {
-    outline: 2px solid rgba(236, 72, 153, 0.5);
+    outline: 2px solid rgba(59, 130, 246, 0.5);
     outline-offset: 2px;
   }
 </style>

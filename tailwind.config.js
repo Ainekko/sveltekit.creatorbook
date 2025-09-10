@@ -4,10 +4,10 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [require("@tailwindcss/typography"), require("daisyui"),
-  require('tailwind-scrollbar')],
-  daisyui: {
-    themes: ['black', "cupcake"],
-  },
+  // plugins: [require("@tailwindcss/typography"), require("daisyui"),
+  // require('tailwind-scrollbar')],
+  // daisyui: {
+  //   themes: ['black', "cupcake"],
+  // },
 }
 
