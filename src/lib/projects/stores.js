@@ -31,6 +31,7 @@ export const projectStore = {
         
         try {
             const projectList = await getProjects(token);
+            console.log(projectList)
             projects.set(projectList);
         } catch (err) {
             console.error('Failed to load projects:', err);

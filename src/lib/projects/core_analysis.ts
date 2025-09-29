@@ -1,7 +1,8 @@
 // $lib/core_analysis.ts
 
 const DEVURL = 'http://127.0.0.1:8000/cry_praw'
-const BASEURL  = DEVURL 
+const PRODURL = 'https://praw-hell-cry.vercel.app/cry_praw'
+const BASEURL  = PRODURL 
 
 export interface WebsiteAnalysis {
     business_name: string;

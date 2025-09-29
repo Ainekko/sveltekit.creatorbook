@@ -43,7 +43,7 @@
       status = 'Exchanging authorization code...';
       
       // Send code and verifier to backend for token exchange
-      const backendResponse = await fetch('https://api.s-tierproject.online/users/gauth/', {
+      const backendResponse = await fetch(' http://127.0.0.1:8000/users/gauth/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

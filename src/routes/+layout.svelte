@@ -14,19 +14,19 @@
 
   
   onMount(() => {
-  if (browser) {
-    posthog.init('phc_JyJ1MIeHjGHDj50rZhIFmLSJlKm9kXjejFtBbKipRk5', {
-      api_host: 'https://www.s-tierproject.online/ingest', 
-      capture_pageview: 'history_change',
-      debug: true,
-      disable_compression: true,  // Add this line
-      loaded: function(ph) {
-        console.log('PostHog (simplified config) loaded. API host:', ph.config.api_host);
-        ph.capture('test_event_simple_config', { method: 'proxy_check_simple' });
-      }
-    });
-    initialized = true;
-  }
+  // if (browser) {
+  //   posthog.init('phc_JyJ1MIeHjGHDj50rZhIFmLSJlKm9kXjejFtBbKipRk5', {
+  //     api_host: 'https://www.s-tierproject.online/ingest', 
+  //     capture_pageview: 'history_change',
+  //     debug: true,
+  //     disable_compression: true,  // Add this line
+  //     loaded: function(ph) {
+  //       console.log('PostHog (simplified config) loaded. API host:', ph.config.api_host);
+  //       ph.capture('test_event_simple_config', { method: 'proxy_check_simple' });
+  //     }
+  //   });
+  //   initialized = true;
+  // }
 });
 
 $: if (browser && initialized && $page.url.pathname) {

@@ -113,7 +113,7 @@
       <div class="text-center mb-12">
         <h1 class="text-3xl md:text-4xl font-semibold text-gray-900">Connect Integrations</h1>
         <p class="text-base md:text-lg text-gray-500 mt-3 max-w-2xl mx-auto">
-          Connect your platforms to enable SparkVibe’s AI agents for your project.
+          Connect your platforms to enable AI agents for your project.
         </p>
       </div>
   

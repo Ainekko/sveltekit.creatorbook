@@ -1,6 +1,5 @@
 <script>
   import { get_user } from '$lib/check';
-  import AreaChart from '$lib/components/AreaChart.svelte';
   import { onMount } from 'svelte';
   import { userStore } from '$lib/stores';
   import { writable } from 'svelte/store';

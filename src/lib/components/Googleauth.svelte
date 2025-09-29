@@ -48,14 +48,19 @@
 			sessionStorage.setItem('google_state', state);
 
 			// Build authorization URL
+			// const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth?client_id=${YOUR_CLIENT_ID}&redirect_uri=${YOUR_REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/adwords&access_type=offline&prompt=consent');
+
 			const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
 			authUrl.searchParams.set('client_id', GOOGLE_CLIENT_ID);
 			authUrl.searchParams.set('redirect_uri', REDIRECT_URI);
 			authUrl.searchParams.set('response_type', 'code');
-			authUrl.searchParams.set('scope', SCOPE);
+			authUrl.searchParams.set('scope', 'https://www.googleapis.com/auth/adwords'); // <-- important
+			authUrl.searchParams.set('access_type', 'offline'); // <-- forces refresh token
+			authUrl.searchParams.set('prompt', 'consent'); // <-- forces consent
 			authUrl.searchParams.set('code_challenge', codeChallenge);
 			authUrl.searchParams.set('code_challenge_method', 'S256');
 			authUrl.searchParams.set('state', state);
+
 
 			// Redirect to Google OAuth
 			window.location.href = authUrl.toString();

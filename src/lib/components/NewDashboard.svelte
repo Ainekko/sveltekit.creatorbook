@@ -1,10 +1,10 @@
-```svelte
-<!-- src/routes/+page.svelte -->
+<!-- NewDashboard.svelte -->
 <script lang="ts">
   import { onMount } from 'svelte';
   import ProjectHeader from '$lib/components/ProjectHeader.svelte';
   import GenerationProgress from '$lib/components/GenerationProgress.svelte';
-  
+  import { currentProjectAgents } from '$lib/projects/stores'; // Import the derived store
+
   export let data;
 
   let isGenerating = false;
@@ -13,7 +13,7 @@
   let isGeneratingPost = false;
   let currentGeneratingPostIndex = -1;
   let selectedAgent = null;
-  
+
   // Project Data from backend
   const projectData = {
     id: data?.project?.id || "",
@@ -25,19 +25,34 @@
   // Get content plan data
   const contentPlan = data?.project?.latest_run?.result?.analysis_data?.content_plan || {};
   const businessData = data?.project?.latest_run?.result?.analysis_data?.website_analysis || {};
-  
+
   // Get blog posts, keywords, outlines
   const blogPostOutlines = contentPlan?.seo?.blog_post_outlines || [];
   const selectedKeywords = contentPlan?.seo?.selected_keywords || [];
   const contentCalendarSuggestion = contentPlan?.seo?.content_calendar_suggestion || "";
   const blogPosts = data?.project?.latest_run?.blog_posts || [];
-  
+
   // Get social content
   const redditPosts = contentPlan?.socials?.reddit_posts || [];
   const twitterPosts = contentPlan?.socials?.twitter_posts || [];
-  const linkedinPosts = contentPlan?.socials?.linkedin_posts || []; 
+  const linkedinPosts = contentPlan?.socials?.linkedin_posts || [];
 
-  // Pre-calculate static CSS classes to avoid runtime concatenation
+  // Utility function to format relative time
+  function formatRelativeTime(timestamp: string): string {
+    const now = new Date();
+    const date = new Date(timestamp);
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.round(diffMs / 60000); // Convert to minutes
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins} min${diffMins === 1 ? '' : 's'} ago`;
+    const diffHours = Math.round(diffMins / 60);
+    if (diffHours < 24) return `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`;
+    const diffDays = Math.round(diffHours / 24);
+    return `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
+  }
+
+  // Pre-calculate static CSS classes
   const agentStyles = {
     seo: {
       gradient: 'from-emerald-400 via-teal-500 to-cyan-600',
@@ -45,43 +60,45 @@
       statusColor: 'bg-yellow-400'
     },
     twitter: {
-      gradient: 'from-blue-400 via-indigo-500 to-purple-600', 
+      gradient: 'from-blue-400 via-indigo-500 to-purple-600',
       bgGradient: 'linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, transparent 70%)',
       statusColor: 'bg-emerald-400'
     },
     reddit: {
       gradient: 'from-orange-400 via-red-500 to-pink-600',
-      bgGradient: 'linear-gradient(135deg, rgba(251, 146, 60, 0.03) 0%, transparent 70%)', 
+      bgGradient: 'linear-gradient(135deg, rgba(251, 146, 60, 0.03) 0%, transparent 70%)',
       statusColor: 'bg-zinc-400'
     }
   };
 
-  // AI Agents Configuration - simplified and optimized
-  const agents = [
+  // AI Agents Configuration
+  console.log(currentProjectAgents)
+
+  $: agents = [
+    // SEO Agent (Dynamic from API)
     {
       id: 'seo',
-      name: 'Nai',
+      name: 'Orion',
       shortName: 'SEO',
       description: 'Master of search optimization: Handles keyword research, content outlines, search rankings, and organic traffic growth.',
-      status: 'analyzing',
-      lastScan: '12 min ago',
-      nextAction: 'Keyword research in 2h',
+      status: $currentProjectAgents[0]?.status || 'idle',
+      lastScan: $currentProjectAgents[0]?.last_scan ? formatRelativeTime($currentProjectAgents[0].last_scan) : 'N/A',
+      nextAction: $currentProjectAgents[0]?.next_action || 'Awaiting tasks...',
       metrics: {
         keywords: { value: selectedKeywords.length, label: 'Active Keywords', trend: '+12%' },
         outlines: { value: blogPostOutlines.length, label: 'Content Outlines', trend: '+3' },
-        ranking: { value: 247, label: 'Avg. Position', trend: '↑ 23' },
-        traffic: { value: '12.4K', label: 'Organic Visitors', trend: '+18%' }
+        ranking: { value: 247, label: 'Avg. Position', trend: '↑ 23' }, // Hardcoded, update if API provides
+        traffic: { value: '12.4K', label: 'Organic Visitors', trend: '+18%' } // Hardcoded, update if API provides
       },
-      recentActivity: [
-        { type: 'keyword', action: 'Found high-opportunity keyword', detail: '"AI automation tools" - 2.1K searches', time: '15m ago' },
-        { type: 'competitor', action: 'Competitor analysis complete', detail: 'Updated competitive landscape', time: '1h ago' },
-        { type: 'content', action: 'Blog outline generated', detail: '"10 Best Practices for SEO in 2025"', time: '2h ago' }
-      ],
-      insights: [
-        { title: 'Traffic Opportunity', description: 'Target "AI marketing automation" for 15% traffic boost', priority: 'high' },
-        { title: 'Content Gap', description: '3 competitors ranking for keywords you\'re missing', priority: 'medium' }
-      ]
+      recentActivity: $currentProjectAgents[0]?.activities?.map(activity => ({
+        type: activity.activity_type,
+        action: activity.action,
+        detail: activity.detail,
+        time: formatRelativeTime(activity.created_at)
+      })) || [],
+      insights: $currentProjectAgents[0]?.insights || []
     },
+    // Twitter Agent (Static, unchanged)
     {
       id: 'twitter',
       name: 'Rio',
@@ -106,6 +123,7 @@
         { title: 'Best Time', description: 'Your audience most active at 2:30 PM EST', priority: 'medium' }
       ]
     },
+    // Reddit Agent (Static, unchanged)
     {
       id: 'reddit',
       name: 'Elio',
@@ -136,23 +154,23 @@
     try {
       isGenerating = true;
       generationProgress = 'Initializing analysis...';
-      
+
       const token = localStorage.getItem('token');
-      
+
       const onProgress = (status: string, elapsed: number) => {
         generationProgress = status;
         generationTimeElapsed = Math.round(elapsed / 1000);
       };
-      
+
       const updatedProject = await updateProjectWithNewAnalysis(
-        ['full'],           
-        token,              
-        projectData.id,     
-        projectData.url,    
-        'content-refresh',  
-        onProgress         
+        ['full'],
+        token,
+        projectData.id,
+        projectData.url,
+        'content-refresh',
+        onProgress
       );
-      
+
       if (updatedProject) {
         window.location.reload();
       }
@@ -167,7 +185,7 @@
   async function handleBlogPostGeneration(event: any) {
     const outlineIndex = event.detail.index;
     const outline = event.detail.outline;
-    
+
     isGeneratingPost = true;
     currentGeneratingPostIndex = outlineIndex;
 
@@ -181,7 +199,7 @@
       const onProgress = (status: string) => {
         generationProgress = `Generating blog post ${outlineIndex + 1}: ${status}`;
       };
-      
+
       const generatedContent = await pollBlogGenerationTask(taskId, onProgress);
 
       const token = localStorage.getItem('token');
@@ -215,19 +233,20 @@
   function generateAgentContent(agentId) {
     console.log(`Generating content for ${agentId} agent`);
   }
-  
-  import { 
-    updateProjectWithNewAnalysis, 
+
+  import {
+    updateProjectWithNewAnalysis,
     saveBlogPostToDjango,
     pollBlogGenerationTask,
     createBlogPostFromOutline
   } from '$lib/db';
-  
+
   onMount(() => {
     // Any initialization logic
   });
 </script>
 
+<!-- The rest of the Svelte template remains unchanged -->
 <div class="min-h-screen bg-white text-gray-900">
   <main class="px-8 py-8">
     {#if isGenerating}
@@ -438,8 +457,6 @@
           <h2 class="text-sm font-medium text-gray-500 mb-6 uppercase tracking-wider">Performance</h2>
           
           <div class="space-y-6">
-            
-
             <div class="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200">
               <div class="text-center">
                 <div class="text-xl font-bold text-gray-900">15.2K</div>
@@ -454,8 +471,6 @@
             </div>
           </div>
         </div>
-
-        
 
         <!-- Quick Stats -->
         <div class="bg-white rounded-xl p-8 border border-gray-200">
@@ -515,19 +530,15 @@
 </div>
 
 <style>
-  /* Remove the problematic zoom/scale styles completely */
-
-  /* Use transform3d for better GPU acceleration on hover effects */
+  /* Unchanged styles */
   .agent-card:hover {
     transform: translate3d(0, 0, 0);
   }
 
-  /* Optimize status dots - remove animations on non-active states */
   .status-dot {
     transition: none;
   }
 
-  /* Use will-change sparingly and only when needed */
   .agent-card {
     will-change: border-color;
   }
@@ -536,7 +547,6 @@
     will-change: auto;
   }
 
-  /* Optimize gradients by using simpler patterns */
   .agent-header {
     contain: layout style paint;
   }
@@ -549,7 +559,6 @@
     contain: layout style;
   }
 
-  /* Line clamp utility */
   :global(.line-clamp-2) {
     overflow: hidden;
     display: -webkit-box;
@@ -557,12 +566,10 @@
     -webkit-line-clamp: 2;
   }
 
-  /* Minimal global transitions - only for specific elements */
   :global(button), :global(.agent-card), :global(.content-card) {
     transition: background-color 0.2s ease, border-color 0.2s ease;
   }
 
-  /* Custom scrollbar optimized */
   :global(::-webkit-scrollbar) {
     width: 8px;
     height: 8px;
@@ -581,7 +588,6 @@
     background: #9ca3af;
   }
 
-  /* Focus styles for accessibility */
   :global(button:focus), :global([role="button"]:focus) {
     outline: 2px solid rgba(59, 130, 246, 0.5);
     outline-offset: 2px;

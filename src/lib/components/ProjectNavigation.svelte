@@ -23,12 +23,12 @@
   };
 </script>
 
-<div class="mb-8 relative z-10 max-w-[900px] flex justify-center items-center border">
-  <div class="bg-zinc-900/80 backdrop-blur-sm rounded-xl shadow-lg shadow-black/20 border border-zinc-800 p-1 flex overflow-x-auto no-scrollbar">
+<div class="mb-8 relative z-10 max-w-[900px] flex justify-center items-center ">
+  <div class="bg-zinc-800/10 text-black backdrop-blur-sm rounded-xl shadow-lg shadow-black/20 border  p-1 flex overflow-x-auto no-scrollbar">
     {#each mappedNavItems as item}
       <a 
         href={item.href} 
-        class="px-5 py-3 rounded-lg text-sm font-medium flex items-center gap-2 min-w-max transition-all duration-200 {isActive(item.href) ? 'bg-blue-900/30 text-blue-400' : 'text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200'}"
+        class="px-5 py-3 rounded-lg text-sm font-medium flex items-center gap-2 min-w-max transition-all duration-200 {isActive(item.href) ? 'bg-zinc-800 text-zinc-200' : 'text-zinc-800 hover:bg-zinc-800 hover:text-zinc-200'}"
       >
         <span class={item.icon}></span>
         {item.title}

@@ -47,7 +47,7 @@
             showUpgradeModal = true;
             return;
         }
-        goto('/projects/new');
+        goto('/new-project');
     }
 
     function closeUpgradeModal() {
@@ -353,7 +353,7 @@
             </div>
         <!-- Scrollable Projects -->
         {:else}
-            <div class="projects-scroll-area flex-1 min-h-0 overflow-y-auto">
+            <div class="projects-scroll-area flex-1 min-h-0  overflow-y-auto">
                 {#if sortedProjects.length > 0}
                     <!-- Pinned Projects -->
                     {#if sortedProjects.filter(p => pinnedProjects.has(p.id)).length > 0}
@@ -361,13 +361,13 @@
                             {#if !isCollapsed}
                                 <h3 class="text-xs font-medium text-gray-500 px-1 mb-1">Pinned</h3>
                             {/if}
-                            <nav class="space-y-0.5">
+                            <nav class="space-y-1">
                                 {#each sortedProjects.filter(p => pinnedProjects.has(p.id)) as project (project.id)}
                                     {@const projectTitle = formatProjectTitle(project)}
                                     {@const navItems = getProjectNavItems(project.id)}
                                     <div class="relative group project-card" transition:slide={{ duration: 300 }}>
                                         <button
-                                            class="flex items-center justify-between w-full px-2 py-1.5 rounded-lg bg-white border border-gray-200 hover:bg-gray-100 text-gray-900 focus:outline-none {isCollapsed ? 'justify-center px-0 border-0' : ''}"
+                                            class="flex items-center justify-between w-full px-2 py-1.5 rounded-lg bg- shadow-md  border border-gray-200 hover:bg-zinc-200 text-gray-900 focus:outline-none {isCollapsed ? 'justify-center px-0 border-0' : ''}"
                                             on:click={() => !isCollapsed && toggleProject(project.id)}
                                             title={isCollapsed ? projectTitle : ''}
                                         >
