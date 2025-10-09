@@ -8,7 +8,8 @@
 
   const dispatch = createEventDispatcher();
 
-  let selectedNodes = [true, false, false, false];
+  // Track which workflow endpoint the user wants to run
+  let selectedWorkflow: 'keyword_research' | 'generate_outlines' | 'generate_posts' | 'full_workflow' = 'keyword_research';
   let selectedFrequency = 'daily';
   let isActive = false;
   let isSubmitting = false;
@@ -16,7 +17,12 @@
   let taskStatus: any = null;
   let pollingInterval: any = null;
 
-  // Poll for task status every 3 seconds when active
+  // Map workflow types to their required steps for UI visualization
+  $: activeSteps = selectedWorkflow === 'keyword_research' ? [0] :
+                   selectedWorkflow === 'generate_outlines' ? [0, 1] :
+                   selectedWorkflow === 'generate_posts' ? [0, 1, 2] :
+                   [0, 1, 2, 3];
+
   async function pollTaskStatus() {
     if (!currentTaskId) return;
 
@@ -34,7 +40,6 @@
       if (response.ok) {
         taskStatus = await response.json();
         
-        // Stop polling if task is completed or failed
         if (taskStatus.status === 'completed' || taskStatus.status === 'failed') {
           isActive = false;
           stopPolling();
@@ -60,10 +65,13 @@
     }
   }
 
-  function toggleNode(index: number) {
-    if (!isActive) {
-      selectedNodes[index] = !selectedNodes[index];
-    }
+  // Each button click sets the workflow type
+  function selectNode(index: number) {
+    if (isActive) return;
+    
+    // Map node index to workflow type
+    const workflows = ['keyword_research', 'generate_outlines', 'generate_posts', 'full_workflow'];
+    selectedWorkflow = workflows[index] as typeof selectedWorkflow;
   }
 
   function setFrequency(freq: string) {
@@ -76,7 +84,6 @@
     isSubmitting = true;
 
     try {
-      // Step 1: Create the workflow task
       const createResponse = await fetch(`${apiBaseUrl}/orion/api/create_workflow/`, {
         method: 'POST',
         headers: {
@@ -85,10 +92,8 @@
         },
         body: JSON.stringify({
           project_id: projectId,
-          workflow_config: {
-            nodes: selectedNodes,
-            frequency: selectedFrequency
-          }
+          task_type: selectedWorkflow,
+          frequency: selectedFrequency
         })
       });
 
@@ -101,8 +106,7 @@
       const createData = await createResponse.json();
       currentTaskId = createData.task_id;
 
-      // Step 2: Trigger the workflow execution
-      const triggerResponse = await fetch('http://127.0.0.1:8000/orion/api/trigger_task/', {
+      const triggerResponse = await fetch(`${apiBaseUrl}/orion/api/trigger_task/`, {
         method: 'POST',
         headers: {
           'Authorization': `Token ${authToken}`,
@@ -115,11 +119,8 @@
 
       if (triggerResponse.ok) {
         isActive = true;
-        
-        // Start polling for status updates
         startPolling();
-        pollTaskStatus(); // Poll immediately
-        
+        pollTaskStatus();
         dispatch('workflowStarted', { task_id: currentTaskId });
       } else {
         const error = await triggerResponse.json();
@@ -159,10 +160,8 @@
     }
   }
 
-  // Load existing workflow on mount
   onMount(async () => {
     try {
-      // Check if there's an active workflow for this project
       const response = await fetch(
         `${apiBaseUrl}/orion/api/?project_id=${projectId}`,
         {
@@ -175,7 +174,6 @@
 
       if (response.ok) {
         const data = await response.json();
-        // If there's an active workflow, load its status
         if (data.active_task_id) {
           currentTaskId = data.active_task_id;
           await pollTaskStatus();
@@ -194,14 +192,12 @@
     stopPolling();
   });
 
-  // Helper to determine if a step is completed
   function isStepCompleted(stepName: string): boolean {
     return taskStatus?.completed_steps?.includes(stepName) || false;
   }
 
-  // Calculate progress percentage
   $: progressPercent = taskStatus?.completed_steps?.length 
-    ? (taskStatus.completed_steps.length / selectedNodes.filter(n => n).length) * 100 
+    ? (taskStatus.completed_steps.length / activeSteps.length) * 100 
     : 0;
 </script>
 
@@ -221,62 +217,62 @@
       
       <div class="flex items-center justify-between mb-12">
         <button 
-          on:click={() => toggleNode(0)} 
+          on:click={() => selectNode(0)} 
           disabled={isActive}
           class="flex flex-col items-center group"
         >
-          <div class="w-20 h-20 rounded-full {selectedNodes[0] ? 'bg-gray-900' : 'bg-gray-50 border-2 border-gray-200'} shadow-xl flex items-center justify-center mb-3 group-hover:shadow-2xl transition-all group-hover:scale-105 {isActive ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}">
-            <Search class="w-8 h-8 {selectedNodes[0] ? 'text-white' : 'text-gray-400'} transition-colors" />
+          <div class="w-20 h-20 rounded-full {activeSteps.includes(0) ? 'bg-gray-900' : 'bg-gray-50 border-2 border-gray-200'} shadow-xl flex items-center justify-center mb-3 group-hover:shadow-2xl transition-all group-hover:scale-105 {isActive ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}">
+            <Search class="w-8 h-8 {activeSteps.includes(0) ? 'text-white' : 'text-gray-400'} transition-colors" />
           </div>
-          <span class="text-sm font-medium {selectedNodes[0] ? 'text-gray-900' : 'text-gray-500'} transition-colors">Keyword Research</span>
+          <span class="text-sm font-medium {activeSteps.includes(0) ? 'text-gray-900' : 'text-gray-500'} transition-colors">Keyword Research</span>
           {#if isStepCompleted('keyword_research')}
             <span class="text-xs text-green-600 mt-1">✓ Completed</span>
           {/if}
         </button>
 
-        <div class="flex-1 h-0.5 bg-gray-200 mx-4"></div>
+        <div class="flex-1 h-0.5 {activeSteps.includes(1) ? 'bg-gray-900' : 'bg-gray-200'} mx-4 transition-colors"></div>
 
         <button 
-          on:click={() => toggleNode(1)} 
+          on:click={() => selectNode(1)} 
           disabled={isActive}
           class="flex flex-col items-center group"
         >
-          <div class="w-20 h-20 rounded-full {selectedNodes[1] ? 'bg-gray-900' : 'bg-gray-50 border-2 border-gray-200'} shadow-md flex items-center justify-center mb-3 group-hover:shadow-xl transition-all group-hover:scale-105 {isActive ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}">
-            <FileText class="w-8 h-8 {selectedNodes[1] ? 'text-white' : 'text-gray-400'} transition-colors" />
+          <div class="w-20 h-20 rounded-full {activeSteps.includes(1) ? 'bg-gray-900' : 'bg-gray-50 border-2 border-gray-200'} shadow-md flex items-center justify-center mb-3 group-hover:shadow-xl transition-all group-hover:scale-105 {isActive ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}">
+            <FileText class="w-8 h-8 {activeSteps.includes(1) ? 'text-white' : 'text-gray-400'} transition-colors" />
           </div>
-          <span class="text-sm font-medium {selectedNodes[1] ? 'text-gray-900' : 'text-gray-500'} transition-colors">Create Outlines</span>
+          <span class="text-sm font-medium {activeSteps.includes(1) ? 'text-gray-900' : 'text-gray-500'} transition-colors">Create Outlines</span>
           {#if isStepCompleted('outline_generation')}
             <span class="text-xs text-green-600 mt-1">✓ Completed</span>
           {/if}
         </button>
 
-        <div class="flex-1 h-0.5 bg-gray-200 mx-4"></div>
+        <div class="flex-1 h-0.5 {activeSteps.includes(2) ? 'bg-gray-900' : 'bg-gray-200'} mx-4 transition-colors"></div>
 
         <button 
-          on:click={() => toggleNode(2)} 
+          on:click={() => selectNode(2)} 
           disabled={isActive}
           class="flex flex-col items-center group"
         >
-          <div class="w-20 h-20 rounded-full {selectedNodes[2] ? 'bg-gray-900' : 'bg-gray-50 border-2 border-gray-200'} shadow-md flex items-center justify-center mb-3 group-hover:shadow-xl transition-all group-hover:scale-105 {isActive ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}">
-            <FileText class="w-8 h-8 {selectedNodes[2] ? 'text-white' : 'text-gray-400'} transition-colors" />
+          <div class="w-20 h-20 rounded-full {activeSteps.includes(2) ? 'bg-gray-900' : 'bg-gray-50 border-2 border-gray-200'} shadow-md flex items-center justify-center mb-3 group-hover:shadow-xl transition-all group-hover:scale-105 {isActive ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}">
+            <FileText class="w-8 h-8 {activeSteps.includes(2) ? 'text-white' : 'text-gray-400'} transition-colors" />
           </div>
-          <span class="text-sm font-medium {selectedNodes[2] ? 'text-gray-900' : 'text-gray-500'} transition-colors">Generate Posts</span>
+          <span class="text-sm font-medium {activeSteps.includes(2) ? 'text-gray-900' : 'text-gray-500'} transition-colors">Generate Posts</span>
           {#if isStepCompleted('blog_post_generation')}
             <span class="text-xs text-green-600 mt-1">✓ Completed</span>
           {/if}
         </button>
 
-        <div class="flex-1 h-0.5 bg-gray-200 mx-4"></div>
+        <div class="flex-1 h-0.5 {activeSteps.includes(3) ? 'bg-gray-900' : 'bg-gray-200'} mx-4 transition-colors"></div>
 
         <button 
-          on:click={() => toggleNode(3)} 
+          on:click={() => selectNode(3)} 
           disabled={isActive}
           class="flex flex-col items-center group"
         >
-          <div class="w-20 h-20 rounded-full {selectedNodes[3] ? 'bg-gray-900' : 'bg-gray-50 border-2 border-gray-200'} shadow-md flex items-center justify-center mb-3 group-hover:shadow-xl transition-all group-hover:scale-105 {isActive ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}">
-            <Target class="w-8 h-8 {selectedNodes[3] ? 'text-white' : 'text-gray-400'} transition-colors" />
+          <div class="w-20 h-20 rounded-full {activeSteps.includes(3) ? 'bg-gray-900' : 'bg-gray-50 border-2 border-gray-200'} shadow-md flex items-center justify-center mb-3 group-hover:shadow-xl transition-all group-hover:scale-105 {isActive ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}">
+            <Target class="w-8 h-8 {activeSteps.includes(3) ? 'text-white' : 'text-gray-400'} transition-colors" />
           </div>
-          <span class="text-sm font-medium {selectedNodes[3] ? 'text-gray-900' : 'text-gray-500'} transition-colors">Find & Publish</span>
+          <span class="text-sm font-medium {activeSteps.includes(3) ? 'text-gray-900' : 'text-gray-500'} transition-colors">Find & Publish</span>
           {#if isStepCompleted('publish')}
             <span class="text-xs text-green-600 mt-1">✓ Completed</span>
           {/if}
@@ -335,7 +331,7 @@
           {#if !isActive}
             <button 
               on:click={runWorkflow} 
-              disabled={isSubmitting || !selectedNodes.some(n => n)}
+              disabled={isSubmitting}
               class="px-8 py-2.5 rounded-full bg-zinc-900 text-white text-sm font-semibold shadow-md hover:bg-zinc-700 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {#if isSubmitting}
@@ -386,7 +382,7 @@
               ></div>
             </div>
             <p class="text-xs text-gray-500">
-              {taskStatus.completed_steps?.length || 0} of {selectedNodes.filter(n => n).length} steps completed
+              {taskStatus.completed_steps?.length || 0} of {activeSteps.length} steps completed
             </p>
           </div>
 
@@ -419,8 +415,8 @@
               <Search class="w-4 h-4 text-blue-600" />
             </div>
             <div class="flex-1 min-w-0">
-              <p class="text-gray-900 font-medium text-sm">Enabled Steps</p>
-              <p class="text-gray-600 text-sm">{selectedNodes.filter(n => n).length} of 4 steps active</p>
+              <p class="text-gray-900 font-medium text-sm">Workflow Type</p>
+              <p class="text-gray-600 text-sm capitalize">{selectedWorkflow.replace(/_/g, ' ')}</p>
             </div>
           </div>
           
