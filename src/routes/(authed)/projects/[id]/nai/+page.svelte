@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import Header from '$lib/components/nai/Header.svelte';
   import Tabs from '$lib/components/nai/Tabs.svelte';
@@ -18,6 +19,8 @@
   let selectedKeywords: number[] = [];
   let generatingContent: string | null = null;
   let showScheduleModal: boolean = false;
+
+  let projectId = data.projectId
 
   const agentData: AgentData = {
     id: data?.agent?.id ?? 'seo-agent-001',
@@ -144,11 +147,11 @@
 </script>
 
 <div class="min-h-screen bg-white text-gray-900">
-  <Header {agentData} {isAutopilotEnabled} {currentTasks} {toggleAutopilot} />
+  <!-- <Header {agentData} {isAutopilotEnabled} {currentTasks} {toggleAutopilot} /> -->
   <Tabs {activeTab} on:tabChange={(e) => activeTab = e.detail} />
   <div class="px-8 py-8">
     {#if activeTab === 'overview'}
-      <Overview {keywords} {outlines} {generateKeywords} {generateOutlines} {generatingContent} on:openScheduleModal={() => showScheduleModal = true} />
+      <Overview  projectId={projectId} />
     {:else if activeTab === 'keywords'}
       <Keywords {keywords} {selectedKeywords} {generatingContent} {toggleKeywordSelection} {generateKeywords} {generateOutlines} />
     {:else if activeTab === 'outlines'}
