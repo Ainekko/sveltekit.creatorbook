@@ -1,23 +1,28 @@
+<!-- src/lib/components/nai/Keywords.svelte -->
+
 <script lang="ts">
   import { RefreshCw, TrendingUp, TrendingDown, Minus, Sparkles, ChevronDown, Globe } from 'lucide-svelte';
   import { contentStore } from '$lib/components/nai/stores';
+  import type { Keyword, CompetitorRanking, CompetitionLevel, TrendType,} from '$lib/components/nai/types';
+  import type { UUID } from 'crypto';
+
 
   export let projectId: string;
 
   // Subscribe to content store
-  $: keywords = $contentStore.keywords;
+  $: keywords = $contentStore.keywords as Keyword[];
   $: isLoading = $contentStore.keywordsLoading;
-  $: competitorRankings = $contentStore.competitorRankings;
+  $: competitorRankings = $contentStore.competitorRankings as Map<UUID, CompetitorRanking[]>;
   $: competitorsLoading = $contentStore.competitorsLoading;
 
-  let selectedKeywordIds: string[] = [];
-  let expandedKeywordId: string | null = null;
+  let selectedKeywordIds: UUID[] = [];
+  let expandedKeywordId: UUID | null = null;
   let isGeneratingOutlines = false;
 
   const authToken = localStorage.getItem('token');
   const apiBaseUrl = 'http://127.0.0.1:8000';
 
-  function getCompetitionColor(competition: string) {
+  function getCompetitionColor(competition: CompetitionLevel): string {
     switch (competition) {
       case 'Low':
         return 'text-emerald-600 bg-emerald-100';
@@ -30,7 +35,7 @@
     }
   }
 
-  function getTrendIcon(trend: string) {
+  function getTrendIcon(trend: TrendType) {
     switch (trend) {
       case 'Rising':
         return TrendingUp;
@@ -45,7 +50,7 @@
     }
   }
 
-  function getTrendColor(trend: string) {
+  function getTrendColor(trend: TrendType): string {
     switch (trend) {
       case 'Rising':
         return 'text-emerald-600';
@@ -60,14 +65,14 @@
     }
   }
 
-  function getRankingColor(position: number) {
+  function getRankingColor(position: number): string {
     if (position === 1) return 'bg-yellow-50 border-l-4 border-yellow-400';
     if (position <= 3) return 'bg-orange-50 border-l-4 border-orange-400';
     if (position <= 10) return 'bg-blue-50 border-l-4 border-blue-400';
     return 'bg-gray-50 border-l-4 border-gray-400';
   }
 
-  function getPositionBadgeStyle(position: number) {
+  function getPositionBadgeStyle(position: number): string {
     if (position === 1) return 'bg-yellow-500 text-white';
     if (position <= 3) return 'bg-orange-500 text-white';
     if (position <= 10) return 'bg-blue-500 text-white';
@@ -83,7 +88,7 @@
     }
   }
 
-  function toggleKeywordSelection(keywordId: string) {
+  function toggleKeywordSelection(keywordId: UUID): void {
     if (selectedKeywordIds.includes(keywordId)) {
       selectedKeywordIds = selectedKeywordIds.filter(id => id !== keywordId);
     } else {
@@ -91,7 +96,7 @@
     }
   }
 
-  function toggleSelectAll() {
+  function toggleSelectAll(): void {
     if (selectedKeywordIds.length === keywords.length) {
       selectedKeywordIds = [];
     } else {
@@ -99,7 +104,7 @@
     }
   }
 
-  async function toggleExpanded(keywordId: string) {
+  async function toggleExpanded(keywordId: UUID): Promise<void> {
     if (expandedKeywordId === keywordId) {
       expandedKeywordId = null;
     } else {
@@ -110,11 +115,11 @@
     }
   }
 
-  async function refreshKeywords() {
+  async function refreshKeywords(): Promise<void> {
     await contentStore.loadKeywords(projectId);
   }
 
-  async function generateOutlines() {
+  async function generateOutlines(): Promise<void> {
     if (selectedKeywordIds.length === 0) return;
     
     isGeneratingOutlines = true;
@@ -148,27 +153,14 @@
   $: isSomeSelected = selectedKeywordIds.length > 0 && selectedKeywordIds.length < keywords.length;
 </script>
 
-<div class="space-y-6">
+<div class="space-y-6 w-full">
   <div class="flex justify-between items-center">
     <div>
-      <h2 class="text-2xl font-bold text-gray-900">Keyword Research</h2>
+      <h2 class="text-2xl font-semibold text-zinc-900 tracking-tight">Keyword Research</h2>
       <p class="text-sm text-gray-500 mt-1">
         {keywords.length} keywords found
       </p>
     </div>
-    <button 
-      on:click={refreshKeywords} 
-      disabled={isLoading} 
-      class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium transition-colors disabled:opacity-50 flex items-center gap-2"
-    >
-      {#if isLoading}
-        <RefreshCw class="w-4 h-4 animate-spin" />
-        Loading...
-      {:else}
-        <RefreshCw class="w-4 h-4" />
-        Refresh
-      {/if}
-    </button>
   </div>
 
   {#if keywords.length === 0 && !isLoading}
@@ -256,7 +248,7 @@
                     <div class="animate-spin h-5 w-5 text-gray-400 mx-auto mb-2"></div>
                     <p class="text-sm text-gray-500">Loading competitor data...</p>
                   </div>
-                {:else if competitorRankings.has(keyword.id) && competitorRankings.get(keyword.id).length > 0}
+                {:else if competitorRankings.has(keyword.id) && (competitorRankings.get(keyword.id) || []).length > 0}
                   <div class="space-y-0">
                     {#each competitorRankings.get(keyword.id) || [] as competitor (competitor.id)}
                       <div class={`p-4 border-t border-gray-200 first:border-t-0 ${getRankingColor(competitor.position)}`}>
@@ -271,15 +263,17 @@
                             <p class="text-xs text-gray-600 mb-2 line-clamp-2">
                               {competitor.snippet || 'No snippet available'}
                             </p>
-                            <a
-                              href={competitor.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              class="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 font-medium"
-                            >
-                              <Globe class="w-3 h-3" />
-                              {getDomainName(competitor.url)}
-                            </a>
+                            {#if competitor.url}
+                              <a
+                                href={competitor.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 font-medium"
+                              >
+                                <Globe class="w-3 h-3" />
+                                {getDomainName(competitor.url)}
+                              </a>
+                            {/if}
                           </div>
                         </div>
                       </div>

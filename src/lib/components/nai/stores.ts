@@ -41,11 +41,13 @@ interface ContentState {
   keywordsLoading: boolean;
   outlinesLoading: boolean;
   postsLoading: boolean;
-  competitorRankings: Map<string, CompetitorRankingData[]>; // keywordId -> rankings
+  topCompetitors: CompetitorRankingData[];
+  competitorRankings: Map<string, CompetitorRankingData[]>;
   competitorsLoading: boolean;
+  topCompetitorsLoading: boolean;
+  competitorsByKeywordLoading?: boolean;
+  competitorsByKeyword?: Map<string, CompetitorRankingData[]>;
 }
-
-
 
 const API_BASE = 'http://127.0.0.1:8000';
 
@@ -67,23 +69,28 @@ function createWorkflowStore() {
   };
 
   const { subscribe, set, update } = writable<WorkflowState>(initialState);
-  let pollingInterval: any = null;
+  let pollingInterval: NodeJS.Timeout | null = null;
 
-  const getAuthToken = () => localStorage.getItem('token');
+  const getAuthToken = (): string | null => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('token');
+    }
+    return null;
+  };
 
-  const startPolling = (taskId: string) => {
+  const startPolling = (taskId: string): void => {
     if (pollingInterval) clearInterval(pollingInterval);
     pollingInterval = setInterval(() => pollStatus(taskId), 3000);
   };
 
-  const stopPolling = () => {
+  const stopPolling = (): void => {
     if (pollingInterval) {
       clearInterval(pollingInterval);
       pollingInterval = null;
     }
   };
 
-  const pollStatus = async (taskId: string) => {
+  const pollStatus = async (taskId: string): Promise<void> => {
     try {
       const response = await fetch(
         `${API_BASE}/orion/api/workflow_status/?task_id=${taskId}`,
@@ -121,7 +128,7 @@ function createWorkflowStore() {
     subscribe,
     
     // Load existing workflow for a project
-    async loadWorkflow(projectId: string) {
+    async loadWorkflow(projectId: string): Promise<void> {
       try {
         const response = await fetch(
           `${API_BASE}/orion/api/active_workflow/?project_id=${projectId}`,
@@ -136,6 +143,7 @@ function createWorkflowStore() {
         if (response.ok) {
           const data = await response.json();
           if (data.task_id) {
+            const workflowType = data.task_type as WorkflowState['selectedWorkflow'];
             update(state => ({
               ...state,
               taskId: data.task_id,
@@ -147,10 +155,11 @@ function createWorkflowStore() {
               completedSteps: data.completed_steps || [],
               lastRun: data.last_run,
               nextRun: data.next_run,
-              selectedWorkflow: data.task_type,
+              selectedWorkflow: workflowType,
               selectedFrequency: data.frequency
             }));
 
+            // Start polling if workflow is running or pending
             if (data.status === 'running' || data.status === 'pending') {
               startPolling(data.task_id);
             }
@@ -162,16 +171,16 @@ function createWorkflowStore() {
     },
 
     // Update selected workflow nodes
-    updateSelection(workflow: string, frequency: string) {
+    updateSelection(workflow: WorkflowState['selectedWorkflow'], frequency: string): void {
       update(state => ({
         ...state,
-        selectedWorkflow: workflow as any,
+        selectedWorkflow: workflow,
         selectedFrequency: frequency
       }));
     },
 
     // Create and trigger workflow
-    async runWorkflow(projectId: string) {
+    async runWorkflow(projectId: string): Promise<void> {
       const state = get({ subscribe });
       
       try {
@@ -216,6 +225,8 @@ function createWorkflowStore() {
           }));
           startPolling(createData.task_id);
           await pollStatus(createData.task_id);
+        } else {
+          throw new Error('Failed to trigger workflow');
         }
       } catch (error: any) {
         console.error('Error running workflow:', error);
@@ -224,7 +235,12 @@ function createWorkflowStore() {
     },
 
     // Update workflow configuration
-    async updateWorkflow(updates: { frequency?: string; isActive?: boolean }) {
+    async updateWorkflow(updates: {
+      selectedWorkflow?: WorkflowState['selectedWorkflow'];
+      selectedFrequency?: string;
+      frequency?: string;
+      isActive?: boolean;
+    }): Promise<void> {
       const state = get({ subscribe });
       if (!state.taskId) return;
 
@@ -237,7 +253,9 @@ function createWorkflowStore() {
           },
           body: JSON.stringify({
             task_id: state.taskId,
-            ...updates
+            task_type: updates.selectedWorkflow || state.selectedWorkflow,
+            frequency: updates.selectedFrequency || updates.frequency || state.selectedFrequency,
+            is_active: updates.isActive !== undefined ? updates.isActive : state.isActive
           })
         });
 
@@ -247,31 +265,36 @@ function createWorkflowStore() {
             ...s,
             isActive: data.is_active,
             frequency: data.frequency,
-            nextRun: data.next_run
+            selectedFrequency: data.frequency,
+            nextRun: data.next_run,
+            selectedWorkflow: (data.task_type as WorkflowState['selectedWorkflow']) || s.selectedWorkflow
           }));
 
           if (!data.is_active) {
             stopPolling();
           }
+        } else {
+          throw new Error('Failed to update workflow');
         }
       } catch (error) {
         console.error('Error updating workflow:', error);
+        throw error;
       }
     },
 
     // Stop workflow
-    async stopWorkflow() {
+    async stopWorkflow(): Promise<void> {
       await this.updateWorkflow({ isActive: false });
     },
 
     // Reset state
-    reset() {
+    reset(): void {
       stopPolling();
       set(initialState);
     },
 
     // Cleanup on destroy
-    destroy() {
+    destroy(): void {
       stopPolling();
     }
   };
@@ -283,20 +306,28 @@ function createContentStore() {
     keywords: [],
     outlines: [],
     blogPosts: [],
+    topCompetitors: [],
     keywordsLoading: false,
     outlinesLoading: false,
     postsLoading: false,
+    topCompetitorsLoading: false,
     competitorRankings: new Map(),
     competitorsLoading: false
   };
 
   const { subscribe, set, update } = writable<ContentState>(initialState);
-  const getAuthToken = () => localStorage.getItem('token');
+  
+  const getAuthToken = (): string | null => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('token');
+    }
+    return null;
+  };
 
   return {
     subscribe,
 
-    async loadKeywords(projectId: string) {
+    async loadKeywords(projectId: string): Promise<void> {
       update(s => ({ ...s, keywordsLoading: true }));
       try {
         const response = await fetch(
@@ -319,7 +350,7 @@ function createContentStore() {
       }
     },
 
-    async loadOutlines(projectId: string) {
+    async loadOutlines(projectId: string): Promise<void> {
       update(s => ({ ...s, outlinesLoading: true }));
       try {
         const response = await fetch(
@@ -342,7 +373,7 @@ function createContentStore() {
       }
     },
 
-    async loadBlogPosts(projectId: string) {
+    async loadBlogPosts(projectId: string): Promise<void> {
       update(s => ({ ...s, postsLoading: true }));
       try {
         const response = await fetch(
@@ -365,8 +396,38 @@ function createContentStore() {
       }
     },
 
-    async loadCompetitorRankings(keywordId: string) {
-      update(s => ({ ...s, competitorsLoading: true }));
+    async loadTopCompetitors(): Promise<void> {
+      update(s => ({ ...s, topCompetitorsLoading: true }));
+      try {
+        const response = await fetch(
+          `${API_BASE}/orion/api/top_comp/?limit=5`,
+          {
+            headers: {
+              'Authorization': `Token ${getAuthToken()}`,
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          
+          // Store the flat list of top competitors
+          update(s => ({
+            ...s,
+            topCompetitors: data.results || [],
+            topCompetitorsLoading: false
+          }));
+        }
+      } catch (error) {
+        console.error('Error loading top competitors:', error);
+        update(s => ({ ...s, topCompetitorsLoading: false }));
+      }
+    },
+
+    // Load competitors for a SPECIFIC keyword
+    async loadCompetitorRankings(keywordId: string): Promise<void> {
+      update(s => ({ ...s, competitorsByKeywordLoading: true }));
       try {
         const response = await fetch(
           `${API_BASE}/orion/api/competitor_rankings/?keyword_id=${keywordId}`,
@@ -377,43 +438,46 @@ function createContentStore() {
             }
           }
         );
-    
+
         if (response.ok) {
           const data = await response.json();
+          
+          // Store this keyword's competitors in the Map
           update(s => {
-            const newRankings = new Map(s.competitorRankings);
-            newRankings.set(keywordId, data.results || data);
-            return { ...s, competitorRankings: newRankings, competitorsLoading: false };
+            const newMap = new Map(s.competitorRankings);
+            newMap.set(keywordId, data.results || []);
+            
+            return {
+              ...s,
+              competitorRankings: newMap,
+              competitorsByKeywordLoading: false
+            };
           });
         }
       } catch (error) {
         console.error('Error loading competitor rankings:', error);
-        update(s => ({ ...s, competitorsLoading: false }));
-      }
-    },
-    
-    async loadCompetitorsForAllKeywords(projectId: string) {
-      const state = get({ subscribe });
-      for (const keyword of state.keywords) {
-        await this.loadCompetitorRankings(keyword.id);
+        update(s => ({ ...s, competitorsByKeywordLoading: false }));
       }
     },
 
-    async loadAll(projectId: string) {
+    
+
+    async loadAll(projectId: string): Promise<void> {
       await Promise.all([
         this.loadKeywords(projectId),
         this.loadOutlines(projectId),
-        this.loadBlogPosts(projectId)
+        this.loadBlogPosts(projectId),
+        this.loadTopCompetitors(),
       ]);
       
       // Fetch all competitors in parallel, not sequentially
       const state = get({ subscribe });
-      await Promise.all(
-        state.keywords.map(k => this.loadCompetitorRankings(k.id))
-      );
+      // await Promise.all(
+      //   state.keywords.map(k => this.loadCompetitorRankings(k.id))
+      // );
     },
 
-    reset() {
+    reset(): void {
       set(initialState);
     }
   };

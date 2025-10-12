@@ -1,23 +1,33 @@
+<!-- src/lib/components/nai/content.svelte -->
+
 <script lang="ts">
   import { RefreshCw, FileText, Calendar, Clock, Save, X, ChevronRight } from 'lucide-svelte';
   import { marked } from 'marked';
   import { contentStore } from '$lib/components/nai/stores';
+  import type { BlogPost, PostStatus } from '$lib/components/nai/types';
+  import type { UUID } from 'crypto';
 
-  export let projectId: string;
 
-  $: posts = $contentStore.blogPosts;
+  export let projectId: UUID;
+
+  $: posts = $contentStore.blogPosts as BlogPost[];
   $: isLoading = $contentStore.postsLoading;
 
   const authToken = localStorage.getItem('token');
   const apiBaseUrl = 'http://127.0.0.1:8000';
 
-  let selectedStatus = 'all';
-  let selectedPost = null;
-  let editContent = '';
-  let isSaving = false;
-  let isEditing = false;
+  let selectedStatus: PostStatus | 'all' = 'all';
+  let selectedPost: BlogPost | null = null;
+  let editContent: string = '';
+  let isSaving: boolean = false;
+  let isEditing: boolean = false;
 
-  const statusOptions = [
+  interface StatusOption {
+    value: PostStatus | 'all';
+    label: string;
+  }
+
+  const statusOptions: StatusOption[] = [
     { value: 'all', label: 'All' },
     { value: 'draft', label: 'Drafts' },
     { value: 'published', label: 'Published' },
@@ -26,13 +36,13 @@
 
   $: filteredPosts = selectedStatus === 'all' 
     ? posts 
-    : posts.filter(p => p.status === selectedStatus);
+    : posts.filter(p => p.status === selectedStatus as PostStatus);
 
-  async function refreshPosts() {
+  async function refreshPosts(): Promise<void> {
     await contentStore.loadBlogPosts(projectId);
   }
 
-  async function publishPost() {
+  async function publishPost(): Promise<void> {
     if (!selectedPost) return;
     try {
       const response = await fetch(`${apiBaseUrl}/orion/api/blog_posts/${selectedPost.id}/publish/`, {
@@ -51,11 +61,13 @@
     }
   }
 
-  async function saveContent() {
+  async function saveContent(): Promise<void> {
     if (!editContent.trim()) {
       alert('Content cannot be empty');
       return;
     }
+    if (!selectedPost) return;
+
     isSaving = true;
     try {
       const response = await fetch(`${apiBaseUrl}/orion/api/blog_posts/${selectedPost.id}/`, {
@@ -81,20 +93,20 @@
     }
   }
 
-  function openPost(post) {
+  function openPost(post: BlogPost): void {
     selectedPost = post;
     editContent = post.content || '';
     isEditing = false;
   }
 
-  function closeDrawer() {
+  function closeDrawer(): void {
     selectedPost = null;
     editContent = '';
     isEditing = false;
   }
 
-  function getStatusColor(status) {
-    const colors = {
+  function getStatusColor(status: PostStatus): string {
+    const colors: Record<PostStatus, string> = {
       draft: 'bg-yellow-100 text-yellow-800',
       published: 'bg-emerald-100 text-emerald-700',
       scheduled: 'bg-sky-100 text-sky-700'
@@ -102,7 +114,7 @@
     return colors[status] || colors.draft;
   }
 
-  function formatDate(dateString) {
+  function formatDate(dateString: string): string {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -110,7 +122,7 @@
     });
   }
 
-  function getSnippet(text, length = 90) {
+  function getSnippet(text: string, length: number = 90): string {
     return text.substring(0, length) + (text.length > length ? '...' : '');
   }
 </script>
@@ -119,7 +131,7 @@
   <!-- Header -->
   <div class="flex justify-between items-center">
     <div>
-      <h2 class="text-2xl font-bold text-gray-900">Blog Posts</h2>
+      <h2 class="text-2xl font-bold text-zinc-900 tracking-tight">Blog Posts</h2>
       <p class="text-sm text-gray-500 mt-1">
         {filteredPosts.length} {selectedStatus !== 'all' ? selectedStatus : ''} {filteredPosts.length === 1 ? 'post' : 'posts'}
       </p>
@@ -240,7 +252,7 @@
         {#if selectedPost.status === 'draft'}
           <button
             on:click={publishPost}
-            class="px-4 py-2 rounded-lg bg-orange-400 hover:bg-orange-300 text-black  text-sm font-medium transition-all active:scale-95"
+            class="px-4 py-2 rounded-lg bg-orange-400 hover:bg-orange-300 text-black text-sm font-medium transition-all active:scale-95"
           >
             Publish
           </button>
@@ -292,10 +304,6 @@
     to {
       transform: translateX(0);
     }
-  }
-
-  :global(.prose) {
-    all: revert;
   }
 
   :global(.prose p) {
