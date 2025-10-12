@@ -153,11 +153,11 @@
     {#if activeTab === 'overview'}
       <Overview  projectId={projectId} />
     {:else if activeTab === 'keywords'}
-      <Keywords {keywords} {selectedKeywords} {generatingContent} {toggleKeywordSelection} {generateKeywords} {generateOutlines} />
+      <Keywords {projectId}/>
     {:else if activeTab === 'outlines'}
-      <Outlines {outlines} {generatingContent} {generateBlogPost} />
+      <Outlines {projectId} />
     {:else if activeTab === 'content'}
-      <Content {blogPosts} />
+      <Content {projectId} />
     {:else if activeTab === 'settings'}
       <Settings {isAutopilotEnabled} {toggleAutopilot} />
     {/if}

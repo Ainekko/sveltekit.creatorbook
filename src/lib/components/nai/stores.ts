@@ -16,14 +16,36 @@ interface WorkflowState {
   selectedFrequency: string;
 }
 
+interface CompetitorRankingData {
+  id: string;
+  position: number;
+  url: string;
+  domain: string;
+  title: string;
+  snippet: string;
+}
+
+interface KeywordWithCompetitors {
+  id: string;
+  keyword: string;
+  monthly_searches: number;
+  competition: string;
+  created_at: string;
+  competitors?: CompetitorRankingData[];
+}
+
 interface ContentState {
-  keywords: any[];
+  keywords: KeywordWithCompetitors[];
   outlines: any[];
   blogPosts: any[];
   keywordsLoading: boolean;
   outlinesLoading: boolean;
   postsLoading: boolean;
+  competitorRankings: Map<string, CompetitorRankingData[]>; // keywordId -> rankings
+  competitorsLoading: boolean;
 }
+
+
 
 const API_BASE = 'http://127.0.0.1:8000';
 
@@ -263,7 +285,9 @@ function createContentStore() {
     blogPosts: [],
     keywordsLoading: false,
     outlinesLoading: false,
-    postsLoading: false
+    postsLoading: false,
+    competitorRankings: new Map(),
+    competitorsLoading: false
   };
 
   const { subscribe, set, update } = writable<ContentState>(initialState);
@@ -341,12 +365,52 @@ function createContentStore() {
       }
     },
 
+    async loadCompetitorRankings(keywordId: string) {
+      update(s => ({ ...s, competitorsLoading: true }));
+      try {
+        const response = await fetch(
+          `${API_BASE}/orion/api/competitor_rankings/?keyword_id=${keywordId}`,
+          {
+            headers: {
+              'Authorization': `Token ${getAuthToken()}`,
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+    
+        if (response.ok) {
+          const data = await response.json();
+          update(s => {
+            const newRankings = new Map(s.competitorRankings);
+            newRankings.set(keywordId, data.results || data);
+            return { ...s, competitorRankings: newRankings, competitorsLoading: false };
+          });
+        }
+      } catch (error) {
+        console.error('Error loading competitor rankings:', error);
+        update(s => ({ ...s, competitorsLoading: false }));
+      }
+    },
+    
+    async loadCompetitorsForAllKeywords(projectId: string) {
+      const state = get({ subscribe });
+      for (const keyword of state.keywords) {
+        await this.loadCompetitorRankings(keyword.id);
+      }
+    },
+
     async loadAll(projectId: string) {
       await Promise.all([
         this.loadKeywords(projectId),
         this.loadOutlines(projectId),
         this.loadBlogPosts(projectId)
       ]);
+      
+      // Fetch all competitors in parallel, not sequentially
+      const state = get({ subscribe });
+      await Promise.all(
+        state.keywords.map(k => this.loadCompetitorRankings(k.id))
+      );
     },
 
     reset() {

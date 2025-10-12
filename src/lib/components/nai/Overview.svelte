@@ -3,6 +3,7 @@
   import { Search, FileText, TrendingUp, Target, RefreshCw } from 'lucide-svelte';
   import { workflowStore, contentStore, activeSteps, progressPercent } from '$lib/components/nai/stores';
 	import Keywords from './Keywords.svelte';
+	import TopComp from './TopComp.svelte';
 
   export let projectId: string;
 
@@ -387,4 +388,5 @@
   </div>
 </div>
 
+<TopComp {projectId} />
 <Keywords {projectId}/>
