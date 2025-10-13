@@ -14,6 +14,8 @@ interface WorkflowState {
   result: any;
   selectedWorkflow: 'keyword_research' | 'generate_outlines' | 'generate_posts' | 'full_workflow';
   selectedFrequency: string;
+  isEditing: boolean;
+  scheduledNotification: { message: string; time: string } | null;
 }
 
 interface CompetitorRankingData {
@@ -51,7 +53,6 @@ interface ContentState {
 
 const API_BASE = 'http://127.0.0.1:8000';
 
-// Workflow state
 function createWorkflowStore() {
   const initialState: WorkflowState = {
     taskId: null,
@@ -65,7 +66,9 @@ function createWorkflowStore() {
     nextRun: null,
     result: null,
     selectedWorkflow: 'keyword_research',
-    selectedFrequency: 'daily'
+    selectedFrequency: 'daily',
+    isEditing: false,
+    scheduledNotification: null
   };
 
   const { subscribe, set, update } = writable<WorkflowState>(initialState);
@@ -126,8 +129,7 @@ function createWorkflowStore() {
 
   return {
     subscribe,
-    
-    // Load existing workflow for a project
+
     async loadWorkflow(projectId: string): Promise<void> {
       try {
         const response = await fetch(
@@ -156,13 +158,27 @@ function createWorkflowStore() {
               lastRun: data.last_run,
               nextRun: data.next_run,
               selectedWorkflow: workflowType,
-              selectedFrequency: data.frequency
+              selectedFrequency: data.frequency,
+              isEditing: false
             }));
 
-            // Start polling if workflow is running or pending
             if (data.status === 'running' || data.status === 'pending') {
               startPolling(data.task_id);
             }
+          } else {
+            update(state => ({
+              ...state,
+              taskId: null,
+              isActive: false,
+              status: 'idle',
+              nextRun: null,
+              lastRun: null,
+              progressMessage: '',
+              completedSteps: [],
+              result: null,
+              isEditing: false,
+              scheduledNotification: null
+            }));
           }
         }
       } catch (error) {
@@ -170,7 +186,7 @@ function createWorkflowStore() {
       }
     },
 
-    // Update selected workflow nodes
+    // Local-only updates - no backend call
     updateSelection(workflow: WorkflowState['selectedWorkflow'], frequency: string): void {
       update(state => ({
         ...state,
@@ -179,12 +195,10 @@ function createWorkflowStore() {
       }));
     },
 
-    // Create and trigger workflow
     async runWorkflow(projectId: string): Promise<void> {
       const state = get({ subscribe });
       
       try {
-        // Create workflow
         const createResponse = await fetch(`${API_BASE}/orion/api/create_workflow/`, {
           method: 'POST',
           headers: {
@@ -204,10 +218,8 @@ function createWorkflowStore() {
         }
 
         const createData = await createResponse.json();
-        
         update(s => ({ ...s, taskId: createData.task_id }));
 
-        // Trigger workflow
         const triggerResponse = await fetch(`${API_BASE}/orion/api/trigger_task/`, {
           method: 'POST',
           headers: {
@@ -218,6 +230,7 @@ function createWorkflowStore() {
         });
 
         if (triggerResponse.ok) {
+          const triggerData = await triggerResponse.json();
           update(s => ({
             ...s,
             status: 'pending',
@@ -225,6 +238,19 @@ function createWorkflowStore() {
           }));
           startPolling(createData.task_id);
           await pollStatus(createData.task_id);
+        } else if (triggerResponse.status === 409) {
+          const conflictData = await triggerResponse.json();
+          const nextRunTime = conflictData.details || 'soon';
+          update(s => ({
+            ...s,
+            isActive: true,
+            status: 'idle',
+            scheduledNotification: {
+              message: 'Workflow is already scheduled',
+              time: nextRunTime
+            }
+          }));
+          await this.loadWorkflow(projectId);
         } else {
           throw new Error('Failed to trigger workflow');
         }
@@ -234,7 +260,7 @@ function createWorkflowStore() {
       }
     },
 
-    // Update workflow configuration
+    // Only call backend when user explicitly saves
     async updateWorkflow(updates: {
       selectedWorkflow?: WorkflowState['selectedWorkflow'];
       selectedFrequency?: string;
@@ -267,7 +293,10 @@ function createWorkflowStore() {
             frequency: data.frequency,
             selectedFrequency: data.frequency,
             nextRun: data.next_run,
-            selectedWorkflow: (data.task_type as WorkflowState['selectedWorkflow']) || s.selectedWorkflow
+            taskType: data.task_type || s.taskType,
+            selectedWorkflow: (data.task_type as WorkflowState['selectedWorkflow']) || s.selectedWorkflow,
+            isEditing: false,
+            scheduledNotification: null
           }));
 
           if (!data.is_active) {
@@ -282,25 +311,29 @@ function createWorkflowStore() {
       }
     },
 
-    // Stop workflow
     async stopWorkflow(): Promise<void> {
       await this.updateWorkflow({ isActive: false });
     },
 
-    // Reset state
+    setEditing(editing: boolean): void {
+      update(s => ({ ...s, isEditing: editing }));
+    },
+
+    clearNotification(): void {
+      update(s => ({ ...s, scheduledNotification: null }));
+    },
+
     reset(): void {
       stopPolling();
       set(initialState);
     },
 
-    // Cleanup on destroy
     destroy(): void {
       stopPolling();
     }
   };
 }
 
-// Content state (keywords, outlines, posts)
 function createContentStore() {
   const initialState: ContentState = {
     keywords: [],
@@ -411,8 +444,6 @@ function createContentStore() {
 
         if (response.ok) {
           const data = await response.json();
-          
-          // Store the flat list of top competitors
           update(s => ({
             ...s,
             topCompetitors: data.results || [],
@@ -425,7 +456,6 @@ function createContentStore() {
       }
     },
 
-    // Load competitors for a SPECIFIC keyword
     async loadCompetitorRankings(keywordId: string): Promise<void> {
       update(s => ({ ...s, competitorsByKeywordLoading: true }));
       try {
@@ -441,12 +471,9 @@ function createContentStore() {
 
         if (response.ok) {
           const data = await response.json();
-          
-          // Store this keyword's competitors in the Map
           update(s => {
             const newMap = new Map(s.competitorRankings);
             newMap.set(keywordId, data.results || []);
-            
             return {
               ...s,
               competitorRankings: newMap,
@@ -460,8 +487,6 @@ function createContentStore() {
       }
     },
 
-    
-
     async loadAll(projectId: string): Promise<void> {
       await Promise.all([
         this.loadKeywords(projectId),
@@ -469,12 +494,6 @@ function createContentStore() {
         this.loadBlogPosts(projectId),
         this.loadTopCompetitors(),
       ]);
-      
-      // Fetch all competitors in parallel, not sequentially
-      const state = get({ subscribe });
-      // await Promise.all(
-      //   state.keywords.map(k => this.loadCompetitorRankings(k.id))
-      // );
     },
 
     reset(): void {
@@ -486,7 +505,6 @@ function createContentStore() {
 export const workflowStore = createWorkflowStore();
 export const contentStore = createContentStore();
 
-// Derived stores for computed values
 export const activeSteps = derived(workflowStore, $workflow => {
   switch ($workflow.selectedWorkflow) {
     case 'keyword_research': return [0];

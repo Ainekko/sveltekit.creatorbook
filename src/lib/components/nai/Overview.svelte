@@ -1,28 +1,22 @@
 <script lang="ts">
   import { createEventDispatcher, onMount, onDestroy } from 'svelte';
-  import { Search, FileText, TrendingUp, Target, RefreshCw, Play, Square, Edit2 } from 'lucide-svelte';
+  import { Search, FileText, TrendingUp, Target, RefreshCw, Play, Square, Edit2, AlertCircle, Check } from 'lucide-svelte';
   import { workflowStore, contentStore, activeSteps, progressPercent } from '$lib/components/nai/stores';
-	import Keywords from './Keywords.svelte';
-	import TopComp from './TopComp.svelte';
+  import Keywords from './Keywords.svelte';
+  import TopComp from './TopComp.svelte';
 
   export let projectId: string;
 
   const dispatch = createEventDispatcher();
 
-  // Subscribe to stores
   $: workflow = $workflowStore;
   $: content = $contentStore;
   $: steps = $activeSteps;
   $: progress = $progressPercent;
 
   let isSubmitting = false;
-  let isEditing = false;
-  
-  // Track original state for dirty checking
-  let originalWorkflow: typeof workflow = { ...workflow };
-  let hasChanges = false;
+  let hasHandledCompletion = false; // ADD THIS FLAG
 
-  // Map workflow types to node indices for UI
   const workflowNodes: Array<'keyword_research' | 'generate_outlines' | 'generate_posts' | 'full_workflow'> = [
     'keyword_research',
     'generate_outlines',
@@ -33,18 +27,10 @@
   function selectNode(index: number): void {
     const selectedWorkflow = workflowNodes[index];
     workflowStore.updateSelection(selectedWorkflow, workflow.selectedFrequency);
-    checkForChanges();
   }
 
   function setFrequency(freq: string): void {
     workflowStore.updateSelection(workflow.selectedWorkflow, freq);
-    checkForChanges();
-  }
-
-  function checkForChanges(): void {
-    hasChanges = 
-      workflow.selectedWorkflow !== originalWorkflow.selectedWorkflow ||
-      workflow.selectedFrequency !== originalWorkflow.selectedFrequency;
   }
 
   async function runWorkflow(): Promise<void> {
@@ -54,11 +40,9 @@
     try {
       await workflowStore.runWorkflow(projectId);
       dispatch('workflowStarted', { task_id: workflow.taskId });
-      
-      // Load content after workflow starts
       await contentStore.loadAll(projectId);
     } catch (error: any) {
-      alert(error.message || 'Failed to start workflow');
+      console.error('Error running workflow:', error);
     } finally {
       isSubmitting = false;
     }
@@ -78,37 +62,30 @@
     }
   }
 
-  async function submitScheduleEdit(): Promise<void> {
-    if (isSubmitting || !hasChanges) return;
+  async function startEdit(): Promise<void> {
+    workflowStore.setEditing(true);
+  }
+
+  async function submitEdit(): Promise<void> {
+    if (isSubmitting) return;
     isSubmitting = true;
 
     try {
-      await workflowStore.updateWorkflow({ 
+      await workflowStore.updateWorkflow({
         selectedWorkflow: workflow.selectedWorkflow,
         selectedFrequency: workflow.selectedFrequency
       });
-      
-      originalWorkflow = { ...workflow };
-      hasChanges = false;
-      isEditing = false;
       dispatch('workflowUpdated', workflow);
     } catch (error: any) {
-      alert(error.message || 'Failed to update workflow');
+      console.error('Error updating workflow:', error);
     } finally {
       isSubmitting = false;
     }
   }
 
   function cancelEdit(): void {
-    workflowStore.updateSelection(originalWorkflow.selectedWorkflow, originalWorkflow.selectedFrequency);
-    hasChanges = false;
-    isEditing = false;
-  }
-
-  function startEdit(): void {
-    originalWorkflow = { ...workflow };
-    hasChanges = false;
-    isEditing = true;
+    workflowStore.setEditing(false);
+    workflowStore.loadWorkflow(projectId);
   }
 
   function isStepCompleted(stepName: string): boolean {
@@ -116,16 +93,9 @@
   }
 
   onMount(async () => {
-    // Load existing workflow for this project
     await workflowStore.loadWorkflow(projectId);
-    
-    // Load content data
     await contentStore.loadAll(projectId);
 
-    // Store original state after loading
-    originalWorkflow = { ...workflow };
-
-    // Dispatch workflow loaded event if there's an active workflow
     if (workflow.taskId && (workflow.status === 'running' || workflow.status === 'pending')) {
       dispatch('workflowLoaded', { task_id: workflow.taskId });
     }
@@ -135,31 +105,25 @@
     workflowStore.destroy();
   });
 
-  // Watch for completed workflows to reload content
-  $: if (workflow.status === 'completed') {
+  // FIXED: Only reload when status CHANGES to 'completed', not on every render
+  $: if (workflow.status === 'completed' && !hasHandledCompletion) {
+    hasHandledCompletion = true;
     contentStore.loadAll(projectId);
     dispatch('workflowComplete', workflow);
   }
 
-  $: isWorkflowRunning = workflow.status === 'running' || workflow.status === 'pending';
-  $: hasScheduledNext = !!workflow.nextRun;
-  $: isFailed = workflow.status === 'failed';
-  $: hasNoWorkflow = !workflow.taskId || workflow.status === 'idle';
-  
-  // Active state: has scheduled next run (workflow is scheduled to run automatically)
-  $: isActive = hasScheduledNext;
-  
-  // Can trigger manual run: no workflow exists or workflow failed
-  $: canTriggerManualRun = hasNoWorkflow || isFailed;
-  
-  // Can modify workflow: when editing a scheduled workflow or no workflow exists
-  $: canSelectNodes = isEditing || hasNoWorkflow;
-  
-  // Show frequency buttons: when editing or no workflow
-  $: showFrequencyButtons = isEditing || hasNoWorkflow;
+  // Reset flag when workflow status changes away from completed
+  $: if (workflow.status !== 'completed') {
+    hasHandledCompletion = false;
+  }
 
-  // Reactive watchers for state changes
-  $: workflow, checkForChanges();
+  $: isWorkflowRunning = workflow.status === 'running' || workflow.status === 'pending';
+  $: isFailed = workflow.status === 'failed';
+  $: noActiveWorkflow = !workflow.isActive;
+  
+  $: canTrigger = noActiveWorkflow || isFailed;
+  $: canSelectNodes = workflow.isEditing || noActiveWorkflow;
+  $: showFrequencyButtons = workflow.isEditing || noActiveWorkflow;
 </script>
 
 <div class="grid grid-cols-12 gap-8">
@@ -175,6 +139,23 @@
           </div>
         {/if}
       </div>
+      
+      <!-- Scheduled Notification -->
+      {#if workflow.scheduledNotification}
+        <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-3">
+          <AlertCircle class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+          <div class="flex-1">
+            <p class="text-sm font-medium text-blue-900">{workflow.scheduledNotification.message}</p>
+            <p class="text-xs text-blue-700 mt-1">{workflow.scheduledNotification.time}</p>
+          </div>
+          <button 
+            on:click={() => workflowStore.clearNotification()}
+            class="text-blue-400 hover:text-blue-600 flex-shrink-0"
+          >
+            ×
+          </button>
+        </div>
+      {/if}
       
       <!-- Workflow Steps Visualization -->
       <div class="flex items-center justify-between mb-12 {!canSelectNodes ? 'opacity-60 pointer-events-none' : ''}">
@@ -245,102 +226,119 @@
       <div class="border-t border-gray-200 pt-8 bg-white/50 -mx-8 px-8 -mb-8 pb-8 rounded-b-2xl">
         <div class="flex items-center justify-between mb-6">
           <h3 class="text-sm font-semibold text-gray-900">Run Frequency</h3>
+          {#if !workflow.isEditing && workflow.isActive}
+            <button on:click={startEdit} class="text-xs text-blue-600 hover:text-blue-700 flex items-center gap-1">
+              <Edit2 class="w-3 h-3" />
+              Edit
+            </button>
+          {/if}
         </div>
         
-        {#if workflow.nextRun}
+        {#if workflow.nextRun && !workflow.isEditing}
           <p class="text-xs text-gray-500 mb-4">
             Next run scheduled: {new Date(workflow.nextRun).toLocaleString()}
           </p>
         {/if}
 
-        {#if workflow.lastRun}
+        {#if workflow.lastRun && !workflow.isEditing}
           <p class="text-xs text-gray-400 mb-4">
             Last run: {new Date(workflow.lastRun).toLocaleString()}
           </p>
         {/if}
 
-        {#if showFrequencyButtons || canTriggerManualRun || isWorkflowRunning || isActive}
-          <div class="flex gap-3 items-center justify-between flex-wrap">
-            <div class="flex gap-3 items-center flex-wrap">
-              <button 
-                on:click={() => setFrequency('daily')} 
-                class="px-6 py-2.5 rounded-full {workflow.selectedFrequency === 'daily' ? 'bg-gray-900 text-white shadow-md' : 'bg-white border border-gray-200 text-gray-700'} text-sm font-medium hover:shadow-lg transition-all"
-              >
-                Daily
-              </button>
-              <button 
-                on:click={() => setFrequency('2days')} 
-                class="px-6 py-2.5 rounded-full {workflow.selectedFrequency === '2days' ? 'bg-gray-900 text-white shadow-md' : 'bg-white border border-gray-200 text-gray-700'} text-sm font-medium hover:shadow-lg transition-all"
-              >
-                Every 2 Days
-              </button>
-              <button 
-                on:click={() => setFrequency('3days')} 
-                class="px-6 py-2.5 rounded-full {workflow.selectedFrequency === '3days' ? 'bg-gray-900 text-white shadow-md' : 'bg-white border border-gray-200 text-gray-700'} text-sm font-medium hover:shadow-lg transition-all"
-              >
-                Every 3 Days
-              </button>
-              <button 
-                on:click={() => setFrequency('weekly')} 
-                class="px-6 py-2.5 rounded-full {workflow.selectedFrequency === 'weekly' ? 'bg-gray-900 text-white shadow-md' : 'bg-white border border-gray-200 text-gray-700'} text-sm font-medium hover:shadow-lg transition-all"
-              >
-                Weekly
-              </button>
-            </div>
-
-            <div class="flex gap-3 items-center">
-              {#if canTriggerManualRun}
-                <!-- PLAY BUTTON: No workflow or failed -->
-                <button 
-                  on:click={runWorkflow} 
-                  disabled={isSubmitting}
-                  class="w-14 h-14 rounded-full bg-zinc-900 text-white shadow-md hover:bg-zinc-700 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-                  title="Run Workflow"
-                >
-                  {#if isSubmitting}
-                    <RefreshCw class="w-6 h-6 animate-spin" />
-                  {:else}
-                    <Play class="w-6 h-6 fill-white" />
-                  {/if}
-                </button>
-              {:else if isWorkflowRunning}
-                <!-- STOP BUTTON: Workflow is running/pending -->
-                <button 
-                  on:click={stopWorkflow}
-                  disabled={isSubmitting}
-                  class="w-14 h-14 rounded-full bg-red-600 text-white shadow-md hover:bg-red-700 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-                  title="Stop Workflow"
-                >
-                  <Square class="w-6 h-6 fill-white" />
-                </button>
-              {:else if isActive}
-                <!-- STOP BUTTON: Workflow is scheduled (has nextRun) -->
-                <button 
-                  on:click={stopWorkflow}
-                  disabled={isSubmitting}
-                  class="w-14 h-14 rounded-full bg-red-600 text-white shadow-md hover:bg-red-700 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-                  title="Stop Scheduled Workflow"
-                >
-                  <Square class="w-6 h-6 fill-white" />
-                </button>
-              {/if}
-
-              {#if hasChanges}
-                <button 
-                  on:click={submitScheduleEdit} 
-                  disabled={isSubmitting}
-                  class="px-8 py-2.5 rounded-full bg-zinc-900 text-white text-sm font-semibold shadow-md hover:bg-zinc-700 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {#if isSubmitting}
-                    Saving...
-                  {:else}
-                    Save Changes
-                  {/if}
-                </button>
-              {/if}
-            </div>
+        {#if showFrequencyButtons}
+          <div class="flex gap-3 items-center flex-wrap mb-4">
+            <button 
+              on:click={() => setFrequency('daily')} 
+              class="px-6 py-2.5 rounded-full {workflow.selectedFrequency === 'daily' ? 'bg-gray-900 text-white shadow-md' : 'bg-white border border-gray-200 text-gray-700'} text-sm font-medium hover:shadow-lg transition-all"
+            >
+              Daily
+            </button>
+            <button 
+              on:click={() => setFrequency('2days')} 
+              class="px-6 py-2.5 rounded-full {workflow.selectedFrequency === '2days' ? 'bg-gray-900 text-white shadow-md' : 'bg-white border border-gray-200 text-gray-700'} text-sm font-medium hover:shadow-lg transition-all"
+            >
+              Every 2 Days
+            </button>
+            <button 
+              on:click={() => setFrequency('3days')} 
+              class="px-6 py-2.5 rounded-full {workflow.selectedFrequency === '3days' ? 'bg-gray-900 text-white shadow-md' : 'bg-white border border-gray-200 text-gray-700'} text-sm font-medium hover:shadow-lg transition-all"
+            >
+              Every 3 Days
+            </button>
+            <button 
+              on:click={() => setFrequency('weekly')} 
+              class="px-6 py-2.5 rounded-full {workflow.selectedFrequency === 'weekly' ? 'bg-gray-900 text-white shadow-md' : 'bg-white border border-gray-200 text-gray-700'} text-sm font-medium hover:shadow-lg transition-all"
+            >
+              Weekly
+            </button>
           </div>
         {/if}
+
+        <div class="flex gap-3 items-center justify-between flex-wrap">
+          <div />
+
+          <div class="flex gap-3 items-center flex-wrap">
+            {#if canTrigger}
+              <!-- PLAY BUTTON: No active workflow or failed -->
+              <button 
+                on:click={runWorkflow} 
+                disabled={isSubmitting}
+                class="w-14 h-14 rounded-full bg-zinc-900 text-white shadow-md hover:bg-zinc-700 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                title="Run Workflow"
+              >
+                {#if isSubmitting}
+                  <RefreshCw class="w-6 h-6 animate-spin" />
+                {:else}
+                  <Play class="w-6 h-6 fill-white" />
+                {/if}
+              </button>
+            {:else if isWorkflowRunning}
+              <!-- STOP BUTTON: Workflow is running/pending -->
+              <button 
+                on:click={stopWorkflow}
+                disabled={isSubmitting}
+                class="w-14 h-14 rounded-full bg-red-600 text-white shadow-md hover:bg-red-700 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                title="Stop Workflow"
+              >
+                <Square class="w-6 h-6 fill-white" />
+              </button>
+            {:else if workflow.isActive}
+              <!-- STOP BUTTON: Workflow is scheduled/active but not running -->
+              <button 
+                on:click={stopWorkflow}
+                disabled={isSubmitting}
+                class="w-14 h-14 rounded-full bg-red-600 text-white shadow-md hover:bg-red-700 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                title="Stop Scheduled Workflow"
+              >
+                <Square class="w-6 h-6 fill-white" />
+              </button>
+            {/if}
+
+            {#if workflow.isEditing}
+              <button 
+                on:click={submitEdit} 
+                disabled={isSubmitting}
+                class="px-8 py-2.5 rounded-full bg-zinc-900 text-white text-sm font-semibold shadow-md hover:bg-zinc-700 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                {#if isSubmitting}
+                  <RefreshCw class="w-4 h-4 animate-spin" />
+                  Saving...
+                {:else}
+                  <Check class="w-4 h-4" />
+                  Save
+                {/if}
+              </button>
+              <button 
+                on:click={cancelEdit} 
+                disabled={isSubmitting}
+                class="px-6 py-2.5 rounded-full bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200 transition-all"
+              >
+                Cancel
+              </button>
+            {/if}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -384,7 +382,7 @@
               <ul class="space-y-1">
                 {#each workflow.completedSteps as step}
                   <li class="text-xs text-green-600 flex items-center gap-2">
-                    <span class="w-4 h-4 bg-green-100 rounded-full flex items-center justify-center">✓</span>
+                    <span class="w-4 h-4 bg-green-100 rounded-full flex items-center justify-center text-xs">✓</span>
                     {step.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                   </li>
                 {/each}
