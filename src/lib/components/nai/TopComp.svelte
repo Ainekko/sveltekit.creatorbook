@@ -25,7 +25,7 @@
   }
 
   async function refreshCompetitors() {
-    await contentStore.loadTopCompetitors();
+    await contentStore.loadTopCompetitors(projectId);
   }
 </script>
 

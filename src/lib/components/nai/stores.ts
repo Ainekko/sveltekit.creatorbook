@@ -195,11 +195,16 @@ function createWorkflowStore() {
       }));
     },
 
-    async runWorkflow(projectId: string): Promise<void> {
+    /**
+     * Create a new workflow (one-time setup).
+     * Only creates the configuration, does NOT trigger execution yet.
+     * User must call triggerWorkflow() afterward.
+     */
+    async createWorkflow(projectId: string): Promise<void> {
       const state = get({ subscribe });
       
       try {
-        const createResponse = await fetch(`${API_BASE}/orion/api/create_workflow/`, {
+        const response = await fetch(`${API_BASE}/orion/api/create_workflow/`, {
           method: 'POST',
           headers: {
             'Authorization': `Token ${getAuthToken()}`,
@@ -212,39 +217,59 @@ function createWorkflowStore() {
           })
         });
 
-        if (!createResponse.ok) {
-          const error = await createResponse.json();
+        if (!response.ok) {
+          const error = await response.json();
           throw new Error(error.detail || 'Failed to create workflow');
         }
 
-        const createData = await createResponse.json();
-        update(s => ({ ...s, taskId: createData.task_id }));
+        const data = await response.json();
+        update(s => ({
+          ...s,
+          taskId: data.task_id,
+          status: 'idle',
+          isActive: true
+        }));
+      } catch (error: any) {
+        console.error('Error creating workflow:', error);
+        throw error;
+      }
+    },
 
-        const triggerResponse = await fetch(`${API_BASE}/orion/api/trigger_task/`, {
+    /**
+     * Trigger the workflow to run immediately.
+     * Should be called after createWorkflow().
+     * This is what kicks off execution and sets next_run.
+     */
+    async triggerWorkflow(projectId: string): Promise<void> {
+      const state = get({ subscribe });
+
+      if (!state.taskId) {
+        throw new Error('No workflow created yet. Call createWorkflow first.');
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/orion/api/trigger_task/`, {
           method: 'POST',
           headers: {
             'Authorization': `Token ${getAuthToken()}`,
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ task_id: createData.task_id })
+          body: JSON.stringify({ task_id: state.taskId })
         });
 
-        if (triggerResponse.ok) {
-          const triggerData = await triggerResponse.json();
+        if (response.ok) {
           update(s => ({
             ...s,
             status: 'pending',
             isActive: true
           }));
-          startPolling(createData.task_id);
-          await pollStatus(createData.task_id);
-        } else if (triggerResponse.status === 409) {
-          const conflictData = await triggerResponse.json();
+          startPolling(state.taskId);
+          await pollStatus(state.taskId);
+        } else if (response.status === 409) {
+          const conflictData = await response.json();
           const nextRunTime = conflictData.details || 'soon';
           update(s => ({
             ...s,
-            isActive: true,
-            status: 'idle',
             scheduledNotification: {
               message: 'Workflow is already scheduled',
               time: nextRunTime
@@ -255,12 +280,25 @@ function createWorkflowStore() {
           throw new Error('Failed to trigger workflow');
         }
       } catch (error: any) {
-        console.error('Error running workflow:', error);
+        console.error('Error triggering workflow:', error);
         throw error;
       }
     },
 
-    // Only call backend when user explicitly saves
+    /**
+     * Create and immediately trigger a workflow in one go.
+     * Convenience method for the "Create & Run" button.
+     */
+    async createAndRunWorkflow(projectId: string): Promise<void> {
+      await this.createWorkflow(projectId);
+      await this.triggerWorkflow(projectId);
+    },
+
+    /**
+     * Update workflow configuration (is_active, frequency, task_type).
+     * Use this for pause/resume and frequency changes.
+     * Only affects scheduling, doesn't trigger execution.
+     */
     async updateWorkflow(updates: {
       selectedWorkflow?: WorkflowState['selectedWorkflow'];
       selectedFrequency?: string;
@@ -311,8 +349,18 @@ function createWorkflowStore() {
       }
     },
 
-    async stopWorkflow(): Promise<void> {
+    /**
+     * Pause the workflow (set is_active to false).
+     */
+    async pauseWorkflow(): Promise<void> {
       await this.updateWorkflow({ isActive: false });
+    },
+
+    /**
+     * Resume a paused workflow (set is_active to true).
+     */
+    async resumeWorkflow(): Promise<void> {
+      await this.updateWorkflow({ isActive: true });
     },
 
     setEditing(editing: boolean): void {
@@ -429,11 +477,11 @@ function createContentStore() {
       }
     },
 
-    async loadTopCompetitors(): Promise<void> {
+    async loadTopCompetitors(projectId : string): Promise<void> {
       update(s => ({ ...s, topCompetitorsLoading: true }));
       try {
         const response = await fetch(
-          `${API_BASE}/orion/api/top_comp/?limit=5`,
+          `${API_BASE}/orion/api/top_comp/?project_id=${projectId}&limit=5`,
           {
             headers: {
               'Authorization': `Token ${getAuthToken()}`,
@@ -492,7 +540,7 @@ function createContentStore() {
         this.loadKeywords(projectId),
         this.loadOutlines(projectId),
         this.loadBlogPosts(projectId),
-        this.loadTopCompetitors(),
+        this.loadTopCompetitors(projectId),
       ]);
     },
 

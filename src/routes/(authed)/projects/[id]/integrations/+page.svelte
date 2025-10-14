@@ -3,6 +3,7 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
     import { fade } from 'svelte/transition';
+	import WpIntegration from '$lib/components/integrations/WpIntegration.svelte';
   
     export let data; // From +page.server.js
     let integrations = [];
@@ -127,6 +128,10 @@
           {error}
         </div>
       {/if}
+
+      <div>
+        <WpIntegration />
+      </div>
   
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {#each platforms as platform}
