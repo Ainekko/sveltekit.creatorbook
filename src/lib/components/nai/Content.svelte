@@ -45,7 +45,7 @@
   async function publishPost(): Promise<void> {
     if (!selectedPost) return;
     try {
-      const response = await fetch(`${apiBaseUrl}/orion/api/blog_posts/${selectedPost.id}/publish/`, {
+      const response = await fetch(`${apiBaseUrl}/orion/api/blog-posts/${selectedPost.id}/publish/`, {
         method: 'POST',
         headers: {
           'Authorization': `Token ${authToken}`,
@@ -58,6 +58,41 @@
       }
     } catch (error) {
       console.error('Error publishing post:', error);
+    }
+  }
+
+  let isPublishing: boolean = false;
+
+  async function publishToWordPress(): Promise<void> {
+    if (!selectedPost) return;
+    
+    isPublishing = true;
+    try {
+      const response = await fetch(
+        `${apiBaseUrl}/orion/api/blog-posts/${selectedPost.id}/publish_to_wordpress/`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Token ${authToken}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      
+      if (response.ok) {
+        const data = await response.json();
+        alert(`✓ Published! View it here: ${data.wp_url}`);
+        await refreshPosts();
+        closeDrawer();
+      } else {
+        const error = await response.json();
+        alert(`Error: ${error.detail || 'Failed to publish'}`);
+      }
+    } catch (error) {
+      console.error('Error publishing to WordPress:', error);
+      alert('Error publishing to WordPress');
+    } finally {
+      isPublishing = false;
     }
   }
 
@@ -254,8 +289,28 @@
             on:click={publishPost}
             class="px-4 py-2 rounded-lg bg-orange-400 hover:bg-orange-300 text-black text-sm font-medium transition-all active:scale-95"
           >
-            Publish
+            Publish Locally
           </button>
+          <button
+            on:click={publishToWordPress}
+            disabled={isPublishing}
+            class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-medium transition-all active:scale-95 disabled:cursor-not-allowed"
+          >
+            {#if isPublishing}
+              Publishing to WordPress...
+            {:else}
+              Publish to WordPress
+            {/if}
+          </button>
+        {:else if selectedPost.published_to_wp}
+          <a
+            href={selectedPost.wp_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white text-sm font-medium transition-all"
+          >
+            View on WordPress →
+          </a>
         {/if}
         
         {#if isEditing}
