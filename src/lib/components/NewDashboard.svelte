@@ -78,7 +78,7 @@
     // SEO Agent (Dynamic from API)
     {
       id: 'seo',
-      name: 'Orion',
+      name: 'Nai',
       shortName: 'SEO',
       description: 'Master of search optimization: Handles keyword research, content outlines, search rankings, and organic traffic growth.',
       status: $currentProjectAgents[0]?.status || 'idle',
