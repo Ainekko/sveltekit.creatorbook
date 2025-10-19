@@ -4,6 +4,8 @@
 
 import type { Project, AnalysisResult, BlogPostOutline } from './types';
 
+import { API_BASE_URL } from './config';
+
 
 
 
@@ -36,7 +38,7 @@ import { isLoggedIn } from './stores';
             let token = localStorage.getItem('token');
 
             console.log(`fetching with ${token}`)
-            fetch('https://api.s-tierproject.online/users/logout/', {
+            fetch(`${API_BASE_URL}/users/logout/`, {
 
                 
                 method: 'POST',

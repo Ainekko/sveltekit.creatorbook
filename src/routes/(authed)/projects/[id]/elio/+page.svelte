@@ -22,7 +22,6 @@
   let config = null;
   let opportunities = [];
   let scanning = false;
-  let syncing = false;
   let view = 'opportunities'; // 'opportunities' or 'config'
   let selectedOpportunity = null;
   
@@ -38,39 +37,77 @@
   
   // Fetch project data from main backend
   async function fetchProjectData() {
-    try {
-      const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/projects/${projectId}/`, {
-        headers: {
-          'Authorization': `Token ${authToken}`,
-          'Content-Type': 'application/json'
-        },
-      });
-      
-      if (!response.ok) throw new Error('Failed to fetch project data');
-      
-      const data = await response.json();
-      projectData = data.project;
-      
-      // Try to get config from backend, fallback to localStorage
-      if (data.config) {
-        config = data.config;
-        saveConfigToLocalStorage(config);
-      } else {
-        loadConfigFromLocalStorage();
-      }
-      
-      // Load opportunities from localStorage
-      loadOpportunitiesFromLocalStorage();
-      
-    } catch (error) {
-      console.error('Error fetching project data:', error);
-      // If backend fails, try localStorage
+  try {
+    const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/projects/${projectId}/`, {
+      headers: {
+        'Authorization': `Token ${authToken}`,
+        'Content-Type': 'application/json'
+      },
+    });
+    
+    if (!response.ok) throw new Error('Failed to fetch project data');
+    
+    const data = await response.json();
+    projectData = data.project;
+    
+    // Try to get config from backend, fallback to localStorage
+    if (data.config) {
+      config = data.config;
+      saveConfigToLocalStorage(config);
+    } else {
       loadConfigFromLocalStorage();
-      loadOpportunitiesFromLocalStorage();
-    } finally {
-      loading = false;
     }
+    
+    // NEW: Load opportunities from backend
+    await fetchOpportunitiesFromBackend();
+    
+  } catch (error) {
+    console.error('Error fetching project data:', error);
+    // If backend fails, try localStorage
+    loadConfigFromLocalStorage();
+    loadOpportunitiesFromLocalStorage();
+  } finally {
+    loading = false;
   }
+}
+
+// NEW: Fetch opportunities from backend
+async function fetchOpportunitiesFromBackend() {
+  try {
+    const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/projects/${projectId}/opportunities/`, {
+      headers: {
+        'Authorization': `Token ${authToken}`,
+        'Content-Type': 'application/json'
+      },
+    });
+    
+    if (!response.ok) throw new Error('Failed to fetch opportunities');
+    
+    const data = await response.json();
+    
+    if (data.opportunities && data.opportunities.length > 0) {
+      // Transform backend opportunities to match frontend format
+      opportunities = data.opportunities.map(opp => ({
+        ...opp,
+        id: opp.post_id || opp.id,
+        scanned_at: opp.created_at || new Date().toISOString(),
+      }));
+      
+      // Also save to localStorage as a cache
+      saveOpportunitiesToLocalStorage(opportunities);
+      
+      console.log(`Loaded ${opportunities.length} opportunities from backend`);
+    } else {
+      // No opportunities in backend, try localStorage
+      loadOpportunitiesFromLocalStorage();
+    }
+    
+  } catch (error) {
+    console.error('Error fetching opportunities from backend:', error);
+    // Fallback to localStorage
+    loadOpportunitiesFromLocalStorage();
+  }
+}
   
   // LocalStorage helpers
   function saveConfigToLocalStorage(cfg) {
@@ -115,6 +152,42 @@
     }
   }
   
+  // Save opportunities to backend
+  async function saveOpportunitiesToBackend(opps) {
+    const backendOpportunities = opps.map(opp => ({
+      post_id: opp.post_id,
+      subreddit: opp.subreddit,
+      title: opp.title,
+      content: opp.content || '',
+      author: opp.author,
+      url: opp.url,
+      score: opp.score,
+      num_comments: opp.num_comments,
+      created_utc: opp.created_utc,
+      relevance_score: opp.relevance_score,
+      opportunity_type: opp.opportunity_type,
+      sentiment: opp.sentiment,
+      key_points: opp.key_points || [],
+      suggested_response: opp.suggested_response,
+    }));
+    
+    const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/projects/${projectId}/opportunities/save/`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Token ${authToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ opportunities: backendOpportunities })
+    });
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Backend save failed: ${response.status} - ${errorText}`);
+    }
+    
+    return await response.json();
+  }
+  
   // Scan for new opportunities via worker
   async function scanOpportunities() {
     if (!projectData || !config) return;
@@ -142,7 +215,7 @@
       
       const result = await response.json();
       
-      // Save opportunities to localStorage
+      // Save opportunities
       if (result.opportunities && result.opportunities.length > 0) {
         // Add unique IDs and timestamps if not present
         const newOpportunities = result.opportunities.map(opp => ({
@@ -157,10 +230,24 @@
         const existingIds = new Set(opportunities.map(o => o.id));
         const uniqueNew = newOpportunities.filter(o => !existingIds.has(o.id));
         
-        opportunities = [...uniqueNew, ...opportunities];
-        saveOpportunitiesToLocalStorage(opportunities);
-        
-        alert(`Found ${uniqueNew.length} new opportunities! (${result.opportunities.length} total scanned)`);
+        if (uniqueNew.length > 0) {
+          // Try to save to backend first
+          try {
+            await saveOpportunitiesToBackend(uniqueNew);
+            console.log('Opportunities saved to backend successfully');
+            // Update in-memory state
+            opportunities = [...uniqueNew, ...opportunities];
+            alert(`Found ${uniqueNew.length} new opportunities and saved to backend!`);
+          } catch (backendError) {
+            console.error('Failed to save to backend, using localStorage fallback:', backendError);
+            // Fallback to localStorage if backend fails
+            opportunities = [...uniqueNew, ...opportunities];
+            saveOpportunitiesToLocalStorage(opportunities);
+            alert(`Found ${uniqueNew.length} new opportunities! (Saved locally - backend unavailable)`);
+          }
+        } else {
+          alert('No new opportunities found (all duplicates)');
+        }
       } else {
         alert('No new opportunities found');
       }
@@ -251,77 +338,6 @@
     }
   }
   
-  // Sync opportunities to backend
-  async function syncToBackend() {
-    if (!opportunities.length) {
-      alert('No opportunities to sync');
-      return;
-    }
-    
-    syncing = true;
-    
-    try {
-      // Transform opportunities to match backend expectations
-      const backendOpportunities = opportunities.map(opp => ({
-        post_id: opp.post_id,
-        subreddit: opp.subreddit,
-        title: opp.title,
-        content: opp.content || '',
-        author: opp.author,
-        url: opp.url,
-        score: opp.score,
-        num_comments: opp.num_comments,
-        created_utc: opp.created_utc,
-        relevance_score: opp.relevance_score,
-        opportunity_type: opp.opportunity_type,
-        sentiment: opp.sentiment,
-        key_points: opp.key_points || [],
-        suggested_response: opp.suggested_response,
-        // Note: match_reasoning is not in the backend model, so we skip it
-      }));
-      
-      console.log('Syncing to backend:', {
-        url: `${MAIN_BACKEND_URL}/elio/api/projects/${projectId}/opportunities/save/`,
-        count: backendOpportunities.length,
-        sample: backendOpportunities[0]
-      });
-      
-      const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/projects/${projectId}/opportunities/save/`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Token ${authToken}`,
-          'Content-Type': 'application/json'
-        },
-        // credentials: 'include',  // Not needed for Token auth
-        body: JSON.stringify({ opportunities: backendOpportunities })
-      });
-      
-      console.log('Response status:', response.status);
-      
-      const responseText = await response.text();
-      console.log('Response text:', responseText);
-      
-      if (!response.ok) {
-        let errorData;
-        try {
-          errorData = JSON.parse(responseText);
-        } catch (e) {
-          errorData = { error: responseText };
-        }
-        throw new Error(`Status ${response.status}: ${errorData.error || responseText}`);
-      }
-      
-      const data = JSON.parse(responseText);
-      alert(`✅ Successfully synced ${data.saved} new opportunities to backend!\nTotal processed: ${data.total}`);
-      
-    } catch (error) {
-      console.error('Full error syncing to backend:', error);
-      alert(`❌ Failed to sync to backend:\n\n${error.message}\n\nCheck browser console for details.`);
-    } finally {
-      syncing = false;
-    }
-  }
-  
   // Filter opportunities
   $: filteredOpportunities = opportunities.filter(o => !o.is_dismissed);
   
@@ -346,30 +362,16 @@
             {#if projectData}
               Monitoring opportunities for {projectData.business_name || 'your project'}
             {/if}
-            <span class="text-xs text-gray-400 ml-2">(Stored locally)</span>
           </p>
         </div>
         
         <div class="flex gap-3">
-          {#if opportunities.length > 0}
-            <button 
-              on:click={syncToBackend}
-              disabled={syncing}
-              class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm disabled:opacity-50"
-            >
-              {#if syncing}
-                Syncing...
-              {:else}
-                💾 Sync to Backend
-              {/if}
-            </button>
-          {/if}
           {#if opportunities.some(o => o.is_dismissed)}
             <button 
               on:click={clearDismissed}
               class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium text-sm"
             >
-              🗑️ Clear Dismissed
+              Clear Dismissed
             </button>
           {/if}
           <button 
@@ -380,7 +382,7 @@
             {#if scanning}
               Scanning...
             {:else}
-              🔍 Scan Now
+              Scan Now
             {/if}
           </button>
         </div>
@@ -410,7 +412,6 @@
         <div class="col-span-5 space-y-3">
           {#if filteredOpportunities.length === 0}
             <div class="text-center py-12 bg-gray-50 rounded-xl">
-              <div class="text-6xl mb-4">🔍</div>
               <p class="text-gray-500 mb-2">No opportunities yet</p>
               <p class="text-sm text-gray-400">Click "Scan Now" to find discussions</p>
             </div>
@@ -534,7 +535,7 @@
                     on:click={() => copyResponse(selectedOpportunity.suggested_response)}
                     class="text-xs px-3 py-1 bg-orange-600 hover:bg-orange-700 text-white rounded transition-colors"
                   >
-                    📋 Copy Response
+                    Copy Response
                   </button>
                 </div>
                 
@@ -548,7 +549,6 @@
           {:else}
             <div class="bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 h-full flex items-center justify-center">
               <div class="text-center py-12">
-                <div class="text-6xl mb-4">👈</div>
                 <p class="text-gray-500">Select an opportunity to view details</p>
               </div>
             </div>
@@ -693,7 +693,7 @@
               on:click={saveConfig}
               class="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium"
             >
-              💾 Save Configuration
+              Save Configuration
             </button>
           </div>
         </div>

@@ -5,6 +5,7 @@
     import { fly, fade } from 'svelte/transition';
     import GoogleAuth from '$lib/components/Googleauth.svelte';
     import { isLoggedIn } from '$lib/stores';
+    import {API_BASE_URL} from '$lib/config'
 
     let email = '';
     let password = '';
@@ -57,7 +58,7 @@
         };
 
         try {
-            const response = await fetch('https://api.s-tierproject.online/users/login/', {
+            const response = await fetch(`${API_BASE_URL}/users/login/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

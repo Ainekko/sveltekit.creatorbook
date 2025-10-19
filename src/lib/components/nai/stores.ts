@@ -7,12 +7,19 @@ interface WorkflowState {
   status: 'idle' | 'pending' | 'running' | 'completed' | 'failed';
   isActive: boolean;
   frequency: string;
+  config: {
+    auto_publish: {
+      enabled: boolean,
+      integrations: string[]
+    }
+  },
+  integrations: any[];
   progressMessage: string;
   completedSteps: string[];
   lastRun: string | null;
   nextRun: string | null;
   result: any;
-  selectedWorkflow: 'keyword_research' | 'generate_outlines' | 'generate_posts' | 'full_workflow';
+  selectedWorkflow: 'keyword_research' | 'generate_outlines' | 'generate_posts' | 'full_workflow'; 
   selectedFrequency: string;
   isEditing: boolean;
   scheduledNotification: { message: string; time: string } | null;
@@ -60,6 +67,13 @@ function createWorkflowStore() {
     status: 'idle',
     isActive: false,
     frequency: 'daily',
+    config: {
+      auto_publish: {
+        enabled: false,
+        integrations: []
+      }
+    },
+    integrations: [],
     progressMessage: '',
     completedSteps: [],
     lastRun: null,
@@ -111,6 +125,7 @@ function createWorkflowStore() {
           ...state,
           status: data.status,
           isActive: data.is_active,
+          config: data.config || state.config,
           progressMessage: data.progress_message || '',
           completedSteps: data.completed_steps || [],
           lastRun: data.last_run,
@@ -125,6 +140,43 @@ function createWorkflowStore() {
     } catch (error) {
       console.error('Error polling status:', error);
     }
+  };
+
+  const loadIntegrations = async (projectId: string): Promise<void> => {
+    try {
+      const response = await fetch(
+        `${API_BASE}/integrations/?project_id=${projectId}`,
+        {
+          headers: {
+            'Authorization': `Token ${getAuthToken()}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        update(state => ({
+          ...state,
+          integrations: data.results || []
+        }));
+      }
+    } catch (error) {
+      console.error('Error loading integrations:', error);
+    }
+  };
+
+  const updateAutoPublish = (enabled: boolean, integrations: string[]): void => {
+    update(state => ({
+      ...state,
+      config: {
+        ...state.config,
+        auto_publish: {
+          enabled,
+          integrations
+        }
+      }
+    }));
   };
 
   return {
@@ -153,6 +205,7 @@ function createWorkflowStore() {
               status: data.status,
               isActive: data.is_active,
               frequency: data.frequency,
+              config: data.config || { auto_publish: { enabled: false, integrations: [] } },
               progressMessage: data.progress_message || '',
               completedSteps: data.completed_steps || [],
               lastRun: data.last_run,
@@ -177,7 +230,8 @@ function createWorkflowStore() {
               completedSteps: [],
               result: null,
               isEditing: false,
-              scheduledNotification: null
+              scheduledNotification: null,
+              config: { auto_publish: { enabled: false, integrations: [] } }
             }));
           }
         }
@@ -186,7 +240,9 @@ function createWorkflowStore() {
       }
     },
 
-    // Local-only updates - no backend call
+    loadIntegrations,
+    updateAutoPublish,
+
     updateSelection(workflow: WorkflowState['selectedWorkflow'], frequency: string): void {
       update(state => ({
         ...state,
@@ -195,11 +251,6 @@ function createWorkflowStore() {
       }));
     },
 
-    /**
-     * Create a new workflow (one-time setup).
-     * Only creates the configuration, does NOT trigger execution yet.
-     * User must call triggerWorkflow() afterward.
-     */
     async createWorkflow(projectId: string): Promise<void> {
       const state = get({ subscribe });
       
@@ -213,7 +264,8 @@ function createWorkflowStore() {
           body: JSON.stringify({
             project_id: projectId,
             task_type: state.selectedWorkflow,
-            frequency: state.selectedFrequency
+            frequency: state.selectedFrequency,
+            config: state.config
           })
         });
 
@@ -227,7 +279,8 @@ function createWorkflowStore() {
           ...s,
           taskId: data.task_id,
           status: 'idle',
-          isActive: true
+          isActive: true,
+          config: data.config || s.config
         }));
       } catch (error: any) {
         console.error('Error creating workflow:', error);
@@ -235,11 +288,6 @@ function createWorkflowStore() {
       }
     },
 
-    /**
-     * Trigger the workflow to run immediately.
-     * Should be called after createWorkflow().
-     * This is what kicks off execution and sets next_run.
-     */
     async triggerWorkflow(projectId: string): Promise<void> {
       const state = get({ subscribe });
 
@@ -285,25 +333,17 @@ function createWorkflowStore() {
       }
     },
 
-    /**
-     * Create and immediately trigger a workflow in one go.
-     * Convenience method for the "Create & Run" button.
-     */
     async createAndRunWorkflow(projectId: string): Promise<void> {
       await this.createWorkflow(projectId);
       await this.triggerWorkflow(projectId);
     },
 
-    /**
-     * Update workflow configuration (is_active, frequency, task_type).
-     * Use this for pause/resume and frequency changes.
-     * Only affects scheduling, doesn't trigger execution.
-     */
     async updateWorkflow(updates: {
       selectedWorkflow?: WorkflowState['selectedWorkflow'];
       selectedFrequency?: string;
       frequency?: string;
       isActive?: boolean;
+      config?: any;
     }): Promise<void> {
       const state = get({ subscribe });
       if (!state.taskId) return;
@@ -319,7 +359,8 @@ function createWorkflowStore() {
             task_id: state.taskId,
             task_type: updates.selectedWorkflow || state.selectedWorkflow,
             frequency: updates.selectedFrequency || updates.frequency || state.selectedFrequency,
-            is_active: updates.isActive !== undefined ? updates.isActive : state.isActive
+            is_active: updates.isActive !== undefined ? updates.isActive : state.isActive,
+            config: updates.config || state.config
           })
         });
 
@@ -333,6 +374,7 @@ function createWorkflowStore() {
             nextRun: data.next_run,
             taskType: data.task_type || s.taskType,
             selectedWorkflow: (data.task_type as WorkflowState['selectedWorkflow']) || s.selectedWorkflow,
+            config: data.config || s.config,
             isEditing: false,
             scheduledNotification: null
           }));
@@ -349,16 +391,10 @@ function createWorkflowStore() {
       }
     },
 
-    /**
-     * Pause the workflow (set is_active to false).
-     */
     async pauseWorkflow(): Promise<void> {
       await this.updateWorkflow({ isActive: false });
     },
 
-    /**
-     * Resume a paused workflow (set is_active to true).
-     */
     async resumeWorkflow(): Promise<void> {
       await this.updateWorkflow({ isActive: true });
     },

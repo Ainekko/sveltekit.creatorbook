@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher, onMount, onDestroy } from 'svelte';
-  import { Search, FileText, TrendingUp, Target, RefreshCw, Play, Square, Pencil, AlertCircle, Check } from 'lucide-svelte';
+  import { Search, FileText, TrendingUp, Target, RefreshCw, Play, Square, Pencil, AlertCircle, Check, Globe } from 'lucide-svelte';  // NEW: Added Globe for integrations
   import { workflowStore, contentStore, activeSteps, progressPercent } from '$lib/components/nai/stores';
   import Keywords from './Keywords.svelte';
   import TopComp from './TopComp.svelte';
@@ -17,6 +17,10 @@
   let isSubmitting = false;
   let hasHandledCompletion = false;
 
+  $: showAutoPublish = ['generate_posts', 'full_workflow'].includes(workflow.selectedWorkflow);  // NEW
+  $: autoEnabled = workflow.config.auto_publish.enabled;  // NEW
+  $: selectedIntegrations = workflow.config.auto_publish.integrations || [];  // NEW
+
   const workflowNodes: Array<'keyword_research' | 'generate_outlines' | 'generate_posts' | 'full_workflow'> = [
     'keyword_research',
     'generate_outlines',
@@ -31,6 +35,21 @@
 
   function setFrequency(freq: string): void {
     workflowStore.updateSelection(workflow.selectedWorkflow, freq);
+  }
+
+  // NEW: Handle auto-publish toggle
+  function toggleAutoPublish(): void {
+    const newEnabled = !autoEnabled;
+    const newIntegrations = newEnabled && workflow.integrations.length > 0 ? workflow.integrations.map(i => i.type) : [];  // Default to all if enabling and available
+    workflowStore.updateAutoPublish(newEnabled, newIntegrations);
+  }
+
+  // NEW: Handle integration selection
+  function toggleIntegration(type: string): void {
+    const newIntegrations = selectedIntegrations.includes(type)
+      ? selectedIntegrations.filter(t => t !== type)
+      : [...selectedIntegrations, type];
+    workflowStore.updateAutoPublish(true, newIntegrations);
   }
 
   /**
@@ -97,7 +116,8 @@
     try {
       await workflowStore.updateWorkflow({
         selectedWorkflow: workflow.selectedWorkflow,
-        selectedFrequency: workflow.selectedFrequency
+        selectedFrequency: workflow.selectedFrequency,
+        config: workflow.config  // NEW: Ensure config is sent on edit
       });
       workflowStore.setEditing(false);
       dispatch('workflowUpdated', workflow);
@@ -120,6 +140,7 @@
   onMount(async () => {
     await workflowStore.loadWorkflow(projectId);
     await contentStore.loadAll(projectId);
+    await workflowStore.loadIntegrations(projectId);  // NEW
 
     if (workflow.taskId && (workflow.status === 'running' || workflow.status === 'pending')) {
       dispatch('workflowLoaded', { task_id: workflow.taskId });
@@ -212,8 +233,67 @@
         {/each}
       </div>
 
+      <!-- NEW: Auto Publish Section -->
+      {#if showAutoPublish}
+        <div class="border-t border-gray-100 pt-8">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xs font-semibold text-gray-950 uppercase tracking-wide flex items-center gap-2">
+              <Globe class="w-3 h-3" />
+              Auto Publish
+            </h3>
+          </div>
+          
+          <label class="flex items-center space-x-3 mb-4">
+            <input 
+              type="checkbox" 
+              checked={autoEnabled}
+              on:change={toggleAutoPublish}
+              class="rounded border-gray-300 focus:ring-2 focus:ring-blue-500"
+              disabled={!canSelectAndConfigure}
+            />
+            <span class="text-sm text-gray-700">Automatically publish generated posts to connected integrations</span>
+          </label>
+
+          {#if autoEnabled}
+            <div class="pl-6 space-y-3">
+              {#if workflow.integrations.length === 0}
+                <div class="text-center py-4 bg-gray-50 rounded-lg">
+                  <p class="text-sm text-gray-500 mb-2">No integrations connected yet.</p>
+                  <a 
+                    href={`/project/${projectId}/integration`}
+                    class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium hover:underline"
+                  >
+                    <Globe class="w-3 h-3" />
+                    Connect an integration
+                  </a>
+                </div>
+              {:else}
+                <div class="space-y-2">
+                  {#each workflow.integrations as int}
+                    <label class="flex items-center space-x-2 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                      <input 
+                        type="checkbox"
+                        checked={selectedIntegrations.includes(int.type)}
+                        on:change={() => toggleIntegration(int.type)}
+                        class="rounded border-gray-300 focus:ring-2 focus:ring-blue-500"
+                      />
+                      <span class="text-sm text-gray-700 capitalize">
+                        {int.get_type_display || int.type} {int.name ? `(${int.name})` : ''}
+                      </span>
+                    </label>
+                  {/each}
+                </div>
+                {#if selectedIntegrations.length === 0}
+                  <p class="text-xs text-orange-600 mt-2 pl-2">Select at least one integration to enable auto-publishing.</p>
+                {/if}
+              {/if}
+            </div>
+          {/if}
+        </div>
+      {/if}
+
       <!-- Configuration -->
-      <div class="border-t border-gray-100 pt-8">
+      <div class="border-t border-gray-100 pt-8 ">
         <div class="flex items-center justify-between mb-6">
           <h3 class="text-xs font-semibold text-gray-950 uppercase tracking-wide">Frequency</h3>
         </div>
@@ -403,6 +483,19 @@
               <p class="text-gray-600 text-xs capitalize">{workflow.selectedFrequency.replace('days', ' days')}</p>
             </div>
           </div>
+
+          <!-- NEW: Show Auto Publish in config summary -->
+          {#if workflow.config.auto_publish.enabled}
+            <div class="flex items-start space-x-2">
+              <div class="w-7 h-7 bg-green-100 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
+                <Globe class="w-3.5 h-3.5 text-green-600" />
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-gray-900 font-medium text-xs">Auto Publish</p>
+                <p class="text-gray-600 text-xs">Enabled for {workflow.config.auto_publish.integrations.length} integration(s)</p>
+              </div>
+            </div>
+          {/if}
         </div>
       </div>
 
