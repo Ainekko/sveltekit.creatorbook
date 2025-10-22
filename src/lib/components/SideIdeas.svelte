@@ -13,7 +13,7 @@
     } from '$lib/projects/stores';
     import { fade, slide, scale } from 'svelte/transition';
     import { onMount, tick } from 'svelte';
-    import { get_user } from '$lib/check';
+    import { get_user } from '$lib/users/users';
     import { page } from '$app/stores';
     import { goto } from '$app/navigation';
     import { cubicOut } from 'svelte/easing';

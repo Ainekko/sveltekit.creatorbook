@@ -32,3 +32,27 @@ export async function checkAndDeleteToken(token : string) {
     }
   }
   
+
+  export async function get_user() {
+    try {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const response = await fetch(`${API_BASE_URL}/users/get_user/`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Token ${token}`,
+          },
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          
+          return data;
+        } else {
+          console.error('Failed to fetch user info:', response.status);
+        }
+      }
+    } catch (error) {
+      console.error('Error while fetching user info:', error);
+    }
+  }

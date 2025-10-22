@@ -386,7 +386,7 @@ function handleOAuthCallback(event) {
     <div class="mb-8">
       <div class="flex items-center justify-between mb-4">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900">RIO - X Monitor</h1>
+          <h1 class="text-3xl font-bold text-gray-900">RIO - X </h1>
           <p class="text-gray-600 mt-1">
             {#if projectData}
               Real-time opportunities for {projectData.business_name || projectData.name}
@@ -412,12 +412,12 @@ function handleOAuthCallback(event) {
             <button 
               on:click={monitorNow}
               disabled={monitoring}
-              class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:opacity-50"
+              class="px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-700 transition-colors font-medium disabled:opacity-50"
             >
               {#if monitoring}
-                Monitoring...
+                bleep bleep...
               {:else}
-                Monitor Now
+                GO!
               {/if}
             </button>
           {:else}

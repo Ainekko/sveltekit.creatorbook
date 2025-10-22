@@ -6,10 +6,12 @@
   import { fetchWIPIdeas } from '$lib/db';
   import { isLoggedIn, wipIdeasStore } from '$lib/stores';
   
-  // Import your project store
   import { projectStore, isLoading as projectsLoading, error as projectsError } from '$lib/projects/stores';
 
-  // Immediately check token and redirect if missing
+  // Mobile sidebar state
+  let isMobileSidebarOpen = false;
+  let isMobile = false;
+
   function checkToken() : any {
     let token = localStorage.getItem('token');
     if (!token) {
@@ -20,7 +22,7 @@
     }
   }
 
-  let token = checkToken(); // Check token immediately
+  let token = checkToken();
 
   async function loadIdeas() {
     try {
@@ -41,71 +43,114 @@
     }
   }
 
-  // If token exists, proceed with further actions
   if (token) {
     onMount(async () => {
       try {
         checkAndDeleteToken(token);
         isLoggedIn.set(true);
         
-        // Load both ideas and projects in parallel for better performance
         await Promise.all([
           loadIdeas(),
           loadUserProjects()
         ]);
+
+        // Check if mobile on mount
+        checkIfMobile();
+        
+        // Add resize listener
+        window.addEventListener('resize', checkIfMobile);
+        
+        return () => {
+          window.removeEventListener('resize', checkIfMobile);
+        };
         
       } catch (error) {
         console.error('Initial data loading failed:', error);
-        goto('/login'); // Redirect to login on error
+        goto('/login');
       }
     });
   }
 
-  // Clean up stores on component destroy (when user logs out)
+  function checkIfMobile() {
+    isMobile = window.innerWidth < 768; // md breakpoint
+  }
+
+  function toggleMobileSidebar() {
+    isMobileSidebarOpen = !isMobileSidebarOpen;
+    // Force expand sidebar when opening on mobile
+    if (isMobileSidebarOpen && isMobile) {
+      window.dispatchEvent(new CustomEvent('force-expand-sidebar'));
+    }
+  }
+
+  function closeMobileSidebar() {
+    isMobileSidebarOpen = false;
+  }
+
   import { onDestroy } from 'svelte';
   
   onDestroy(() => {
-    // Only clear if we're actually logging out, not just navigating
-    // You might want to add additional logic here based on your logout flow
+    // Cleanup logic here
   });
 </script>
 
-<main class="flex flex-col-reverse md:flex-row h-screen ">
-  <nav class="w-full md:w-auto flex-shrink-0">
-    <SideIdeas />
+<main class="flex flex-row h-screen relative">
+  <!-- Hamburger Menu Button (Mobile Only) -->
+  {#if isMobile}
+    <button
+      on:click={toggleMobileSidebar}
+      class="fixed top-4 left-4 z-50 p-2 bg-white border border-gray-200 rounded-lg shadow-lg hover:bg-gray-50 transition-colors md:hidden"
+      aria-label="Toggle menu"
+    >
+      <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        {#if isMobileSidebarOpen}
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        {:else}
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        {/if}
+      </svg>
+    </button>
+  {/if}
+
+  <!-- Overlay (Mobile Only) -->
+  {#if isMobile && isMobileSidebarOpen}
+    <div
+      class="fixed inset-0 bg-black/50 z-40 md:hidden transition-opacity"
+      on:click={closeMobileSidebar}
+      on:keydown={(e) => e.key === 'Escape' && closeMobileSidebar()}
+      role="button"
+      tabindex="0"
+      aria-label="Close menu"
+    ></div>
+  {/if}
+
+  <!-- Sidebar Navigation -->
+  <nav
+    class="
+      {isMobile ? 'fixed' : 'relative'}
+      {isMobile && !isMobileSidebarOpen ? '-translate-x-full' : 'translate-x-0'}
+      md:translate-x-0
+      h-full
+      flex-shrink-0
+      z-40
+      transition-transform duration-300 ease-in-out
+      {isMobile ? 'w-64' : 'w-auto'}
+    "
+  >
+    <SideIdeas onNavigate={closeMobileSidebar} />
   </nav>
 
+  <!-- Main Content Area -->
   <div class="flex-1 min-w-0 overflow-y-auto">
-    <!-- Optional: Show loading state while projects are loading -->
-    {#if $projectsLoading}
-      <div class="flex items-center justify-center p-4">
-        <div class="text-gray-500">Loading projects...</div>
-      </div>
-    {/if}
-    
-    <!-- Optional: Show error state if projects fail to load -->
-    {#if $projectsError}
-      <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded m-4">
-        Error loading projects: {$projectsError}
-        <button 
-          class="ml-2 underline" 
-          on:click={() => loadUserProjects()}
-        >
-          Retry
-        </button>
-      </div>
-    {/if}
-    
     <slot />
   </div>
 </main>
 
 <style>
-  /* This media query is still useful for mobile browsers that have dynamic toolbars */
   @media (max-width: 767px) {
     main {
       height: 100vh;
-      height: 100dvh; /* Dynamic viewport height */
+      height: 100dvh;
     }
   }
 </style>

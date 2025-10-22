@@ -357,7 +357,7 @@ async function fetchOpportunitiesFromBackend() {
     <div class="mb-8">
       <div class="flex items-center justify-between mb-4">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900">Elio Reddit Agent</h1>
+          <h1 class="text-3xl font-bold text-gray-900">Elio Reddit Assistant</h1>
           <p class="text-gray-600 mt-1">
             {#if projectData}
               Monitoring opportunities for {projectData.business_name || 'your project'}
@@ -380,9 +380,9 @@ async function fetchOpportunitiesFromBackend() {
             class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium text-sm disabled:opacity-50"
           >
             {#if scanning}
-              Scanning...
+              bleep bleep...
             {:else}
-              Scan Now
+              Go!
             {/if}
           </button>
         </div>

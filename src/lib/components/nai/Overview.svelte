@@ -170,11 +170,11 @@
   $: canEditFrequency = workflow.isEditing || isPaused || isCompleted;
 </script>
 
-<div class="grid grid-cols-12 gap-8">
+<div class="grid grid-cols-12 gap-4 sm:gap-8">
   <div class="col-span-12 lg:col-span-8">
-    <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-      <div class="flex items-center justify-between mb-8">
-        <h2 class="text-lg font-semibold text-gray-950">Workflow</h2>
+    <div class="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-sm border border-gray-100">
+      <div class="flex items-center justify-between mb-6 sm:mb-8">
+        <h2 class="text-base sm:text-lg font-semibold text-gray-950">Workflow</h2>
         
         {#if isWorkflowRunning}
           <div class="flex items-center gap-2">
@@ -185,7 +185,7 @@
       </div>
       
       {#if workflow.scheduledNotification}
-        <div class="mb-6 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-3">
+        <div class="mb-4 sm:mb-6 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-3">
           <AlertCircle class="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
           <div class="flex-1">
             <p class="text-xs font-medium text-blue-900">{workflow.scheduledNotification.message}</p>
@@ -201,10 +201,10 @@
       {/if}
       
       <!-- Workflow Steps -->
-      <div class="flex items-center justify-between mb-12 {!canSelectAndConfigure ? 'opacity-50 pointer-events-none' : ''}">
+      <div class="flex items-center justify-between mb-8 sm:mb-12 {!canSelectAndConfigure ? 'opacity-50 pointer-events-none' : ''}">
         {#each workflowNodes as node, i}
           {#if i > 0}
-            <div class="flex-1 h-0.5 {steps.includes(i) ? 'bg-gray-900' : 'bg-gray-200'} mx-3 transition-colors"></div>
+            <div class="flex-1 h-0.5 {steps.includes(i) ? 'bg-gray-900' : 'bg-gray-200'} mx-1 sm:mx-3 transition-colors"></div>
           {/if}
           
           <button 
@@ -212,15 +212,15 @@
             disabled={!canSelectAndConfigure}
             class="flex flex-col items-center group flex-shrink-0"
           >
-            <div class="w-20 h-20 rounded-full {steps.includes(i) ? 'bg-gray-950' : 'bg-gray-50 border border-gray-300'} shadow-sm flex items-center justify-center mb-2 group-hover:shadow-md transition-all {canSelectAndConfigure ? 'group-hover:scale-105 cursor-pointer' : 'cursor-not-allowed'}">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full {steps.includes(i) ? 'bg-gray-950' : 'bg-gray-50 border border-gray-300'} shadow-sm flex items-center justify-center mb-2 group-hover:shadow-md transition-all {canSelectAndConfigure ? 'group-hover:scale-105 cursor-pointer' : 'cursor-not-allowed'}">
               {#if i === 0}
-                <Search class="w-8 h-8 {steps.includes(i) ? 'text-white' : 'text-gray-400'} transition-colors" />
+                <Search class="w-6 h-6 sm:w-8 sm:h-8 {steps.includes(i) ? 'text-white' : 'text-gray-400'} transition-colors" />
               {:else if i === 1}
-                <FileText class="w-8 h-8 {steps.includes(i) ? 'text-white' : 'text-gray-400'} transition-colors" />
+                <FileText class="w-6 h-6 sm:w-8 sm:h-8 {steps.includes(i) ? 'text-white' : 'text-gray-400'} transition-colors" />
               {:else if i === 2}
-                <FileText class="w-8 h-8 {steps.includes(i) ? 'text-white' : 'text-gray-400'} transition-colors" />
+                <FileText class="w-6 h-6 sm:w-8 sm:h-8 {steps.includes(i) ? 'text-white' : 'text-gray-400'} transition-colors" />
               {:else}
-                <Target class="w-8 h-8 {steps.includes(i) ? 'text-white' : 'text-gray-400'} transition-colors" />
+                <Target class="w-6 h-6 sm:w-8 sm:h-8 {steps.includes(i) ? 'text-white' : 'text-gray-400'} transition-colors" />
               {/if}
             </div>
             <span class="text-xs font-medium {steps.includes(i) ? 'text-gray-950' : 'text-gray-500'} transition-colors">
@@ -235,8 +235,8 @@
 
       <!-- NEW: Auto Publish Section -->
       {#if showAutoPublish}
-        <div class="border-t border-gray-100 pt-8">
-          <div class="flex items-center justify-between mb-6">
+        <div class="border-t border-gray-100 pt-6 sm:pt-8">
+          <div class="flex items-center justify-between mb-4 sm:mb-6">
             <h3 class="text-xs font-semibold text-gray-950 uppercase tracking-wide flex items-center gap-2">
               <Globe class="w-3 h-3" />
               Auto Publish
@@ -278,7 +278,7 @@
                         class="rounded border-gray-300 focus:ring-2 focus:ring-blue-500"
                       />
                       <span class="text-sm text-gray-700 capitalize">
-                        {int.get_type_display || int.type} {int.name ? `(${int.name})` : ''}
+                        {int.get_type_display || int.type} {int.name ? `(${int.config.site_url})` : ''}
                       </span>
                     </label>
                   {/each}
@@ -293,8 +293,8 @@
       {/if}
 
       <!-- Configuration -->
-      <div class="border-t border-gray-100 pt-8 ">
-        <div class="flex items-center justify-between mb-6">
+      <div class="border-t border-gray-100 pt-6 sm:pt-8 ">
+        <div class="flex items-center justify-between mb-4 sm:mb-6">
           <h3 class="text-xs font-semibold text-gray-950 uppercase tracking-wide">Frequency</h3>
         </div>
         
@@ -409,8 +409,8 @@
 
   <!-- Progress Sidebar -->
   <div class="col-span-12 lg:col-span-4">
-    <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-      <h2 class="text-lg font-semibold text-gray-950 mb-6">Progress</h2>
+    <div class="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-sm border border-gray-100">
+      <h2 class="text-base sm:text-lg font-semibold text-gray-950 mb-4 sm:mb-6">Progress</h2>
       
       {#if workflow.taskId}
         <div class="space-y-4 mb-6">
@@ -461,7 +461,7 @@
         </div>
       {/if}
 
-      <div class="border-t border-gray-100 pt-6">
+      <div class="border-t border-gray-100 pt-4 sm:pt-6">
         <h3 class="text-xs font-semibold text-gray-950 uppercase tracking-wide mb-4">Config</h3>
         <div class="space-y-3">
           <div class="flex items-start space-x-2">
@@ -499,7 +499,7 @@
         </div>
       </div>
 
-      <div class="border-t border-gray-100 pt-6 mt-6">
+      <div class="border-t border-gray-100 pt-4 sm:pt-6 mt-4 sm:mt-6">
         <h3 class="text-xs font-semibold text-gray-950 uppercase tracking-wide mb-4">Generated</h3>
         <div class="space-y-2">
           <div class="flex items-center justify-between text-xs">
@@ -526,7 +526,7 @@
   </div>
 </div>
 
-<div class="flex justify-evenly items-start gap-2 p-2">
+<div class="flex flex-col sm:flex-row sm:justify-evenly items-start gap-2 sm:gap-4 p-2 sm:p-4 mt-4 sm:mt-8">
   <TopComp {projectId} />
   <Keywords {projectId}/>
 </div>
