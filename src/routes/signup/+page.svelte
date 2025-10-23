@@ -1,15 +1,16 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-      import Googleauth from '$lib/components/Googleauth.svelte';
+    import Googleauth from '$lib/components/Googleauth.svelte';
     import { onMount } from 'svelte';
     import { fly, fade } from 'svelte/transition';
-  
+    import {API_BASE_URL} from '$lib/config'
+
     let username = '';
     let email = '';
     let password = '';
     let loading = false;
     let formError = '';
-  
+
     // Form validation state
     let usernameValid = true;
     let emailValid = true;
@@ -19,32 +20,13 @@
     let usernameFocused = false;
     let emailFocused = false;
     let passwordFocused = false;
-  
+
     // Check token and redirect if already logged in
     onMount(() => {
         const token = localStorage.getItem('token');
         if (token) {
             goto('/dashboard');
         }
-  
-        // Set up Google OAuth
-        const script = document.createElement('script');
-        script.src = 'https://accounts.google.com/gsi/client';
-        script.async = true;
-        script.defer = true;
-        document.body.appendChild(script);
-    
-        script.onload = () => {
-            google.accounts.id.initialize({
-                client_id: '144652246407-itelihabs7ns4brsead66aion8o5uo9d.apps.googleusercontent.com',
-                callback: handleCredentialResponse
-            });
-    
-            google.accounts.id.renderButton(
-                document.getElementById('google-signin-button'),
-                { theme: 'filled_black', size: 'large', shape: 'pill', text: 'continue_with', width: 280 }
-            );
-        };
     });
     
     // Validate form inputs
@@ -55,137 +37,86 @@
         
         return usernameValid && emailValid && passwordValid;
     }
-  
+
     async function register(event: any) {
-      event.preventDefault();
-      
-      if (!validateForm()) {
-          formError = 'Please check the form for errors';
-          return;
-      }
-      
-      loading = true;
-      formError = '';
-  
-      const user_data = {
-          username,
-          email,
-          password,
-      };
-  
-      // ADD THIS DEBUGGING BLOCK
-      console.log("=== FRONTEND DEBUG ===");
-      console.log("username:", username, "type:", typeof username, "length:", username?.length);
-      console.log("email:", email, "type:", typeof email, "length:", email?.length);
-      console.log("password:", password, "type:", typeof password, "length:", password?.length);
-      console.log("user_data:", user_data);
-      console.log("JSON.stringify(user_data):", JSON.stringify(user_data));
-      console.log("validateForm() result:", validateForm());
-      console.log("=====================");
-  
-      try {
-          const response = await fetch('https://api.s-tierproject.online/users/register/', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(user_data),
-          });
-  
-          console.log("Response status:", response.status);
-          console.log("Response headers:", response.headers);
-          
-          if (response.status === 201) {
-              const res_data = await response.json();
-              const token = res_data.token;
-              localStorage.setItem('token', token);
-              goto('/dashboard');
-          } else {
-              // ADD MORE DEBUGGING FOR ERROR RESPONSES
-              const responseText = await response.text();
-              console.log("Error response body:", responseText);
-              
-              try {
-                  const errorData = JSON.parse(responseText);
-                  formError = errorData.message || "Registration failed. Please try again.";
-              } catch (parseError) {
-                  formError = "Registration failed. Server returned: " + responseText;
-              }
-          }
-      } catch (error) {
-          formError = "Network error. Please check your connection.";
-          console.error("Error submitting form:", error);
-      } finally {
-          loading = false;
-      }
-  }
-  
-    function handleCredentialResponse(response: any) {
+        event.preventDefault();
+        
+        if (!validateForm()) {
+            formError = 'Please check the form for errors';
+            return;
+        }
+        
         loading = true;
-        const id_token = response.credential;
-    
-        fetch('https://api.s-tierproject.online/users/gauth/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ access_token: id_token }),
-        })
-        .then(res => {
-            if (res.status === 200) {
-                return res.json();
-            } else {
-                throw new Error("Google login failed with status: " + res.status);
-            }
-        })
-        .then(res_data => {
-            if (res_data) {
+        formError = '';
+
+        const user_data = {
+            username,
+            email,
+            password,
+        };
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/users/register/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user_data),
+            });
+            
+            if (response.status === 201) {
+                const res_data = await response.json();
                 const token = res_data.token;
                 localStorage.setItem('token', token);
                 goto('/plans');
+            } else {
+                const responseText = await response.text();
+                
+                try {
+                    const errorData = JSON.parse(responseText);
+                    formError = errorData.message || "Registration failed. Please try again.";
+                } catch (parseError) {
+                    formError = "Registration failed. Please try again.";
+                }
             }
-        })
-        .catch(error => {
-            formError = "Google login failed. Please try again.";
-            console.error("Error with Google login:", error);
-        })
-        .finally(() => {
+        } catch (error) {
+            formError = "Network error. Please check your connection.";
+            console.error("Error submitting form:", error);
+        } finally {
             loading = false;
-        });
+        }
     }
-  </script>
-  
-  <div class="min-h-screen w-full flex flex-col justify-center items-center  relative overflow-hidden">
-    <!-- Abstract shapes background -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <!-- Noise overlay for texture -->
-        <div class="absolute inset-0 opacity-20 mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMjAwdjIwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=')]"></div>
-    </div>
-  
-    <div class="w-full max-w-md px-4 z-10">
-        <div in:fade={{ duration: 300, delay: 150 }} class="flex flex-col bg-gradient-to-r from-zinc-950 to-zinc-800 rounded-xl border border-zinc-800 overflow-hidden p-8">
-            <div class="flex items-center mb-6">
-                <div class="mr-4 bg-violet-200/20 p-2 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                    </svg>
-                </div>
+</script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+    .gentle-float {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+</style>
+
+<section class="flex items-center justify-center min-h-screen bg-white font-[Poppins] text-gray-900 py-8 px-4" transition:fade>
+    <div class="max-w-md mx-auto">
+        <div class="text-center mb-6">
+            <h1 class="text-3xl font-semibold text-gray-700 leading-tight">
+                Start to <span class="font-['Pacifico']">Sign Up</span>
+            </h1>
+            <p class="text-base text-gray-500 mt-2">
+                Create your account to get started with your projects.
+            </p>
+        </div>
+
+        <div class="p-6 rounded-lg border border-gray-200 bg-white">
+            <form on:submit|preventDefault={register} class="space-y-4">
                 <div>
-                    <h1 class="text-lg font-bold text-white">Create Account</h1>
-                    <p class="text-xs text-pink-300/80">Join our community and start creating</p>
-                </div>
-            </div>
-  
-            {#if formError}
-                <div class="bg-red-500/10 border border-red-500/30 text-red-300 px-4 py-3 rounded-lg mb-4 text-sm" transition:fly={{ y: -10, duration: 300 }}>
-                    {formError}
-                </div>
-            {/if}
-  
-            <form class="space-y-4" on:submit={register}>
-                <!-- Username input -->
-                <div class="relative">
-                    <label for="username" class="text-xs font-medium text-zinc-300 mb-2 block">Username</label>
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username <span class="text-red-500">*</span></label>
                     <input 
                         type="text" 
                         id="username"
@@ -193,19 +124,17 @@
                         bind:value={username} 
                         on:focus={() => usernameFocused = true}
                         on:blur={() => usernameFocused = false}
-                        class="w-full bg-zinc-900/60 border border-zinc-700 text-zinc-300 py-3 px-4 rounded-lg
-                               focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-zinc-600
-                               transition-all duration-200 ease-in-out placeholder:text-zinc-500
-                               {!usernameValid && username ? 'border-red-500/50 ring-1 ring-red-500/50' : ''}"
+                        class="mt-1 w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-500 text-sm
+                               {!usernameValid && username ? 'border-red-500 ring-1 ring-red-500' : ''}"
+                        required
                     />
                     {#if !usernameValid && username}
-                        <p class="text-red-400 text-xs mt-1" transition:fly={{ y: -5, duration: 200 }}>Username must be at least 3 characters</p>
+                        <p class="text-red-500 text-xs mt-1" transition:fly={{ y: -5, duration: 200 }}>Username must be at least 3 characters</p>
                     {/if}
                 </div>
-  
-                <!-- Email input -->
-                <div class="relative">
-                    <label for="email" class="text-xs font-medium text-zinc-300 mb-2 block">Email Address</label>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label>
                     <input 
                         type="email" 
                         id="email"
@@ -213,19 +142,17 @@
                         bind:value={email} 
                         on:focus={() => emailFocused = true}
                         on:blur={() => emailFocused = false}
-                        class="w-full bg-zinc-900/60 border border-zinc-700 text-zinc-300 py-3 px-4 rounded-lg
-                               focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-zinc-600
-                               transition-all duration-200 ease-in-out placeholder:text-zinc-500
-                               {!emailValid && email ? 'border-red-500/50 ring-1 ring-red-500/50' : ''}"
+                        class="mt-1 w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-500 text-sm
+                               {!emailValid && email ? 'border-red-500 ring-1 ring-red-500' : ''}"
+                        required
                     />
                     {#if !emailValid && email}
-                        <p class="text-red-400 text-xs mt-1" transition:fly={{ y: -5, duration: 200 }}>Please enter a valid email address</p>
+                        <p class="text-red-500 text-xs mt-1" transition:fly={{ y: -5, duration: 200 }}>Please enter a valid email address</p>
                     {/if}
                 </div>
-  
-                <!-- Password input -->
-                <div class="relative">
-                    <label for="password" class="text-xs font-medium text-zinc-300 mb-2 block">Password</label>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password <span class="text-red-500">*</span></label>
                     <input 
                         type="password" 
                         id="password"
@@ -233,55 +160,60 @@
                         bind:value={password} 
                         on:focus={() => passwordFocused = true}
                         on:blur={() => passwordFocused = false}
-                        class="w-full bg-zinc-900/60 border border-zinc-700 text-zinc-300 py-3 px-4 rounded-lg
-                               focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-zinc-600
-                               transition-all duration-200 ease-in-out placeholder:text-zinc-500
-                               {!passwordValid && password ? 'border-red-500/50 ring-1 ring-red-500/50' : ''}"
+                        class="mt-1 w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-500 text-sm
+                               {!passwordValid && password ? 'border-red-500 ring-1 ring-red-500' : ''}"
+                        required
                     />
                     {#if !passwordValid && password}
-                        <p class="text-red-400 text-xs mt-1" transition:fly={{ y: -5, duration: 200 }}>Password must be at least 6 characters</p>
+                        <p class="text-red-500 text-xs mt-1" transition:fly={{ y: -5, duration: 200 }}>Password must be at least 6 characters</p>
                     {/if}
                 </div>
-                
-                <!-- Sign up button -->
-                <button 
-                    type="submit" 
-                    class="w-full py-3 px-4 bg-gradient-to-r from-zinc-800 to-zinc-700 border border-zinc-700
-                           text-white font-medium rounded-lg hover:from-zinc-700 hover:to-zinc-600
-                           transition-all duration-300 transform hover:-translate-y-[1px] focus:outline-none 
-                           focus:ring-2 focus:ring-violet-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={loading}
-                >
-                    {loading ? 'Creating account...' : 'Sign Up'}
-                </button>
+
+                {#if formError}
+                    <p class="text-red-500 text-xs" transition:fly={{ y: -5, duration: 200 }}>{formError}</p>
+                {/if}
+
+                <div class="text-center">
+                    <button 
+                        type="submit" 
+                        class="bg-gray-900 hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium text-sm transition-all relative"
+                        disabled={loading}
+                    >
+                        {loading ? 'Creating account...' : 'Sign Up'}
+                        {#if !loading}
+                            <div class="absolute top-0 right-0 w-3 h-3 bg-orange-400 rounded-full gentle-float" style="animation-delay: -3s;"></div>
+                        {/if}
+                    </button>
+                </div>
             </form>
-  
-            <div class="relative flex items-center mt-6 mb-4">
-                <div class="flex-grow border-t border-zinc-700"></div>
-                <span class="flex-shrink mx-3 text-zinc-400 text-sm">or</span>
-                <div class="flex-grow border-t border-zinc-700"></div>
+
+            <div class="relative flex items-center mt-4 mb-3">
+                <div class="flex-grow border-t border-gray-200"></div>
+                <span class="flex-shrink mx-3 text-gray-500 text-sm">or</span>
+                <div class="flex-grow border-t border-gray-200"></div>
             </div>
-  
-            <!-- Google OAuth Button
-            <div class="flex justify-center my-2">
-                <div id="google-signin-button" class="w-full"></div>
-            </div> -->
-  
-            <Googleauth />
-  
-            <div class="text-center mt-6">
-                <span class="text-zinc-300">Already have an account? </span>
-                <a href="/login" class="font-medium text-pink-300/80 hover:text-pink-300 transition-colors">Log in</a>
+
+            <div class="flex justify-center mb-3">
+                <Googleauth 
+                    redirectUrl="/plans"
+                    theme="outline" 
+                    size="large"
+                />
+            </div>
+
+            <div class="text-center mt-3">
+                <span class="text-gray-500 text-sm">Already have an account? </span>
+                <a href="/login" class="font-medium text-gray-500 hover:text-gray-900 transition-colors text-sm">Log in</a>
             </div>
         </div>
     </div>
-  
+
     {#if loading}
         <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50" transition:fade={{ duration: 200 }}>
-            <div class="p-5 rounded-xl bg-gradient-to-r from-zinc-950 to-zinc-800 border border-zinc-800 flex flex-col items-center">
-                <div class="w-12 h-12 rounded-full border-4 border-t-violet-500 border-r-violet-500 border-b-zinc-700 border-l-zinc-700 animate-spin"></div>
-                <p class="mt-4 text-zinc-300">Setting up your account...</p>
+            <div class="p-4 rounded-lg bg-white border border-gray-200 flex flex-col items-center">
+                <div class="w-10 h-10 rounded-full border-4 border-t-gray-900 border-r-gray-900 border-b-gray-200 border-l-gray-200 animate-spin" aria-label="Loading"></div>
+                <p class="mt-3 text-gray-900 text-sm">Creating your account...</p>
             </div>
         </div>
     {/if}
-  </div>
+</section>

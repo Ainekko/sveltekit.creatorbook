@@ -1,6 +1,5 @@
 <script>
   import { onMount } from 'svelte';
-	import NewDashboard from './NewDashboard.svelte';
 
   let email = '';
   let isSubmitting = false;
@@ -230,7 +229,7 @@
   }
 </style>
 
-<section class="hero-section font-[Poppins] relative min-h-screen bg-white text-gray-900 overflow-x-hidden">
+<section class="hero-section font-[Poppins] relative min-h-screen bg-white text-zinc-900 overflow-x-hidden">
   <!-- Floating Questions -->
   <div class="absolute top-16 left-8 md:left-16 speech-bubble " style="animation-delay: -1s;">
     "Research trending keywords for my SaaS"
@@ -261,17 +260,17 @@
           </h1>
 
           <!-- Subhead with twisted underline -->
-          <p class="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto leading-relaxed font-light">
+          <p class="text-xl md:text-2xl text-zinc-500 max-w-3xl mx-auto leading-relaxed font-light">
             Automate 
-            <svg class="inline w-5 h-5 text-gray-950 align-middle mx-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="inline w-5 h-5 text-zinc-950 align-middle mx-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
             </svg> 
             SEO, 
-            <svg class="inline w-5 h-5 text-gray-950 align-middle mx-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="inline w-5 h-5 text-zinc-950 align-middle mx-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
             </svg> 
             X, and 
-            <svg class="inline w-5 h-5 text-gray-950 align-middle mx-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="inline w-5 h-5 text-zinc-950 align-middle mx-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 0A12 12 0 00 0 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 01-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 01.042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 014.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 01.14-.197.35.35 0 01.238-.042l2.906.617a1.214 1.214 0 011.108-.701zM9.25 12c-.689 0-1.25.561-1.25 1.25 0 .688.561 1.249 1.25 1.249.688 0 1.249-.561 1.249-1.249 0-.688-.561-1.25-1.249-1.25zm5.5 0c-.689 0-1.25.561-1.25 1.25 0 .688.561 1.249 1.25 1.249.688 0 1.249-.561 1.249-1.249 0-.688-.561-1.25-1.25-1.25zm-5.466 3.99a.327.327 0 00-.231.094.33.33 0 00.029.463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 00.029-.463.33.33 0 00-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 00-.232-.095z"/>
             </svg> 
             Reddit growth — <span class="twisted-underline">no complex workflows
@@ -290,18 +289,18 @@
               on:keypress={handleKeyPress}
               type="email"
               placeholder="Enter your email"
-              class="flex-1 bg-white border border-gray-200 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              class="flex-1 bg-white border border-zinc-200 rounded-lg px-4 py-3 text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             />
             <button
               on:click={handleSignUp}
               disabled={isSubmitting}
-              class="bg-gray-900 hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 relative"
+              class="bg-zinc-900 hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 relative"
             >
               {isSubmitting ? 'Starting...' : 'Start free trial'}
               <div class="absolute top-0 right-0 w-4 h-4 -z-10 bg-orange-400 rounded-full gentle-float" style="animation-delay: -3s;"></div>
             </button>
           </div>
-          <p class="text-sm text-gray-400 flex items-center justify-center gap-1">
+          <p class="text-sm text-zinc-400 flex items-center justify-center gap-1">
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
             </svg>
@@ -324,7 +323,7 @@
               Your browser does not support the video tag.
             </video>
           </div>
-          <p class="text-sm text-gray-400 mt-4 text-center">See Flowjoy eliminate marketing complexity</p>
+          <p class="text-sm text-zinc-400 mt-4 text-center">See Flowjoy eliminate marketing complexity</p>
         </div>
 
         <!-- Quick Stats -->
@@ -332,8 +331,8 @@
           {#each [{ value: '500+', label: 'Active users' }, { value: '2.1M', label: 'Tasks completed' }, { value: '94%', label: 'Success rate' }] as stat}
             <div class="text-center stat-card p-4 rounded-lg">
               <div class="accent-dot"></div>
-              <div class="text-2xl font-semibold text-gray-900">{stat.value}</div>
-              <div class="text-sm text-gray-500">{stat.label}</div>
+              <div class="text-2xl font-semibold text-zinc-900">{stat.value}</div>
+              <div class="text-sm text-zinc-500">{stat.label}</div>
             </div>
           {/each}
         </div>
@@ -345,20 +344,20 @@
         <div class="absolute inset-0 bg-gradient-to-b from-transparent to-orange-50/5 pointer-events-none"></div>
 
         <div class="text-center">
-          <h2 class="text-3xl font-semibold text-gray-900 mb-4 relative">
+          <h2 class="text-3xl font-semibold text-zinc-900 mb-4 relative">
             Three specialists. Zero complexity.
             <div class="absolute top-0 right-0 w-4 h-4 bg-blue-400 rounded-square gentle-float" style="animation-delay: -2s;"></div>
           </h2>
-          <p class="text-lg text-gray-500 max-w-2xl mx-auto">Simply tell Flowjoy what you need. Our AI agents handle the rest.</p>
+          <p class="text-lg text-zinc-500 max-w-2xl mx-auto">Simply tell Flowjoy what you need. Our AI agents handle the rest.</p>
         </div>
 
         <!-- Agent Tabs -->
-        <div class="flex justify-center">
-          <div class="inline-flex bg-gray-100 rounded-xl p-1">
+        <!-- <div class="flex justify-center">
+          <div class="inline-flex bg-zinc-100 rounded-xl p-1">
             {#each Object.values(agents) as agent}
               <button
                 on:click={() => setActiveAgent(agent.id)}
-                class="tab-button px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-3 {activeAgent === agent.id ? `bg-white text-gray-900 shadow-sm` : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}"
+                class="tab-button px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-3 {activeAgent === agent.id ? `bg-white text-zinc-900 shadow-sm` : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50'}"
               >
                 {#if agent.icon === 'search'}
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -377,17 +376,62 @@
               </button>
             {/each}
           </div>
-        </div>
+        </div> -->
 
-        <!-- Active Agent Content -->
-        {#key activeAgent}
-          <div class="fade-in">
-            <div class="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-              <!-- Agent Details -->
-              <div class="space-y-8">
-                <div class="space-y-4">
-                  <div class="flex items-center gap-4 relative">
-                    <div class="w-12 h-12 bg-gradient-to-r {agents[activeAgent].gradient} rounded-xl flex items-center justify-center">
+        <div class="space-y-8">
+          <!-- Header Section -->
+          
+        
+          <!-- Tab Navigation -->
+          <div class="flex justify-center">
+            <div class="inline-flex bg-zinc-900 rounded-2xl p-2 gap-2">
+              {#each Object.values(agents) as agent}
+                <button
+                  on:click={() => setActiveAgent(agent.id)}
+                  class="tab-button px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-3 {activeAgent === agent.id ? `bg-gradient-to-r ${agent.gradient} text-white shadow-lg` : 'text-zinc-400 hover:text-white hover:bg-zinc-800'}"
+                >
+                  {#if agent.icon === 'search'}
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                  {:else if agent.icon === 'twitter'}
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                  {:else if agent.icon === 'reddit'}
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 0A12 12 0 00 0 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 01-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 01.042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 014.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 01.14-.197.35.35 0 01.238-.042l2.906.617a1.214 1.214 0 011.108-.701zM9.25 12c-.689 0-1.25.561-1.25 1.25 0 .688.561 1.249 1.25 1.249.688 0 1.249-.561 1.249-1.249 0-.688-.561-1.25-1.249-1.25zm5.5 0c-.689 0-1.25.561-1.25 1.25 0 .688.561 1.249 1.25 1.249.688 0 1.249-.561 1.249-1.249 0-.688-.561-1.25-1.25-1.25zm-5.466 3.99a.327.327 0 00-.231.094.33.33 0 000 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 00.029-.463.33.33 0 00-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 00-.232-.095z"/>
+                    </svg>
+                  {/if}
+                  <span class="hidden sm:block">{agent.name}</span>
+                </button>
+              {/each}
+            </div>
+          </div>
+         
+          <!-- Active Agent Content -->
+          {#key activeAgent}
+            <div class="fade-in">
+              <div class="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+                <!-- Agent Video -->
+                <div class="video-container relative order-2 lg:order-1">
+                  <video
+                    src={agents[activeAgent].videoUrl}
+                    controls
+                    autoplay
+                    muted
+                    loop
+                    class="w-full"
+                    style="aspect-ratio: 16/9;"
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+        
+                <!-- Agent Details -->
+                <div class="space-y-6 order-1 lg:order-2">
+                  <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 bg-gradient-to-r {agents[activeAgent].gradient} rounded-xl flex items-center justify-center flex-shrink-0">
                       {#if agents[activeAgent].icon === 'search'}
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -403,55 +447,47 @@
                       {/if}
                     </div>
                     <div>
-                      <h3 class="text-2xl font-semibold text-gray-900">{agents[activeAgent].name}</h3>
-                      <p class="text-gray-500">{agents[activeAgent].subtitle}</p>
+                      <h3 class="text-2xl font-bold text-zinc-900">{agents[activeAgent].name}</h3>
+                      <p class="text-zinc-700">{agents[activeAgent].subtitle}</p>
                     </div>
-                    <div class="absolute top-0 right-0 w-4 h-4 bg-orange-400 rounded-square gentle-float" style="animation-delay: -4s;"></div>
                   </div>
                   
-                  <p class="text-lg text-gray-600 leading-relaxed">{agents[activeAgent].description}</p>
+                  <p class="text-lg text-zinc-900 leading-relaxed">{agents[activeAgent].description}</p>
                   
                   <div class="flex flex-wrap gap-2">
                     {#each agents[activeAgent].tags as tag}
-                      <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-md font-medium">{tag}</span>
+                      <span class="px-3 py-1.5 bg-zinc-800 text-zinc-300 text-sm rounded-lg font-medium">{tag}</span>
+                    {/each}
+                  </div>
+        
+                  <div class="grid grid-cols-3 gap-4 pt-4">
+                    {#each agents[activeAgent].metrics.stats as stat}
+                      <div class="glass-card p-4 rounded-xl text-center">
+                        <div class="text-xl font-bold text-zinc-800 mb-1">{stat.value}</div>
+                        <div class="text-zinc-400 text-xs">{stat.label}</div>
+                      </div>
                     {/each}
                   </div>
                 </div>
-
-                <div class="grid grid-cols-3 gap-4">
-                  {#each agents[activeAgent].metrics.stats as stat}
-                    <div class="stat-card p-4 rounded-lg text-center">
-                      <div class="accent-dot"></div>
-                      <div class="text-xl font-semibold text-gray-900 mb-1">{stat.value}</div>
-                      <div class="text-sm text-gray-500">{stat.label}</div>
-                    </div>
-                  {/each}
-                </div>
-              </div>
-
-              <!-- Agent Demo Video -->
-              <div class="video-container relative">
-                <div class="absolute inset-0 bg-gradient-to-br from-transparent to-{agents[activeAgent].gradient.split(' ')[0]}/5 blur-md opacity-50 pointer-events-none"></div>
-                <video
-                  src={agents[activeAgent].videoUrl}
-                  controls
-                  autoplay
-                  muted
-                  loop
-                  class="w-full relative z-10"
-                  style="aspect-ratio: 16/9;"
-                >
-                  Your browser does not support the video tag.
-                </video>
               </div>
             </div>
+          {/key}
+        </div>
+
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-6 pt-6 mb-10">
+          <div>
+            <p class="text-lg text-zinc-700 max-w-2xl">
+              Test these plug-and-play versions for free. For tailored results, we build custom setups.
+            </p>
           </div>
-        {/key}
-      </div>
+          <button class="bg-zinc-900 text-zinc-100 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105 whitespace-nowrap">
+            Get Started for Free
+          </button>
+        </div>
 
       <!-- Bottom CTA -->
-      <div class="text-center mt-20 pt-12 border-t border-gray-100 relative">
-        <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+      <div class="text-center mt-20 pt-12 border-t border-zinc-100 relative">
+        <p class="text-lg text-zinc-600 max-w-2xl mx-auto leading-relaxed">
           Perfect for <strong>founders</strong>, <strong>growth teams</strong>, and <strong>solo creators</strong> who need marketing results without the complexity.
         </p>
 
@@ -474,8 +510,8 @@
             }
           ] as card}
             <div class="stat-card p-6 rounded-lg text-center">
-              <div class="text-xl font-semibold text-gray-900 mb-2">{card.heading}</div>
-              <div class="text-sm text-gray-500">{card.description}</div>
+              <div class="text-xl font-semibold text-zinc-900 mb-2">{card.heading}</div>
+              <div class="text-sm text-zinc-500">{card.description}</div>
             </div>
           {/each}
         </div>
@@ -484,4 +520,3 @@
   </div>
 </section>
 
-<NewDashboard />

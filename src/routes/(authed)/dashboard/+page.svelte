@@ -1,10 +1,20 @@
 <script>
 	import StartNewPraw from "$lib/components/startNewPraw.svelte";
 	import { Coffee, Clock, Sparkles } from 'lucide-svelte';
+  import {goto} from '$app/navigation'
+  import {onMount} from 'svelte'
+
+  onMount(
+    ()=>{
+      goto('/projects')
+    }
+  )
+
+
 </script>
 
 
-<StartNewPraw />
+<!-- <StartNewPraw /> -->
 
 <style>
   /* Custom scrollbar styling */
