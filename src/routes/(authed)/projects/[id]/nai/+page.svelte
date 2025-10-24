@@ -21,7 +21,9 @@
 </script>
 
 <div class="min-h-screen bg-white text-gray-900">
-  <Tabs {activeTab} on:tabChange={(e) => activeTab = e.detail} class="overflow-x-auto" />
+  <div class="overflow-x-auto scrollbar-hide">
+    <Tabs {activeTab} on:tabChange={(e) => activeTab = e.detail} />
+  </div>
   <div class="px-4 py-4 sm:px-8 sm:py-8">
     {#if activeTab === 'overview'}
       <Overview projectId={projectId} />
@@ -38,18 +40,18 @@
 </div>
 
 <style>
-  /* Ensure tabs handle mobile scrolling smoothly */
-  :global(.tabs-container) {
-    @apply flex whitespace-nowrap overflow-x-auto scrollbar-hide;
-  }
-
   /* Hide scrollbar for webkit browsers */
-  :global(.scrollbar-hide) {
+  .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
 
-  :global(.scrollbar-hide::-webkit-scrollbar) {
+  .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Ensure smooth scrolling on mobile */
+  .scrollbar-hide {
+    -webkit-overflow-scrolling: touch;
   }
 </style>

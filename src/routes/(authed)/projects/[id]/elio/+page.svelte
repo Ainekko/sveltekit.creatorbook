@@ -2,6 +2,7 @@
 <script>
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
+  import {WORKER_API_URL} from '$lib/config'
   
   // Get project ID from URL
   $: projectId = $page.params.id;
@@ -10,7 +11,7 @@
   
   // Configuration from parent component or environment
   const MAIN_BACKEND_URL = 'http://127.0.0.1:8000'; // Your Django backend
-  const WORKER_URL = 'http://127.0.0.1:8001'; // Your worker service
+  const WORKER_URL = WORKER_API_URL; // Your worker service
   
   // LocalStorage keys
   const getConfigKey = () => `elio_config_${projectId}`;
@@ -346,7 +347,7 @@ async function fetchOpportunitiesFromBackend() {
   });
 </script>
 
-<div class="max-w-7xl mx-auto p-6">
+<div class="max-w-7xl mx-auto p-4 sm:p-6">
   {#if loading}
     <div class="text-center py-12">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
@@ -354,22 +355,22 @@ async function fetchOpportunitiesFromBackend() {
     </div>
   {:else}
     <!-- Header -->
-    <div class="mb-8">
-      <div class="flex items-center justify-between mb-4">
+    <div class="mb-6 sm:mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900">Elio Reddit Assistant</h1>
-          <p class="text-gray-600 mt-1">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Elio Reddit Assistant</h1>
+          <p class="text-sm sm:text-base text-gray-600 mt-1">
             {#if projectData}
               Monitoring opportunities for {projectData.business_name || 'your project'}
             {/if}
           </p>
         </div>
         
-        <div class="flex gap-3">
+        <div class="flex gap-2 sm:gap-3">
           {#if opportunities.some(o => o.is_dismissed)}
             <button 
               on:click={clearDismissed}
-              class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium text-sm"
+              class="px-3 sm:px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium text-xs sm:text-sm"
             >
               Clear Dismissed
             </button>
@@ -377,7 +378,7 @@ async function fetchOpportunitiesFromBackend() {
           <button 
             on:click={scanOpportunities}
             disabled={scanning}
-            class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium text-sm disabled:opacity-50"
+            class="px-3 sm:px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium text-xs sm:text-sm disabled:opacity-50"
           >
             {#if scanning}
               bleep bleep...
@@ -389,40 +390,42 @@ async function fetchOpportunitiesFromBackend() {
       </div>
       
       <!-- View Tabs -->
-      <div class="flex gap-2 border-b border-gray-200">
-        <button
-          on:click={() => view = 'opportunities'}
-          class="px-4 py-2 font-medium text-sm transition-colors {view === 'opportunities' ? 'text-orange-600 border-b-2 border-orange-600' : 'text-gray-500 hover:text-gray-700'}"
-        >
-          Opportunities ({filteredOpportunities.length})
-        </button>
-        <button
-          on:click={() => view = 'config'}
-          class="px-4 py-2 font-medium text-sm transition-colors {view === 'config' ? 'text-orange-600 border-b-2 border-orange-600' : 'text-gray-500 hover:text-gray-700'}"
-        >
-          Configuration
-        </button>
+      <div class="overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
+        <div class="flex gap-2 border-b border-gray-200 min-w-max">
+          <button
+            on:click={() => view = 'opportunities'}
+            class="px-4 py-2 font-medium text-sm transition-colors whitespace-nowrap {view === 'opportunities' ? 'text-orange-600 border-b-2 border-orange-600' : 'text-gray-500 hover:text-gray-700'}"
+          >
+            Opportunities ({filteredOpportunities.length})
+          </button>
+          <button
+            on:click={() => view = 'config'}
+            class="px-4 py-2 font-medium text-sm transition-colors whitespace-nowrap {view === 'config' ? 'text-orange-600 border-b-2 border-orange-600' : 'text-gray-500 hover:text-gray-700'}"
+          >
+            Configuration
+          </button>
+        </div>
       </div>
     </div>
     
     {#if view === 'opportunities'}
       <!-- Opportunities View -->
-      <div class="grid grid-cols-12 gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
         <!-- Opportunities List -->
-        <div class="col-span-5 space-y-3">
+        <div class="lg:col-span-5 space-y-3">
           {#if filteredOpportunities.length === 0}
             <div class="text-center py-12 bg-gray-50 rounded-xl">
               <p class="text-gray-500 mb-2">No opportunities yet</p>
-              <p class="text-sm text-gray-400">Click "Scan Now" to find discussions</p>
+              <p class="text-sm text-gray-400">Click "Go!" to find discussions</p>
             </div>
           {:else}
             {#each filteredOpportunities as opp}
               <button
                 on:click={() => selectedOpportunity = opp}
-                class="w-full bg-white rounded-xl p-5 border border-gray-200 hover:border-orange-300 transition-all text-left {selectedOpportunity?.id === opp.id ? 'ring-2 ring-orange-500 border-orange-500' : ''} {opp.is_responded ? 'opacity-60' : ''}"
+                class="w-full bg-white rounded-xl p-4 sm:p-5 border border-gray-200 hover:border-orange-300 transition-all text-left {selectedOpportunity?.id === opp.id ? 'ring-2 ring-orange-500 border-orange-500' : ''} {opp.is_responded ? 'opacity-60' : ''}"
               >
                 <!-- Header -->
-                <div class="flex items-start justify-between mb-3">
+                <div class="flex items-start justify-between mb-3 gap-2">
                   <div class="flex items-center gap-2 flex-wrap">
                     <span class="text-xs px-2 py-1 bg-orange-100 text-orange-700 rounded font-medium">
                       r/{opp.subreddit}
@@ -436,7 +439,7 @@ async function fetchOpportunitiesFromBackend() {
                       </span>
                     {/if}
                   </div>
-                  <div class="font-semibold text-orange-600 text-sm">
+                  <div class="font-semibold text-orange-600 text-sm flex-shrink-0">
                     {Math.round(opp.relevance_score)}%
                   </div>
                 </div>
@@ -465,14 +468,14 @@ async function fetchOpportunitiesFromBackend() {
         </div>
         
         <!-- Selected Opportunity Detail -->
-        <div class="col-span-7">
+        <div class="lg:col-span-7">
           {#if selectedOpportunity}
             <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
               <!-- Header -->
-              <div class="p-6 border-b border-gray-200">
-                <div class="flex items-start justify-between mb-3">
+              <div class="p-4 sm:p-6 border-b border-gray-200">
+                <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
                   <div class="flex-1">
-                    <h2 class="text-xl font-bold text-gray-900 mb-2">
+                    <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-2">
                       {selectedOpportunity.title}
                     </h2>
                     <a 
@@ -485,16 +488,16 @@ async function fetchOpportunitiesFromBackend() {
                     </a>
                   </div>
                   
-                  <div class="flex gap-2 ml-4">
+                  <div class="flex gap-2">
                     <button
                       on:click={() => updateOpportunity(selectedOpportunity.id, { is_responded: true })}
-                      class="text-xs px-3 py-1 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded transition-colors"
+                      class="text-xs px-3 py-1 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded transition-colors whitespace-nowrap"
                     >
                       ✓ Mark Responded
                     </button>
                     <button
                       on:click={() => updateOpportunity(selectedOpportunity.id, { is_dismissed: true })}
-                      class="text-xs px-3 py-1 bg-red-100 hover:bg-red-200 text-red-700 rounded transition-colors"
+                      class="text-xs px-3 py-1 bg-red-100 hover:bg-red-200 text-red-700 rounded transition-colors whitespace-nowrap"
                     >
                       × Dismiss
                     </button>
@@ -518,7 +521,7 @@ async function fetchOpportunitiesFromBackend() {
                     <ul class="space-y-1">
                       {#each selectedOpportunity.key_points as point}
                         <li class="text-sm text-gray-600 flex items-start">
-                          <span class="text-orange-500 mr-2">•</span>
+                          <span class="text-orange-500 mr-2 flex-shrink-0">•</span>
                           <span>{point}</span>
                         </li>
                       {/each}
@@ -528,18 +531,18 @@ async function fetchOpportunitiesFromBackend() {
               </div>
               
               <!-- Response Section -->
-              <div class="p-6">
-                <div class="flex items-center justify-between mb-3">
+              <div class="p-4 sm:p-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
                   <h3 class="text-sm font-semibold text-gray-700">Suggested Response</h3>
                   <button
                     on:click={() => copyResponse(selectedOpportunity.suggested_response)}
-                    class="text-xs px-3 py-1 bg-orange-600 hover:bg-orange-700 text-white rounded transition-colors"
+                    class="text-xs px-3 py-1 bg-orange-600 hover:bg-orange-700 text-white rounded transition-colors self-start sm:self-auto"
                   >
                     Copy Response
                   </button>
                 </div>
                 
-                <div class="bg-gray-50 rounded-lg p-4">
+                <div class="bg-gray-50 rounded-lg p-3 sm:p-4">
                   <p class="text-sm text-gray-800 whitespace-pre-wrap leading-relaxed">
                     {selectedOpportunity.suggested_response}
                   </p>
@@ -547,7 +550,7 @@ async function fetchOpportunitiesFromBackend() {
               </div>
             </div>
           {:else}
-            <div class="bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 h-full flex items-center justify-center">
+            <div class="bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 h-48 lg:h-full flex items-center justify-center">
               <div class="text-center py-12">
                 <p class="text-gray-500">Select an opportunity to view details</p>
               </div>
@@ -559,10 +562,10 @@ async function fetchOpportunitiesFromBackend() {
     {:else if view === 'config'}
       <!-- Configuration View -->
       {#if config}
-        <div class="max-w-4xl space-y-6">
+        <div class="max-w-4xl space-y-4 sm:space-y-6">
           <!-- Subreddits -->
-          <div class="bg-white rounded-xl p-6 border border-gray-200">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">Target Subreddits</h2>
+          <div class="bg-white rounded-xl p-4 sm:p-6 border border-gray-200">
+            <h2 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Target Subreddits</h2>
             <div class="space-y-3">
               <div class="flex flex-wrap gap-2">
                 {#each config.subreddits as sub, idx}
@@ -584,7 +587,7 @@ async function fetchOpportunitiesFromBackend() {
                 <input
                   type="text"
                   placeholder="Add subreddit (e.g., entrepreneur)"
-                  class="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
+                  class="flex-1 px-3 sm:px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
                   on:keypress={(e) => {
                     if (e.key === 'Enter' && e.target.value) {
                       config.subreddits = [...config.subreddits, e.target.value.replace('r/', '')];
@@ -597,8 +600,8 @@ async function fetchOpportunitiesFromBackend() {
           </div>
           
           <!-- Keywords -->
-          <div class="bg-white rounded-xl p-6 border border-gray-200">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">Target Keywords</h2>
+          <div class="bg-white rounded-xl p-4 sm:p-6 border border-gray-200">
+            <h2 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Target Keywords</h2>
             <p class="text-sm text-gray-500 mb-3">Optional - Leave empty to let AI find relevant posts automatically</p>
             <div class="space-y-3">
               <div class="flex flex-wrap gap-2">
@@ -621,7 +624,7 @@ async function fetchOpportunitiesFromBackend() {
                 <input
                   type="text"
                   placeholder="Add keyword"
-                  class="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
+                  class="flex-1 px-3 sm:px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
                   on:keypress={(e) => {
                     if (e.key === 'Enter' && e.target.value) {
                       config.keywords = [...config.keywords, e.target.value];
@@ -634,8 +637,8 @@ async function fetchOpportunitiesFromBackend() {
           </div>
           
           <!-- Exclude Keywords -->
-          <div class="bg-white rounded-xl p-6 border border-gray-200">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">Exclude Keywords</h2>
+          <div class="bg-white rounded-xl p-4 sm:p-6 border border-gray-200">
+            <h2 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Exclude Keywords</h2>
             <div class="space-y-3">
               <div class="flex flex-wrap gap-2">
                 {#each config.exclude_keywords as kw, idx}
@@ -657,7 +660,7 @@ async function fetchOpportunitiesFromBackend() {
                 <input
                   type="text"
                   placeholder="Add exclude keyword"
-                  class="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
+                  class="flex-1 px-3 sm:px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
                   on:keypress={(e) => {
                     if (e.key === 'Enter' && e.target.value) {
                       config.exclude_keywords = [...config.exclude_keywords, e.target.value];
@@ -670,8 +673,8 @@ async function fetchOpportunitiesFromBackend() {
           </div>
           
           <!-- Relevance Threshold -->
-          <div class="bg-white rounded-xl p-6 border border-gray-200">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">Minimum Relevance</h2>
+          <div class="bg-white rounded-xl p-4 sm:p-6 border border-gray-200">
+            <h2 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Minimum Relevance</h2>
             <div class="flex items-center gap-4">
               <input
                 type="range"
@@ -681,7 +684,7 @@ async function fetchOpportunitiesFromBackend() {
                 step="5"
                 class="flex-1"
               />
-              <span class="text-2xl font-bold text-orange-600 min-w-[60px]">
+              <span class="text-xl sm:text-2xl font-bold text-orange-600 min-w-[50px] sm:min-w-[60px]">
                 {config.min_relevance}%
               </span>
             </div>
@@ -691,7 +694,7 @@ async function fetchOpportunitiesFromBackend() {
           <div class="flex justify-end">
             <button
               on:click={saveConfig}
-              class="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium"
+              class="w-full sm:w-auto px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium"
             >
               Save Configuration
             </button>
@@ -708,5 +711,20 @@ async function fetchOpportunitiesFromBackend() {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  
+  /* Hide scrollbar for webkit browsers */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Ensure smooth scrolling on mobile */
+  .scrollbar-hide {
+    -webkit-overflow-scrolling: touch;
   }
 </style>

@@ -5,6 +5,27 @@
   let billingPeriod = 'monthly'; // or 'annual'
 
   const tiers = [
+
+  {
+			name: 'Free',
+			planId: 'free',
+			priceMonthly: '$0',
+			priceAnnual: '$0',
+			description: 'Perfect for getting started and testing the waters.',
+			features: [
+				'1 project included',
+				'All AI agents (Nai, Elio, Rio)',
+				'Simple workflow builder',
+				'Automated execution',
+				'Email support'
+			],
+			buttonText: 'Continue for Free',
+			gradient: 'from-gray-500 via-gray-600 to-gray-700',
+			bgPattern: 'radial-gradient(circle at 50% 50%, rgba(107, 114, 128, 0.1) 0%, transparent 50%)',
+			highlight: false,
+			badge: ''
+		},
+
     {
       name: 'Starter',
       planId: 'starter',
@@ -89,7 +110,7 @@
 
   <main class="px-4 sm:px-8 py-16">
     <!-- Header -->
-    <div class="text-center mb-16 max-w-4xl mx-auto">
+    <div class="text-center mb-16 w-full mx-auto">
       <h1 class="text-4xl md:text-5xl font-semibold text-white mb-4">
         Marketing that runs itself. <span class="font-['Pacifico'] text-orange-400">Daily</span>.
       </h1>
@@ -151,7 +172,7 @@
     </div>
 
     <!-- Pricing Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto w-full">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-[1500px] mx-auto w-full">
       {#each tiers as tier}
         <div 
           class="bg-zinc-950 rounded-2xl border {tier.highlight ? 'border-blue-500 shadow-lg shadow-blue-500/20 scale-105' : 'border-zinc-800'} overflow-visible hover:border-zinc-700 transition-all duration-300 relative"

@@ -16,12 +16,12 @@ const CREEM_BASE_URL = USE_TEST_MODE ? CREEM_TEST_URL : CREEM_PROD_BASE_URL
 // Map your tiers to Creem product/price IDs
 const PRICE_IDS = {
     starter: {
-        monthly: 'price_starter_monthly_test', // Replace with actual IDs from Creem dashboard
-        annual: 'price_starter_annual_test'
+        monthly: 'prod_56GlbmLiyyo6kUxnbClgA4', // Replace with actual IDs from Creem dashboard
+        annual: 'prod_2uh4uCyMVYIgpw3GkXE9uw'
     },
     pro: {
-        monthly: 'price_pro_monthly_test',
-        annual: 'price_pro_annual_test'
+        monthly: 'prod_4A98VMLVnVyhUwcEj9YqZo',
+        annual: 'prod_6qSq9YW4m0DYFgYyczCZXB'
     }
 };
 
@@ -74,7 +74,7 @@ export const POST: RequestHandler = async ({ request, url }) => {
         const cancel_url = `${url.origin}/plans?checkout=cancelled`;
 
         const checkoutData = {
-            product_id: 'prod_kw1NwcQSDRITUeFfBDKpI', // Your test product ID
+            product_id: priceId, // Your test product ID
           
             metadata: {
                 user_id: String(userID),

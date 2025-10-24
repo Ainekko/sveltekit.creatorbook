@@ -1,7 +1,4 @@
-
 <script lang="ts">
-    import { get } from 'svelte/store';
-    import { userStore } from '$lib/stores';
     import { 
         projects, 
         currentProject, 
@@ -11,14 +8,17 @@
         projectsCount,
         projectStore 
     } from '$lib/projects/stores';
+    import { userStore, user, subscriptionTier, hasActiveSubscription } from '$lib/users/stores';
     import { fade, slide, scale } from 'svelte/transition';
     import { onMount, tick } from 'svelte';
-    import { get_user } from '$lib/users/users';
     import { page } from '$app/stores';
     import { goto } from '$app/navigation';
     import { cubicOut } from 'svelte/easing';
-    import { Plus, Settings, LayoutGrid, Search, Star, MoreHorizontal, Pin, Archive, Menu, SearchCode, Twitter, MessageSquare, ChevronDown, ChevronUp, LogOut } from 'lucide-svelte';
-    import { logout } from '$lib/db';
+    import { 
+        Plus, Settings, LayoutGrid, Search, Star, MoreHorizontal, 
+        Pin, Archive, Menu, SearchCode, Twitter, MessageSquare, 
+        ChevronDown, ChevronUp, LogOut, Crown, Sparkles 
+    } from 'lucide-svelte';
     import UpgradeModal from './UpgradeModule.svelte';
 
     function generateRandomGradient(): string {
@@ -35,7 +35,6 @@
     let pinnedProjects = new Set<string>();
     let isCollapsed = false;
     let showProjectSearch = false;
-    let token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
     function closeAllMenus(event?: KeyboardEvent) {
         if (event && event.key !== 'Escape') return;
@@ -43,7 +42,9 @@
     }
 
     function startNewProject() {
-        if ($userStore?.subscription_status !== 'premium' && $projectsCount >= 1) {
+        // Check if user has reached project limit
+        const maxProjects = $user?.subscription_info?.features.max_projects || 1;
+        if ($projectsCount >= maxProjects) {
             showUpgradeModal = true;
             return;
         }
@@ -76,22 +77,18 @@
         return new Date(a.updated_at || a.created_at).getTime() - new Date(b.updated_at || b.created_at).getTime();
     });
 
+    // Get max projects for current tier
+    $: maxProjects = $user?.subscription_info?.features.max_projects || 1;
+    $: isAtProjectLimit = $projectsCount >= maxProjects;
+
     onMount(async () => {
         try {
-            // Load user data
-            const user_data = await get_user();
-            if (user_data) {
-                userStore.set({
-                    username: user_data.username,
-                    user_id: user_data.user_id,
-                    user_email: user_data.email,
-                    subscription_status: user_data.subscription_status
-                });
-            }
+            // Initialize user store
+            await userStore.init();
 
-            // Load projects if we have a token
-            if (token) {
-                await projectStore.loadProjects(token);
+            // Load projects if authenticated
+            if ($userStore.token) {
+                await projectStore.loadProjects($userStore.token);
             }
 
             // Load UI state from localStorage
@@ -140,7 +137,7 @@
     async function archiveProject(projectId: string) {
         if (confirm('Are you sure you want to archive this project?')) {
             try {
-                await projectStore.deleteProject(token, projectId);
+                await projectStore.deleteProject($userStore.token, projectId);
                 console.log('Project archived:', projectId);
             } catch (err) {
                 console.error('Failed to archive project:', err);
@@ -195,11 +192,14 @@
         ];
     }
 
-    function handleLogout() {
-        logout();
-        userStore.set(null);
-        projectStore.clear(); // Clear project data on logout
-        goto('/');
+    async function handleLogout() {
+        await userStore.logout();
+        projectStore.clear();
+    }
+
+    function getTierDisplay(tier: string | null): string {
+        if (!tier) return 'Free';
+        return tier.charAt(0).toUpperCase() + tier.slice(1);
     }
 </script>
 
@@ -245,6 +245,15 @@
     .project-card:hover {
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
+    .shimmer {
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite;
+    }
+    @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
 </style>
 
 <nav class="h-screen bg-white text-gray-900 border-r border-gray-200 transition-all duration-300 {isCollapsed ? 'w-12' : 'w-60'} flex flex-col z-40">
@@ -257,15 +266,20 @@
         <div class="flex flex-col gap-2">
             <div class="flex items-center justify-between">
                 {#if !isCollapsed}
-                    <div class="flex items-center gap-2">
-                        <div class="w-7 h-7 rounded-full" style="background-image: {userAvatarGradient}; background-size: cover;" />
-                        <div class="flex flex-col">
-                            <span class="text-xs text-gray-500">Welcome</span>
-                            <span class="text-xs font-medium text-gray-900 truncate">{$userStore?.username || 'User'}</span>
+                    <div class="flex items-center gap-2 min-w-0">
+                        <div class="w-7 h-7 rounded-full flex-shrink-0" style="background-image: {userAvatarGradient}; background-size: cover;" />
+                        <div class="flex flex-col min-w-0">
+                            <div class="flex items-center gap-1">
+                                <span class="text-xs text-gray-500">Welcome</span>
+                                {#if $subscriptionTier === 'pro'}
+                                    <Crown size={10} class="text-amber-500" />
+                                {/if}
+                            </div>
+                            <span class="text-xs font-medium text-gray-900 truncate">{$user?.username || 'User'}</span>
                         </div>
                     </div>
                     <button
-                        class="p-1 hover:bg-gray-100 rounded-md text-gray-500"
+                        class="p-1 hover:bg-gray-100 rounded-md text-gray-500 flex-shrink-0"
                         on:click={toggleSidebar}
                         title="Collapse sidebar"
                     >
@@ -284,16 +298,27 @@
             {#if !isCollapsed}
                 <button
                     on:click={startNewProject}
-                    class="flex items-center justify-center gap-1.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg px-3 py-1.5 text-xs font-medium transition-all relative"
+                    class="flex items-center justify-center gap-1.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg px-3 py-1.5 text-xs font-medium transition-all relative disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={isAtProjectLimit}
+                    title={isAtProjectLimit ? `Project limit reached (${$projectsCount}/${maxProjects})` : 'Create new project'}
                 >
                     <Plus size={12} />
                     New Project
+                    {#if isAtProjectLimit && $subscriptionTier !== 'pro'}
+                        <span class="absolute -top-1 -right-1 w-2 h-2 bg-orange-400 rounded-full animate-pulse"></span>
+                    {/if}
                 </button>
+                {#if isAtProjectLimit}
+                    <div class="text-[10px] text-center text-gray-500">
+                        {$projectsCount}/{maxProjects} projects used
+                    </div>
+                {/if}
             {:else}
                 <button
                     on:click={startNewProject}
-                    class="p-1 bg-orange-400 hover:bg-orange-500 text-white rounded-lg mx-auto"
-                    title="New Project"
+                    class="p-1 bg-orange-400 hover:bg-orange-500 text-white rounded-lg mx-auto disabled:opacity-50"
+                    title={isAtProjectLimit ? "Project limit reached" : "New Project"}
+                    disabled={isAtProjectLimit}
                 >
                     <Plus size={12} />
                 </button>
@@ -353,7 +378,7 @@
             </div>
         <!-- Scrollable Projects -->
         {:else}
-            <div class="projects-scroll-area flex-1 min-h-0  overflow-y-auto">
+            <div class="projects-scroll-area flex-1 min-h-0 overflow-y-auto">
                 {#if sortedProjects.length > 0}
                     <!-- Pinned Projects -->
                     {#if sortedProjects.filter(p => pinnedProjects.has(p.id)).length > 0}
@@ -367,7 +392,7 @@
                                     {@const navItems = getProjectNavItems(project.id)}
                                     <div class="relative group project-card" transition:slide={{ duration: 300 }}>
                                         <button
-                                            class="flex items-center justify-between w-full px-2 py-1.5 rounded-lg bg- shadow-md  border border-gray-200 hover:bg-zinc-200 text-gray-900 focus:outline-none {isCollapsed ? 'justify-center px-0 border-0' : ''}"
+                                            class="flex items-center justify-between w-full px-2 py-1.5 rounded-lg bg-white shadow-md border border-gray-200 hover:bg-zinc-200 text-gray-900 focus:outline-none {isCollapsed ? 'justify-center px-0 border-0' : ''}"
                                             on:click={() => !isCollapsed && toggleProject(project.id)}
                                             title={isCollapsed ? projectTitle : ''}
                                         >
@@ -564,6 +589,41 @@
 
     <!-- Footer -->
     <footer class="flex-shrink-0 p-2 border-t border-gray-200">
+        <!-- Subscription Status Card -->
+        {#if !isCollapsed && $subscriptionTier !== 'pro'}
+            <a
+                href="/plans"
+                class="block mb-2 p-2 rounded-lg bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 hover:border-amber-300 transition-all group"
+                transition:slide={{ duration: 200 }}
+            >
+                <div class="flex items-center gap-2 mb-1">
+                    <div class="w-5 h-5 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shimmer">
+                        <Crown size={12} class="text-white" />
+                    </div>
+                    <span class="text-xs font-semibold text-gray-900">Upgrade to Pro</span>
+                </div>
+                <p class="text-[10px] text-gray-600 mb-1">
+                    Unlock unlimited projects and premium features
+                </p>
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] text-gray-500">Current: {getTierDisplay($subscriptionTier)}</span>
+                    <Sparkles size={10} class="text-amber-500 group-hover:scale-110 transition-transform" />
+                </div>
+            </a>
+        {:else if !isCollapsed && $subscriptionTier === 'pro'}
+            <div class="mb-2 p-2 rounded-lg bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200" transition:slide={{ duration: 200 }}>
+                <div class="flex items-center gap-2 mb-1">
+                    <div class="w-5 h-5 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+                        <Crown size={12} class="text-white" />
+                    </div>
+                    <span class="text-xs font-semibold text-gray-900">Pro Plan</span>
+                </div>
+                <p class="text-[10px] text-gray-600">
+                    You have unlimited projects and premium features
+                </p>
+            </div>
+        {/if}
+
         {#if !isCollapsed}
             <h2 class="text-xs font-medium text-gray-500 mb-1 px-1">Account</h2>
         {/if}
