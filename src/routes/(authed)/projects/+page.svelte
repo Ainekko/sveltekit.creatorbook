@@ -150,7 +150,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <!-- Header Section -->
-          <div class="text-center flex  mb-16">
+          <div class="text-center md:flex-row  mb-16">
               <div class="space-y-6 mb-12">
                   <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-zinc-700 leading-tight tracking-tight">
                       Your projects.

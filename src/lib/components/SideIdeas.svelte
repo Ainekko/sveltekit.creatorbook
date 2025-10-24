@@ -83,6 +83,11 @@
 
     onMount(async () => {
         try {
+
+            const collapsed = localStorage.getItem('sidebar-collapsed');
+            if (collapsed === 'true') {
+                isCollapsed = true;
+            }
             // Initialize user store
             await userStore.init();
 
@@ -91,11 +96,11 @@
                 await projectStore.loadProjects($userStore.token);
             }
 
-            // Load UI state from localStorage
-            const collapsed = localStorage.getItem('sidebar-collapsed');
-            if (collapsed === 'true') {
-                isCollapsed = true;
-            }
+            // // Load UI state from localStorage
+            // const collapsed = localStorage.getItem('sidebar-collapsed');
+            // if (collapsed === 'true') {
+            //     isCollapsed = true;
+            // }
 
             const pinned = localStorage.getItem('pinned-projects');
             if (pinned) {
@@ -104,6 +109,7 @@
         } catch (error) {
             console.error('An error occurred while loading sidebar data:', error);
         }
+        
     });
 
     function toggleSidebar() {
