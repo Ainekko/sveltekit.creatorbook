@@ -38,7 +38,7 @@
   let searchQuery = '';
   let filteredProjects = [];
   
-  function toggleProject(projectId) {
+  function toggleProject(projectId : string) {
       expandedProjects[projectId] = !expandedProjects[projectId];
       expandedProjects = {...expandedProjects};
   }

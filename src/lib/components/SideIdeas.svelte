@@ -594,32 +594,32 @@
     </section>
 
     <!-- Footer -->
-    <footer class="flex-shrink-0 p-2 border-t border-gray-200">
+    <footer class="flex-shrink-0 p-2 border-t border-gray-200 ">
         <!-- Subscription Status Card -->
         {#if !isCollapsed && $subscriptionTier !== 'pro'}
             <a
                 href="/plans"
-                class="block mb-2 p-2 rounded-lg bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 hover:border-amber-300 transition-all group"
+                class="block mb-2 p-2 rounded-lg border bg-gradient-to-br from-violet-800 to-zinc-400 border-zin text-zinc-200 hover:border-amber-300 transition-all group"
                 transition:slide={{ duration: 200 }}
             >
                 <div class="flex items-center gap-2 mb-1">
-                    <div class="w-5 h-5 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shimmer">
+                    <div class="w-5 h-5 rounded-full  bg-gradient-to-br from-zinc-400 to-zinc-500  flex items-center justify-center shimmer">
                         <Crown size={12} class="text-white" />
                     </div>
-                    <span class="text-xs font-semibold text-gray-900">Upgrade to Pro</span>
+                    <span class="text-xs font-semibold text-gray-100">Upgrade to Pro</span>
                 </div>
-                <p class="text-[10px] text-gray-600 mb-1">
+                <p class="text-[10px] text-gray-200 mb-1">
                     Unlock unlimited projects and premium features
                 </p>
                 <div class="flex items-center justify-between">
-                    <span class="text-[10px] text-gray-500">Current: {getTierDisplay($subscriptionTier)}</span>
+                    <span class="text-[10px] text-gray-100">Current: {getTierDisplay($subscriptionTier)}</span>
                     <Sparkles size={10} class="text-amber-500 group-hover:scale-110 transition-transform" />
                 </div>
             </a>
         {:else if !isCollapsed && $subscriptionTier === 'pro'}
-            <div class="mb-2 p-2 rounded-lg bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200" transition:slide={{ duration: 200 }}>
+            <div class="mb-2 p-2 rounded-lg shadow-lg shadow-violet-500/20 " transition:slide={{ duration: 200 }}>
                 <div class="flex items-center gap-2 mb-1">
-                    <div class="w-5 h-5 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+                    <div class="w-5 h-5 rounded-full bg-gradient-to-br from-violet-400 to-violet-500 flex items-center justify-center">
                         <Crown size={12} class="text-white" />
                     </div>
                     <span class="text-xs font-semibold text-gray-900">Pro Plan</span>
