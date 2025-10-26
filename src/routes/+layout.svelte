@@ -109,7 +109,7 @@ $: if (browser && initialized && $page.url.pathname) {
   <!-- <div class="sticky top-0 z-50">
     <NavBar />
   </div> -->
-  <div class="overflow-hidden ">
+  <div class="overflow-hi">
     <slot />
   </div>
   

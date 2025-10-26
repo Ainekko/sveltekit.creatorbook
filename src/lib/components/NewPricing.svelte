@@ -3,29 +3,29 @@
   import { onMount } from 'svelte';
 
   let billingPeriod = 'monthly'; // or 'annual'
+  let spotsRemaining = 10; // Could be fetched from API in real implementation
 
   const tiers = [
-
-  {
-			name: 'Free',
-			planId: 'free',
-			priceMonthly: '$0',
-			priceAnnual: '$0',
-			description: 'Perfect for getting started and testing the waters.',
-			features: [
-				'1 project included',
-				'All AI agents (Nai, Elio, Rio)',
-				'Simple workflow builder',
-				'Automated execution',
-				'Email support'
-			],
-			buttonText: 'Continue for Free',
-			gradient: 'from-gray-500 via-gray-600 to-gray-700',
-			bgPattern: 'radial-gradient(circle at 50% 50%, rgba(107, 114, 128, 0.1) 0%, transparent 50%)',
-			highlight: false,
-			badge: ''
-		},
-
+    {
+      name: 'Free',
+      planId: 'free',
+      priceMonthly: '$0',
+      priceAnnual: '$0',
+      description: 'Perfect for getting started and testing the waters.',
+      features: [
+        '1 project included',
+        'All AI agents (Nai, Elio, Rio)',
+        'Simple workflow builder',
+        'Automated execution',
+        'Email support'
+      ],
+      buttonText: 'Continue for Free',
+      gradient: 'from-gray-500 via-gray-600 to-gray-700',
+      bgPattern: 'radial-gradient(circle at 50% 50%, rgba(107, 114, 128, 0.1) 0%, transparent 50%)',
+      highlight: false,
+      badge: '',
+      isLifetime: false
+    },
     {
       name: 'Starter',
       planId: 'starter',
@@ -44,7 +44,30 @@
       gradient: 'from-emerald-400 via-teal-500 to-cyan-600',
       bgPattern: 'radial-gradient(circle at 20% 30%, rgba(16, 185, 129, 0.1) 0%, transparent 50%)',
       highlight: false,
-      badge: ''
+      badge: '',
+      isLifetime: false
+    },
+    {
+      name: 'Lifetime',
+      planId: 'lifetime',
+      priceMonthly: '$299',
+      priceAnnual: '$299',
+      description: 'Pay once, market forever. Limited availability.',
+      features: [
+        '5 projects included',
+        'All AI agents with priority execution',
+        'Advanced analytics & A/B testing',
+        'Custom content templates',
+        'Lifetime updates & support',
+        'API access',
+        'Early access to new features'
+      ],
+      buttonText: 'Claim Your Spot',
+      gradient: 'from-amber-400 via-orange-500 to-red-600',
+      bgPattern: 'radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.1) 0%, transparent 50%)',
+      highlight: true,
+      badge: `Only ${spotsRemaining} Left!`,
+      isLifetime: true
     },
     {
       name: 'Pro',
@@ -64,8 +87,9 @@
       buttonText: 'Start 14-day free trial',
       gradient: 'from-blue-400 via-indigo-500 to-purple-600',
       bgPattern: 'radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)',
-      highlight: true,
-      badge: 'Most Value'
+      highlight: false,
+      badge: '',
+      isLifetime: false
     },
     {
       name: 'Custom',
@@ -86,7 +110,8 @@
       gradient: 'from-orange-400 via-red-500 to-pink-600',
       bgPattern: 'radial-gradient(circle at 60% 70%, rgba(251, 146, 60, 0.1) 0%, transparent 50%)',
       highlight: false,
-      badge: ''
+      badge: '',
+      isLifetime: false
     }
   ];
 
@@ -171,18 +196,81 @@
       </div>
     </div>
 
-    <!-- Pricing Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-[1500px] mx-auto w-full">
+    <!-- Lifetime Deal Banner -->
+    <div class="max-w-6xl mx-auto mb-12">
       {#each tiers as tier}
+        {#if tier.isLifetime}
         <div 
-          class="bg-zinc-950 rounded-2xl border {tier.highlight ? 'border-blue-500 shadow-lg shadow-blue-500/20 scale-105' : 'border-zinc-800'} overflow-visible hover:border-zinc-700 transition-all duration-300 relative"
+          class="bg-zinc-950 rounded-2xl border border-amber-500 shadow-lg shadow-amber-500/20 overflow-visible hover:border-amber-400 transition-all duration-300 relative"
           style="background-image: {tier.bgPattern}"
         >
           {#if tier.badge}
-            <div class="absolute z-100 -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs font-medium px-4 py-1 rounded-full">
-              {tier.badge}
+            <div class="absolute z-100 -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-amber-500 to-red-600 text-white text-xs font-bold px-6 py-2 rounded-full animate-pulse-slow shadow-lg">
+              🔥 {tier.badge}
             </div>
           {/if}
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
+            <!-- Tier Header -->
+            <div class="md:col-span-1 bg-gradient-to-r rounded-2xl {tier.gradient} p-8 flex flex-col justify-center">
+              <h3 class="text-3xl font-bold text-white mb-3">{tier.name}</h3>
+              <div class="text-white/90 text-base mb-6">{tier.description}</div>
+              <div class="text-5xl font-bold text-white mb-2">
+                {tier.priceMonthly}
+              </div>
+              <span class="text-lg font-normal text-white/80">
+                Pay once, use forever
+              </span>
+            </div>
+
+            <!-- Features -->
+            <div class="md:col-span-1 flex items-center">
+              <ul class="space-y-3 w-full">
+                {#each tier.features as feature}
+                  <li class="flex items-start text-sm text-zinc-300">
+                    <svg class="w-5 h-5 text-amber-400 mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    {feature}
+                  </li>
+                {/each}
+              </ul>
+            </div>
+
+            <!-- CTA -->
+            <div class="md:col-span-1 flex flex-col justify-center items-center text-center">
+              <div class="mb-6">
+                <p class="text-zinc-400 text-sm mb-2">Regular Price: <span class="line-through">$999</span></p>
+                <p class="text-amber-400 text-xl font-semibold">Limited Time: $299</p>
+                <p class="text-zinc-500 text-xs mt-2">Save $700 — Never pay again</p>
+              </div>
+              <button 
+                on:click={() => handlePlanSelection(tier.planId)}
+                class="w-full bg-gradient-to-r from-amber-500 to-red-600 hover:from-amber-600 hover:to-red-700 text-white px-8 py-5 rounded-xl text-lg font-bold transition-all duration-200 shadow-lg shadow-amber-500/50 hover:shadow-amber-500/70 hover:scale-105"
+              >
+                {tier.buttonText} →
+              </button>
+              <p class="text-xs text-zinc-500 mt-4 flex items-center gap-2">
+                <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                </svg>
+                Offer expires when spots are gone
+              </p>
+            </div>
+          </div>
+        </div>
+        {/if}
+      {/each}
+    </div>
+
+    <!-- Pricing Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-[1500px] mx-auto w-full">
+      {#each tiers as tier}
+        {#if !tier.isLifetime}
+        <div 
+          class="bg-zinc-950 rounded-2xl border border-zinc-800 overflow-visible hover:border-zinc-700 transition-all duration-300 relative"
+          style="background-image: {tier.bgPattern}"
+        >
           
           <!-- Tier Header -->
           <div class="p-8 bg-gradient-to-r rounded-2xl {tier.gradient}">
@@ -191,7 +279,7 @@
             <div class="text-4xl font-bold text-white">
               {billingPeriod === 'monthly' ? tier.priceMonthly : tier.priceAnnual}
               <span class="text-base font-normal text-white/80 ml-1">
-                {tier.priceMonthly === 'Custom' ? '' : billingPeriod === 'monthly' ? '/month' : '/year'}
+                {tier.priceMonthly === 'Custom' ? '' : (billingPeriod === 'monthly' ? '/month' : '/year')}
               </span>
             </div>
           </div>
@@ -212,7 +300,7 @@
             <!-- CTA Button -->
             <button 
               on:click={() => handlePlanSelection(tier.planId)}
-              class="w-full {tier.highlight ? 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700' : 'bg-zinc-800 hover:bg-zinc-700'} text-white px-6 py-4 rounded-xl text-sm font-medium transition-all duration-200 shadow-lg"
+              class="w-full bg-zinc-800 hover:bg-zinc-700 text-white px-6 py-4 rounded-xl text-sm font-medium transition-all duration-200 shadow-lg"
             >
               {tier.buttonText}
             </button>
@@ -227,6 +315,7 @@
             {/if}
           </div>
         </div>
+        {/if}
       {/each}
     </div>
 
