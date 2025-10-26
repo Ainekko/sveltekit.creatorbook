@@ -17,7 +17,7 @@
     // Small delay to ensure content is rendered
     setTimeout(() => {
       isLoading = false;
-    }, 100);
+    }, 50);
   });
 </script>
 
@@ -33,7 +33,7 @@
 />
 
 <!-- Decorative Background -->
-<div class="fixed inset-0 -z-10 bg-white">
+<div class="fixed inset-0 -z-10 bg-white ">
   <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl"></div>
   <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-100/30 rounded-full blur-3xl"></div>
   <div class="absolute bottom-0 left-1/2 w-96 h-96 bg-orange-100/20 rounded-full blur-3xl"></div>
@@ -81,7 +81,7 @@
     </div>
     
     <!-- Sidebar -->
-    <aside class="lg:col-span-4 relative">
+    <aside class="lg:col-span-4 relative pt-96">
       <div class="lg:sticky top-8">
         <!-- Main CTA Card -->
         <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-800 via-zinc-900 to-black p-8 shadow-xl">

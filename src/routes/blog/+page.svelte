@@ -34,7 +34,7 @@
     // Navigate after a tiny delay to show loading state
     setTimeout(() => {
       goto(`/blog/${postId}`);
-    }, 50);
+    }, 10);
   }
   
   // Generate gradient for each post

@@ -192,7 +192,7 @@
             {
                 href: `/projects/${projectId}/integrations`,
                 icon: Settings,
-                label: 'Settings',
+                label: 'Integrations',
                 active: currentPath.includes(`/projects/${projectId}/integrations`)
             }
         ];

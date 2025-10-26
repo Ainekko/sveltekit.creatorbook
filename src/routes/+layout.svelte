@@ -106,9 +106,9 @@ $: if (browser && initialized && $page.url.pathname) {
 </svelte:head>
 
 <main class="min-h-screen">
-  <!-- <div class="sticky top-0 z-50">
+  <div class="sticky top-0 z-50">
     <NavBar />
-  </div> -->
+  </div>
   <div class="overflow-hi">
     <slot />
   </div>
