@@ -73,7 +73,7 @@ class BlogAPI {
 
   constructor(baseUrl: string = API_BASE) {
     this.baseUrl = baseUrl;
-    this.cache = new CacheManager(60); // 60 second cache
+    this.cache = new CacheManager(3000); // 60 second cache
   }
 
   /**
@@ -92,7 +92,7 @@ class BlogAPI {
       {
         // Add cache headers for browser caching
         headers: {
-          'Cache-Control': 'public, max-age=60, stale-while-revalidate=300'
+          'Cache-Control': 'public, max-age=3000, stale-while-revalidate=300'
         }
       }
     );
@@ -120,7 +120,7 @@ class BlogAPI {
 
     const response = await fetch(`${this.baseUrl}/posts/${id}/`, {
       headers: {
-        'Cache-Control': 'public, max-age=60, stale-while-revalidate=300'
+        'Cache-Control': 'public, max-age=3000, stale-while-revalidate=300'
       }
     });
     
@@ -159,7 +159,7 @@ class BlogAPI {
       `${this.baseUrl}/posts/recent/?limit=${limit}`,
       {
         headers: {
-          'Cache-Control': 'public, max-age=60, stale-while-revalidate=300'
+          'Cache-Control': 'public, max-age=3000, stale-while-revalidate=300'
         }
       }
     );

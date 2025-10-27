@@ -30,7 +30,7 @@ export const load: PageServerLoad = async ({ params }) => {
 // This caches the page and regenerates it every 60 seconds
 export const config = {
   isr: {
-    expiration: 60, // Cache for 60 seconds
+    expiration: false, // Cache for 60 seconds
     // Optional: Set to false to disable runtime regeneration
     // bypassToken: 'your-secret-token' // For on-demand revalidation
   }

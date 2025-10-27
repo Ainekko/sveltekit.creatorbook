@@ -30,11 +30,13 @@
     e.preventDefault();
     navigating = true;
     targetPostId = postId;
+
+    goto(`/blog/${postId}`);
     
     // Navigate after a tiny delay to show loading state
-    setTimeout(() => {
-      goto(`/blog/${postId}`);
-    }, 10);
+    // setTimeout(() => {
+    //   goto(`/blog/${postId}`);
+    // }, 100);
   }
   
   // Generate gradient for each post
@@ -74,8 +76,8 @@
 {#if navigating}
   <div class="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center transition-opacity">
     <div class="flex flex-col items-center gap-4">
-      <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-      <p class="text-zinc-600 font-medium">Loading article...</p>
+      <div class="w-6 h-6 border-4 border-pink-500 bg-pink-500 rounded-full animate-bounce"></div>
+      <!-- <p class="text-zinc-600 font-medium">Loading article...</p> -->
     </div>
   </div>
 {/if}
