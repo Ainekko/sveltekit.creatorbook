@@ -87,7 +87,7 @@
       buttonText: 'Start 14-day free trial',
       gradient: 'from-blue-400 via-indigo-500 to-purple-600',
       bgPattern: 'radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)',
-      highlight: false,
+      highlight: true,
       badge: '',
       isLifetime: false
     },
@@ -119,7 +119,7 @@
     // Store plan selection and navigate to plans page with state
     if (planId === 'custom') {
       // For custom plan, maybe go to a contact form instead
-      window.location.href = '/contact';
+      window.location.href = '/contact-us';
     } else {
       // Navigate to plans page with selected plan
       window.location.href = `/plans?selected=${planId}&billing=${billingPeriod}`;
@@ -197,7 +197,7 @@
     </div>
 
     <!-- Lifetime Deal Banner -->
-    <div class="max-w-6xl mx-auto mb-12">
+    <div class="max-w-6xl mx-auto mb-20">
       {#each tiers as tier}
         {#if tier.isLifetime}
         <div 
@@ -238,24 +238,26 @@
             </div>
 
             <!-- CTA -->
-            <div class="md:col-span-1 flex flex-col justify-center items-center text-center">
+            <div class="md:col-span-1 flex flex-col justify-between items-center text-center h-full">
               <div class="mb-6">
                 <p class="text-zinc-400 text-sm mb-2">Regular Price: <span class="line-through">$999</span></p>
                 <p class="text-amber-400 text-xl font-semibold">Limited Time: $299</p>
                 <p class="text-zinc-500 text-xs mt-2">Save $700 — Never pay again</p>
               </div>
-              <button 
-                on:click={() => handlePlanSelection(tier.planId)}
-                class="w-full bg-gradient-to-r from-amber-500 to-red-600 hover:from-amber-600 hover:to-red-700 text-white px-8 py-5 rounded-xl text-lg font-bold transition-all duration-200 shadow-lg shadow-amber-500/50 hover:shadow-amber-500/70 hover:scale-105"
-              >
-                {tier.buttonText} →
-              </button>
-              <p class="text-xs text-zinc-500 mt-4 flex items-center gap-2">
-                <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-                </svg>
-                Offer expires when spots are gone
-              </p>
+              <div class="mt-auto w-full">
+                <button 
+                  on:click={() => handlePlanSelection(tier.planId)}
+                  class="w-full bg-gradient-to-r from-amber-500 to-red-600 hover:from-amber-600 hover:to-red-700 text-white px-8 py-5 rounded-xl text-lg font-bold transition-all duration-200 shadow-lg shadow-amber-500/50 hover:shadow-amber-500/70 hover:scale-105"
+                >
+                  {tier.buttonText} →
+                </button>
+                <p class="text-xs text-zinc-500 mt-4 flex items-center gap-2 justify-center">
+                  <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                  </svg>
+                  Offer expires when spots are gone
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -268,7 +270,7 @@
       {#each tiers as tier}
         {#if !tier.isLifetime}
         <div 
-          class="bg-zinc-950 rounded-2xl border border-zinc-800 overflow-visible hover:border-zinc-700 transition-all duration-300 relative"
+          class="flex flex-col bg-zinc-950 rounded-2xl overflow-visible transition-all duration-300 relative {tier.highlight ? 'border-purple-500 shadow-xl shadow-violet-200/10 hover:border-purple-400 hover:shadow-purple-500/30 md:scale-110' : 'border-zinc-800 hover:border-zinc-700'}"
           style="background-image: {tier.bgPattern}"
         >
           
@@ -284,9 +286,9 @@
             </div>
           </div>
 
-          <!-- Features -->
-          <div class="p-8">
-            <ul class="space-y-4 mb-8">
+          <!-- Features and CTA -->
+          <div class="flex flex-col flex-grow p-8">
+            <ul class="space-y-4">
               {#each tier.features as feature}
                 <li class="flex items-start text-sm text-zinc-300">
                   <svg class="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -298,21 +300,23 @@
             </ul>
 
             <!-- CTA Button -->
-            <button 
-              on:click={() => handlePlanSelection(tier.planId)}
-              class="w-full bg-zinc-800 hover:bg-zinc-700 text-white px-6 py-4 rounded-xl text-sm font-medium transition-all duration-200 shadow-lg"
-            >
-              {tier.buttonText}
-            </button>
-            
-            {#if tier.buttonText.includes('trial')}
-              <p class="text-xs text-zinc-500 text-center mt-3 flex items-center justify-center gap-1">
-                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                </svg>
-                No credit card required
-              </p>
-            {/if}
+            <div class="mt-auto pt-8">
+              <button 
+                on:click={() => handlePlanSelection(tier.planId)}
+                class="w-full bg-zinc-800 hover:bg-zinc-700 text-white px-6 py-4 rounded-xl text-sm font-medium transition-all duration-200 shadow-lg"
+              >
+                {tier.buttonText}
+              </button>
+              
+              {#if tier.buttonText.includes('trial')}
+                <p class="text-xs text-zinc-500 text-center mt-3 flex items-center justify-center gap-1">
+                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                  Cancel Anytime. No questions asked
+                </p>
+              {/if}
+            </div>
           </div>
         </div>
         {/if}
@@ -329,7 +333,7 @@
         </div>
         <div class="bg-zinc-950 rounded-xl p-8 border border-zinc-800 text-left hover:border-zinc-700 transition-all">
           <h3 class="text-white font-medium mb-3 text-lg">How does the free trial work?</h3>
-          <p class="text-zinc-400 text-sm leading-relaxed">14 days, full access to everything. No credit card needed. If you love it, keep going. If not, no hard feelings.</p>
+          <p class="text-zinc-400 text-sm leading-relaxed">14 days, full access to everything. Cancel Anytime. No questions asked. If you love it, keep going. If not, no hard feelings.</p>
         </div>
         <div class="bg-zinc-950 rounded-xl p-8 border border-zinc-800 text-left hover:border-zinc-700 transition-all">
           <h3 class="text-white font-medium mb-3 text-lg">Can I switch plans anytime?</h3>

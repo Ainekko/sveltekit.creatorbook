@@ -1,5 +1,7 @@
 // src/lib/api/blog.ts
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/orion/blog';
+const API_KEY = '9hPUh4pRJkmtii-50bJPMwT4M-SiUc_HDoPjoc-D1BZ9CK-X-OwBoV2KroH4vkT_';
+const PROJECT_ID = '6f5ece70-df13-4b70-b9f6-8de6e2a644ca';
 
 export interface BlogPost {
   id: string;
@@ -70,17 +72,35 @@ class CacheManager {
 class BlogAPI {
   private baseUrl: string;
   private cache: CacheManager;
+  private headers: Record<string, string>;
 
   constructor(baseUrl: string = API_BASE) {
     this.baseUrl = baseUrl;
-    this.cache = new CacheManager(3000); // 60 second cache
+    this.cache = new CacheManager(300); // 5 minute cache (adjusted from 3000 seconds which was likely a typo)
+    this.headers = {
+      'Authorization': `Bearer ${API_KEY}`,
+      'Content-Type': 'application/json',
+      'Cache-Control': 'public, max-age=300, stale-while-revalidate=300'
+    };
+  }
+
+  private getQueryParams(params: Record<string, any>): string {
+    const searchParams = new URLSearchParams();
+    for (const [key, value] of Object.entries(params)) {
+      if (value !== undefined && value !== null) {
+        searchParams.append(key, String(value));
+      }
+    }
+    return searchParams.toString();
   }
 
   /**
    * Get paginated list of published posts with caching
    */
   async getPosts(page = 1, limit = 10): Promise<PaginatedResponse> {
-    const cacheKey = `posts_${page}_${limit}`;
+    const params = { page, limit, project_id: PROJECT_ID };
+    const queryString = this.getQueryParams(params);
+    const cacheKey = `posts_${queryString}`;
     const cached = this.cache.get(cacheKey);
     
     if (cached) {
@@ -88,12 +108,9 @@ class BlogAPI {
     }
 
     const response = await fetch(
-      `${this.baseUrl}/posts/list_posts/?page=${page}&limit=${limit}`,
+      `${this.baseUrl}/posts/list_posts/?${queryString}`,
       {
-        // Add cache headers for browser caching
-        headers: {
-          'Cache-Control': 'public, max-age=3000, stale-while-revalidate=300'
-        }
+        headers: this.headers
       }
     );
     
@@ -111,17 +128,18 @@ class BlogAPI {
    * Get a single post by ID with caching and prefetching support
    */
   async getPost(id: string): Promise<BlogPost> {
-    const cacheKey = `post_${id}`;
+    const params = { project_id: PROJECT_ID };
+    const queryString = this.getQueryParams(params);
+    const url = `${this.baseUrl}/posts/${id}/` + (queryString ? `?${queryString}` : '');
+    const cacheKey = `post_${id}_${PROJECT_ID}`;
     const cached = this.cache.get(cacheKey);
     
     if (cached) {
       return cached;
     }
 
-    const response = await fetch(`${this.baseUrl}/posts/${id}/`, {
-      headers: {
-        'Cache-Control': 'public, max-age=3000, stale-while-revalidate=300'
-      }
+    const response = await fetch(url, {
+      headers: this.headers
     });
     
     if (!response.ok) {
@@ -148,7 +166,9 @@ class BlogAPI {
    * Get recent posts with caching
    */
   async getRecentPosts(limit = 5): Promise<BlogPost[]> {
-    const cacheKey = `recent_${limit}`;
+    const params = { limit, project_id: PROJECT_ID };
+    const queryString = this.getQueryParams(params);
+    const cacheKey = `recent_${queryString}`;
     const cached = this.cache.get(cacheKey);
     
     if (cached) {
@@ -156,11 +176,9 @@ class BlogAPI {
     }
 
     const response = await fetch(
-      `${this.baseUrl}/posts/recent/?limit=${limit}`,
+      `${this.baseUrl}/posts/recent/?${queryString}`,
       {
-        headers: {
-          'Cache-Control': 'public, max-age=3000, stale-while-revalidate=300'
-        }
+        headers: this.headers
       }
     );
     
@@ -179,7 +197,11 @@ class BlogAPI {
    * Get sitemap data
    */
   async getSitemapData() {
-    const response = await fetch(`${this.baseUrl}/posts/sitemap/`);
+    const params = { project_id: PROJECT_ID };
+    const queryString = this.getQueryParams(params);
+    const response = await fetch(`${this.baseUrl}/posts/sitemap/?${queryString}`, {
+      headers: this.headers
+    });
     
     if (!response.ok) {
       throw new Error(`Failed to fetch sitemap: ${response.statusText}`);
@@ -192,7 +214,11 @@ class BlogAPI {
    * Get RSS feed data
    */
   async getRSSData() {
-    const response = await fetch(`${this.baseUrl}/posts/rss/`);
+    const params = { project_id: PROJECT_ID };
+    const queryString = this.getQueryParams(params);
+    const response = await fetch(`${this.baseUrl}/posts/rss/?${queryString}`, {
+      headers: this.headers
+    });
     
     if (!response.ok) {
       throw new Error(`Failed to fetch RSS: ${response.statusText}`);
@@ -205,8 +231,13 @@ class BlogAPI {
    * Search posts by keyword
    */
   async searchPosts(keyword: string, page = 1, limit = 10): Promise<PaginatedResponse> {
+    const params = { keyword, page, limit, project_id: PROJECT_ID };
+    const queryString = this.getQueryParams(params);
     const response = await fetch(
-      `${this.baseUrl}/posts/list_posts/?keyword=${encodeURIComponent(keyword)}&page=${page}&limit=${limit}`
+      `${this.baseUrl}/posts/list_posts/?${queryString}`,
+      {
+        headers: this.headers
+      }
     );
     
     if (!response.ok) {

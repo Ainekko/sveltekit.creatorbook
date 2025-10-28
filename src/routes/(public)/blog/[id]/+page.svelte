@@ -1,6 +1,6 @@
 <script lang="ts">
   // src/routes/blog/[id]/+page.svelte
-  import { onMount } from 'svelte';
+  import { page } from '$app/stores';
   import { fade } from 'svelte/transition';
   import SEO from '$lib/components/blog/SEO.svelte';
   import BlogPost from '$lib/components/blog/BlogPost.svelte';
@@ -8,29 +8,10 @@
   import type { PageData } from './$types';
   
   export let data: PageData;
-  
-  $: post = data.post;
-  
-  let isLoading = true;
-  
-  onMount(() => {
-    // Small delay to ensure content is rendered
-    setTimeout(() => {
-      isLoading = false;
-    }, 50);
-  });
-</script>
 
-<SEO
-  title={post.seo?.title || post.title}
-  description={post.seo?.description || post.meta_description}
-  keywords={post.seo?.keywords || [post.primary_keyword, ...post.secondary_keywords]}
-  author={post.seo?.author || ''}
-  publishedDate={post.seo?.published_date || post.created_at}
-  modifiedDate={post.seo?.modified_date || post.updated_at}
-  url={`/blog/${post.id}`}
-  type="article"
-/>
+  $: post = data.post ?? data.streamed?.post;
+  $: relatedPosts = data.relatedPosts ?? data.streamed?.relatedPosts;
+</script>
 
 <!-- Decorative Background -->
 <div class="fixed inset-0 -z-10 bg-white ">
@@ -57,7 +38,7 @@
   <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 relative">
     <!-- Blog Post Content -->
     <div class="lg:col-span-8">
-      {#if isLoading}
+      {#await post}
         <!-- Skeleton Loader -->
         <div class="animate-pulse" transition:fade>
           <div class="h-12 bg-zinc-200 rounded-lg mb-6 w-3/4"></div>
@@ -73,11 +54,21 @@
             <div class="h-4 bg-zinc-200 rounded w-4/6"></div>
           </div>
         </div>
-      {:else}
+      {:then resolvedPost}
         <div transition:fade>
-          <BlogPost {post} />
+          <SEO
+            title={resolvedPost.seo?.title || resolvedPost.title}
+            description={resolvedPost.seo?.description || resolvedPost.meta_description}
+            keywords={resolvedPost.seo?.keywords || [resolvedPost.primary_keyword, ...resolvedPost.secondary_keywords]}
+            author={resolvedPost.seo?.author || ''}
+            publishedDate={resolvedPost.seo?.published_date || resolvedPost.created_at}
+            modifiedDate={resolvedPost.seo?.modified_date || resolvedPost.updated_at}
+            url={`/blog/${resolvedPost.id}`}
+            type="article"
+          />
+          <BlogPost post={resolvedPost} />
         </div>
-      {/if}
+      {/await}
     </div>
     
     <!-- Sidebar -->
@@ -99,7 +90,7 @@
             </div>
             
             <h3 class="text-2xl font-bold text-white mb-2 text-center">
-              Ready to automate your marketing?
+              Automate your marketing for Free!
             </h3>
             <p class="text-white/80 text-sm mb-6 leading-relaxed text-center">
               Join 500+ marketers using AI agents to handle SEO, Twitter, and Reddit growth.
@@ -174,29 +165,31 @@
 </div>
 
 <!-- Related Posts -->
-{#if data.relatedPosts?.length > 0}
-  <aside class="bg-gradient-to-b from-transparent via-zinc-50 to-white py-16 mt-20">
-    <div class="max-w-6xl mx-auto px-4">
-      <div class="text-center mb-12">
-        <div class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl mb-4 gentle-float">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
-          </svg>
-        </div>
-        <h2 class="text-3xl md:text-4xl font-bold text-zinc-900 mb-3">Continue Reading</h2>
-        <p class="text-zinc-600 text-lg">Explore more insights and stories</p>
-      </div>
-      
-      <div class="grid md:grid-cols-3 gap-8">
-        {#each data.relatedPosts as relatedPost, index}
-          <div style="animation-delay: -{index * 0.1}s;" class="gentle-float">
-            <BlogCard post={relatedPost} showExcerpt={true} showKeywords={false} />
+{#await relatedPosts then resolvedRelatedPosts}
+  {#if resolvedRelatedPosts?.length > 0}
+    <aside class="bg-gradient-to-b from-transparent via-zinc-50 to-white py-16 mt-20">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12">
+          <div class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl mb-4 gentle-float">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+            </svg>
           </div>
-        {/each}
+          <h2 class="text-3xl md:text-4xl font-bold text-zinc-900 mb-3">Continue Reading</h2>
+          <p class="text-zinc-600 text-lg">Explore more insights and stories</p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+          {#each resolvedRelatedPosts.filter(p => p.id !== $page.params.id) as relatedPost, index}
+            <div style="animation-delay: -{index * 0.1}s;" class="gentle-float">
+              <BlogCard post={relatedPost} showExcerpt={true} showKeywords={false} />
+            </div>
+          {/each}
+        </div>
       </div>
-    </div>
-  </aside>
-{/if}
+    </aside>
+  {/if}
+{/await}
 
 <style>
   @keyframes gentle-float {

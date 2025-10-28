@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type { LayoutData } from './$types';
+    // import type { LayoutData } from '../../signup/$types';
     import NavBar from "$lib/components/NavBar.svelte";
 
     
-    export let data: LayoutData;
+    export let data;
 
     
 </script>

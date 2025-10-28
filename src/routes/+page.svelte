@@ -71,6 +71,8 @@
 	import NewPricing from '$lib/components/NewPricing.svelte';
 	import NewHero from '$lib/components/NewHero.svelte';
 	import NewAgencyHero from '$lib/components/NewAgencyHero.svelte';
+	import Landing from '$lib/components/landingpage/Landing.svelte';
+	import NavBar from '$lib/components/NavBar.svelte';
 
 
 	onMount(() => {
@@ -78,17 +80,20 @@
 	});
 </script>
 
-
+<div class="sticky top-0 z-50">
+  <NavBar />
+</div>
 
 <main class="">
 		
 
-	<section class="">
+	<!-- <section class="">
 		<Agency />
-	</section>
+	</section> -->
 
   <div>
-    <NewHero />
+    <!-- <NewHero /> -->
+    <Landing />
     <NewPricing />
 
     <!-- <NewAgencyHero /> -->
