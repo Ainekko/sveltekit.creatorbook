@@ -1,5 +1,6 @@
 // src/lib/nai/stores.ts
 import { writable, derived, get } from 'svelte/store';
+import { API_BASE_URL } from '$lib/config';
 
 interface WorkflowState {
   taskId: string | null;
@@ -58,7 +59,7 @@ interface ContentState {
   competitorsByKeyword?: Map<string, CompetitorRankingData[]>;
 }
 
-const API_BASE = 'http://127.0.0.1:8000';
+const API_BASE = API_BASE_URL;
 
 function createWorkflowStore() {
   const initialState: WorkflowState = {
