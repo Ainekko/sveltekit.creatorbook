@@ -16,13 +16,14 @@ const CREEM_BASE_URL = USE_TEST_MODE ? CREEM_TEST_URL : CREEM_PROD_BASE_URL
 // Map your tiers to Creem product/price IDs
 const PRICE_IDS = {
     starter: {
-        monthly: 'prod_56GlbmLiyyo6kUxnbClgA4', // Replace with actual IDs from Creem dashboard
+        monthly: 'prod_56GlbmLiyyo6kUxnbClgA4',
         annual: 'prod_2uh4uCyMVYIgpw3GkXE9uw'
     },
     pro: {
         monthly: 'prod_4A98VMLVnVyhUwcEj9YqZo',
         annual: 'prod_6qSq9YW4m0DYFgYyczCZXB'
-    }
+    },
+    lifetime: 'prod_4u2yQUEFLCPmbNnNUVYdBO' // Lifetime is a one-time purchase, no billing period
 };
 
 export const POST: RequestHandler = async ({ request, url }) => {
@@ -51,16 +52,35 @@ export const POST: RequestHandler = async ({ request, url }) => {
             );
         }
 
-        if (!tier || !billingPeriod) {
-            console.warn('SERVER: Missing tier or billing period:', { tier, billingPeriod });
+        if (!tier) {
+            console.warn('SERVER: Missing tier:', { tier });
             return json(
-                { source: 'server_validation_error', error: 'Missing tier or billing period.' },
+                { source: 'server_validation_error', error: 'Missing tier.' },
                 { status: 400 }
             );
         }
 
         // Get the correct price ID based on tier and billing period
-        const priceId = PRICE_IDS[tier as keyof typeof PRICE_IDS]?.[billingPeriod as 'monthly' | 'annual'];
+        let priceId: string | undefined;
+        
+        if (tier === 'lifetime') {
+            // Lifetime is a one-time purchase, no billing period needed
+            priceId = PRICE_IDS.lifetime;
+        } else {
+            // For other tiers, billing period is required
+            if (!billingPeriod) {
+                console.warn('SERVER: Missing billing period for non-lifetime tier:', { tier, billingPeriod });
+                return json(
+                    { source: 'server_validation_error', error: 'Missing billing period.' },
+                    { status: 400 }
+                );
+            }
+            
+            const tierPrices = PRICE_IDS[tier as keyof typeof PRICE_IDS];
+            if (typeof tierPrices === 'object' && tierPrices !== null) {
+                priceId = tierPrices[billingPeriod as 'monthly' | 'annual'];
+            }
+        }
         
         if (!priceId) {
             console.error('SERVER: Invalid tier/billing combination:', { tier, billingPeriod });
@@ -74,13 +94,12 @@ export const POST: RequestHandler = async ({ request, url }) => {
         const cancel_url = `${url.origin}/plans?checkout=cancelled`;
 
         const checkoutData = {
-            product_id: priceId, // Your test product ID
-          
+            product_id: priceId,
             metadata: {
                 user_id: String(userID),
                 user_email: String(userEmail),
                 tier: tier,
-                billing_period: billingPeriod
+                billing_period: tier === 'lifetime' ? 'lifetime' : billingPeriod
             }
         };
         
@@ -89,7 +108,7 @@ export const POST: RequestHandler = async ({ request, url }) => {
         const creemResponse = await fetch(`${CREEM_BASE_URL}/checkouts`, {
             method: 'POST',
             headers: {
-                'x-api-key': CREEM_API_KEY, // ✅ Fixed
+                'x-api-key': CREEM_API_KEY,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },

@@ -3,7 +3,6 @@
 	import { page } from '$app/stores';
 	import { get_user } from '$lib/users/users';
 	import { onMount } from 'svelte';
-	import { fade, fly } from 'svelte/transition';
 
 	let tier = 'free'; // default to free plan
 	let billingPeriod = 'monthly';
@@ -15,7 +14,7 @@
 	let user_id: number | string | null = null;
 	let user_name: string | null = null;
 
-	// Define tiers similar to pricing page, including free
+	// Define tiers similar to pricing page, including free and lifetime
 	const tiers = [
 		{
 			name: 'Free',
@@ -34,7 +33,8 @@
 			gradient: 'from-gray-500 via-gray-600 to-gray-700',
 			bgPattern: 'radial-gradient(circle at 50% 50%, rgba(107, 114, 128, 0.1) 0%, transparent 50%)',
 			highlight: false,
-			badge: ''
+			badge: '',
+			isLifetime: false
 		},
 		{
 			name: 'Starter',
@@ -53,7 +53,30 @@
 			gradient: 'from-emerald-400 via-teal-500 to-cyan-600',
 			bgPattern: 'radial-gradient(circle at 20% 30%, rgba(16, 185, 129, 0.1) 0%, transparent 50%)',
 			highlight: false,
-			badge: ''
+			badge: '',
+			isLifetime: false
+		},
+		{
+			name: 'Lifetime',
+			planId: 'lifetime',
+			priceMonthly: '$299',
+			priceAnnual: '$299',
+			description: 'Pay once, market forever. Limited availability.',
+			features: [
+				'5 projects included',
+				'All AI agents with priority execution',
+				'Advanced analytics & A/B testing',
+				'Custom content templates',
+				'Lifetime updates & support',
+				'API access',
+				'Early access to new features'
+			],
+			buttonText: 'Claim Your Spot',
+			gradient: 'from-amber-400 via-orange-500 to-red-600',
+			bgPattern: 'radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.1) 0%, transparent 50%)',
+			highlight: true,
+			badge: 'Limited Offer',
+			isLifetime: true
 		},
 		{
 			name: 'Pro',
@@ -73,8 +96,9 @@
 			buttonText: 'Start 14-day free trial',
 			gradient: 'from-blue-400 via-indigo-500 to-purple-600',
 			bgPattern: 'radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)',
-			highlight: true,
-			badge: 'Most Value'
+			highlight: false,
+			badge: '',
+			isLifetime: false
 		}
 	];
 
@@ -108,7 +132,13 @@
 				console.log('CLIENT: Auto-processing tier from URL:', selectedTier);
 				autoProcessing = true;
 				tier = selectedTier;
-				billingPeriod = selectedBilling || 'monthly';
+				
+				// Set billing period (lifetime doesn't need one, but we'll default to monthly)
+				if (selectedTier === 'lifetime') {
+					billingPeriod = 'monthly'; // Doesn't matter for lifetime, but keep it consistent
+				} else {
+					billingPeriod = selectedBilling || 'monthly';
+				}
 				
 				// Small delay to show the auto-processing message
 				await new Promise(resolve => setTimeout(resolve, 500));
@@ -129,9 +159,6 @@
 	function selectTier(selectedTier: string) {
 		tier = selectedTier;
 		error = '';
-		if (selectedTier === 'free') {
-			billingPeriod = 'monthly'; // Reset for free
-		}
 	}
 
 	async function submitSelection() {
@@ -146,7 +173,7 @@
 
 		try {
 			localStorage.setItem('tier', tier);
-			localStorage.setItem('billingPeriod', billingPeriod);
+			localStorage.setItem('billingPeriod', tier === 'lifetime' ? 'lifetime' : billingPeriod);
 
 			if (tier === 'free') {
 				await goto('/projects');
@@ -168,7 +195,12 @@
 	}
 
 	async function handlePaidTier() {
-		console.log('CLIENT: handlePaidTier called. Sending to /plans/checkout:', { userEmail: user_email, userID: user_id, tier, billingPeriod });
+		console.log('CLIENT: handlePaidTier called. Sending to /plans/checkout:', { 
+			userEmail: user_email, 
+			userID: user_id, 
+			tier, 
+			billingPeriod: tier === 'lifetime' ? 'lifetime' : billingPeriod 
+		});
 
 		try {
 			const response = await fetch('/plans/checkout', {
@@ -180,7 +212,7 @@
 					userEmail: user_email!, 
 					userID: user_id!, 
 					tier, 
-					billingPeriod 
+					billingPeriod: tier === 'lifetime' ? 'lifetime' : billingPeriod
 				})
 			});
 
@@ -234,22 +266,30 @@
 			error = 'A network error occurred while trying to create checkout. Please check your connection and try again.';
 		}
 	}
+
+	// Handle card keyboard interaction for accessibility
+	function handleCardKeydown(event: KeyboardEvent, planId: string) {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			selectTier(planId);
+		}
+	}
 </script>
 
 <svelte:head>
 	<title>Select Your Plan | Your AI Marketing Team</title>
 </svelte:head>
 
-<div class="dashboard-scale min-h-screen text-white bg-black font-[Poppins]">
+<div class="dashboard-scale w-full min-h-screen text-white bg-black font-[Poppins]">
 	<main class="px-4 sm:px-8 py-16">
 		<!-- Header -->
-		<div class="text-center mb-16 max-w-4xl mx-auto" in:fade={{ duration: 300, delay: 100 }}>
+		<div class="text-center mb-16 max-w-4xl mx-auto">
 			<h1 class="text-4xl md:text-5xl font-semibold text-white mb-4">
 				{autoProcessing && loading ? 'Setting Up Your Plan' : 'Select Your Plan'}
 			</h1>
 			<p class="text-zinc-400 text-lg md:text-xl mb-8 font-light">
 				{autoProcessing && loading 
-					? `Preparing your ${tier} plan with ${billingPeriod} billing...` 
+					? `Preparing your ${tier} plan${tier !== 'lifetime' ? ` with ${billingPeriod} billing` : ''}...` 
 					: 'Choose the perfect plan to unlock the full potential of our AI agents.'
 				}
 			</p>
@@ -257,7 +297,7 @@
 
 		<!-- Error Message -->
 		{#if error}
-			<div class="max-w-4xl mx-auto mb-6" in:fly={{ y: 20, duration: 300 }}>
+			<div class="max-w-4xl mx-auto mb-6">
 				<div class="bg-gradient-to-r from-red-950 to-red-800 rounded-2xl border border-red-800 p-6 text-left">
 					<div class="flex items-center">
 						<div class="mr-4 bg-red-200/20 p-3 rounded-full flex-shrink-0">
@@ -275,7 +315,7 @@
 
 		<!-- Loading Spinner for Auto-Processing -->
 		{#if loading && autoProcessing}
-			<div class="flex flex-col items-center justify-center py-12 max-w-md mx-auto" in:fade={{ duration: 300 }}>
+			<div class="flex flex-col items-center justify-center py-12 max-w-md mx-auto">
 				<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
 				<p class="text-zinc-400 text-lg">One moment while we set up your {tiers.find(t => t.planId === tier)?.name} plan...</p>
 			</div>
@@ -283,111 +323,149 @@
 
 		<!-- Plan Selection UI -->
 		{#if !loading || !autoProcessing}
-			<!-- Billing Toggle (hide for free tier) -->
-			{#if tier !== 'free'}
-				<div class="text-center mb-8 max-w-md mx-auto" in:fly={{ y: 20, duration: 300, delay: 200 }}>
-					<div class="inline-flex bg-zinc-950 rounded-full p-1 border border-zinc-800">
-						<button 
-							class="px-6 py-2 rounded-full text-sm font-medium transition-all {billingPeriod === 'monthly' ? 'bg-zinc-800 text-white' : 'text-zinc-400'}"
-							on:click={() => billingPeriod = 'monthly'}
+			<!-- Billing Toggle (hide for free tier and lifetime) -->
+			<div class="text-center mb-8 max-w-md mx-auto">
+				<div class="inline-flex bg-zinc-950 rounded-full p-1 border border-zinc-800">
+					<button 
+						class="px-6 py-2 rounded-full text-sm font-medium transition-all {billingPeriod === 'monthly' ? 'bg-zinc-800 text-white' : 'text-zinc-400'}"
+						on:click={() => billingPeriod = 'monthly'}
+					>
+						Monthly
+					</button>
+					<button 
+						class="px-6 py-2 rounded-full text-sm font-medium transition-all {billingPeriod === 'annual' ? 'bg-zinc-800 text-white' : 'text-zinc-400'}"
+						on:click={() => billingPeriod = 'annual'}
+					>
+						Annual <span class="text-emerald-400">(Save 20%)</span>
+					</button>
+				</div>
+			</div>
+
+			<!-- Pricing Grid -->
+			{#if loading}
+				<div class="grid grid-cols-1 md:grid-cols-4 gap-5 max-w-7xl mx-auto w-full">
+					{#each [1, 2, 3, 4] as _}
+						<div class="bg-zinc-950 rounded-2xl border border-zinc-800 h-[700px] animate-pulse">
+							<div class="p-8 bg-zinc-800 rounded-t-2xl h-40"></div>
+							<div class="p-8 space-y-4">
+								<div class="h-4 bg-zinc-800 rounded w-3/4"></div>
+								<div class="h-4 bg-zinc-800 rounded w-1/2"></div>
+								<div class="h-4 bg-zinc-800 rounded w-2/3"></div>
+								<div class="h-4 bg-zinc-800 rounded w-3/4"></div>
+								<div class="h-4 bg-zinc-800 rounded w-1/2"></div>
+							</div>
+						</div>
+					{/each}
+				</div>
+			{:else}
+				<div class="grid grid-cols-1 md:grid-cols-4 gap-5 max-w-7xl mx-auto w-full">
+					{#each tiers as t}
+						{@const displayPrice = (t.isLifetime || t.planId === 'free') ? t.priceMonthly : (billingPeriod === 'monthly' ? t.priceMonthly : t.priceAnnual)}
+						{@const priceSubtext = t.planId === 'free' ? '' : (t.isLifetime ? 'one-time' : (billingPeriod === 'monthly' ? '/month' : '/year'))}
+						<div 
+							role="button"
+							tabindex="0"
+							class="plan-card bg-zinc-950 rounded-2xl border {t.highlight ? 'border-amber-500 shadow-lg shadow-amber-500/20' : 'border-zinc-800'} overflow-visible relative cursor-pointer flex flex-col h-[700px]"
+							style="background-image: {t.bgPattern}"
+							on:click={() => selectTier(t.planId)}
+							on:keydown={(e) => handleCardKeydown(e, t.planId)}
 						>
-							Monthly
-						</button>
-						<button 
-							class="px-6 py-2 rounded-full text-sm font-medium transition-all {billingPeriod === 'annual' ? 'bg-zinc-800 text-white' : 'text-zinc-400'}"
-							on:click={() => billingPeriod = 'annual'}
-						>
-							Annual <span class="text-emerald-400">(Save 20%)</span>
-						</button>
-					</div>
+							{#if t.badge}
+								<div class="absolute z-10 -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r {t.isLifetime ? 'from-amber-500 to-red-600' : 'from-blue-500 to-purple-600'} text-white text-xs font-medium px-4 py-1 rounded-full">
+									{t.badge}
+								</div>
+							{/if}
+							
+							<!-- Tier Header -->
+							<div class="p-8 bg-gradient-to-r rounded-2xl {t.gradient}">
+								<h3 class="text-2xl font-bold text-white mb-2">{t.name}</h3>
+								<div class="text-white/90 text-sm mb-6 min-h-[40px]">{t.description}</div>
+								<div class="text-4xl font-bold text-white">
+									{displayPrice}
+									<span class="text-base font-normal text-white/80 ml-1">
+										{priceSubtext}
+									</span>
+								</div>
+							</div>
+
+							<!-- Features - flex-grow to push button down -->
+							<div class="p-8 flex-grow flex flex-col">
+								<ul class="space-y-4 mb-8 flex-grow">
+									{#each t.features as feature}
+										<li class="flex items-start text-sm text-zinc-300">
+											<svg class="w-5 h-5 {t.isLifetime ? 'text-amber-400' : 'text-emerald-400'} mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+											</svg>
+											{feature}
+										</li>
+									{/each}
+								</ul>
+
+								<!-- Bottom section with fixed position -->
+								<div>
+									<!-- Selection Indicator -->
+									{#if t.planId === tier}
+										<div class="flex items-center justify-center mb-4">
+											<svg class="w-5 h-5 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+											</svg>
+											<span class="text-sm text-blue-400 font-medium">Selected</span>
+										</div>
+									{/if}
+
+									<!-- CTA Button (disabled style for non-selected) -->
+									<button 
+										disabled={t.planId !== tier || loading}
+										on:click|stopPropagation={submitSelection}
+										class="w-full {t.planId === tier 
+											? (t.isLifetime ? 'bg-gradient-to-r from-amber-500 to-red-600 hover:from-amber-600 hover:to-red-700' : t.highlight ? 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700' : 'bg-zinc-800 hover:bg-zinc-700') 
+											: 'bg-zinc-900 text-zinc-500 cursor-not-allowed'
+										} text-white px-6 py-4 rounded-xl text-sm font-medium transition-all duration-200 {t.planId !== tier ? 'opacity-50' : ''} disabled:opacity-50 disabled:cursor-not-allowed"
+									>
+										{#if loading && t.planId === tier}
+											<span class="flex items-center justify-center gap-2">
+												<div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+												Processing...
+											</span>
+										{:else}
+											{t.buttonText}
+										{/if}
+									</button>
+									
+									{#if t.buttonText.includes('trial') && t.planId === tier}
+										<p class="text-xs text-zinc-500 text-center mt-3 flex items-center justify-center gap-1">
+											<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+												<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+											</svg>
+										</p>
+									{/if}
+									
+									{#if t.isLifetime && t.planId === tier}
+										<p class="text-xs text-zinc-500 text-center mt-3 flex items-center justify-center gap-1">
+											<svg class="w-3 h-3 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+												<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+											</svg>
+											One-time payment, lifetime access
+										</p>
+									{/if}
+								</div>
+							</div>
+						</div>
+					{/each}
 				</div>
 			{/if}
 
-			<!-- Pricing Grid -->
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto w-full" in:fly={{ y: 20, duration: 300, delay: 400 }}>
-				{#each tiers as t}
-					<div 
-						class="plan-card bg-zinc-950 rounded-2xl border {t.highlight ? 'border-blue-500 shadow-lg shadow-blue-500/20 scale-105' : 'border-zinc-800'} {t.planId === tier ? 'ring-2 ring-blue-500/30' : ''} overflow-visible hover:border-zinc-700 transition-all duration-300 relative cursor-pointer"
-						style="background-image: {t.bgPattern}"
-						on:click={() => selectTier(t.planId)}
-					>
-						{#if t.badge}
-							<div class="absolute z-10 -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs font-medium px-4 py-1 rounded-full">
-								{t.badge}
-							</div>
-						{/if}
-						
-						<!-- Tier Header -->
-						<div class="p-8 bg-gradient-to-r rounded-2xl {t.gradient}">
-							<h3 class="text-2xl font-bold text-white mb-2">{t.name}</h3>
-							<div class="text-white/90 text-sm mb-6 min-h-[40px]">{t.description}</div>
-							<div class="text-4xl font-bold text-white">
-								{t.planId === 'free' 
-									? t.priceMonthly 
-									: billingPeriod === 'monthly' ? t.priceMonthly : t.priceAnnual
-								}
-								<span class="text-base font-normal text-white/80 ml-1">
-									{t.planId === 'free' ? '' : billingPeriod === 'monthly' ? '/month' : '/year'}
-								</span>
-							</div>
-						</div>
-
-						<!-- Features -->
-						<div class="p-8">
-							<ul class="space-y-4 mb-8">
-								{#each t.features as feature}
-									<li class="flex items-start text-sm text-zinc-300">
-										<svg class="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-										</svg>
-										{feature}
-									</li>
-								{/each}
-							</ul>
-
-							<!-- Selection Indicator -->
-							{#if t.planId === tier}
-								<div class="flex items-center justify-center mb-4">
-									<svg class="w-5 h-5 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-									</svg>
-									<span class="text-sm text-blue-400 font-medium">Selected</span>
-								</div>
-							{/if}
-
-							<!-- CTA Button (disabled style for non-selected) -->
-							<button 
-								disabled={t.planId !== tier || loading}
-								on:click|stopPropagation={submitSelection}
-								class="w-full {t.planId === tier 
-									? (t.highlight ? 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700' : 'bg-zinc-800 hover:bg-zinc-700') 
-									: 'bg-zinc-900 text-zinc-500 cursor-not-allowed'
-								} text-white px-6 py-4 rounded-xl text-sm font-medium transition-all duration-200 shadow-lg {t.planId !== tier ? 'opacity-50' : ''}"
-							>
-								{t.buttonText}
-							</button>
-							
-							{#if t.buttonText.includes('trial') && t.planId === tier}
-								<p class="text-xs text-zinc-500 text-center mt-3 flex items-center justify-center gap-1">
-									<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-										<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-									</svg>
-								</p>
-							{/if}
-						</div>
-					</div>
-				{/each}
-			</div>
-
 			<!-- Submit Button -->
-			<div class="text-center mt-12 max-w-md mx-auto" in:fly={{ y: 20, duration: 300, delay: 600 }}>
+			<div class="text-center mt-12 max-w-md mx-auto">
 				<button 
 					on:click={submitSelection}
 					disabled={loading}
 					class="w-full {tier === 'free' 
 						? 'bg-emerald-600 hover:bg-emerald-700' 
+						: tier === 'lifetime'
+						? 'bg-gradient-to-r from-amber-500 to-red-600 hover:from-amber-600 hover:to-red-700'
 						: 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700'
-					} text-white px-8 py-4 rounded-xl font-medium transition-all duration-200 shadow-lg text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+					} text-white px-8 py-4 rounded-xl font-medium transition-all duration-200 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
 				>
 					{#if loading}
 						<span class="flex items-center justify-center gap-2">
@@ -395,17 +473,22 @@
 							Processing...
 						</span>
 					{:else}
-						{tier === 'free' ? 'Continue to Dashboard' : `Start ${billingPeriod === 'annual' ? 'Annual' : 'Monthly'} Trial`}
+						{tier === 'free' 
+							? 'Continue to Dashboard' 
+							: tier === 'lifetime'
+							? 'Get Lifetime Access'
+							: `Start ${billingPeriod === 'annual' ? 'Annual' : 'Monthly'} Trial`
+						}
 					{/if}
 				</button>
-				{#if tier !== 'free'}
+				{#if tier !== 'free' && tier !== 'lifetime'}
 					<p class="text-xs text-zinc-500 mt-3">Cancel anytime</p>
 				{/if}
 			</div>
 		{/if}
 
-		<!-- What You Get Section (shared across plans, like pricing page) -->
-		<div class="max-w-6xl mx-auto mt-24 bg-zinc-950 rounded-2xl border border-zinc-800 p-8 md:p-12" in:fade={{ duration: 300, delay: 800 }}>
+		<!-- What You Get Section -->
+		<div class="max-w-6xl mx-auto mt-24 bg-zinc-950 rounded-2xl border border-zinc-800 p-8 md:p-12">
 			<h2 class="text-2xl md:text-3xl font-semibold text-white mb-8 text-center">
 				All plans include your AI marketing team
 			</h2>
@@ -441,7 +524,7 @@
 		</div>
 
 		<!-- FAQ Section -->
-		<div class="mt-24 text-center max-w-6xl mx-auto" in:fade={{ duration: 300, delay: 1000 }}>
+		<div class="mt-24 text-center max-w-6xl mx-auto">
 			<h2 class="text-3xl font-semibold text-white mb-12">Questions? We've got answers.</h2>
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 				<div class="bg-zinc-950 rounded-xl p-8 border border-zinc-800 text-left hover:border-zinc-700 transition-all">
@@ -457,8 +540,8 @@
 					<p class="text-zinc-400 text-sm leading-relaxed">Absolutely. Upgrade when you're launching more projects, downgrade if you need to pause. Changes take effect immediately.</p>
 				</div>
 				<div class="bg-zinc-950 rounded-xl p-8 border border-zinc-800 text-left hover:border-zinc-700 transition-all">
-					<h3 class="text-white font-medium mb-3 text-lg">What if I need custom agents?</h3>
-					<p class="text-zinc-400 text-sm leading-relaxed">That's what Custom is for. We'll build specialized marketing assistants tailored to your niche and strategy. <a href="/contact" class="text-blue-400 hover:underline">Contact us</a>.</p>
+					<h3 class="text-white font-medium mb-3 text-lg">What about the lifetime deal?</h3>
+					<p class="text-zinc-400 text-sm leading-relaxed">Limited time offer. Pay once, get lifetime access to all features and updates. Perfect for builders who want to lock in their marketing automation forever.</p>
 				</div>
 			</div>
 		</div>
@@ -480,15 +563,6 @@
     }
   }
 	.plan-card {
-		transition: all 0.3s ease;
-	}
-
-	.plan-card:hover {
-		transform: translateY(-2px);
-	}
-
-	.plan-card.selected {
-		transform: translateY(-1px);
-		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+		transition: none;
 	}
 </style>

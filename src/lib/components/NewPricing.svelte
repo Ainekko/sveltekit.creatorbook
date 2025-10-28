@@ -56,8 +56,7 @@
       features: [
         '5 projects included',
         'All AI agents with priority execution',
-        'Advanced analytics & A/B testing',
-        'Custom content templates',
+       
         'Lifetime updates & support',
         'API access',
         'Early access to new features'
@@ -78,11 +77,9 @@
       features: [
         'Unlimited projects',
         'All AI agents with priority execution',
-        'Advanced analytics & A/B testing',
-        'Custom content templates',
         'Priority support',
         'API access',
-        'Team collaboration'
+        'Early access to new features'
       ],
       buttonText: 'Start 14-day free trial',
       gradient: 'from-blue-400 via-indigo-500 to-purple-600',
@@ -201,12 +198,15 @@
       {#each tiers as tier}
         {#if tier.isLifetime}
         <div 
-          class="bg-zinc-950 rounded-2xl border border-amber-500 shadow-lg shadow-amber-500/20 overflow-visible hover:border-amber-400 transition-all duration-300 relative"
+          class="bg-zinc-950 rounded-2xl border border-zinc-800 overflow-visible hover:border-zinc-700 transition-all duration-300 relative"
           style="background-image: {tier.bgPattern}"
         >
           {#if tier.badge}
-            <div class="absolute z-100 -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-amber-500 to-red-600 text-white text-xs font-bold px-6 py-2 rounded-full animate-pulse-slow shadow-lg">
-              🔥 {tier.badge}
+            <div class="absolute z-100 -top-3 left-1/2 transform -translate-x-1/2 bg-zinc-900 border border-zinc-700 text-white text-xs font-medium px-6 py-2 rounded-full">
+              <span class="inline-flex items-center gap-2">
+                <span class="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
+                {tier.badge}
+              </span>
             </div>
           {/if}
           
@@ -247,7 +247,7 @@
               <div class="mt-auto w-full">
                 <button 
                   on:click={() => handlePlanSelection(tier.planId)}
-                  class="w-full bg-gradient-to-r from-amber-500 to-red-600 hover:from-amber-600 hover:to-red-700 text-white px-8 py-5 rounded-xl text-lg font-bold transition-all duration-200 shadow-lg shadow-amber-500/50 hover:shadow-amber-500/70 hover:scale-105"
+                  class="w-full bg-gradient-to-r from-amber-500 to-red-600 hover:from-amber-600 hover:to-red-700 text-white px-8 py-5 rounded-xl text-lg font-bold transition-all duration-200 shadow-lg hover:scale-105"
                 >
                   {tier.buttonText} →
                 </button>
@@ -270,7 +270,7 @@
       {#each tiers as tier}
         {#if !tier.isLifetime}
         <div 
-          class="flex flex-col bg-zinc-950 rounded-2xl overflow-visible transition-all duration-300 relative {tier.highlight ? 'border-purple-500 shadow-xl shadow-violet-200/10 hover:border-purple-400 hover:shadow-purple-500/30 md:scale-110' : 'border-zinc-800 hover:border-zinc-700'}"
+          class="flex flex-col bg-zinc-950 rounded-2xl overflow-visible transition-all duration-300 relative border {tier.highlight ? 'border-purple-500 shadow-xl shadow-violet-200/10 hover:border-purple-400 hover:shadow-purple-500/30 md:scale-110' : 'border-zinc-800 hover:border-zinc-700'}"
           style="background-image: {tier.bgPattern}"
         >
           
@@ -421,15 +421,5 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-  }
-
-  /* Custom animations */
-  @keyframes pulse-slow {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
-
-  :global(.animate-pulse-slow) {
-    animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 </style>
