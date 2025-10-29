@@ -140,22 +140,7 @@
         Set up once, let your AI agents find opportunities and create content every day. No complex workflows.
       </p>
       
-      <!-- Billing Toggle -->
-      <div class="inline-flex bg-zinc-950 rounded-full p-1 border border-zinc-800 mx-auto">
-        <button 
-          class="px-6 py-2 rounded-full text-sm font-medium transition-all {billingPeriod === 'monthly' ? 'bg-zinc-800 text-white' : 'text-zinc-400'}"
-          on:click={() => billingPeriod = 'monthly'}
-        >
-          Monthly
-        </button>
-        <button 
-          class="px-6 py-2 rounded-full text-sm font-medium transition-all {billingPeriod === 'annual' ? 'bg-zinc-800 text-white' : 'text-zinc-400'}"
-          on:click={() => billingPeriod = 'annual'}
-        >
-          Annual <span class="text-emerald-400">(Save 20%)</span>
-        </button>
-      </div>
-    </div>
+      
 
     <!-- What You Get Section -->
     <div class="max-w-6xl mx-auto mb-16 bg-zinc-950 rounded-2xl border border-zinc-800 p-8 md:p-12">
@@ -264,6 +249,23 @@
         {/if}
       {/each}
     </div>
+
+    <!-- Billing Toggle -->
+    <div class="inline-flex bg-zinc-950 rounded-full p-1 border border-zinc-800 mx-auto">
+      <button 
+        class="px-6 py-2 rounded-full text-sm font-medium transition-all {billingPeriod === 'monthly' ? 'bg-zinc-800 text-white' : 'text-zinc-400'}"
+        on:click={() => billingPeriod = 'monthly'}
+      >
+        Monthly
+      </button>
+      <button 
+        class="px-6 py-2 rounded-full text-sm font-medium transition-all {billingPeriod === 'annual' ? 'bg-zinc-800 text-white' : 'text-zinc-400'}"
+        on:click={() => billingPeriod = 'annual'}
+      >
+        Annual <span class="text-emerald-400">(Save 20%)</span>
+      </button>
+    </div>
+  </div>
 
     <!-- Pricing Grid -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-[1500px] mx-auto w-full">

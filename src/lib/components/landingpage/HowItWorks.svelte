@@ -1,9 +1,9 @@
 <!-- HowItWorks.svelte -->
 
-<div class="mt-32 mb-20">
+<div id="how-it-works" class="mt-32 mb-20">
     <div class="text-center mb-16">
-      <h2 class="text-3xl md:text-4xl font-semibold text-zinc-900 mb-4">
-        From setup to <span class=" text-zinc-950">success</span> in minutes
+      <h2 class="text-3xl md:text-4xl font-semibold text-zinc-600 mb-4">
+        From setup to <span class=" text-zinc-950">full automation</span> in minutes
       </h2>
       <p class="text-xl text-zinc-500 max-w-2xl mx-auto">
         No technical skills needed. Just connect, configure, and watch your marketing run itself.

@@ -52,7 +52,7 @@
   </script>
   
   <!-- AI Agents Section -->
-  <div class="space-y-12 relative">
+  <div id="agents" class="space-y-12 relative">
     <!-- Subtle gradient background -->
     <div class="absolute inset-0 bg-gradient-to-b from-transparent to-orange-50/5 pointer-events-none"></div>
   
