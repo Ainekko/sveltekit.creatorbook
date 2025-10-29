@@ -18,8 +18,9 @@
 
   let isSubmitting = false;
   let hasHandledCompletion = false;
-  let loading = false; // Changed: default to false
+  let loading = false;
   let fakeProgress = 0;
+  let selectedCompetitors = false; // Track competitors selection
 
   $: showAutoPublish = ['generate_posts', 'full_workflow'].includes(workflow.selectedWorkflow);
   $: autoEnabled = workflow.config.auto_publish.enabled;
@@ -38,11 +39,12 @@
     icon: typeof Search;
     completedKey: string | null;
     selectIndex?: number;
+    isCompetitors?: boolean;
   }
 
   const displayNodes: DisplayNode[] = [
     { name: 'keyword_research', label: 'Keywords', icon: Search, completedKey: 'keyword_research', selectIndex: 0 },
-    { name: 'find_competitors', label: 'Competitors', icon: TrendingUp, completedKey: null, },
+    { name: 'find_competitors', label: 'Competitors', icon: TrendingUp, completedKey: null, isCompetitors: true },
     { name: 'generate_outlines', label: 'Outlines', icon: FileText, completedKey: 'outline_generation', selectIndex: 1 },
     { name: 'generate_posts', label: 'Posts', icon: FileText, completedKey: 'blog_post_generation', selectIndex: 2 },
     { name: 'full_workflow', label: 'Publish', icon: Target, completedKey: 'publish', selectIndex: 3 }
@@ -54,6 +56,12 @@
   function selectNode(index: number): void {
     const selectedWorkflow = workflowNodes[index];
     workflowStore.updateSelection(selectedWorkflow, workflow.selectedFrequency);
+  }
+
+  function toggleCompetitors(): void {
+    selectedCompetitors = !selectedCompetitors;
+    // Dispatch event or update store if you need to track this state
+    dispatch('competitorsToggled', { selected: selectedCompetitors });
   }
 
   function setFrequency(freq: string): void {
@@ -149,7 +157,6 @@
   }
 
   onMount(async () => {
-    // Only show loading screen if there's no existing workflow data
     const shouldShowLoading = !workflow.taskId;
     
     if (shouldShowLoading) {
@@ -248,7 +255,7 @@
         <div class="flex items-center justify-between mb-8 sm:mb-12 {!canSelectAndConfigure ? 'opacity-50 pointer-events-none' : ''}">
           {#each displayNodes as node, i}
             {#if i > 0}
-              <div class="flex-1 h-0.5 {(i <= maxActive) ? 'bg-gray-900' : 'bg-gray-200'} mx-1 sm:mx-3 transition-colors"></div>
+              <div class="flex-1 h-0.5 {(i <= maxActive || (node.isCompetitors && selectedCompetitors)) ? 'bg-gray-900' : 'bg-gray-200'} mx-1 sm:mx-3 transition-colors"></div>
             {/if}
             
             {#if node.selectIndex !== undefined}
@@ -261,6 +268,22 @@
                   <svelte:component this={node.icon} class="w-6 h-6 sm:w-8 sm:h-8 {(i <= maxActive) ? 'text-white' : 'text-gray-400'} transition-colors" />
                 </div>
                 <span class="text-xs font-medium {(i <= maxActive) ? 'text-gray-950' : 'text-gray-500'} transition-colors">
+                  {node.label}
+                </span>
+                {#if node.completedKey && isStepCompleted(node.completedKey)}
+                  <span class="text-xs text-emerald-600 mt-1">✓</span>
+                {/if}
+              </button>
+            {:else if node.isCompetitors}
+              <button 
+                on:click={toggleCompetitors}
+                disabled={!canSelectAndConfigure}
+                class="flex flex-col items-center group flex-shrink-0"
+              >
+                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full {selectedCompetitors ? 'bg-gray-950' : 'bg-gray-50 border border-gray-300'} shadow-sm flex items-center justify-center mb-2 group-hover:shadow-md transition-all {canSelectAndConfigure ? 'group-hover:scale-105 cursor-pointer' : 'cursor-not-allowed'}">
+                  <svelte:component this={node.icon} class="w-6 h-6 sm:w-8 sm:h-8 {selectedCompetitors ? 'text-white' : 'text-gray-400'} transition-colors" />
+                </div>
+                <span class="text-xs font-medium {selectedCompetitors ? 'text-gray-950' : 'text-gray-500'} transition-colors">
                   {node.label}
                 </span>
                 {#if node.completedKey && isStepCompleted(node.completedKey)}
@@ -526,6 +549,18 @@
                 <p class="text-gray-600 text-xs capitalize">{workflow.selectedFrequency.replace('days', ' days')}</p>
               </div>
             </div>
+
+            {#if selectedCompetitors}
+              <div class="flex items-start space-x-2">
+                <div class="w-7 h-7 bg-amber-100 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <TrendingUp class="w-3.5 h-3.5 text-amber-600" />
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-gray-900 font-medium text-xs">Competitors</p>
+                  <p class="text-gray-600 text-xs">Enabled</p>
+                </div>
+              </div>
+            {/if}
 
             {#if workflow.config.auto_publish.enabled}
               <div class="flex items-start space-x-2">
