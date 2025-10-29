@@ -1,5 +1,4 @@
 
-```svelte
 <script lang="ts">
   export let isAutopilotEnabled: boolean;
   export let toggleAutopilot: () => void;
@@ -113,4 +112,3 @@
     </div>
   </div>
 </div>
-```
