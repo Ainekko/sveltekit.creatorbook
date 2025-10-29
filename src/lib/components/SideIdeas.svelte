@@ -180,7 +180,7 @@
             {
                 href: `/projects/${projectId}/rio`,
                 icon: Twitter,
-                label: 'Rio (Twitter)',
+                label: 'Rio (X)',
                 active: currentPath.includes(`/projects/${projectId}/rio`)
             },
             {
@@ -277,11 +277,14 @@
                         <div class="flex flex-col min-w-0">
                             <div class="flex items-center gap-1">
                                 <span class="text-xs text-gray-500">Welcome</span>
-                                {#if $subscriptionTier === 'pro'}
-                                    <Crown size={10} class="text-amber-500" />
+                                {#if $subscriptionTier === 'pro' || $subscriptionTier === 'lifetime'}
+                                    <Crown size={10} class="text-violet-800" />
                                 {/if}
                             </div>
-                            <span class="text-xs font-medium text-gray-900 truncate">{$user?.username || 'User'}</span>
+                            <div class="flex gap-2">
+                                <span class="text-xs font-medium text-gray-900 truncate">{$user?.username || 'User'}</span>
+                                <p class="font-sm text-xs text-zinc-400">{$subscriptionTier || 'Free'}</p>
+                            </div>
                         </div>
                     </div>
                     <button
