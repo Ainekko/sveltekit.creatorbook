@@ -1,3 +1,6 @@
+<!-- Sidebar.svlte -->
+
+
 <script lang="ts">
     import { 
         projects, 
@@ -17,7 +20,7 @@
     import { 
         Plus, Settings, LayoutGrid, Search, Star, MoreHorizontal, 
         Pin, Archive, Menu, SearchCode, Twitter, MessageSquare, 
-        ChevronDown, ChevronUp, LogOut, Crown, Sparkles 
+        ChevronDown, ChevronUp, LogOut, Candy,  Sparkles 
     } from 'lucide-svelte';
     import UpgradeModal from './UpgradeModule.svelte';
 
@@ -278,7 +281,7 @@
                             <div class="flex items-center gap-1">
                                 <span class="text-xs text-gray-500">Welcome</span>
                                 {#if $subscriptionTier === 'pro' || $subscriptionTier === 'lifetime'}
-                                    <Crown size={10} class="text-violet-800" />
+                                    <Candy size={10} class="text-violet-800" />
                                 {/if}
                             </div>
                             <div class="flex gap-2">
@@ -607,7 +610,7 @@
             >
                 <div class="flex items-center gap-2 mb-1">
                     <div class="w-5 h-5 rounded-full  bg-gradient-to-br from-zinc-400 to-zinc-500  flex items-center justify-center shimmer">
-                        <Crown size={12} class="text-white" />
+                        <Candy size={12} class="text-white" />
                     </div>
                     <span class="text-xs font-semibold text-gray-100">Upgrade to Pro</span>
                 </div>
@@ -623,7 +626,7 @@
             <div class="mb-2 p-2 rounded-lg shadow-lg shadow-violet-500/20 " transition:slide={{ duration: 200 }}>
                 <div class="flex items-center gap-2 mb-1">
                     <div class="w-5 h-5 rounded-full bg-gradient-to-br from-violet-400 to-violet-500 flex items-center justify-center">
-                        <Crown size={12} class="text-white" />
+                        <Candy size={12} class="text-white" />
                     </div>
                     <span class="text-xs font-semibold text-gray-900">Pro Plan</span>
                 </div>

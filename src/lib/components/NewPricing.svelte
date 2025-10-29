@@ -128,7 +128,7 @@
   });
 </script>
 
-<div class="dashboard-scale min-h-screen text-white bg-black font-[Poppins]">
+<div id="pricing" class="dashboard-scale min-h-screen text-white bg-black font-[Poppins]">
 
   <main class="px-4 sm:px-8 py-16">
     <!-- Header -->

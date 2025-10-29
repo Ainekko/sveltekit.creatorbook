@@ -3,8 +3,7 @@
   import {checkAndDeleteToken} from '$lib/users/users';
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
-  import { fetchWIPIdeas } from '$lib/db';
-  import { isLoggedIn, wipIdeasStore } from '$lib/stores';
+  import { isAuthenticated } from '$lib/users/stores';
   
   import { projectStore, isLoading as projectsLoading, error as projectsError } from '$lib/projects/stores';
 
@@ -24,15 +23,15 @@
 
   let token = checkToken();
 
-  async function loadIdeas() {
-    try {
-      const ideas = await fetchWIPIdeas(token);
-      console.log(ideas)
-      wipIdeasStore.set(ideas);
-    } catch (error) {
-      console.error('Failed to load ideas:', error);
-    }
-  }
+  // async function loadIdeas() {
+  //   try {
+  //     const ideas = await fetchWIPIdeas(token);
+  //     console.log(ideas)
+  //     wipIdeasStore.set(ideas);
+  //   } catch (error) {
+  //     console.error('Failed to load ideas:', error);
+  //   }
+  // }
 
   async function loadUserProjects() {
     try {
@@ -47,10 +46,10 @@
     onMount(async () => {
       try {
         checkAndDeleteToken(token);
-        isLoggedIn.set(true);
+        let isAuthenticated = 'true';
         
         await Promise.all([
-          loadIdeas(),
+          // loadIdeas(),
           loadUserProjects()
         ]);
 
