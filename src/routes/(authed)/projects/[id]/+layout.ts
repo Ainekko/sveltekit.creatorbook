@@ -1,7 +1,7 @@
 // routes/projects/[id]/+page.js
 export const ssr = false;
 
-import { API_BASE_URL } from '$lib/config.js';
+import { API_BASE_URL } from '$lib/config';
 import { projectStore } from '$lib/stores';
 
 export async function load({ params, fetch }) {
