@@ -2,11 +2,12 @@
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
+  import {API_BASE_URL, WORKER_API_URL} from '$lib/config'
   
   $: projectId = $page.params.id;
   
-  const BACKEND_URL = 'http://127.0.0.1:8000';
-  const WORKER_URL = 'http://127.0.0.1:8001';
+  const BACKEND_URL = API_BASE_URL;
+  const WORKER_URL = WORKER_API_URL;
 
   const authToken = localStorage.getItem('token');
   
