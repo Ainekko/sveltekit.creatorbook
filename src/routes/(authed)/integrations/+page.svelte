@@ -411,7 +411,7 @@
           Authentication
         </h3>
         <p class="text-zinc-600 mb-3">
-          Include your API key in the request headers:
+          Include your API key in the request headers. All endpoints require a project_id query parameter specific to your project.
         </p>
         <div class="bg-zinc-900 p-4 rounded-xl">
           <code class="text-orange-300 font-mono text-sm">
@@ -427,14 +427,64 @@
           Available Endpoints
         </h3>
         
-        <div class="bg-zinc-50 border border-zinc-200 rounded-xl p-4">
-          <div class="flex items-start gap-3">
-            <span class="bg-green-100 text-green-700 px-2.5 py-1 rounded-lg text-xs font-semibold uppercase">GET</span>
-            <div class="flex-1">
-              <code class="font-mono text-sm text-zinc-900">/api/external/posts/</code>
-              <p class="text-zinc-600 text-sm mt-1">
-                Returns a list of all your published blog posts
-              </p>
+        <div class="space-y-4">
+          <div class="bg-zinc-50 border border-zinc-200 rounded-xl p-4">
+            <div class="flex items-start gap-3">
+              <span class="bg-green-100 text-green-700 px-2.5 py-1 rounded-lg text-xs font-semibold uppercase">GET</span>
+              <div class="flex-1">
+                <code class="font-mono text-sm text-zinc-900">/orion/blog/posts/list_posts/</code>
+                <p class="text-zinc-600 text-sm mt-1">
+                  Paginated list of published posts. Query params: page (default: 1), limit (default: 10, max: 50), project_id (required), domain, keyword.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-zinc-50 border border-zinc-200 rounded-xl p-4">
+            <div class="flex items-start gap-3">
+              <span class="bg-green-100 text-green-700 px-2.5 py-1 rounded-lg text-xs font-semibold uppercase">GET</span>
+              <div class="flex-1">
+                <code class="font-mono text-sm text-zinc-900">/orion/blog/posts/{id}/</code>
+                <p class="text-zinc-600 text-sm mt-1">
+                  Retrieve a single published blog post with SEO metadata. Query params: project_id (required).
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-zinc-50 border border-zinc-200 rounded-xl p-4">
+            <div class="flex items-start gap-3">
+              <span class="bg-green-100 text-green-700 px-2.5 py-1 rounded-lg text-xs font-semibold uppercase">GET</span>
+              <div class="flex-1">
+                <code class="font-mono text-sm text-zinc-900">/orion/blog/posts/recent/</code>
+                <p class="text-zinc-600 text-sm mt-1">
+                  Get recent published posts (e.g., for homepage/sidebar). Query params: limit (default: 5, max: 20), project_id (required).
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-zinc-50 border border-zinc-200 rounded-xl p-4">
+            <div class="flex items-start gap-3">
+              <span class="bg-green-100 text-green-700 px-2.5 py-1 rounded-lg text-xs font-semibold uppercase">GET</span>
+              <div class="flex-1">
+                <code class="font-mono text-sm text-zinc-900">/orion/blog/posts/sitemap/</code>
+                <p class="text-zinc-600 text-sm mt-1">
+                  Generate sitemap data for all published posts (minimal data for XML generation). Query params: project_id (required).
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-zinc-50 border border-zinc-200 rounded-xl p-4">
+            <div class="flex items-start gap-3">
+              <span class="bg-green-100 text-green-700 px-2.5 py-1 rounded-lg text-xs font-semibold uppercase">GET</span>
+              <div class="flex-1">
+                <code class="font-mono text-sm text-zinc-900">/orion/blog/posts/rss/</code>
+                <p class="text-zinc-600 text-sm mt-1">
+                  RSS feed data for published posts (last 20 posts). Query params: project_id (required).
+                </p>
+              </div>
             </div>
           </div>
         </div>

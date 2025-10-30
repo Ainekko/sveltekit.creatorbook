@@ -9,11 +9,13 @@
   export let image: string = '';
   export let url: string = '';
   export let type: string = 'article';
+
+  import {API_BASE_URL} from '$lib/config'
   
   // CRITICAL: Update these with your actual domain
-  const siteUrl = import.meta.env.VITE_SITE_URL || 'https://yourdomain.com';
-  const siteName = import.meta.env.VITE_SITE_NAME || 'FlowJoy Blog';
-  const twitterHandle = import.meta.env.VITE_TWITTER_HANDLE || '@flowjoy';
+  const siteUrl = import.meta.env.VITE_SITE_URL || 'https://www.flowjoy.online';
+  const siteName = import.meta.env.VITE_SITE_NAME || 'flowjoy';
+  const twitterHandle = import.meta.env.VITE_TWITTER_HANDLE || '@_negativeIQ';
   
   $: canonicalUrl = url ? `${siteUrl}${url}` : siteUrl;
   $: ogImage = image || `${siteUrl}/og-default.png`;
@@ -163,5 +165,5 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
   
   <!-- DNS Prefetch for your API -->
-  <link rel="dns-prefetch" href={import.meta.env.VITE_API_URL || 'http://localhost:8000'} />
+  <link rel="dns-prefetch" href={`${API_BASE_URL}`} />
 </svelte:head>
