@@ -340,7 +340,7 @@
                 {/if}
                 
                 <div class="mt-6 pt-6 border-t border-zinc-800 text-center">
-                    <p class="text-sm text-zinc-400">Or email us at <a href="mailto:hi@s-tierproject.online" class="text-blue-400 hover:text-blue-300">hi@s-tierproject.online</a></p>
+                    <p class="text-sm text-zinc-400">Or email us at <a href="mailto:hi@s-tierproject.online" class="text-blue-400 hover:text-blue-300">hello@flowjoy.online</a></p>
                 </div>
             </div>
 
