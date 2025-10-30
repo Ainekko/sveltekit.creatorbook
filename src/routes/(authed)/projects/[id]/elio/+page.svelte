@@ -2,7 +2,7 @@
 <script>
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
-  import {WORKER_API_URL} from '$lib/config'
+  import {WORKER_API_URL, API_BASE_URL} from '$lib/config'
   
   // Get project ID from URL
   $: projectId = $page.params.id;
@@ -10,7 +10,7 @@
   let authToken = localStorage.getItem('token');
   
   // Configuration from parent component or environment
-  const MAIN_BACKEND_URL = 'http://127.0.0.1:8000'; // Your Django backend
+  const MAIN_BACKEND_URL = API_BASE_URL; // Your Django backend
   const WORKER_URL = WORKER_API_URL; // Your worker service
   
   // LocalStorage keys
