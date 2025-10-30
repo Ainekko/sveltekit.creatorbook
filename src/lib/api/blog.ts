@@ -1,5 +1,5 @@
 // src/lib/api/blog.ts
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/orion/blog';
+const API_BASE = 'https://api.flowjoy.online/orion/blog';
 const API_KEY = '9hPUh4pRJkmtii-50bJPMwT4M-SiUc_HDoPjoc-D1BZ9CK-X-OwBoV2KroH4vkT_';
 const PROJECT_ID = '6f5ece70-df13-4b70-b9f6-8de6e2a644ca';
 
