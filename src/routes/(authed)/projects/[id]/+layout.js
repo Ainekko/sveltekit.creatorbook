@@ -1,6 +1,7 @@
 // routes/projects/[id]/+page.js
 export const ssr = false;
 
+import { API_BASE_URL } from '$lib/config.js';
 import { projectStore } from '$lib/stores';
 
 export async function load({ params, fetch }) {
@@ -9,7 +10,7 @@ export async function load({ params, fetch }) {
   
   try {
     const projectId = params.id;
-    const response = await fetch(`https://api.s-tierproject.online/projects/projects/${projectId}`);
+    const response = await fetch(`${API_BASE_URL}/projects/projects/${projectId}`);
     
     if (!response.ok) {
       const errorMessage = `Failed to load project: ${response.status}`;

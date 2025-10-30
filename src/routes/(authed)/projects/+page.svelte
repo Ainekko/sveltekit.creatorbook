@@ -1,10 +1,8 @@
 <script lang="ts">
   import { get } from 'svelte/store';
-  import { wipIdeasStore } from '$lib/stores';
   import { projectStore, projects, isLoading, error, projectsCount } from '$lib/projects/stores';
   import { fly, fade } from 'svelte/transition';
   import { onMount } from 'svelte';
-  import { userStore } from '$lib/stores';
   import { page } from '$app/stores';
   import { ChevronDown, ChevronRight, Plus, Calendar, Users, Activity, Search, ExternalLink } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
