@@ -123,6 +123,13 @@
                     class="w-full h-full "
                     style="aspect-ratio: 4/3; object-fit: cover"
                   />
+                {:else if agent.icon === 'reddit'}
+                  <img
+                    src="/elioSection.jpg"
+                    alt={agent.name}
+                    class="w-full h-full"
+                    style="aspect-ratio: 4/3; object-fit: cover"
+                  />
                 {:else}
                   <video
                     src={agent.videoUrl}

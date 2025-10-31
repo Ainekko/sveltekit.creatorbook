@@ -149,40 +149,13 @@
   });
 </script>
 
-<style>
-  .accent-dot {
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      width: 12px;
-      height: 12px;
-      background: #fb923c;
-      border-radius: 50%;
-      animation: gentle-float 6s ease-in-out infinite;
-  }
-
-  @keyframes gentle-float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-  }
-
-  .card-hover {
-      transition: all 0.3s ease;
-  }
-
-  .card-hover:hover {
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
-      transform: translateY(-2px);
-  }
-</style>
-
 <div class="min-h-screen bg-white">
 <!-- Header -->
 <div class="max-w-5xl mx-auto px-6 pt-16 pb-8">
-  <div class="text-center mb-12" in:fly={{ y: 20, duration: 500 }}>
+  <div class="text-center mb-12">
     <div class="inline-block relative mb-4">
       <h1 class="text-4xl font-semibold text-zinc-900">API Integration</h1>
-      <div class="absolute -top-2 -right-2 w-4 h-4 bg-orange-400 rounded-full" style="animation: gentle-float 6s ease-in-out infinite;"></div>
+      <div class="absolute -top-2 -right-2 w-4 h-4 bg-orange-400 rounded-full"></div>
     </div>
     <p class="text-lg text-zinc-500 max-w-2xl mx-auto">
       Connect your applications with secure API keys. Simple, powerful, and built for developers.
@@ -194,9 +167,9 @@
 <div class="max-w-5xl mx-auto px-6 pb-16">
   
   <!-- API Keys Section -->
-  <div class="mb-12 bg-white border border-zinc-200 rounded-2xl p-8 relative card-hover" in:fly={{ y: 20, duration: 500, delay: 100 }}>
+  <div class="mb-12 bg-white border border-zinc-200 rounded-2xl p-8 relative">
     <div class="absolute top-8 right-8">
-      <div class="w-3 h-3 bg-blue-400 rounded-square" style="animation: gentle-float 6s ease-in-out infinite; animation-delay: -2s;"></div>
+      <div class="w-3 h-3 bg-blue-400 rounded-square"></div>
     </div>
     
     <div class="flex items-center gap-3 mb-6">
@@ -210,7 +183,7 @@
     </div>
 
     {#if error}
-      <div class="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl mb-6" in:fly={{ y: 10, duration: 300 }}>
+      <div class="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl mb-6">
         <div class="flex items-center gap-2">
           <div class="w-2 h-2 bg-red-500 rounded-full"></div>
           <span>{error}</span>
@@ -223,7 +196,6 @@
       <button 
         on:click={() => showNewKeyForm = true}
         class="flex items-center gap-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg px-4 py-3 transition-all duration-200 mb-8"
-        in:fly={{ y: 10, duration: 300 }}
       >
         <Plus size={18} />
         <span class="font-medium">Create New Key</span>
@@ -232,7 +204,7 @@
 
     <!-- New API Key Form -->
     {#if showNewKeyForm}
-      <div class="bg-zinc-50 border border-zinc-200 rounded-xl p-6 mb-8" in:fly={{ y: 10, duration: 300 }}>
+      <div class="bg-zinc-50 border border-zinc-200 rounded-xl p-6 mb-8">
         <h3 class="text-lg font-semibold text-zinc-900 mb-4">Create New API Key</h3>
         <div class="mb-4">
           <label for="key-name" class="block text-sm font-medium text-zinc-700 mb-2">Key Name</label>
@@ -269,7 +241,7 @@
 
     <!-- Newly Created Key Display -->
     {#if createdKey}
-      <div class="bg-orange-50 border-2 border-orange-200 rounded-xl p-6 mb-8" in:fly={{ y: 10, duration: 300 }}>
+      <div class="bg-orange-50 border-2 border-orange-200 rounded-xl p-6 mb-8">
         <div class="flex items-center gap-3 mb-3">
           <div class="p-2 bg-orange-100 rounded-lg">
             <Key size={20} class="text-orange-600" />
@@ -396,9 +368,9 @@
   </div>
 
   <!-- Documentation Section -->
-  <div class="bg-white border border-zinc-200 rounded-2xl p-8 relative card-hover" in:fly={{ y: 20, duration: 500, delay: 200 }}>
+  <div class="bg-white border border-zinc-200 rounded-2xl p-8 relative">
     <div class="absolute top-8 right-8">
-      <div class="w-3 h-3 bg-orange-400 rounded-full" style="animation: gentle-float 6s ease-in-out infinite; animation-delay: -4s;"></div>
+      <div class="w-3 h-3 bg-orange-400 rounded-full"></div>
     </div>
     
     <h2 class="text-2xl font-semibold text-zinc-900 mb-6">Quick Start Guide</h2>
@@ -444,7 +416,7 @@
             <div class="flex items-start gap-3">
               <span class="bg-green-100 text-green-700 px-2.5 py-1 rounded-lg text-xs font-semibold uppercase">GET</span>
               <div class="flex-1">
-                <code class="font-mono text-sm text-zinc-900">/orion/blog/posts/{id}/</code>
+                <code class="font-mono text-sm text-zinc-900">/orion/blog/posts/id/</code>
                 <p class="text-zinc-600 text-sm mt-1">
                   Retrieve a single published blog post with SEO metadata. Query params: project_id (required).
                 </p>
@@ -522,8 +494,7 @@
       { value: '<100ms', label: 'Response time' },
       { value: '256-bit', label: 'Encryption' }
     ] as stat}
-      <div class="text-center bg-white border border-zinc-200 rounded-xl p-6 relative card-hover">
-        <div class="accent-dot"></div>
+      <div class="text-center bg-white border border-zinc-200 rounded-xl p-6 relative">
         <div class="text-2xl font-semibold text-zinc-900">{stat.value}</div>
         <div class="text-sm text-zinc-500 mt-1">{stat.label}</div>
       </div>
