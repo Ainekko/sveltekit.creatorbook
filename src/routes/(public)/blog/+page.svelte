@@ -35,7 +35,7 @@
 </script>
 
 <SEO
-  title="Blog - Latest Articles"
+  title="flowjoy blog - Latest Articles"
   description="Read our latest blog posts and articles"
   type="website"
   url="/blog"

@@ -4,7 +4,7 @@
 import { blogApi } from '$lib/api/blog';
 import type { RequestHandler } from './$types';
 
-const SITE_URL = 'https://yourblog.com';
+const SITE_URL = 'https://www.flowjoy.online';
 
 export const GET: RequestHandler = async () => {
   try {

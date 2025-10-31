@@ -1,39 +1,41 @@
 
 <svelte:head>
-  <title>AI Marketing Agents for SaaS</title>
-  <meta name="description" content="Grow your SaaS marketing with AI agents. Be the first to catch latest industry trends, create targeted content and grow your business faster." />
-  <meta name="keywords" content="AI marketing, SaaS marketing, marketing automation, AI agents, content creation, industry trends, business growth, marketing tools" />
-  <meta name="author" content="S-Tier Project" />
+  <title>Flowjoy | AI Marketing Agents for SEO, X & Reddit Automation</title>
+  <meta name="description" content="Meet Flowjoy: AI marketing agents that automate SEO, X, and Reddit growth without complex workflows. Perfect for founders, growth teams, and solo creators." />
+  <meta name="keywords" content="AI marketing, marketing automation, AI agents, SEO automation, X automation, Reddit marketing, generative AI, content automation, Flowjoy" />
+  <meta name="author" content="Flowjoy" />
   <meta name="robots" content="index, follow" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta charset="UTF-8" />
   
-  <link rel="canonical" href="https://s-tierproject.online" />
+  <link rel="canonical" href="https://flowjoy.online" />
   
-  <meta property="og:title" content="AI Marketing Agents for SaaS" />
-  <meta property="og:description" content="Grow your SaaS marketing with AI agents. Be the first to catch latest industry trends, create targeted content and grow your business faster." />
-  <meta property="og:image" content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/s-teir/NEW+OG.jpg" />
-
-  <meta property="og:image:alt" content="AI Marketing Agents for SaaS - Dashboard Preview" />
+  <meta property="og:title" content="Flowjoy: AI Marketing Agents for SEO, X & Reddit" />
+  <meta property="og:description" content="Automate SEO, X, and Reddit growth without complex workflows. Flowjoy's AI agents are built for founders, growth teams, and solo creators." />
+  
+  <meta property="og:image" content="https://your-domain.com/images/flowjoy-og-image.jpg" />
+  <meta property="og:image:alt" content="Flowjoy AI Marketing Agents Dashboard" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:url" content="https://s-tierproject.online" />
+
+  <meta property="og:url" content="https://flowjoy.online" />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="S-Tier Project" />
+  <meta property="og:site_name" content="Flowjoy" />
   <meta property="og:locale" content="en_US" />
   
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@_negativeIQ" />
-  <meta name="twitter:creator" content="@_negativeIQ" />
-  <meta name="twitter:title" content="AI Marketing Agents for SaaS" />
-  <meta name="twitter:description" content="Grow your SaaS marketing with AI agents. Be the first to catch latest industry trends, create targeted content and grow your business faster." />
-  <meta name="twitter:image" content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/s-teir/NEW+OG.jpg" />
-  <meta name="twitter:image:alt" content="AI Marketing Agents for SaaS - Dashboard Preview" />
   
-  <meta name="theme-color" content="#000000" />
-  <meta name="msapplication-TileColor" content="#000000" />
-  <meta name="application-name" content="S-Tier Project" />
-  <meta name="apple-mobile-web-app-title" content="S-Tier Project" />
+  <meta name="twitter:site" content="@YourFlowjoyHandle" />
+  <meta name="twitter:creator" content="@YourFlowjoyHandle" />
+  
+  <meta name="twitter:title" content="Flowjoy: AI Marketing Agents for SEO, X & Reddit" />
+  <meta name="twitter:description" content="Automate SEO, X, and Reddit growth without complex workflows. Built for founders, growth teams, and solo creators." />
+  
+  <meta name="twitter:image" content="https://your-domain.com/images/flowjoy-og-image.jpg" />
+  <meta name="twitter:image:alt" content="Flowjoy AI Marketing Agents Dashboard" />
+  
+  <meta name="theme-color" content="#000000" /> <meta name="msapplication-TileColor" content="#000000" /> <meta name="application-name" content="Flowjoy" />
+  <meta name="apple-mobile-web-app-title" content="Flowjoy" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   
@@ -41,22 +43,42 @@
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": "AI Marketing Agents for SaaS",
-      "url": "https://s-tierproject.online",
-      "description": "Revolutionize your SaaS marketing with AI agents. Be the first to catch latest industry trends, create targeted content and grow your business faster.",
+      "name": "Flowjoy",
+      "url": "https://flowjoy.online",
+      "description": "AI marketing agents that automate SEO, X, and Reddit growth without complex workflows. Perfect for founders, growth teams, and solo creators.",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",
       "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
+        "@type": "AggregateOffer",
+        "lowPrice": "0",
+        "highPrice": "79",
+        "priceCurrency": "USD",
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Free",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          {
+            "@type": "Offer",
+            "name": "Starter",
+            "price": "29",
+            "priceCurrency": "USD"
+          },
+          {
+            "@type": "Offer",
+            "name": "Pro",
+            "price": "79",
+            "priceCurrency": "USD"
+          }
+        ]
       },
       "author": {
         "@type": "Organization",
-        "name": "S-Tier Project"
+        "name": "Flowjoy"
       },
-      "image": "https://rechatcreatorbook.s3.us-west-2.amazonaws.com/s-teir/NEW+OG.jpg"
-    }
+      "image": "https://your-domain.com/images/flowjoy-og-image.jpg" }
   </script>
 </svelte:head>
 

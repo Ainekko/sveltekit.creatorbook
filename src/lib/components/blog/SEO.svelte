@@ -14,7 +14,7 @@
   
   // CRITICAL: Update these with your actual domain
   const siteUrl = import.meta.env.VITE_SITE_URL || 'https://www.flowjoy.online';
-  const siteName = import.meta.env.VITE_SITE_NAME || 'flowjoy';
+  const siteName = 'flowjoy';
   const twitterHandle = import.meta.env.VITE_TWITTER_HANDLE || '@_negativeIQ';
   
   $: canonicalUrl = url ? `${siteUrl}${url}` : siteUrl;

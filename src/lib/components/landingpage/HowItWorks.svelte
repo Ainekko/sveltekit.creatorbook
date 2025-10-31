@@ -26,8 +26,8 @@
           },
           {
             step: '02',
-            title: 'Choose agents',
-            description: 'Pick Nai for SEO, Rio for X, or Elio for Reddit—or use all three.',
+            title: 'Start a project',
+            description: 'Get access to Nai for SEO, Rio for X, or Elio for Reddit.',
             icon: 'grid',
             color: 'purple'
           },
