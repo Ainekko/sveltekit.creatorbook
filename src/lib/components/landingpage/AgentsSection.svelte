@@ -152,11 +152,15 @@
                     <div class="pl-4 space-y-10">
                       <div in:fly={{ y: 20, duration: 600, delay: 600 }}>
                         <h4 class="text-lg font-semibold text-zinc-800">Keyword Discovery</h4>
-                        <p class="text-sm text-zinc-700">Nai finds optimal keywords tailored to your needs.</p>
+                        <p class="text-sm text-zinc-700">Nai finds optimal keywords tailored to your project.</p>
+                      </div>
+                      <div in:fly={{ y: 20, duration: 600, delay: 600 }}>
+                        <h4 class="text-lg font-semibold text-zinc-800">Find ranking competitors</h4>
+                        <p class="text-sm text-zinc-700">Nai find the top ranking competitors on selected keywords.</p>
                       </div>
                       <div in:fly={{ y: 20, duration: 600, delay: 700 }}>
-                        <h4 class="text-lg font-semibold text-zinc-800">Outline Generation Based on Keywords</h4>
-                        <p class="text-sm text-zinc-700">Generate structured outlines from discovered keywords.</p>
+                        <h4 class="text-lg font-semibold text-zinc-800">Outline Generation Based on Keywords & competitors</h4>
+                        <p class="text-sm text-zinc-700">Generate structured outlines from discovered keywords and competitor analysis.</p>
                       </div>
                       <div in:fly={{ y: 20, duration: 600, delay: 800 }}>
                         <h4 class="text-lg font-semibold text-zinc-800">Full Posts Based on Outlines</h4>
