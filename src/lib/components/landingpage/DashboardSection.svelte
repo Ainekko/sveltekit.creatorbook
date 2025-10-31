@@ -14,7 +14,7 @@
     <div class="relative max-w-6xl mx-auto mb-16">
       <div class="video-container">
         <img 
-          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" 
+          src="/oneDashboard.jpg" 
           alt="Unified dashboard" 
           class="w-full rounded-2xl"
         />
@@ -27,8 +27,8 @@
       </div>
       
       <div class="absolute -top-6 right-8 bg-white rounded-xl shadow-lg p-4 border border-zinc-100 gentle-float" style="animation-delay: -3s;">
-        <div class="text-2xl font-bold text-blue-600">2.4K</div>
-        <div class="text-sm text-zinc-500">Engagements today</div>
+        <div class="text-2xl font-bold text-blue-600">10+</div>
+        <div class="text-sm text-zinc-500">Keywords found</div>
       </div>
       
       <div class="absolute bottom-12 right-16 bg-white rounded-xl shadow-lg p-4 border border-zinc-100 gentle-float" style="animation-delay: -2s;">
