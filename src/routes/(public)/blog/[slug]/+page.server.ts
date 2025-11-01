@@ -1,12 +1,12 @@
-// src/routes/blog/[id]/+page.server.ts
+// src/routes/blog/[slug]/+page.server.ts
 import { error } from '@sveltejs/kit';
 import { blogApi } from '$lib/api/blog';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
-  const { params, isDataRequest } = event;  // Access full event for isDataRequest
+  const { params, isDataRequest } = event;
 
-  const postPromise = blogApi.getPost(params.id)
+  const postPromise = blogApi.getPost(params.slug)
     .then(post => {
       if (!post) {
         throw error(404, 'Post not found');
@@ -26,7 +26,7 @@ export const load: PageServerLoad = async (event) => {
     const relatedPosts = await relatedPostsPromise;
     return {
       post,
-      relatedPosts: relatedPosts.filter(p => p.id !== post.id)
+      relatedPosts: relatedPosts.filter(p => p.slug !== post.slug)
     };
   } else {
     // For client-side navigation: Stream for better UX
@@ -39,13 +39,9 @@ export const load: PageServerLoad = async (event) => {
   }
 };
 
-// Keep your Vercel ISR config as-is
 // Vercel ISR Configuration
-// This caches the page and regenerates it every 60 seconds
 export const config = {
   isr: {
-    expiration: false, // Cache for 60 seconds
-    // Optional: Set to false to disable runtime regeneration
-    // bypassToken: 'your-secret-token' // For on-demand revalidation
+    expiration: false,
   }
 };

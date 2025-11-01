@@ -1,5 +1,5 @@
 <script lang="ts">
-  // src/routes/blog/[id]/+page.svelte
+  // src/routes/blog/[slug]/+page.svelte
   import { page } from '$app/stores';
   import { fade } from 'svelte/transition';
   import SEO from '$lib/components/blog/SEO.svelte';
@@ -63,7 +63,7 @@
             author={resolvedPost.seo?.author || ''}
             publishedDate={resolvedPost.seo?.published_date || resolvedPost.created_at}
             modifiedDate={resolvedPost.seo?.modified_date || resolvedPost.updated_at}
-            url={`/blog/${resolvedPost.id}`}
+            url={`/blog/${resolvedPost.slug}`}
             type="article"
           />
           <BlogPost post={resolvedPost} />
@@ -80,15 +80,6 @@
           <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full blur-xl gentle-float" style="animation-delay: -2s;"></div>
           
           <div class="relative z-10">
-            <div class="flex justify-center mb-4">
-              <!-- <img 
-                src="https://png.pngtree.com/png-clipart/20210309/original/pngtree-3d-render-futuristic-robot-pose-hands-up-png-image_5873238.jpg" 
-                alt="Friendly AI Robot"
-                class="w-20 h-20 rounded-full object-contain gentle-float"
-                loading="lazy"
-              /> -->
-            </div>
-            
             <h3 class="text-2xl font-bold text-white mb-2 text-center">
               Automate your marketing for Free!
             </h3>
@@ -180,7 +171,7 @@
         </div>
         
         <div class="grid md:grid-cols-3 gap-8">
-          {#each resolvedRelatedPosts.filter(p => p.id !== $page.params.id) as relatedPost, index}
+          {#each resolvedRelatedPosts.filter(p => p.slug !== $page.params.slug) as relatedPost, index}
             <div style="animation-delay: -{index * 0.1}s;" class="gentle-float">
               <BlogCard post={relatedPost} showExcerpt={true} showKeywords={false} />
             </div>

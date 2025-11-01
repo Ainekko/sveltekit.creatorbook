@@ -1,12 +1,14 @@
 // src/lib/api/blog.ts
 
 import { API_BASE_URL } from "$lib/config";
+
 const API_BASE = `${API_BASE_URL}/orion/blog`;
 const API_KEY = '5MB81_gTNfI5LzHPnw05zBixlAowAgGlFU4BuykP3twCuWDfUO62Oe9qcnDv7mnP';
 const PROJECT_ID = '7784468c-c94f-4462-a1b8-d5a76db01a49';
 
 export interface BlogPost {
   id: string;
+  slug: string;
   title: string;
   content: string;
   meta_description: string;
@@ -78,7 +80,7 @@ class BlogAPI {
 
   constructor(baseUrl: string = API_BASE) {
     this.baseUrl = baseUrl;
-    this.cache = new CacheManager(300); // 5 minute cache (adjusted from 3000 seconds which was likely a typo)
+    this.cache = new CacheManager(300); // 5 minute cache
     this.headers = {
       'Authorization': `Bearer ${API_KEY}`,
       'Content-Type': 'application/json',
@@ -127,13 +129,13 @@ class BlogAPI {
   }
 
   /**
-   * Get a single post by ID with caching and prefetching support
+   * Get a single post by slug with caching and prefetching support
    */
-  async getPost(id: string): Promise<BlogPost> {
+  async getPost(slug: string): Promise<BlogPost> {
     const params = { project_id: PROJECT_ID };
     const queryString = this.getQueryParams(params);
-    const url = `${this.baseUrl}/posts/${id}/` + (queryString ? `?${queryString}` : '');
-    const cacheKey = `post_${id}_${PROJECT_ID}`;
+    const url = `${this.baseUrl}/posts/${slug}/` + (queryString ? `?${queryString}` : '');
+    const cacheKey = `post_${slug}_${PROJECT_ID}`;
     const cached = this.cache.get(cacheKey);
     
     if (cached) {
@@ -157,9 +159,9 @@ class BlogAPI {
   /**
    * Prefetch a post (for hover/mouseover)
    */
-  prefetchPost(id: string): void {
+  prefetchPost(slug: string): void {
     // Fire and forget - don't await
-    this.getPost(id).catch(() => {
+    this.getPost(slug).catch(() => {
       // Silently fail prefetches
     });
   }

@@ -1,6 +1,5 @@
 <script lang="ts">
   import { format } from 'date-fns';
-  import { onMount } from 'svelte';
   import { blogApi } from '$lib/api/blog';
   import SEO from '$lib/components/blog/SEO.svelte';
   import type { PageData } from './$types';
@@ -9,11 +8,11 @@
   
   let prefetchedPosts = new Set<string>();
   
-  // Prefetch post on hover
-  function handlePostHover(postId: string) {
-    if (!prefetchedPosts.has(postId)) {
-      prefetchedPosts.add(postId);
-      blogApi.prefetchPost(postId);
+  // Prefetch post on hover - now uses slug
+  function handlePostHover(postSlug: string) {
+    if (!prefetchedPosts.has(postSlug)) {
+      prefetchedPosts.add(postSlug);
+      blogApi.prefetchPost(postSlug);
     }
   }
   
@@ -82,7 +81,7 @@
       </div>
     </div>
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-      {#each Array(11) as _, index} <!-- Match your per-page limit minus featured -->
+      {#each Array(11) as _, index}
         <div class="h-96 bg-white rounded-2xl border border-zinc-200 overflow-hidden animate-pulse">
           <div class="h-32 bg-gray-300"></div>
           <div class="p-6">
@@ -102,7 +101,7 @@
     <nav class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-pulse">
       <div class="w-32 h-12 bg-gray-200 rounded-xl"></div>
       <div class="flex gap-2">
-        {#each Array(3) as _} <!-- Placeholder pages -->
+        {#each Array(3) as _}
           <div class="w-12 h-12 bg-gray-200 rounded-xl"></div>
         {/each}
       </div>
@@ -114,9 +113,9 @@
       <div class="mb-16">
         <div class="relative group">
           <a 
-            href="/blog/{blogData.posts[0].id}" 
+            href="/blog/{blogData.posts[0].slug}" 
             class="block"
-            on:mouseenter={() => handlePostHover(blogData.posts[0].id)}
+            on:mouseenter={() => handlePostHover(blogData.posts[0].slug)}
           >
             <div class="relative overflow-hidden bg-gradient-to-br {getGradient(0)} rounded-3xl p-8 md:p-12 shadow-xl hover:shadow-2xl transition-all duration-300">
               <div class="absolute inset-0 bg-black/20"></div>
@@ -169,9 +168,9 @@
       {#each blogData.posts.slice(1) as post, index}
         <article class="group" style="animation-delay: -{index * 0.1}s;">
           <a 
-            href="/blog/{post.id}" 
+            href="/blog/{post.slug}" 
             class="block h-full"
-            on:mouseenter={() => handlePostHover(post.id)}
+            on:mouseenter={() => handlePostHover(post.slug)}
           >
             <div class="h-full bg-white rounded-2xl border border-zinc-200 overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
               <div class="h-32 bg-gradient-to-br {getGradient(index + 1)} relative overflow-hidden">
