@@ -131,7 +131,7 @@
                     style="aspect-ratio: 4/3; object-fit: cover"
                   />
                 {:else}
-                  <video
+                  <!-- <video
                     src={agent.videoUrl}
                     controls
                     autoplay
@@ -141,7 +141,7 @@
                     style="aspect-ratio: 16/9;"
                   >
                     Your browser does not support the video tag.
-                  </video>
+                  </video> -->
                 {/if}
               </div>
     
