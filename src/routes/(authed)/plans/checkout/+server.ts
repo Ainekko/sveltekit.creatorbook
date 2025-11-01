@@ -5,7 +5,7 @@ import type { RequestHandler } from './$types';
 const TEST_CREEM_API_KEY = 'creem_test_5RIzwbOSqJn6pryQrrKzpO';
 const PROD_CREEM_API_KEY = 'creem_4asli88Y5vYQqQWWi49gF';
 
-const USE_TEST_MODE = true; // Toggle this for production
+const USE_TEST_MODE = false; // Toggle this for production
 const CREEM_API_KEY = USE_TEST_MODE ? TEST_CREEM_API_KEY : PROD_CREEM_API_KEY;
 
 const CREEM_PROD_BASE_URL = "https://api.creem.io/v1";
@@ -16,14 +16,14 @@ const CREEM_BASE_URL = USE_TEST_MODE ? CREEM_TEST_URL : CREEM_PROD_BASE_URL
 // Map your tiers to Creem product/price IDs
 const PRICE_IDS = {
     starter: {
-        monthly: 'prod_56GlbmLiyyo6kUxnbClgA4',
-        annual: 'prod_2uh4uCyMVYIgpw3GkXE9uw'
+        monthly: 'prod_7DZPgwNDAIPfrRhqyxiNmM',
+        annual: 'prod_3qTEL7FtEzqp0F6IfR6FMG'
     },
     pro: {
-        monthly: 'prod_4A98VMLVnVyhUwcEj9YqZo',
-        annual: 'prod_6qSq9YW4m0DYFgYyczCZXB'
+        monthly: 'prod_5Sd1jty6L9rvAoKomc5V92',
+        annual: 'prod_7PbY2mB5FVDaYa8jxOnODb'
     },
-    lifetime: 'prod_4u2yQUEFLCPmbNnNUVYdBO' // Lifetime is a one-time purchase, no billing period
+    lifetime: 'prod_569o0FyJWLzZQ1GCsnWHEl' // Lifetime is a one-time purchase, no billing period
 };
 
 export const POST: RequestHandler = async ({ request, url }) => {
