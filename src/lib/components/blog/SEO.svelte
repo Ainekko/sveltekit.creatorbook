@@ -18,7 +18,7 @@
   const twitterHandle = import.meta.env.VITE_TWITTER_HANDLE || '@_negativeIQ';
   
   $: canonicalUrl = url ? `${siteUrl}${url}` : siteUrl;
-  $: ogImage = image || `${siteUrl}/og-default.png`;
+  $: ogImage = image || '/og.jpg';
   $: fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
   
   // Structured data for articles
