@@ -6,6 +6,7 @@
   import { contentStore } from '$lib/components/nai/stores';
   import type { BlogPost, PostStatus } from '$lib/components/nai/types';
   import type { UUID } from 'crypto';
+  import {API_BASE_URL} from '$lib/config'
 
 
   export let projectId: UUID;
@@ -14,7 +15,7 @@
   $: isLoading = $contentStore.postsLoading;
 
   const authToken = localStorage.getItem('token');
-  const apiBaseUrl = 'http://127.0.0.1:8000';
+  const apiBaseUrl = API_BASE_URL;
 
   let selectedStatus: PostStatus | 'all' = 'all';
   let selectedPost: BlogPost | null = null;
