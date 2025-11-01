@@ -13,7 +13,7 @@
   <meta property="og:title" content="Flowjoy: AI Marketing Agents for SEO, X & Reddit" />
   <meta property="og:description" content="Automate SEO, X, and Reddit growth without complex workflows. Flowjoy's AI agents are built for founders, growth teams, and solo creators." />
   
-  <meta property="og:image" content="https://your-domain.com/images/flowjoy-og-image.jpg" />
+  <meta property="og:image" content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/flowjoy/og.jpg" />
   <meta property="og:image:alt" content="Flowjoy AI Marketing Agents Dashboard" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -25,13 +25,13 @@
   
   <meta name="twitter:card" content="summary_large_image" />
   
-  <meta name="twitter:site" content="@YourFlowjoyHandle" />
-  <meta name="twitter:creator" content="@YourFlowjoyHandle" />
+  <meta name="twitter:site" content="" />
+  <meta name="twitter:creator" content="@_nagativeIQ" />
   
   <meta name="twitter:title" content="Flowjoy: AI Marketing Agents for SEO, X & Reddit" />
   <meta name="twitter:description" content="Automate SEO, X, and Reddit growth without complex workflows. Built for founders, growth teams, and solo creators." />
   
-  <meta name="twitter:image" content="https://your-domain.com/images/flowjoy-og-image.jpg" />
+  <meta name="twitter:image" content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/flowjoy/og.jpg" />
   <meta name="twitter:image:alt" content="Flowjoy AI Marketing Agents Dashboard" />
   
   <meta name="theme-color" content="#000000" /> <meta name="msapplication-TileColor" content="#000000" /> <meta name="application-name" content="Flowjoy" />
@@ -78,7 +78,7 @@
         "@type": "Organization",
         "name": "Flowjoy"
       },
-      "image": "https://your-domain.com/images/flowjoy-og-image.jpg" }
+      "image": "https://rechatcreatorbook.s3.us-west-2.amazonaws.com/flowjoy/og.jpg" }
   </script>
 </svelte:head>
 
