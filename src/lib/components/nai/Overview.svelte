@@ -206,7 +206,7 @@
   $: noWorkflow = !workflow.taskId;
   
   $: canSelectAndConfigure = noWorkflow || isPaused || isCompleted;
-  $: canEditFrequency = workflow.isEditing || isPaused || isCompleted;
+  $: canEditFrequency = noWorkflow || workflow.isEditing || isPaused || isCompleted;
 </script>
 
 {#if loading}
