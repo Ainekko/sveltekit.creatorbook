@@ -20,7 +20,8 @@
   let hasHandledCompletion = false;
   let loading = false;
   let fakeProgress = 0;
-  let selectedCompetitors = false; // Track competitors selection
+  
+  $: selectedCompetitors = ['generate_outlines', 'generate_posts', 'full_workflow'].includes(workflow.selectedWorkflow);
 
   $: showAutoPublish = ['generate_posts', 'full_workflow'].includes(workflow.selectedWorkflow);
   $: autoEnabled = workflow.config.auto_publish.enabled;
@@ -56,12 +57,6 @@
   function selectNode(index: number): void {
     const selectedWorkflow = workflowNodes[index];
     workflowStore.updateSelection(selectedWorkflow, workflow.selectedFrequency);
-  }
-
-  function toggleCompetitors(): void {
-    selectedCompetitors = !selectedCompetitors;
-    // Dispatch event or update store if you need to track this state
-    dispatch('competitorsToggled', { selected: selectedCompetitors });
   }
 
   function setFrequency(freq: string): void {
@@ -274,13 +269,9 @@
                   <span class="text-xs text-emerald-600 mt-1">✓</span>
                 {/if}
               </button>
-            {:else if node.isCompetitors}
-              <button 
-                on:click={toggleCompetitors}
-                disabled={!canSelectAndConfigure}
-                class="flex flex-col items-center group flex-shrink-0"
-              >
-                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full {selectedCompetitors ? 'bg-gray-950' : 'bg-gray-50 border border-gray-300'} shadow-sm flex items-center justify-center mb-2 group-hover:shadow-md transition-all {canSelectAndConfigure ? 'group-hover:scale-105 cursor-pointer' : 'cursor-not-allowed'}">
+              {:else if node.isCompetitors}
+              <div class="flex flex-col items-center group flex-shrink-0">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full {selectedCompetitors ? 'bg-gray-950' : 'bg-gray-50 border border-gray-300'} shadow-sm flex items-center justify-center mb-2 transition-all cursor-default">
                   <svelte:component this={node.icon} class="w-6 h-6 sm:w-8 sm:h-8 {selectedCompetitors ? 'text-white' : 'text-gray-400'} transition-colors" />
                 </div>
                 <span class="text-xs font-medium {selectedCompetitors ? 'text-gray-950' : 'text-gray-500'} transition-colors">
@@ -289,7 +280,7 @@
                 {#if node.completedKey && isStepCompleted(node.completedKey)}
                   <span class="text-xs text-emerald-600 mt-1">✓</span>
                 {/if}
-              </button>
+              </div>
             {:else}
               <div class="flex flex-col items-center group flex-shrink-0">
                 <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full {(i <= maxActive) ? 'bg-gray-950' : 'bg-gray-50 border border-gray-300'} shadow-sm flex items-center justify-center mb-2 group-hover:shadow-md transition-all cursor-default">
