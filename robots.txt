@@ -1,0 +1,8 @@
+# robots.txt for flowjoy.online
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.flowjoy.online/sitemap.xml
