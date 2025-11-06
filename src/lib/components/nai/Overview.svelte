@@ -21,6 +21,10 @@
   let loading = false;
   let fakeProgress = 0;
   
+  // LocalStorage key for competitor toggle (visual only - doesn't affect workflow)
+  let competitorEnabled = false;
+  const COMPETITOR_STORAGE_KEY = `competitor_enabled_${projectId}`;
+
   $: selectedCompetitors = ['generate_outlines', 'generate_posts', 'full_workflow'].includes(workflow.selectedWorkflow);
 
   $: showAutoPublish = ['generate_posts', 'full_workflow'].includes(workflow.selectedWorkflow);
@@ -57,6 +61,11 @@
   function selectNode(index: number): void {
     const selectedWorkflow = workflowNodes[index];
     workflowStore.updateSelection(selectedWorkflow, workflow.selectedFrequency);
+  }
+
+  function toggleCompetitors(): void {
+    competitorEnabled = !competitorEnabled;
+    localStorage.setItem(COMPETITOR_STORAGE_KEY, JSON.stringify(competitorEnabled));
   }
 
   function setFrequency(freq: string): void {
@@ -152,6 +161,12 @@
   }
 
   onMount(async () => {
+    // Load competitor state from localStorage
+    const stored = localStorage.getItem(COMPETITOR_STORAGE_KEY);
+    if (stored !== null) {
+      competitorEnabled = JSON.parse(stored);
+    }
+
     const shouldShowLoading = !workflow.taskId;
     
     if (shouldShowLoading) {
@@ -202,6 +217,9 @@
   
   $: canSelectAndConfigure = noWorkflow || isPaused || isCompleted;
   $: canEditFrequency = noWorkflow || workflow.isEditing || isPaused || isCompleted;
+
+  // Determine competitor node active state (visual only - doesn't affect workflow)
+  $: showCompetitorActive = selectedCompetitors || competitorEnabled;
 </script>
 
 {#if loading}
@@ -250,7 +268,7 @@
         <div class="flex items-center justify-between mb-8 sm:mb-12 {!canSelectAndConfigure ? 'opacity-50 pointer-events-none' : ''}">
           {#each displayNodes as node, i}
             {#if i > 0}
-              <div class="flex-1 h-0.5 {(i <= maxActive || (node.isCompetitors && selectedCompetitors)) ? 'bg-gray-900' : 'bg-gray-200'} mx-1 sm:mx-3 transition-colors"></div>
+              <div class="flex-1 h-0.5 {(i <= maxActive || (node.isCompetitors && showCompetitorActive)) ? 'bg-gray-900' : 'bg-gray-200'} mx-1 sm:mx-3 transition-colors"></div>
             {/if}
             
             {#if node.selectIndex !== undefined}
@@ -269,18 +287,22 @@
                   <span class="text-xs text-emerald-600 mt-1">✓</span>
                 {/if}
               </button>
-              {:else if node.isCompetitors}
-              <div class="flex flex-col items-center group flex-shrink-0">
-                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full {selectedCompetitors ? 'bg-gray-950' : 'bg-gray-50 border border-gray-300'} shadow-sm flex items-center justify-center mb-2 transition-all cursor-default">
-                  <svelte:component this={node.icon} class="w-6 h-6 sm:w-8 sm:h-8 {selectedCompetitors ? 'text-white' : 'text-gray-400'} transition-colors" />
+            {:else if node.isCompetitors}
+              <button 
+                on:click={toggleCompetitors}
+                disabled={!canSelectAndConfigure}
+                class="flex flex-col items-center group flex-shrink-0"
+              >
+                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full {showCompetitorActive ? 'bg-gray-950' : 'bg-gray-50 border border-gray-300'} shadow-sm flex items-center justify-center mb-2 transition-all {canSelectAndConfigure ? 'group-hover:shadow-md group-hover:scale-105 cursor-pointer' : 'cursor-not-allowed'}">
+                  <svelte:component this={node.icon} class="w-6 h-6 sm:w-8 sm:h-8 {showCompetitorActive ? 'text-white' : 'text-gray-400'} transition-colors" />
                 </div>
-                <span class="text-xs font-medium {selectedCompetitors ? 'text-gray-950' : 'text-gray-500'} transition-colors">
+                <span class="text-xs font-medium {showCompetitorActive ? 'text-gray-950' : 'text-gray-500'} transition-colors">
                   {node.label}
                 </span>
                 {#if node.completedKey && isStepCompleted(node.completedKey)}
                   <span class="text-xs text-emerald-600 mt-1">✓</span>
                 {/if}
-              </div>
+              </button>
             {:else}
               <div class="flex flex-col items-center group flex-shrink-0">
                 <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full {(i <= maxActive) ? 'bg-gray-950' : 'bg-gray-50 border border-gray-300'} shadow-sm flex items-center justify-center mb-2 group-hover:shadow-md transition-all cursor-default">
@@ -541,7 +563,7 @@
               </div>
             </div>
 
-            {#if selectedCompetitors}
+            {#if showCompetitorActive}
               <div class="flex items-start space-x-2">
                 <div class="w-7 h-7 bg-amber-100 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
                   <TrendingUp class="w-3.5 h-3.5 text-amber-600" />
