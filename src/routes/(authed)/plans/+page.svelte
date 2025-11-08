@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import LifetimeModal from '$lib/components/LifetimeModal.svelte';
 	import { get_user } from '$lib/users/users';
 	import { onMount } from 'svelte';
 
@@ -280,7 +281,10 @@
 	<title>Select Your Plan | Your AI Marketing Team</title>
 </svelte:head>
 
+
 <div class="dashboard-scale w-full min-h-screen text-white bg-black font-[Poppins]">
+	<LifetimeModal />
+
 	<main class="px-4 sm:px-8 py-16">
 		<!-- Header -->
 		<div class="text-center mb-16 max-w-4xl mx-auto">
