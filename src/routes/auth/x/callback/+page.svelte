@@ -1,10 +1,11 @@
 <script>
     import { onMount } from 'svelte';
     import { page } from '$app/stores';
+    import {API_BASE_URL} from '$lib/config'
   
     console.log('[Callback] Script loaded immediately (pre-onMount).');
   
-    const BACKEND_URL = 'http://127.0.0.1:8000';
+    const BACKEND_URL = API_BASE_URL;
     const CALLBACK_API_ENDPOINT = `${BACKEND_URL}/rio/api/oauth/callback/`;
   
     let statusMessage = 'Authenticating, please wait...';
