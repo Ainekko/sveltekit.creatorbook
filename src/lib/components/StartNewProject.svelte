@@ -48,7 +48,7 @@
         try {
             const savedProject = await projectStore.createProject(token, formData);
             console.log('Project created and stored:', savedProject);
-            goto(`/projects/${savedProject.id}/integrations`);
+            goto(`/projects/${savedProject.id}/nai`);
         } catch (err) {
             formError = err.message || 'Something went wrong. Please try again.';
         }
