@@ -101,7 +101,7 @@
 
 					<div class="space-y-2.5">
 						{#each [
-							'5 projects included',
+							'20 projects included',
 							'All AI agents with priority execution',
 							'Advanced analytics & A/B testing',
 							'Custom content templates',

@@ -64,7 +64,7 @@
 			priceAnnual: '$299',
 			description: 'Pay once, market forever. Limited availability.',
 			features: [
-				'5 projects included',
+				'20 projects included',
 				'All AI agents with priority execution',
 				'Advanced analytics & A/B testing',
 				'Custom content templates',
