@@ -219,10 +219,10 @@ function handleOAuthCallback(event) {
       
       const accountData = await accountRes.json();
       // Log the account data to inspect its contents
-      console.log('[DEBUG] Raw Account Data (JSON):', JSON.stringify(accountData, null, 2));
+      // console.log('[DEBUG] Raw Account Data (JSON):', JSON.stringify(accountData, null, 2));
 
 // Table view for easy scanning (shows keys like x_user_id, access_token, etc.)
-      console.table(accountData);
+      // console.table(accountData);
       
       // Call worker to monitor
       const res = await fetch(`${WORKER_URL}/rio/monitor`, {
