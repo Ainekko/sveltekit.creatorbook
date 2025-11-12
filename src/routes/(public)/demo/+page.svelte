@@ -120,19 +120,7 @@
   />
   
   <svelte:head>
-    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-    <script type="text/javascript">
-      window.onload = function() { 
-        Calendly.initBadgeWidget({ 
-          url: 'https://calendly.com/ahlaqachhafid/ai-agents-and-marketing', 
-          text: 'Book a quick call', 
-          color: '#1a1a1a', 
-          textColor: '#ffffff', 
-          branding: true 
-        }); 
-      }
-    </script>
+    
   </svelte:head>
   
   <div class="hero-section min-h-screen py-20 px-4 font-[Poppins]">
@@ -213,10 +201,10 @@
                 <div class="absolute top-0 right-0 w-4 h-4 -z-10 bg-orange-400 rounded-full gentle-float" style="animation-delay: -3s;"></div>
               </button>
               <a 
-                href="/contact-us" 
+                href="/signup" 
                 class="bg-white border border-zinc-200 text-zinc-900 px-8 py-4 rounded-lg font-medium hover:bg-zinc-50 transition-all duration-200 text-lg"
               >
-                Send us a message
+                Try free demo now
               </a>
             </div>
             
