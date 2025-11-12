@@ -2,6 +2,7 @@
 <script lang="ts">
   import { RefreshCw, FileText, ArrowRight, Calendar } from 'lucide-svelte';
   import { contentStore } from '$lib/components/nai/stores';
+  import {API_BASE_URL} from '$lib/config'
 
   export let projectId: string;
 
@@ -12,7 +13,7 @@
   let isGeneratingPosts = false;
 
   const authToken = localStorage.getItem('token');
-  const apiBaseUrl = 'http://127.0.0.1:8000';
+  const apiBaseUrl = API_BASE_URL;
 
   function toggleOutlineSelection(outlineId: string) {
     if (selectedOutlineIds.includes(outlineId)) {

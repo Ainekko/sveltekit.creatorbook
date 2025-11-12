@@ -5,7 +5,7 @@
   import { contentStore } from '$lib/components/nai/stores';
   import type { Keyword, CompetitorRanking, CompetitionLevel, TrendType,} from '$lib/components/nai/types';
   import type { UUID } from 'crypto';
-
+  import {API_BASE_URL} from '$lib/config'
 
   export let projectId: string;
 
@@ -20,7 +20,7 @@
   let isGeneratingOutlines = false;
 
   const authToken = localStorage.getItem('token');
-  const apiBaseUrl = 'http://127.0.0.1:8000';
+  const apiBaseUrl = API_BASE_URL;
 
   function getCompetitionColor(competition: CompetitionLevel): string {
     switch (competition) {
