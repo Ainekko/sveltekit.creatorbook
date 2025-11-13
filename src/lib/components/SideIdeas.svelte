@@ -95,9 +95,9 @@
             await userStore.init();
 
             // Load projects if authenticated
-            if ($userStore.token) {
-                await projectStore.loadProjects($userStore.token);
-            }
+            // if ($userStore.token) {
+            //     await projectStore.loadProjects($userStore.token);
+            // }
 
             // // Load UI state from localStorage
             // const collapsed = localStorage.getItem('sidebar-collapsed');

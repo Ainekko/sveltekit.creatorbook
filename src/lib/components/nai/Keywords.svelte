@@ -1,11 +1,13 @@
 <!-- src/lib/components/nai/Keywords.svelte -->
 
 <script lang="ts">
-  import { RefreshCw, TrendingUp, TrendingDown, Minus, Sparkles, ChevronDown, Globe } from 'lucide-svelte';
+  import { RefreshCw, TrendingUp, TrendingDown, Minus, Sparkles, ChevronDown, Globe, Check, Loader2 } from 'lucide-svelte';
   import { contentStore } from '$lib/components/nai/stores';
   import type { Keyword, CompetitorRanking, CompetitionLevel, TrendType,} from '$lib/components/nai/types';
   import type { UUID } from 'crypto';
   import {API_BASE_URL} from '$lib/config'
+  import { fade, scale, fly } from 'svelte/transition';
+  import { cubicOut } from 'svelte/easing';
 
   export let projectId: string;
 
@@ -18,9 +20,18 @@
   let selectedKeywordIds: UUID[] = [];
   let expandedKeywordId: UUID | null = null;
   let isGeneratingOutlines = false;
+  let showProgressDialog = false;
+  let currentStep = 0;
 
   const authToken = localStorage.getItem('token');
   const apiBaseUrl = API_BASE_URL;
+
+  const progressSteps = [
+    { label: 'Analyzing Keywords', description: 'Processing your selected keywords' },
+    { label: 'Researching Topics', description: 'Finding relevant content ideas' },
+    { label: 'Building Structure', description: 'Creating outline frameworks' },
+    { label: 'Finalizing Outlines', description: 'Adding final touches' }
+  ];
 
   function getCompetitionColor(competition: CompetitionLevel): string {
     switch (competition) {
@@ -123,6 +134,17 @@
     if (selectedKeywordIds.length === 0) return;
     
     isGeneratingOutlines = true;
+    showProgressDialog = true;
+    currentStep = 0;
+
+    // Simulate progress through steps
+    const stepDuration = 15000; // 15 seconds per step
+    const stepInterval = setInterval(() => {
+      if (currentStep < progressSteps.length - 1) {
+        currentStep++;
+      }
+    }, stepDuration);
+
     try {
       const response = await fetch(`${apiBaseUrl}/orion/api/generate_outlines/`, {
         method: 'POST',
@@ -136,14 +158,25 @@
         })
       });
 
+      clearInterval(stepInterval);
+
       if (response.ok) {
+        currentStep = progressSteps.length - 1;
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Show completion state
         await contentStore.loadOutlines(projectId);
         selectedKeywordIds = [];
+        showProgressDialog = false;
+        currentStep = 0;
       } else {
         console.error('Failed to generate outlines');
+        showProgressDialog = false;
+        currentStep = 0;
       }
     } catch (error) {
       console.error('Error generating outlines:', error);
+      clearInterval(stepInterval);
+      showProgressDialog = false;
+      currentStep = 0;
     } finally {
       isGeneratingOutlines = false;
     }
@@ -152,6 +185,114 @@
   $: isAllSelected = keywords.length > 0 && selectedKeywordIds.length === keywords.length;
   $: isSomeSelected = selectedKeywordIds.length > 0 && selectedKeywordIds.length < keywords.length;
 </script>
+
+<style>
+  input[type="checkbox"]:indeterminate {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 16'%3e%3cpath stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 8h8'/%3e%3c/svg%3e");
+    background-color: currentColor;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+    }
+  }
+</style>
+
+<!-- Progress Dialog -->
+{#if showProgressDialog}
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" transition:fade={{ duration: 200 }}>
+    <div 
+      class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden pulse-glow"
+      transition:scale={{ duration: 300, easing: cubicOut, start: 0.95 }}
+    >
+      <!-- Header with gradient -->
+      <div class="bg-gradient-to-br from-violet-800 to-zinc-400 p-6 text-white">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shimmer">
+            <Sparkles size={20} class="text-white" />
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold">Generating Outlines</h3>
+            <p class="text-sm text-white/80">Creating {selectedKeywordIds.length} outline{selectedKeywordIds.length !== 1 ? 's' : ''}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Steps -->
+      <div class="p-6 space-y-4">
+        {#each progressSteps as step, index}
+          <div class="flex items-start gap-3" transition:fly={{ y: 20, delay: index * 100 }}>
+            <div class="flex-shrink-0 mt-0.5">
+              {#if index < currentStep}
+                <div class="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center" transition:scale={{ duration: 200 }}>
+                  <Check size={14} class="text-white" />
+                </div>
+              {:else if index === currentStep}
+                <div class="w-6 h-6 rounded-full bg-violet-500 flex items-center justify-center">
+                  <Loader2 size={14} class="text-white animate-spin" />
+                </div>
+              {:else}
+                <div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">
+                  <div class="w-2 h-2 rounded-full bg-gray-400"></div>
+                </div>
+              {/if}
+            </div>
+            <div class="flex-1">
+              <p class="text-sm font-medium text-gray-900 {index === currentStep ? 'text-violet-600' : index < currentStep ? 'text-emerald-600' : 'text-gray-400'}">
+                {step.label}
+              </p>
+              <p class="text-xs text-gray-500 mt-0.5">
+                {step.description}
+              </p>
+            </div>
+          </div>
+        {/each}
+
+        <!-- Progress Bar -->
+        <div class="mt-6">
+          <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div 
+              class="h-full bg-gradient-to-r from-violet-500 to-violet-600 transition-all duration-500 ease-out shimmer"
+              style="width: {((currentStep + 1) / progressSteps.length) * 100}%"
+            ></div>
+          </div>
+          <p class="text-xs text-gray-500 text-center mt-2">
+            Step {currentStep + 1} of {progressSteps.length}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+{/if}
 
 <div class="space-y-6 w-full">
   <div class="flex justify-between items-center">
@@ -300,20 +441,3 @@
     </div>
   {/if}
 </div>
-
-<style>
-  input[type="checkbox"]:indeterminate {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 16'%3e%3cpath stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 8h8'/%3e%3c/svg%3e");
-    background-color: currentColor;
-    background-size: 100% 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-</style>
