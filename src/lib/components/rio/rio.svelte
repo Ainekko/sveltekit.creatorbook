@@ -1,479 +1,329 @@
 <script>
   import { page } from '$app/stores';
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
+  import { browser } from '$app/environment';
   import { contentStore } from '$lib/components/nai/stores';
   import {API_BASE_URL, WORKER_API_URL} from '$lib/config';
-  import { TrendingUp, Target, BarChart3, FileText, Settings, ArrowUpRight, Twitter } from 'lucide-svelte';
-  
+  import { Sparkles, FileText, Lock, BarChart3, Settings, Copy, Check } from 'lucide-svelte';
   $: projectId = $page.params.id;
   $: blogPosts = $contentStore.blogPosts || [];
-  
   const BACKEND_URL = API_BASE_URL;
   const WORKER_URL = WORKER_API_URL;
-
-  const authToken = localStorage.getItem('token');
-  
+  let authToken = '';
   // State
   let loading = true;
   let projectData = null;
-  let xAccount = null;
-  let config = {
-    keywords: [],
-    exclude_keywords: [],
-    monitor_mentions: true,
-    monitor_keywords: true,
-    min_followers: 100,
-    min_relevance: 65.0
-  };
-  let opportunities = [];
-  let xPosts = [];
-  let monitoring = false;
-  let view = 'content'; // 'content', 'opportunities', 'analytics', 'config'
-  let selectedOpportunity = null;
+  let view = 'studio';
   let selectedContent = null;
-  let convertingContent = false;
+  let generatingThreads = new Set(); // Track which posts are generating
+  let generatedThreads = [];
   let showDemoModal = true;
-  
-  // Analytics
-  let analytics = {
-    totalEngagement: 0,
-    totalPosts: 0,
-    avgEngagement: 0,
-    bestPerformers: [],
-    topHashtags: []
-  };
-  
-  // LocalStorage keys
-  const getXPostsKey = () => `rio_x_posts_${projectId}`;
-  
+  let copiedIndex = null;
+  let hoveredPost = null;
+  let pendingThreads = []; // Threads waiting for approval
+  let approvedThreads = []; // Approved threads ready to post
+  let showSuccessModal = false;
+  let successMessage = '';
+  let currentCopiedTimer;
+  let pendingScroll;
+  let approvedScroll;
+  // LocalStorage for generated threads
+  const getThreadsKey = () => `rio_threads_${projectId}`;
   function closeDemo() {
     showDemoModal = false;
   }
-  
-  // Load content from store
+  function closeSuccessModal() {
+    showSuccessModal = false;
+  }
+  function goToTweetsView() {
+    showSuccessModal = false;
+    view = 'tweets';
+  }
   async function loadBlogPosts() {
     await contentStore.loadBlogPosts(projectId);
   }
-  
   onMount(async () => {
+    if (browser) {
+      authToken = localStorage.getItem('token') || '';
+    }
     await loadBlogPosts();
-    await fetchInitialData();
+    await fetchProjectData();
+    loadApprovedThreads();
   });
-  
-  async function fetchInitialData() {
+  onDestroy(() => {
+    if (currentCopiedTimer) clearTimeout(currentCopiedTimer);
+  });
+  async function fetchProjectData() {
     try {
-      // Fetch project data
       const projectRes = await fetch(`${BACKEND_URL}/elio/api/projects/${projectId}/`, {
         headers: { 'Authorization': `Token ${authToken}` }
       });
-      
+    
       if (!projectRes.ok) throw new Error('Failed to fetch project');
       const projectJson = await projectRes.json();
       projectData = projectJson.project || projectJson;
-      
-      // Check X connection
-      const accountRes = await fetch(`${BACKEND_URL}/rio/api/projects/${projectId}/account/`, {
-        headers: { 'Authorization': `Token ${authToken}` }
-      });
-      
-      if (accountRes.ok) {
-        const accountData = await accountRes.json();
-        if (accountData.connected) {
-          xAccount = accountData;
-        }
-      }
-      
-      // Fetch config
-      const configRes = await fetch(`${BACKEND_URL}/rio/api/projects/${projectId}/config/`, {
-        headers: { 'Authorization': `Token ${authToken}` }
-      });
-      
-      if (configRes.ok) {
-        const configData = await configRes.json();
-        config = configData;
-      }
-      
-      // Fetch opportunities
-      await fetchOpportunities();
-      
-      // Load X posts
-      await loadXPosts();
-      
+    
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
       loading = false;
     }
   }
-  
-  async function fetchOpportunities() {
+  function saveThreads(contentId, contentTitle, threads) {
     try {
-      const res = await fetch(`${BACKEND_URL}/rio/api/projects/${projectId}/opportunities/`, {
-        headers: { 'Authorization': `Token ${authToken}` }
-      });
-      
-      if (res.ok) {
-        const data = await res.json();
-        opportunities = data.opportunities || [];
-      }
-    } catch (error) {
-      console.error('Error fetching opportunities:', error);
-    }
-  }
-  
-  // X Posts Management
-  async function loadXPosts() {
-    try {
-      const stored = localStorage.getItem(getXPostsKey());
-      if (stored) {
-        xPosts = JSON.parse(stored);
-      }
-      calculateAnalytics();
-    } catch (error) {
-      console.error('Failed to load X posts:', error);
-      xPosts = [];
-    }
-  }
-  
-  function saveXPostsToLocalStorage(posts) {
-    try {
-      localStorage.setItem(getXPostsKey(), JSON.stringify(posts));
-    } catch (error) {
-      console.error('Failed to save X posts to localStorage:', error);
-    }
-  }
-  
-  // Convert blog post to X thread
-  async function convertToXPost(blogPost) {
-    if (!blogPost) return;
-    
-    convertingContent = true;
-    try {
-      // TODO: Call your AI service to convert blog post to X thread format
-      const xPost = {
-        id: `x_${Date.now()}`,
-        original_content_id: blogPost.id,
-        title: blogPost.title,
-        thread: [
-          `X version of: ${blogPost.title}\n\n${blogPost.content.substring(0, 250)}...\n\n[Thread 1/3]`,
-          `[This would be AI-generated X-optimized thread content - Tweet 2/3]`,
-          `[This would be AI-generated X-optimized thread content - Tweet 3/3]`
-        ],
-        suggested_hashtags: ['#startup', '#tech', '#business'],
-        created_at: new Date().toISOString(),
-        posted: false,
-        likes: 0,
-        retweets: 0,
-        replies: 0,
-        url: null
+      // Add to pending threads for approval
+      const newPendingEntry = {
+        id: `thread_${Date.now()}`,
+        contentId: contentId,
+        contentTitle: contentTitle,
+        threads: threads.filter(t => t != null).map(t => ({ ...t, approved: false })),
+        createdAt: new Date().toISOString()
       };
-      
-      xPosts = [xPost, ...xPosts];
-      saveXPostsToLocalStorage(xPosts);
-      
-      alert('Content converted to X thread format!');
-      view = 'analytics';
-      
+    
+      pendingThreads = [newPendingEntry, ...pendingThreads];
+    
     } catch (error) {
-      console.error('Error converting to X post:', error);
-      alert('Failed to convert content to X post');
-    } finally {
-      convertingContent = false;
+      console.error('Failed to save threads:', error);
     }
   }
+  function approveThread(threadEntry, threadIndex) {
+    const entryIndex = pendingThreads.findIndex(e => e.id === threadEntry.id);
+    if (entryIndex === -1) return;
+    const thread = pendingThreads[entryIndex].threads.splice(threadIndex, 1)[0];
+    if (!thread) return;
+    thread.approved = true;
   
-  // Calculate analytics
-  function calculateAnalytics() {
-    const postedPosts = xPosts.filter(p => p.posted);
-    const totalEngagement = postedPosts.reduce((sum, p) => 
-      sum + (p.likes || 0) + (p.retweets || 0) + (p.replies || 0), 0
-    );
-    
-    analytics = {
-      totalEngagement,
-      totalPosts: postedPosts.length,
-      avgEngagement: postedPosts.length > 0 ? Math.round(totalEngagement / postedPosts.length) : 0,
-      bestPerformers: [...postedPosts]
-        .sort((a, b) => {
-          const aEng = (a.likes || 0) + (a.retweets || 0) + (a.replies || 0);
-          const bEng = (b.likes || 0) + (b.retweets || 0) + (b.replies || 0);
-          return bEng - aEng;
-        })
-        .slice(0, 5),
-      topHashtags: getTopHashtags(postedPosts)
+    // Move to approved threads
+    const approvedEntry = {
+      id: `approved_${Date.now()}`,
+      contentId: threadEntry.contentId,
+      contentTitle: threadEntry.contentTitle,
+      thread: thread,
+      createdAt: new Date().toISOString()
     };
-  }
   
-  function getTopHashtags(posts) {
-    const hashtagCounts = {};
-    posts.forEach(post => {
-      if (post.suggested_hashtags) {
-        post.suggested_hashtags.forEach(tag => {
-          const engagement = (post.likes || 0) + (post.retweets || 0) + (post.replies || 0);
-          hashtagCounts[tag] = (hashtagCounts[tag] || 0) + engagement;
-        });
+    approvedThreads = [approvedEntry, ...approvedThreads];
+    // Remove empty pending entries
+    pendingThreads = pendingThreads.filter(e => e.threads.length > 0);
+  
+    // Save to localStorage
+    if (browser) {
+      try {
+        localStorage.setItem(getThreadsKey(), JSON.stringify(approvedThreads));
+      } catch (error) {
+        console.error('Failed to save approved threads:', error);
       }
-    });
-    
-    return Object.entries(hashtagCounts)
-      .sort(([, a], [, b]) => b - a)
-      .slice(0, 5)
-      .map(([hashtag, engagement]) => ({ hashtag, engagement }));
+    }
   }
-  
-  async function connectX() {
+  function loadApprovedThreads() {
+    if (!browser) return;
     try {
-      console.log('[connectX] Initiating connect...', { projectId, authToken });
-
-      const res = await fetch(`${BACKEND_URL}/rio/api/projects/${projectId}/connect/`, {
-        headers: { 'Authorization': `Token ${authToken}` }
-      });
-      
-      if (!res.ok) throw new Error('Failed to initiate OAuth');
-      
-      const data = await res.json();
-      console.log('[connectX] Received auth_url from backend:', data.auth_url);
-      
-      const width = 600;
-      const height = 700;
-      const left = (window.innerWidth - width) / 2;
-      const top = (window.innerHeight - height) / 2;
-      
-      const authWindow = window.open(
-        data.auth_url,
-        'X OAuth',
-        `width=${width},height=${height},left=${left},top=${top}`
-      );
-      
-      console.log('[connectX] Now listening for "message" event from popup...');
-      window.addEventListener('message', handleOAuthCallback);
-      
-    } catch (error) {
-      console.error('Error connecting X:', error);
-      alert('Failed to connect X account');
-    }
-  }
-
-  function handleOAuthCallback(event) {
-    console.log('[handleOAuthCallback] Received event:', event);
-
-    if (event.origin !== window.location.origin) {
-      console.warn('[handleOAuthCallback] Ignored message from different origin:', event.origin);
-      return;
-    }
-
-    if (event.data.type === 'x-oauth-success') {
-      console.log('[handleOAuthCallback] SUCCESS! Account data:', event.data.account);
-      xAccount = event.data.account;
-      window.removeEventListener('message', handleOAuthCallback);
-      alert('X account connected successfully!');
-    }
-    
-    if (event.data.type === 'x-oauth-error') {
-      console.error('[handleOAuthCallback] ERROR from popup:', event.data.error);
-      alert(`Failed to connect X account: ${event.data.error}`);
-      window.removeEventListener('message', handleOAuthCallback);
-    }
-  }
-  
-  async function disconnectX() {
-    if (!confirm('Disconnect X account?')) return;
-    
-    try {
-      await fetch(`${BACKEND_URL}/rio/api/projects/${projectId}/disconnect/`, {
-        method: 'POST',
-        headers: { 'Authorization': `Token ${authToken}` }
-      });
-      
-      xAccount = null;
-      alert('X account disconnected');
-    } catch (error) {
-      console.error('Error disconnecting:', error);
-    }
-  }
-  
-  async function saveConfig() {
-    try {
-      const res = await fetch(`${BACKEND_URL}/rio/api/projects/${projectId}/config/`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Token ${authToken}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(config)
-      });
-      
-      if (res.ok) {
-        alert('Configuration saved!');
-      } else {
-        throw new Error('Failed to save');
+      const stored = localStorage.getItem(getThreadsKey());
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        approvedThreads = parsed.filter(t => t && t.thread && typeof t.thread === 'object');
       }
     } catch (error) {
-      console.error('Error saving config:', error);
-      alert('Failed to save configuration');
+      console.error('Failed to load threads:', error);
     }
   }
+  async function generateTweetThreads(post) {
+    // Add this post to generating set
+    generatingThreads.add(post.id);
+    generatingThreads = generatingThreads; // Trigger reactivity
   
-  async function monitorNow() {
-    if (!xAccount) {
-      alert('Please connect your X account first');
-      return;
-    }
-    
-    monitoring = true;
-    
     try {
-      const accountRes = await fetch(`${BACKEND_URL}/rio/api/projects/${projectId}/account/`, {
-        headers: { 'Authorization': `Token ${authToken}` }
-      });
-      
-      if (!accountRes.ok) throw new Error('Failed to get account data');
-      
-      const accountData = await accountRes.json();
-      
-      const res = await fetch(`${WORKER_URL}/rio/monitor`, {
+      const response = await fetch(`${WORKER_URL}/rio/generate-tweets`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          access_token: accountData.access_token,
-          x_user_id: accountData.x_user_id,
+          title: post.title,
+          content: post.content,
           business_name: projectData.business_name || projectData.name,
           business_description: projectData.description,
-          config: config
+          industry: projectData.industry || 'tech',
+          project_url: projectData.website || '',
+          content_type: 'educational'
         })
       });
+    
+      if (!response.ok) throw new Error('Failed to generate threads');
+    
+      const data = await response.json();
+    
+      if (data.success && data.threads) {
+        saveThreads(post.id, post.title, data.threads);
       
-      if (!res.ok) throw new Error('Monitor failed');
-      
-      const data = await res.json();
-      
-      if (data.opportunities && data.opportunities.length > 0) {
-        await fetch(`${BACKEND_URL}/rio/api/projects/${projectId}/opportunities/save/`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Token ${authToken}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ opportunities: data.opportunities })
-        });
-        
-        await fetchOpportunities();
-        alert(`Found ${data.opportunities.length} new opportunities!`);
+        // Show success modal
+        successMessage = `Generated ${data.threads.length} tweet threads for "${post.title}"`;
+        showSuccessModal = true;
       } else {
-        alert('No new opportunities found');
+        throw new Error('Invalid response format');
       }
-      
+    
     } catch (error) {
-      console.error('Error monitoring:', error);
-      alert('Failed to monitor: ' + error.message);
+      console.error('Error generating threads:', error);
+      alert('Failed to generate tweet threads. Please try again.');
     } finally {
-      monitoring = false;
+      // Remove from generating set
+      generatingThreads.delete(post.id);
+      generatingThreads = generatingThreads; // Trigger reactivity
     }
   }
+  async function copyThread(thread) {
+    if (!thread || !Array.isArray(thread.tweets)) return;
+    const threadText = thread.tweets.join('\n\n---\n\n') + '\n\n' + (thread.suggested_hashtags || []).join(' ');
   
-  async function copyResponse(text) {
     try {
-      await navigator.clipboard.writeText(text);
-      alert('Response copied to clipboard!');
+      await navigator.clipboard.writeText(threadText);
+      if (currentCopiedTimer) clearTimeout(currentCopiedTimer);
+      copiedIndex = thread;
+      currentCopiedTimer = setTimeout(() => {
+        copiedIndex = null;
+        currentCopiedTimer = null;
+      }, 2000);
     } catch (error) {
       console.error('Failed to copy:', error);
     }
   }
+  function deleteApprovedThread(threadId) {
+    if (!confirm('Delete this thread?')) return;
   
-  async function updateOpportunity(oppId, updates) {
     try {
-      await fetch(`${BACKEND_URL}/rio/api/projects/${projectId}/opportunities/${oppId}/`, {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Token ${authToken}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updates)
-      });
-      
-      opportunities = opportunities.map(o => 
-        o.id === oppId ? { ...o, ...updates } : o
-      );
-      
+      approvedThreads = approvedThreads.filter(t => t.id !== threadId);
+      if (browser) {
+        localStorage.setItem(getThreadsKey(), JSON.stringify(approvedThreads));
+      }
     } catch (error) {
-      console.error('Error updating opportunity:', error);
+      console.error('Failed to delete:', error);
     }
   }
-  
-  function openTweet(url) {
-    window.open(url, '_blank');
+  function scrollPendingLeft() {
+    pendingScroll?.scrollBy({ left: -(window.innerWidth * 0.5), behavior: 'smooth' });
   }
-  
-  $: filteredOpportunities = opportunities.filter(o => !o.is_dismissed);
+  function scrollPendingRight() {
+    pendingScroll?.scrollBy({ left: (window.innerWidth * 0.5), behavior: 'smooth' });
+  }
+  function scrollApprovedLeft() {
+    approvedScroll?.scrollBy({ left: -420, behavior: 'smooth' });
+  }
+  function scrollApprovedRight() {
+    approvedScroll?.scrollBy({ left: 420, behavior: 'smooth' });
+  }
 </script>
-
+<!-- Demo Modal -->
 {#if showDemoModal}
-  <div 
-    class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" 
+  <div
+    class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
     on:click={closeDemo}
   >
-    <div 
-      class="bg-white rounded-2xl p-8 border border-zinc-200 max-w-lg relative flex flex-col text-center shadow-xl" 
+    <div
+      class="bg-white rounded-2xl p-8 border border-zinc-200 max-w-lg relative flex flex-col text-center shadow-xl"
       on:click|stopPropagation
     >
-      <button 
-        on:click={closeDemo} 
-        class="absolute top-4 right-4 text-zinc-400 hover:text-zinc-600 text-2xl leading-none transition-colors"
+      <button
+        on:click={closeDemo}
+        class="absolute top-4 right-4 text-zinc-400 hover:text-zinc-600 text-2xl leading-none"
       >
         ×
       </button>
-      
+    
       <div class="space-y-6">
+        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto">
+          <Sparkles class="w-8 h-8 text-white" />
+        </div>
+      
         <h2 class="text-3xl md:text-4xl font-semibold text-zinc-700 leading-tight tracking-tight">
-          This is just a little <span class="font-['Pacifico'] text-blue-600">demo</span>
+          Turn Content into <span class="font-['Pacifico'] text-blue-600">Viral</span> Tweets
         </h2>
-        
+      
         <p class="text-lg text-zinc-500 leading-relaxed font-light max-w-md mx-auto">
-          Monitor X in real-time and never miss an opportunity to engage with your audience.
+          AI-powered tweet thread generator that transforms your blog posts into engaging X content.
         </p>
-        
+      
         <div class="space-y-3 text-left max-w-sm mx-auto pt-2">
           <div class="flex items-start gap-3">
             <svg class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
             </svg>
-            <span class="text-sm text-zinc-600">Track mentions and keywords automatically</span>
+            <span class="text-sm text-zinc-600">3 unique thread variations per post</span>
           </div>
-          
+        
           <div class="flex items-start gap-3">
             <svg class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
             </svg>
-            <span class="text-sm text-zinc-600">AI-powered response suggestions</span>
+            <span class="text-sm text-zinc-600">Optimized hooks and CTAs</span>
           </div>
-          
+        
           <div class="flex items-start gap-3">
             <svg class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
             </svg>
-            <span class="text-sm text-zinc-600">Smart relevance scoring</span>
+            <span class="text-sm text-zinc-600">Industry-specific tone & hashtags</span>
           </div>
         </div>
-        
-        <div class="pt-4 border-t border-zinc-100">
-          <p class="text-xs text-zinc-400 mb-2 font-medium uppercase tracking-wide">Coming Next</p>
-          <p class="text-sm text-zinc-500">
-            Auto-replies, sentiment analysis, and multi-account support
-          </p>
-        </div>
-        
+      
         <button
           on:click={closeDemo}
-          class="w-full bg-zinc-900 hover:bg-zinc-800 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200"
+          class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200"
         >
-          Let's go!
+          Start Creating Threads
         </button>
       </div>
     </div>
   </div>
 {/if}
-
-<div class="max-w-7xl mx-auto p-4 sm:p-6">
+<!-- Success Modal -->
+{#if showSuccessModal}
+  <div
+    class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+    on:click={closeSuccessModal}
+  >
+    <div
+      class="bg-white rounded-2xl p-8 border border-zinc-200 max-w-md relative flex flex-col text-center shadow-xl"
+      on:click|stopPropagation
+    >
+      <button
+        on:click={closeSuccessModal}
+        class="absolute top-4 right-4 text-zinc-400 hover:text-zinc-600 text-2xl leading-none"
+      >
+        ×
+      </button>
+    
+      <div class="space-y-6">
+        <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto">
+          <Check class="w-8 h-8 text-white" />
+        </div>
+      
+        <h2 class="text-2xl font-semibold text-zinc-900">
+          Threads Generated! 🎉
+        </h2>
+      
+        <p class="text-base text-zinc-600">
+          {successMessage}
+        </p>
+      
+        <div class="flex flex-col gap-3">
+          <button
+            on:click={goToTweetsView}
+            class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200"
+          >
+            View & Approve Threads
+          </button>
+        
+          <button
+            on:click={closeSuccessModal}
+            class="w-full bg-zinc-100 hover:bg-zinc-200 text-zinc-700 px-6 py-3 rounded-lg font-medium transition-all duration-200"
+          >
+            Generate More
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+{/if}
+<div class="max-w-screen-2xl mx-auto p-4 sm:p-6">
   {#if loading}
     <div class="text-center py-12">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-zinc-900 mx-auto"></div>
@@ -484,670 +334,405 @@
     <div class="mb-6 sm:mb-8">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
         <div>
-          <h1 class="text-2xl sm:text-3xl font-bold text-zinc-900">RIO X Assistant</h1>
+          <h1 class="text-2xl sm:text-3xl font-bold text-zinc-900 flex items-center gap-2">
+            <Sparkles class="w-7 h-7 text-blue-600" />
+            RIO X Content Assistant
+          </h1>
           <p class="text-sm sm:text-base text-zinc-600 mt-1">
             {#if projectData}
-              Managing X presence for {projectData.business_name || projectData.name}
+              Transform content for {projectData.business_name || projectData.name}
             {/if}
           </p>
         </div>
-        
-        <div class="flex gap-2 sm:gap-3 items-center flex-wrap">
-          {#if xAccount}
-            <div class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border border-blue-200">
-              <div class="text-sm">
-                <div class="font-medium text-zinc-900">@{xAccount.username}</div>
-                <div class="text-zinc-500 text-xs">{xAccount.display_name}</div>
-              </div>
-              <button
-                on:click={disconnectX}
-                class="text-xs text-zinc-600 hover:text-zinc-900"
-              >
-                Disconnect
-              </button>
-            </div>
-            
-            <button 
-              on:click={monitorNow}
-              disabled={monitoring}
-              class="px-3 sm:px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-700 transition-colors font-medium text-xs sm:text-sm disabled:opacity-50"
-            >
-              {monitoring ? 'Scanning...' : 'Scan Opportunities'}
-            </button>
-          {:else}
-            <button
-              on:click={connectX}
-              class="px-4 py-2 bg-black text-white rounded-lg hover:bg-zinc-800 transition-colors font-medium flex items-center gap-2 text-sm"
-            >
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-              </svg>
-              Connect X Account
-            </button>
-          {/if}
-        </div>
       </div>
-      
+    
       <!-- View Tabs -->
       <div class="overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
         <div class="flex gap-2 border-b border-zinc-200 min-w-max">
           <button
-            on:click={() => view = 'content'}
-            class="inline-flex items-center gap-2 px-4 py-2 font-medium text-sm transition-colors whitespace-nowrap {view === 'content' ? 'text-zinc-900 border-b-2 border-zinc-900' : 'text-zinc-500 hover:text-zinc-700'}"
+            on:click={() => view = 'studio'}
+            class="inline-flex items-center gap-2 px-4 py-2 font-medium text-sm transition-colors whitespace-nowrap {view === 'studio' ? 'text-zinc-900 border-b-2 border-zinc-900' : 'text-zinc-500 hover:text-zinc-700'}"
           >
-            <FileText class="w-4 h-4" />
+            <FileText class="w-5 h-5" />
             Content ({blogPosts.length})
           </button>
           <button
-            on:click={() => view = 'opportunities'}
-            class="inline-flex items-center gap-2 px-4 py-2 font-medium text-sm transition-colors whitespace-nowrap {view === 'opportunities' ? 'text-zinc-900 border-b-2 border-zinc-900' : 'text-zinc-500 hover:text-zinc-700'}"
+            on:click={() => view = 'tweets'}
+            class="inline-flex items-center gap-2 px-4 py-2 font-medium text-sm transition-colors whitespace-nowrap {view === 'tweets' ? 'text-zinc-900 border-b-2 border-zinc-900' : 'text-zinc-500 hover:text-zinc-700'}"
           >
-            <Target class="w-4 h-4" />
-            Opportunities ({filteredOpportunities.length})
+            <Sparkles class="w-5 h-5" />
+            Tweets ({pendingThreads.length + approvedThreads.length})
           </button>
           <button
-            on:click={() => { view = 'analytics'; calculateAnalytics(); }}
-            class="inline-flex items-center gap-2 px-4 py-2 font-medium text-sm transition-colors whitespace-nowrap {view === 'analytics' ? 'text-zinc-900 border-b-2 border-zinc-900' : 'text-zinc-500 hover:text-zinc-700'}"
+            disabled
+            class="inline-flex items-center gap-2 px-4 py-2 font-medium text-sm transition-colors whitespace-nowrap text-zinc-300 cursor-not-allowed"
           >
-            <BarChart3 class="w-4 h-4" />
-            Analytics
+            <Lock class="w-5 h-5" />
+            Analytics (Soon)
           </button>
           <button
             on:click={() => view = 'config'}
             class="inline-flex items-center gap-2 px-4 py-2 font-medium text-sm transition-colors whitespace-nowrap {view === 'config' ? 'text-zinc-900 border-b-2 border-zinc-900' : 'text-zinc-500 hover:text-zinc-700'}"
           >
-            <Settings class="w-4 h-4" />
-            Config
+            <Settings class="w-5 h-5" />
+            Settings
           </button>
         </div>
       </div>
     </div>
-    
-    {#if view === 'content'}
-      <!-- Content View -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div class="lg:col-span-5 space-y-4 max-h-[calc(100vh-250px)] overflow-y-auto pr-2">
-          {#if blogPosts.length === 0}
-            <div class="text-center py-12 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl border border-blue-200">
-              <FileText class="w-12 h-12 text-blue-400 mx-auto mb-4" />
-              <p class="text-zinc-700 mb-2 font-medium">No blog posts available</p>
-              <p class="text-sm text-zinc-500">Create blog posts first to convert them to X threads</p>
-            </div>
-          {:else}
+  
+    {#if view === 'studio'}
+      <!-- Studio View - Blog Post Grid -->
+      <div class="space-y-6">
+        {#if blogPosts.length === 0}
+          <div class="text-center py-16 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200">
+            <FileText class="w-16 h-16 text-blue-400 mx-auto mb-4" />
+            <p class="text-zinc-700 mb-2 font-medium text-lg">No blog posts available</p>
+            <p class="text-sm text-zinc-500">Create blog posts to convert them into tweet threads</p>
+          </div>
+        {:else}
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {#each blogPosts as post}
-              <button
-                on:click={() => selectedContent = post}
-                class="w-full text-left bg-white rounded-xl border border-zinc-200 p-5 hover:border-blue-300 hover:shadow-md transition-all {selectedContent?.id === post.id ? 'ring-2 ring-blue-500 border-blue-500' : ''}"
+              <div
+                class="group relative bg-white rounded-2xl border border-zinc-200 overflow-visible hover:shadow-xl hover:border-blue-300 transition-all duration-300 h-72"
               >
-                <div class="flex items-start justify-between mb-3">
-                  <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-800">
-                    {post.status}
-                  </span>
-                </div>
-                <h3 class="text-base font-semibold text-zinc-900 mb-2 line-clamp-2">
-                  {post.title}
-                </h3>
-                <p class="text-sm text-zinc-600 line-clamp-2">
-                  {post.content.substring(0, 120)}...
-                </p>
-              </button>
-            {/each}
-          {/if}
-        </div>
-        
-        <div class="lg:col-span-7 h-[calc(100vh-250px)]">
-          {#if selectedContent}
-            <div class="bg-white rounded-xl border border-zinc-200 overflow-hidden h-full flex flex-col">
-              <div class="p-6 border-b border-zinc-200 bg-gradient-to-r from-blue-50 to-cyan-50 flex-shrink-0">
-                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium mb-3 bg-white border border-blue-200 text-blue-800">
-                  {selectedContent.status}
-                </span>
-                <h2 class="text-xl font-bold text-zinc-900 mb-2">
-                  {selectedContent.title}
-                </h2>
-              </div>
-              
-              <div class="p-6 flex-1 overflow-y-auto">
-                <div class="prose prose-sm max-w-none">
-                  <p class="text-sm text-zinc-700 whitespace-pre-wrap leading-relaxed">
-                    {selectedContent.content}
+                <!-- Card Content -->
+                <div class="p-6">
+                  <div class="flex items-start justify-between mb-3">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800">
+                      {post.status}
+                    </span>
+                  </div>
+                
+                  <div
+                    class="relative"
+                    on:mouseenter={() => hoveredPost = post.id}
+                    on:mouseleave={() => hoveredPost = null}
+                  >
+                    <h3 class="text-lg font-bold text-zinc-900 mb-3 line-clamp-2 min-h-[56px] cursor-help">
+                      {post.title}
+                    </h3>
+                  
+                    <!-- Tooltip Preview -->
+                    {#if hoveredPost === post.id}
+                      <div class="absolute left-0 top-full mt-2 w-80 max-w-[calc(100vw-2rem)] bg-zinc-900 text-white p-4 rounded-xl shadow-2xl z-50 animate-fadeIn pointer-events-none">
+                        <div class="absolute -top-2 left-6 w-5 h-5 bg-zinc-900 transform rotate-45"></div>
+                        <div class="relative">
+                          <h4 class="font-bold text-sm mb-2 text-zinc-100">Content Preview</h4>
+                          <div class="max-h-[200px] overflow-y-auto custom-scrollbar pr-2">
+                            <p class="text-xs text-zinc-300 leading-relaxed whitespace-pre-wrap">
+                              {post.content.substring(0, 400)}...
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    {/if}
+                  </div>
+                
+                  <p class="text-sm text-zinc-600 line-clamp-3 mb-4">
+                    {post.content.substring(0, 150)}...
                   </p>
+                
+                  <button
+                    on:click={() => generateTweetThreads(post)}
+                    disabled={generatingThreads.has(post.id)}
+                    class="w-full px-4 py-2.5 bg-gradient-to-r from-zinc-700 to-indigo-950/80 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group-hover:shadow-lg"
+                  >
+                    <Sparkles class="w-5 h-5" />
+                    {generatingThreads.has(post.id) ? 'Generating...' : 'Turn into Tweets'}
+                  </button>
                 </div>
               </div>
-              
-              <div class="p-6 border-t border-zinc-200 bg-zinc-50 flex-shrink-0">
+            {/each}
+          </div>
+        {/if}
+      </div>
+    
+    {:else if view === 'tweets'}
+      <!-- Tweets View - Approval & Display -->
+      <div class="space-y-6">
+      
+        <!-- Pending Approval Section -->
+        {#if pendingThreads.length > 0}
+          <div class="bg-zinc-800 rounded-xl border border-zinc-700 p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                <span class="w-2 h-2 bg-zinc-500 rounded-full animate-pulse"></span>
+                Review & Approve
+              </h2>
+              <div class="flex gap-2">
                 <button
-                  on:click={() => convertToXPost(selectedContent)}
-                  disabled={convertingContent}
-                  class="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  on:click={scrollPendingLeft}
+                  class="bg-zinc-700 hover:bg-zinc-600 text-white p-2 rounded-md text-lg font-bold transition-colors"
                 >
-                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                  </svg>
-                  {convertingContent ? 'Converting to X Thread...' : '→ Convert to X Thread'}
+                  &lt;
+                </button>
+                <button
+                  on:click={scrollPendingRight}
+                  class="bg-zinc-700 hover:bg-zinc-600 text-white p-2 rounded-md text-lg font-bold transition-colors"
+                >
+                  &gt;
                 </button>
               </div>
             </div>
-          {:else}
-            <div class="bg-gradient-to-br from-zinc-50 to-blue-50 rounded-xl border-2 border-dashed border-zinc-300 h-full flex items-center justify-center">
-              <div class="text-center py-12">
-                <FileText class="w-12 h-12 text-blue-400 mx-auto mb-3" />
-                <p class="text-zinc-600 font-medium">Select a blog post to preview</p>
-                <p class="text-sm text-zinc-500 mt-1">Click a post to see full content before converting</p>
-              </div>
-            </div>
-          {/if}
-        </div>
-      </div>
-      
-    {:else if view === 'opportunities'}
-      <!-- Opportunities View -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
-        <div class="lg:col-span-5 space-y-3 max-h-[calc(100vh-250px)] overflow-y-auto pr-2">
-          {#if filteredOpportunities.length === 0}
-            <div class="text-center py-12 bg-zinc-50 rounded-xl">
-              <Target class="w-12 h-12 text-zinc-400 mx-auto mb-4" />
-              <p class="text-zinc-500 mb-2">No opportunities yet</p>
-              <p class="text-sm text-zinc-400">
-                {#if !xAccount}
-                  Connect your X account to start monitoring
-                {:else}
-                  Click "Scan Opportunities" to find relevant tweets
-                {/if}
-              </p>
-            </div>
-          {:else}
-            {#each filteredOpportunities as opp}
-              <button
-                on:click={() => selectedOpportunity = opp}
-                class="w-full bg-white rounded-xl p-4 sm:p-5 border border-zinc-200 hover:border-zinc-300 transition-all text-left {selectedOpportunity?.id === opp.id ? 'ring-2 ring-zinc-900 border-zinc-900' : ''} {opp.is_responded ? 'opacity-60' : ''}"
-              >
-                <div class="flex items-start justify-between mb-3 gap-2">
-                  <div class="flex items-center gap-2 flex-wrap">
-                    <span class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded font-medium">
-                      @{opp.author_username}
-                    </span>
-                    <span class="text-xs px-2 py-1 rounded bg-zinc-100 text-zinc-600">
-                      {opp.author_followers.toLocaleString()} followers
-                    </span>
-                    {#if opp.is_responded}
-                      <span class="text-xs px-2 py-1 rounded bg-zinc-700 text-zinc-100">
-                        ✓ Responded
-                      </span>
-                    {/if}
-                  </div>
-                  <div class="font-semibold text-blue-600 text-sm flex-shrink-0">
-                    {Math.round(opp.relevance_score)}%
-                  </div>
-                </div>
-                
-                <p class="text-zinc-900 text-sm mb-3 line-clamp-3">
-                  {opp.text}
-                </p>
-                
-                <div class="flex items-center justify-between text-xs text-zinc-500">
-                  <div class="flex items-center gap-3">
-                    <span>❤️ {opp.likes}</span>
-                    <span>🔄 {opp.retweets}</span>
-                    <span>💬 {opp.replies}</span>
-                  </div>
-                  <span class="text-blue-600 font-medium capitalize">{opp.opportunity_type}</span>
-                </div>
-              </button>
-            {/each}
-          {/if}
-        </div>
-        
-        <div class="lg:col-span-7 h-[calc(100vh-250px)]">
-          {#if selectedOpportunity}
-            <div class="bg-white rounded-xl border border-zinc-200 overflow-hidden h-full flex flex-col">
-              <div class="p-4 sm:p-6 border-b border-zinc-200 flex-shrink-0">
-                <div class="flex items-start justify-between mb-4">
-                  <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-lg">
-                      {selectedOpportunity.author_name.charAt(0)}
-                    </div>
-                    <div>
-                      <div class="font-bold text-zinc-900">{selectedOpportunity.author_name}</div>
-                      <div class="text-sm text-zinc-500">@{selectedOpportunity.author_username}</div>
-                      <div class="text-xs text-zinc-400">{selectedOpportunity.author_followers.toLocaleString()} followers</div>
-                    </div>
-                  </div>
-                  
-                  <div class="flex gap-2">
-                    <button
-                      on:click={() => openTweet(selectedOpportunity.url)}
-                      class="text-xs px-3 py-1 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded transition-colors whitespace-nowrap"
-                    >
-                      View Tweet →
-                    </button>
-                    <button
-                      on:click={() => updateOpportunity(selectedOpportunity.id, { is_responded: true })}
-                      class="text-xs px-3 py-1 bg-zinc-200 hover:bg-zinc-300 text-zinc-700 rounded transition-colors whitespace-nowrap"
-                    >
-                      ✓ Mark Responded
-                    </button>
-                    <button
-                      on:click={() => updateOpportunity(selectedOpportunity.id, { is_dismissed: true })}
-                      class="text-xs px-3 py-1 bg-zinc-700 hover:bg-zinc-600 text-white rounded transition-colors whitespace-nowrap"
-                    >
-                      × Dismiss
-                    </button>
-                  </div>
-                </div>
-                
-                <div class="p-4 bg-zinc-50 rounded-lg mb-4">
-                  <p class="text-zinc-900 whitespace-pre-wrap">{selectedOpportunity.text}</p>
-                  <div class="flex items-center gap-4 mt-3 text-sm text-zinc-500">
-                    <span>❤️ {selectedOpportunity.likes}</span>
-                    <span>🔄 {selectedOpportunity.retweets}</span>
-                    <span>💬 {selectedOpportunity.replies}</span>
-                  </div>
-                </div>
-                
-                {#if selectedOpportunity.match_reasoning}
-                  <div class="p-3 bg-blue-50 rounded-lg mb-4">
-                    <p class="text-sm text-zinc-700">
-                      <span class="font-semibold text-blue-700">Why this matches:</span>
-                      {selectedOpportunity.match_reasoning}
-                    </p>
-                  </div>
-                {/if}
-                
-                {#if selectedOpportunity.key_points && selectedOpportunity.key_points.length > 0}
-                  <div>
-                    <h3 class="text-sm font-semibold text-zinc-700 mb-2">Key Points:</h3>
-                    <ul class="space-y-1">
-                      {#each selectedOpportunity.key_points as point}
-                        <li class="text-sm text-zinc-600 flex items-start">
-                          <span class="text-blue-500 mr-2 flex-shrink-0">•</span>
-                          <span>{point}</span>
-                        </li>
-                      {/each}
-                    </ul>
-                  </div>
-                {/if}
-              </div>
-              
-              <div class="p-4 sm:p-6 flex-1 overflow-y-auto">
-                <div class="flex items-center justify-between mb-3">
-                  <h3 class="text-sm font-semibold text-zinc-700">Suggested Response</h3>
-                  <button
-                    on:click={() => copyResponse(selectedOpportunity.suggested_response)}
-                    class="text-xs px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
-                  >
-                    Copy Response
-                  </button>
-                </div>
-                
-                <div class="bg-zinc-50 rounded-lg p-4">
-                  <p class="text-sm text-zinc-800 whitespace-pre-wrap leading-relaxed">
-                    {selectedOpportunity.suggested_response}
-                  </p>
-                </div>
-              </div>
-            </div>
-          {:else}
-            <div class="bg-zinc-50 rounded-xl border-2 border-dashed border-zinc-300 h-full flex items-center justify-center">
-              <div class="text-center py-12">
-                <p class="text-zinc-500">Select an opportunity to view details</p>
-              </div>
-            </div>
-          {/if}
-        </div>
-      </div>
-      
-    {:else if view === 'analytics'}
-      <!-- Analytics View -->
-      <div class="space-y-6">
-        <!-- Stats Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl border border-blue-200 p-6">
-            <div class="flex items-center gap-3 mb-2">
-              <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-                <TrendingUp class="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <p class="text-sm text-blue-800 font-medium">Total Engagement</p>
-                <p class="text-2xl font-bold text-blue-900">{analytics.totalEngagement}</p>
-              </div>
-            </div>
-          </div>
           
-          <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl border border-purple-200 p-6">
-            <div class="flex items-center gap-3 mb-2">
-              <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-                <FileText class="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <p class="text-sm text-purple-800 font-medium">Total Posts</p>
-                <p class="text-2xl font-bold text-purple-900">{analytics.totalPosts}</p>
-              </div>
-            </div>
-          </div>
-          
-          <div class="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl border border-orange-200 p-6">
-            <div class="flex items-center gap-3 mb-2">
-              <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-500 rounded-lg flex items-center justify-center">
-                <BarChart3 class="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <p class="text-sm text-orange-800 font-medium">Avg Engagement</p>
-                <p class="text-2xl font-bold text-orange-900">{analytics.avgEngagement}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- X Posts List -->
-        <div class="bg-white rounded-xl border border-zinc-200 p-6">
-          <h3 class="text-lg font-semibold text-zinc-900 mb-4">X Threads</h3>
-          
-          {#if xPosts.length === 0}
-            <div class="text-center py-8">
-              <svg class="w-12 h-12 text-blue-400 mx-auto mb-3" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-              </svg>
-              <p class="text-zinc-600 font-medium">No X threads yet</p>
-              <p class="text-sm text-zinc-500 mt-1">Convert blog posts to X threads in the Content tab</p>
-            </div>
-          {:else}
-            <div class="space-y-3">
-              {#each xPosts as post}
-                <div class="border border-zinc-200 rounded-lg p-4 hover:border-blue-300 hover:shadow-sm transition-all bg-gradient-to-r from-white to-blue-50/30">
-                  <div class="flex items-start justify-between mb-3">
-                    <div class="flex-1">
-                      <h4 class="font-semibold text-zinc-900 mb-2">{post.title}</h4>
-                      <div class="space-y-2">
-                        {#each post.thread.slice(0, 2) as tweet}
-                          <p class="text-sm text-zinc-600 bg-zinc-50 p-2 rounded">{tweet}</p>
-                        {/each}
-                        {#if post.thread.length > 2}
-                          <p class="text-xs text-zinc-500">+ {post.thread.length - 2} more tweets</p>
-                        {/if}
-                      </div>
-                    </div>
-                    <div class="text-right ml-4">
-                      {#if post.posted}
-                        <div class="text-lg font-bold text-blue-600">
-                          {(post.likes + post.retweets + post.replies)}
+            <div class="overflow-x-auto flex flex-row gap-8 pb-4 snap-x snap-mandatory scrollbar-hide" bind:this={pendingScroll}>
+              {#each pendingThreads as threadEntry}
+                <div class="space-y-4 min-w-[80vw] sm:min-w-[50vw] lg:min-w-[30vw] snap-center">
+                  <div class="flex items-center justify-between">
+                    <h3 class="font-semibold text-zinc-100">From: {threadEntry.contentTitle}</h3>
+                    <span class="text-xs text-zinc-300">{new Date(threadEntry.createdAt).toLocaleDateString()}</span>
+                  </div>
+                
+                  <div class="flex flex-row overflow-x-auto gap-4 pb-4 snap-x snap-mandatory scrollbar-hide">
+                    {#each threadEntry.threads as thread, idx}
+                      {#if thread}
+                        <div class="bg-zinc-900 rounded-xl border-2 border-zinc-700 p-5 hover:border-zinc-400 transition-all {thread.approved ? 'opacity-50' : ''} min-w-[300px] snap-center">
+                          <div class="flex items-start justify-between mb-4">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-zinc-700 text-zinc-300">
+                              {thread?.thread_type ?? 'Unknown'}
+                            </span>
+                          
+                            {#if !thread.approved}
+                              <button
+                                on:click={() => approveThread(threadEntry, idx)}
+                                class="p-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all hover:scale-110"
+                                title="Approve this thread"
+                              >
+                                <Check class="w-5 h-5" />
+                              </button>
+                            {:else}
+                              <div class="p-2 bg-green-900 text-green-300 rounded-lg">
+                                <Check class="w-5 h-5" />
+                              </div>
+                            {/if}
+                          </div>
+                        
+                          <div class="space-y-3 mb-4 max-h-96 overflow-y-auto custom-scrollbar">
+                            {#each thread?.tweets ?? [] as tweet, tweetIdx}
+                              <div class="bg-zinc-800 rounded-lg p-3">
+                                <div class="flex items-start gap-2">
+                                  <span class="flex-shrink-0 w-6 h-6 bg-zinc-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                                    {tweetIdx + 1}
+                                  </span>
+                                  <p class="text-xs text-zinc-200 flex-1 leading-relaxed" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">{tweet}</p>
+                                </div>
+                              </div>
+                            {/each}
+                          </div>
+                        
+                          <div class="flex flex-wrap gap-1.5 mb-2">
+                            {#each thread?.suggested_hashtags ?? [] as tag}
+                              <span class="text-xs px-2 py-0.5 bg-zinc-700 text-zinc-300 rounded">
+                                {tag}
+                              </span>
+                            {/each}
+                          </div>
+                        
+                          <p class="text-xs text-zinc-400 italic">
+                            {thread?.reasoning ?? ''}
+                          </p>
                         </div>
-                        <div class="text-xs text-zinc-500">total engagement</div>
-                      {:else}
-                        <span class="text-xs px-2 py-1 bg-amber-100 text-amber-800 rounded font-medium">Draft</span>
                       {/if}
-                    </div>
-                  </div>
-                  
-                  <div class="flex items-center gap-2 flex-wrap">
-                    {#each post.suggested_hashtags as tag}
-                      <span class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded font-medium">
-                        {tag}
-                      </span>
                     {/each}
                   </div>
-                  
-                  {#if post.url}
-                    <a 
-                      href={post.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 font-medium mt-3"
-                    >
-                      View on X <ArrowUpRight class="w-3 h-3" />
-                    </a>
-                  {/if}
                 </div>
+              {/each}
+            </div>
+          </div>
+        {/if}
+      
+        <!-- Approved Threads - Twitter Style -->
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold text-zinc-900">Ready to Post</h2>
+            <div class="flex gap-2">
+              <button
+                on:click={scrollApprovedLeft}
+                class="bg-zinc-200 hover:bg-zinc-100 text-zinc-700 p-2 rounded-full text-lg font-medium transition-colors"
+              >
+                &lt;
+              </button>
+              <button
+                on:click={scrollApprovedRight}
+                class="bg-zinc-200 hover:bg-zinc-100 text-zinc-700 p-2 rounded-full text-lg font-medium transition-colors"
+              >
+                &gt;
+              </button>
+            </div>
+          </div>
+        
+          {#if approvedThreads.length === 0}
+            <div class="text-center py-16 bg-gradient-to-br from-zinc-50 to-zinc-50 rounded-2xl border-2 border-dashed border-zinc-300">
+              <Sparkles class="w-16 h-16 text-zinc-400 mx-auto mb-4" />
+              <p class="text-zinc-600 font-medium text-lg">No approved threads yet</p>
+              <p class="text-sm text-zinc-500 mt-2">Generate threads from Studio and approve them here</p>
+            </div>
+          {:else}
+            <div class="flex flex-row overflow-x-auto gap-6 pb-4 snap-x snap-mandatory scrollbar-hide" bind:this={approvedScroll}>
+              {#each approvedThreads as threadEntry}
+                {#if threadEntry.thread}
+                  <div class="bg-zinc-900 rounded-2xl border border-zinc-700 overflow-hidden hover:shadow-lg transition-all min-w-[400px] snap-center">
+                    <!-- Twitter-style Header -->
+                    <div class="p-4 border-b border-zinc-700 bg-zinc-800">
+                      <div class="flex items-start justify-between">
+                        <div class="flex items-start gap-3">
+                          <div class="w-12 h-12 rounded-full bg-zinc-600 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                            {projectData?.business_name?.charAt(0) || 'R'}
+                          </div>
+                          <div>
+                            <div class="font-bold text-white">{projectData?.business_name || 'Your Business'}</div>
+                            <div class="text-sm text-zinc-400">@{projectData?.business_name?.toLowerCase().replace(/\s+/g, '') || 'yourbusiness'}</div>
+                            <div class="text-xs text-zinc-500 mt-1">From: {threadEntry.contentTitle}</div>
+                          </div>
+                        </div>
+                      
+                        <button
+                          on:click={() => copyThread(threadEntry.thread)}
+                          class="flex items-center gap-2 px-4 py-2 bg-zinc-700 hover:bg-zinc-600 text-white rounded-lg text-sm font-medium transition-all"
+                        >
+                          {#if copiedIndex === threadEntry.thread}
+                            <Check class="w-5 h-5" />
+                            Copied!
+                          {:else}
+                            <Copy class="w-5 h-5" />
+                            
+                          {/if}
+                        </button>
+                      </div>
+                    </div>
+                  
+                    <!-- Thread Content -->
+                    <div class="p-4">
+                      <div class="space-y-4 max-h-96 overflow-y-auto custom-scrollbar">
+                        {#each threadEntry.thread?.tweets ?? [] as tweet, idx}
+                          <div class="relative pl-8">
+                            {#if idx < (threadEntry.thread?.tweets?.length ?? 0) - 1}
+                              <div class="absolute left-3 top-8 bottom-0 w-0.5 bg-zinc-500"></div>
+                            {/if}
+                          
+                            <div class="flex items-start gap-4">
+                              <div class="absolute left-0 w-6 h-6 bg-zinc-600 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
+                                {idx + 1}
+                              </div>
+                            
+                              <div class="flex-1 bg-zinc-800 rounded-xl p-4 hover:bg-zinc-700 transition-colors">
+                                <p class="text-white whitespace-pre-wrap leading-relaxed" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.6;">{tweet}</p>
+                                <div class="text-xs text-zinc-400 mt-2 text-right">
+                                  {tweet.length}/280 characters
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        {/each}
+                      </div>
+                    
+                      <!-- Hashtags -->
+                      <div class="flex flex-wrap gap-2 mt-6 pt-4 border-t border-zinc-600">
+                        {#each threadEntry.thread?.suggested_hashtags ?? [] as tag}
+                          <span class="px-3 py-1 bg-zinc-700 text-zinc-300 rounded-full text-sm font-medium">
+                            {tag}
+                          </span>
+                        {/each}
+                      </div>
+                    
+                      <!-- Thread Type Badge -->
+                      <div class="mt-4 flex items-center justify-between">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-zinc-700 text-zinc-300">
+                          {threadEntry.thread?.thread_type ?? 'Unknown'}
+                        </span>
+                      
+                        <button
+                          on:click={() => deleteApprovedThread(threadEntry.id)}
+                          class="text-xs text-zinc-400 hover:text-red-500 transition-colors"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                {/if}
               {/each}
             </div>
           {/if}
         </div>
-        
-        <!-- Best Performers -->
-        {#if analytics.bestPerformers.length > 0}
-          <div class="bg-white rounded-xl border border-zinc-200 p-6">
-            <div class="flex items-center gap-2 mb-4">
-              <TrendingUp class="w-5 h-5 text-blue-600" />
-              <h3 class="text-lg font-semibold text-zinc-900">Best Performing Threads</h3>
-            </div>
-            <div class="space-y-3">
-              {#each analytics.bestPerformers as post, idx}
-                <div class="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border border-blue-100">
-                  <div class="flex items-center gap-3 flex-1">
-                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-sm font-bold">
-                      {idx + 1}
-                    </div>
-                    <div class="flex-1">
-                      <h4 class="font-medium text-zinc-900 text-sm mb-1">{post.title}</h4>
-                      <div class="flex items-center gap-2 text-xs text-zinc-500">
-                        <span>❤️ {post.likes}</span>
-                        <span>🔄 {post.retweets}</span>
-                        <span>💬 {post.replies}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="font-bold text-blue-600 ml-4">
-                    {post.likes + post.retweets + post.replies}
-                  </div>
-                </div>
-              {/each}
-            </div>
-          </div>
-        {/if}
-        
-        <!-- Top Hashtags -->
-        {#if analytics.topHashtags.length > 0}
-          <div class="bg-white rounded-xl border border-zinc-200 p-6">
-            <div class="flex items-center gap-2 mb-4">
-              <Target class="w-5 h-5 text-purple-600" />
-              <h3 class="text-lg font-semibold text-zinc-900">Top Performing Hashtags</h3>
-            </div>
-            <div class="space-y-3">
-              {#each analytics.topHashtags as item, idx}
-                <div class="flex items-center justify-between p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-100">
-                  <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm font-bold">
-                      {idx + 1}
-                    </div>
-                    <span class="font-medium text-zinc-900">{item.hashtag}</span>
-                  </div>
-                  <span class="font-bold text-purple-600">{item.engagement} engagement</span>
-                </div>
-              {/each}
-            </div>
-          </div>
-        {/if}
       </div>
-      
+    
     {:else if view === 'config'}
-      <!-- Configuration View -->
-      <div class="max-w-4xl space-y-4 sm:space-y-6">
-        <!-- Monitor Options -->
-        <div class="bg-white rounded-xl p-4 sm:p-6 border border-zinc-200">
-          <h2 class="text-base sm:text-lg font-semibold text-zinc-900 mb-4">What to Monitor</h2>
-          <div class="space-y-3">
-            <label class="flex items-center gap-3">
-              <input
-                type="checkbox"
-                bind:checked={config.monitor_mentions}
-                class="w-4 h-4 text-blue-600 rounded"
-              />
-              <span class="text-sm text-zinc-700">Monitor mentions of your X account</span>
-            </label>
-            
-            <label class="flex items-center gap-3">
-              <input
-                type="checkbox"
-                bind:checked={config.monitor_keywords}
-                class="w-4 h-4 text-blue-600 rounded"
-              />
-              <span class="text-sm text-zinc-700">Monitor keywords</span>
-            </label>
-          </div>
-        </div>
-        
-        <!-- Keywords -->
-        <div class="bg-white rounded-xl p-4 sm:p-6 border border-zinc-200">
-          <h2 class="text-base sm:text-lg font-semibold text-zinc-900 mb-4">Target Keywords</h2>
-          <p class="text-sm text-zinc-500 mb-3">Track tweets containing these keywords</p>
-          <div class="space-y-3">
-            <div class="flex flex-wrap gap-2">
-              {#each config.keywords as kw, idx}
-                <span class="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-sm">
-                  {kw}
-                  <button 
-                    on:click={() => {
-                      config.keywords = config.keywords.filter((_, i) => i !== idx);
-                    }}
-                    class="text-blue-500 hover:text-blue-700"
-                  >
-                    ×
-                  </button>
-                </span>
-              {/each}
-            </div>
-            
-            <input
-              type="text"
-              placeholder="Add keyword (press Enter)"
-              class="w-full px-3 sm:px-4 py-2 border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-              on:keypress={(e) => {
-                if (e.key === 'Enter' && e.target.value) {
-                  config.keywords = [...config.keywords, e.target.value];
-                  e.target.value = '';
-                }
-              }}
-            />
-          </div>
-        </div>
-        
-        <!-- Exclude Keywords -->
-        <div class="bg-white rounded-xl p-4 sm:p-6 border border-zinc-200">
-          <h2 class="text-base sm:text-lg font-semibold text-zinc-900 mb-4">Exclude Keywords</h2>
-          <p class="text-sm text-zinc-500 mb-3">Filter out tweets containing these words</p>
-          <div class="space-y-3">
-            <div class="flex flex-wrap gap-2">
-              {#each config.exclude_keywords as kw, idx}
-                <span class="inline-flex items-center gap-2 px-3 py-1 bg-zinc-700 text-white rounded-lg text-sm">
-                  {kw}
-                  <button 
-                    on:click={() => {
-                      config.exclude_keywords = config.exclude_keywords.filter((_, i) => i !== idx);
-                    }}
-                    class="text-zinc-300 hover:text-white"
-                  >
-                    ×
-                  </button>
-                </span>
-              {/each}
-            </div>
-            
-            <input
-              type="text"
-              placeholder="Add exclude keyword (press Enter)"
-              class="w-full px-3 sm:px-4 py-2 border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-              on:keypress={(e) => {
-                if (e.key === 'Enter' && e.target.value) {
-                  config.exclude_keywords = [...config.exclude_keywords, e.target.value];
-                  e.target.value = '';
-                }
-              }}
-            />
-          </div>
-        </div>
-        
-        <!-- Filters -->
-        <div class="bg-white rounded-xl p-4 sm:p-6 border border-zinc-200">
-          <h2 class="text-base sm:text-lg font-semibold text-zinc-900 mb-4">Filters</h2>
-          
-          <div class="space-y-4">
-            <div>
-              <label class="text-sm text-zinc-700 mb-2 block">Minimum Followers</label>
-              <input
-                type="number"
-                bind:value={config.min_followers}
-                min="0"
-                step="100"
-                class="w-full px-3 sm:px-4 py-2 border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            
-            <div>
-              <label class="text-sm text-zinc-700 mb-2 block">Minimum Relevance</label>
-              <div class="flex items-center gap-4">
+      <!-- Settings View -->
+      <div class="max-w-2xl space-y-6">
+        <div class="bg-white rounded-xl p-6 border border-zinc-200">
+          <h2 class="text-lg font-semibold text-zinc-900 mb-4">Configuration Settings</h2>
+          {#if projectData}
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-zinc-700 mb-1">Business Name</label>
                 <input
-                  type="range"
-                  bind:value={config.min_relevance}
-                  min="50"
-                  max="90"
-                  step="5"
-                  class="flex-1"
+                  type="text"
+                  bind:value={projectData.business_name}
+                  class="w-full px-4 py-2 border border-zinc-300 rounded-lg focus:outline-none focus:border-blue-500"
+                  disabled
                 />
-                <span class="text-xl sm:text-2xl font-bold text-blue-600 min-w-[50px] sm:min-w-[60px]">
-                  {config.min_relevance}%
-                </span>
               </div>
+              <div>
+                <label class="block text-sm font-medium text-zinc-700 mb-1">Description</label>
+                <textarea
+                  bind:value={projectData.description}
+                  class="w-full px-4 py-2 border border-zinc-300 rounded-lg focus:outline-none focus:border-blue-500 min-h-[100px]"
+                  disabled
+                ></textarea>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-zinc-700 mb-1">Industry</label>
+                <input
+                  type="text"
+                  bind:value={projectData.industry}
+                  class="w-full px-4 py-2 border border-zinc-300 rounded-lg focus:outline-none focus:border-blue-500"
+                  disabled
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-zinc-700 mb-1">Website</label>
+                <input
+                  type="url"
+                  bind:value={projectData.website}
+                  class="w-full px-4 py-2 border border-zinc-300 rounded-lg focus:outline-none focus:border-blue-500"
+                  disabled
+                />
+              </div>
+              <p class="text-sm text-zinc-500 italic">Settings are read-only. Contact support to update.</p>
             </div>
-          </div>
-        </div>
-        
-        <!-- Save Button -->
-        <div class="flex justify-end">
-          <button
-            on:click={saveConfig}
-            class="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-          >
-            Save Configuration
-          </button>
+          {:else}
+            <p class="text-zinc-600">No project data available.</p>
+          {/if}
         </div>
       </div>
     {/if}
   {/if}
 </div>
-
 <style>
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
   }
-  
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
   }
-  
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
   }
-
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
-
   .scrollbar-hide {
-    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
-  
-  .overflow-y-auto::-webkit-scrollbar {
-    width: 6px;
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-  
-  .overflow-y-auto::-webkit-scrollbar-track {
-    background: #f4f4f5;
-    border-radius: 3px;
-  }
-  
-  .overflow-y-auto::-webkit-scrollbar-thumb {
-    background: #d4d4d8;
-    border-radius: 3px;
-  }
-  
-  .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-    background: #a1a1aa;
+  .animate-fadeIn {
+    animation: fadeIn 0.2s ease-out;
   }
 </style>
