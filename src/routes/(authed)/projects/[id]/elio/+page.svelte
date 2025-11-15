@@ -2,9 +2,10 @@
 <script>
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
+  import { browser } from '$app/environment';
   import { contentStore } from '$lib/components/nai/stores';
   import {WORKER_API_URL, API_BASE_URL} from '$lib/config';
-  import { TrendingUp, Target, BarChart3, FileText, Settings, ArrowUpRight, User, Sparkles, Copy, Check } from 'lucide-svelte';
+  import { TrendingUp, Target, BarChart3, FileText, Settings, ArrowUpRight, User, Sparkles, Copy, Check, LogIn, LogOut } from 'lucide-svelte';
   
   // Get project ID from URL
   $: projectId = $page.params.id;
@@ -43,6 +44,12 @@
   let topScroll;
   let opportunitiesScroll;
   
+  // Reddit Auth State
+  let redditConnected = false;
+  let redditUsername = null;
+  let redditConnecting = false;
+  let checkingRedditAuth = true;
+  
   // Analytics mock data (you'll populate this from backend)
   let analytics = {
     totalKarma: 0,
@@ -64,6 +71,96 @@
     time_window_hours: 24,
     max_per_subreddit: 5
   };
+  
+  // Check Reddit connection status
+  async function checkRedditConnection() {
+    try {
+      const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/account/`, {
+        headers: {
+          'Authorization': `Token ${authToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        redditConnected = data.connected;
+        redditUsername = data.username || null;
+      }
+    } catch (error) {
+      console.error('Failed to check Reddit connection:', error);
+    } finally {
+      checkingRedditAuth = false;
+    }
+  }
+  
+  // Initiate Reddit OAuth flow
+  async function connectReddit() {
+    redditConnecting = true;
+    try {
+      const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/connect/`, {
+        headers: {
+          'Authorization': `Token ${authToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        // Open Reddit OAuth in new window
+        window.open(data.auth_url, '_blank', 'width=600,height=700');
+        
+        // Poll for connection status
+        const pollInterval = setInterval(async () => {
+          await checkRedditConnection();
+          if (redditConnected) {
+            clearInterval(pollInterval);
+            redditConnecting = false;
+            successMessage = `Successfully connected to Reddit as u/${redditUsername}`;
+            showSuccessModal = true;
+          }
+        }, 2000);
+        
+        // Stop polling after 2 minutes
+        setTimeout(() => {
+          clearInterval(pollInterval);
+          redditConnecting = false;
+        }, 120000);
+      } else {
+        throw new Error('Failed to initiate Reddit connection');
+      }
+    } catch (error) {
+      console.error('Error connecting to Reddit:', error);
+      alert('Failed to connect to Reddit. Please try again.');
+      redditConnecting = false;
+    }
+  }
+  
+  // Disconnect Reddit account
+  async function disconnectReddit() {
+    if (!confirm('Are you sure you want to disconnect your Reddit account?')) return;
+    
+    try {
+      const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/account/`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Token ${authToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        redditConnected = false;
+        redditUsername = null;
+        alert('Reddit account disconnected successfully');
+      } else {
+        throw new Error('Failed to disconnect Reddit account');
+      }
+    } catch (error) {
+      console.error('Error disconnecting Reddit:', error);
+      alert('Failed to disconnect Reddit account');
+    }
+  }
   
   // Load content from store
   async function loadBlogPosts() {
@@ -389,6 +486,11 @@
   async function scanOpportunities() {
     if (!projectData || !config) return;
     
+    if (!redditConnected) {
+      alert('Please connect your Reddit account first to scan for opportunities');
+      return;
+    }
+    
     scanning = true;
     
     try {
@@ -529,12 +631,13 @@
   $: filteredOpportunities = opportunities.filter(o => !o.is_dismissed).sort((a, b) => new Date(b.scanned_at) - new Date(a.scanned_at));
 
   onMount(async () => {
+    await checkRedditConnection();
     await loadBlogPosts();
     await fetchProjectData();
 
     // Mock profile data
     profile = {
-      username: 'u/' + (projectData?.business_name || 'yourbusiness').toLowerCase().replace(/\s+/g, ''),
+      username: redditUsername || 'u/' + (projectData?.business_name || 'yourbusiness').toLowerCase().replace(/\s+/g, ''),
       joined: 'Joined Jan 2023',
       description: 'Your Reddit bio here. Edit in settings.',
       avatar: 'https://www.redditstatic.com/avatars/defaults/avatar_default_7.png',
@@ -601,7 +704,7 @@
         </div>
       
         <h2 class="text-2xl font-semibold text-zinc-900">
-          Posts Generated! 🎉
+          {successMessage.includes('connected') ? 'Connected! 🎉' : 'Posts Generated! 🎉'}
         </h2>
       
         <p class="text-base text-zinc-600">
@@ -609,18 +712,20 @@
         </p>
       
         <div class="flex flex-col gap-3">
-          <button
-            on:click={goToPostsView}
-            class="w-full bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200"
-          >
-            View & Approve Posts
-          </button>
+          {#if !successMessage.includes('connected')}
+            <button
+              on:click={goToPostsView}
+              class="w-full bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200"
+            >
+              View & Approve Posts
+            </button>
+          {/if}
         
           <button
             on:click={closeSuccessModal}
             class="w-full bg-zinc-100 hover:bg-zinc-200 text-zinc-700 px-6 py-3 rounded-lg font-medium transition-all duration-200"
           >
-            Generate More
+            {successMessage.includes('connected') ? 'Continue' : 'Generate More'}
           </button>
         </div>
       </div>
@@ -629,7 +734,7 @@
 {/if}
 
 <div class="max-w-screen-2xl mx-auto p-4 sm:p-6">
-  {#if loading}
+  {#if loading || checkingRedditAuth}
     <div class="text-center py-12">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-zinc-900 mx-auto"></div>
       <p class="text-zinc-500 mt-4">Loading Elio...</p>
@@ -650,7 +755,31 @@
           </p>
         </div>
         
-        <div class="flex gap-2 sm:gap-3">
+        <div class="flex gap-2 sm:gap-3 flex-wrap">
+          <!-- Reddit Auth Button -->
+          {#if redditConnected}
+            <div class="flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-lg">
+              <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span class="text-sm font-medium text-green-700">u/{redditUsername}</span>
+              <button
+                on:click={disconnectReddit}
+                class="ml-2 p-1 hover:bg-green-100 rounded transition-colors"
+                title="Disconnect"
+              >
+                <LogOut class="w-4 h-4 text-green-600" />
+              </button>
+            </div>
+          {:else}
+            <button
+              on:click={connectReddit}
+              disabled={redditConnecting}
+              class="px-4 py-2 bg-white border-2 border-orange-500 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors font-medium text-sm disabled:opacity-50 flex items-center gap-2 shadow-sm"
+            >
+              <LogIn class="w-4 h-4" />
+              {redditConnecting ? 'Connecting...' : 'Connect Reddit'}
+            </button>
+          {/if}
+          
           {#if view === 'opportunities' && opportunities.some(o => o.is_dismissed)}
             <button 
               on:click={clearDismissed}
@@ -661,8 +790,9 @@
           {/if}
           <button 
             on:click={scanOpportunities}
-            disabled={scanning}
+            disabled={scanning || !redditConnected}
             class="px-3 sm:px-4 py-2 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white rounded-lg transition-colors font-medium text-xs sm:text-sm disabled:opacity-50 shadow-md hover:shadow-lg"
+            title={!redditConnected ? 'Connect Reddit account first' : ''}
           >
             {#if scanning}
               Scanning...
@@ -672,6 +802,26 @@
           </button>
         </div>
       </div>
+      
+      <!-- Reddit Connection Alert -->
+      {#if !redditConnected}
+        <div class="mb-4 p-4 bg-orange-50 border border-orange-200 rounded-xl flex items-start gap-3">
+          <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+            <LogIn class="w-5 h-5 text-orange-600" />
+          </div>
+          <div class="flex-1">
+            <h3 class="font-semibold text-orange-900 mb-1">Connect Your Reddit Account</h3>
+            <p class="text-sm text-orange-700">Connect your Reddit account to scan for opportunities and interact with communities directly.</p>
+          </div>
+          <button
+            on:click={connectReddit}
+            disabled={redditConnecting}
+            class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-medium text-sm transition-colors disabled:opacity-50 flex-shrink-0"
+          >
+            {redditConnecting ? 'Connecting...' : 'Connect Now'}
+          </button>
+        </div>
+      {/if}
       
       <!-- View Tabs -->
       <div class="overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -1534,6 +1684,12 @@
   }
   .animate-fadeIn {
     animation: fadeIn 0.2s ease-out;
+  }
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .line-clamp-2 {
     display: -webkit-box;

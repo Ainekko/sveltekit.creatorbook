@@ -3,12 +3,16 @@
 <script lang="ts">
   import { RefreshCw, FileText, Calendar, Clock, Save, X, ChevronRight, ChevronDown } from 'lucide-svelte';
   import { marked } from 'marked';
+  import { onMount } from 'svelte';
   import { contentStore } from '$lib/components/nai/stores';
   import type { BlogPost, PostStatus } from '$lib/components/nai/types';
   import type { UUID } from 'crypto';
   import {API_BASE_URL} from '$lib/config'
 
   export let projectId: UUID;
+  
+  let editorInstance: any = null;
+  let editorContainer: HTMLElement;
 
   $: posts = $contentStore.blogPosts as BlogPost[];
   $: isLoading = $contentStore.postsLoading;
@@ -153,6 +157,50 @@
     editContent = '';
     isEditing = false;
     showPublishMenu = false;
+    if (editorInstance) {
+      editorInstance.destroy();
+      editorInstance = null;
+    }
+  }
+
+  async function initEditor(): Promise<void> {
+    if (!editorContainer || editorInstance) return;
+    
+    // Dynamically import EasyMDE
+    const EasyMDE = (await import('easymde')).default;
+    
+    editorInstance = new EasyMDE({
+      element: editorContainer,
+      initialValue: editContent,
+      spellChecker: false,
+      autofocus: true,
+      placeholder: 'Write your blog post in markdown...',
+      toolbar: [
+        'bold', 'italic', 'heading', '|',
+        'quote', 'unordered-list', 'ordered-list', '|',
+        'link', 'image', '|',
+        'preview', 'side-by-side', 'fullscreen', '|',
+        'guide'
+      ],
+      status: ['lines', 'words', 'cursor'],
+      renderingConfig: {
+        singleLineBreaks: false,
+        codeSyntaxHighlighting: true,
+      }
+    });
+    
+    editorInstance.codemirror.on('change', () => {
+      editContent = editorInstance.value();
+    });
+  }
+
+  $: if (isEditing && editorContainer && !editorInstance) {
+    initEditor();
+  }
+
+  $: if (!isEditing && editorInstance) {
+    editorInstance.destroy();
+    editorInstance = null;
   }
 
   function getStatusColor(status: PostStatus): string {
@@ -176,6 +224,10 @@
     return text.substring(0, length) + (text.length > length ? '...' : '');
   }
 </script>
+
+<svelte:head>
+  <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+</svelte:head>
 
 <div class="space-y-6">
   <!-- Header -->
@@ -285,11 +337,9 @@
       <!-- Content -->
       <div class="flex-1 overflow-y-auto p-8">
         {#if isEditing}
-          <textarea
-            bind:value={editContent}
-            class="w-full h-full min-h-[600px] p-4 border border-zinc-300 rounded-lg font-mono text-sm text-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-500 resize-none"
-            placeholder="Enter markdown content..."
-          />
+          <div class="markdown-editor-wrapper">
+            <textarea bind:this={editorContainer}></textarea>
+          </div>
         {:else}
           <div class="prose prose-zinc max-w-none">
             {@html marked(selectedPost.content || '')}
@@ -316,7 +366,7 @@
           </button>
         {:else}
           <button
-            on:click={() => isEditing = true}
+            on:click={() => { isEditing = true; }}
             class="px-5 py-2.5 rounded-lg bg-zinc-900 hover:bg-zinc-700 text-white text-sm font-medium transition-all active:scale-95"
           >
             Edit
@@ -403,6 +453,38 @@
     to {
       transform: translateX(0);
     }
+  }
+
+  .markdown-editor-wrapper {
+    min-height: 600px;
+  }
+
+  :global(.markdown-editor-wrapper .EasyMDEContainer) {
+    min-height: 600px;
+  }
+
+  :global(.markdown-editor-wrapper .CodeMirror) {
+    min-height: 600px;
+    border: 1px solid #d4d4d8;
+    border-radius: 0.5rem;
+    font-size: 14px;
+  }
+
+  :global(.markdown-editor-wrapper .editor-toolbar) {
+    border: 1px solid #d4d4d8;
+    border-bottom: none;
+    border-radius: 0.5rem 0.5rem 0 0;
+    background: #fafafa;
+  }
+
+  :global(.markdown-editor-wrapper .editor-toolbar button) {
+    color: #3f3f46 !important;
+  }
+
+  :global(.markdown-editor-wrapper .editor-toolbar button:hover),
+  :global(.markdown-editor-wrapper .editor-toolbar button.active) {
+    background: #e4e4e7;
+    border-color: #a1a1aa;
   }
 
   :global(.prose p) {
