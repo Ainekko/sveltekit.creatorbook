@@ -94,47 +94,53 @@
     }
   }
   
-  // Initiate Reddit OAuth flow
-  async function connectReddit() {
-    redditConnecting = true;
-    try {
-      const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/connect/`, {
-        headers: {
-          'Authorization': `Token ${authToken}`,
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        // Open Reddit OAuth in new window
-        window.open(data.auth_url, '_blank', 'width=600,height=700');
-        
-        // Poll for connection status
-        const pollInterval = setInterval(async () => {
-          await checkRedditConnection();
-          if (redditConnected) {
-            clearInterval(pollInterval);
-            redditConnecting = false;
-            successMessage = `Successfully connected to Reddit as u/${redditUsername}`;
-            showSuccessModal = true;
-          }
-        }, 2000);
-        
-        // Stop polling after 2 minutes
-        setTimeout(() => {
-          clearInterval(pollInterval);
-          redditConnecting = false;
-        }, 120000);
-      } else {
-        throw new Error('Failed to initiate Reddit connection');
-      }
-    } catch (error) {
-      console.error('Error connecting to Reddit:', error);
-      alert('Failed to connect to Reddit. Please try again.');
-      redditConnecting = false;
+ // Initiate Reddit OAuth flow
+async function connectReddit() {
+  redditConnecting = true;
+  console.log('Starting Reddit connection...');
+  console.log('Auth token:', authToken ? 'Present' : 'Missing');
+  console.log('Project ID:', projectId);
+  console.log('Backend URL:', MAIN_BACKEND_URL);
+  
+  try {
+    const url = `${MAIN_BACKEND_URL}/elio/api/connect/?project_id=${projectId}`;
+    console.log('Fetching:', url);
+    
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Token ${authToken}`,
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include' // Important for sessions
+    });
+    
+    console.log('Response status:', response.status);
+    console.log('Response headers:', response.headers);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Response error:', errorText);
+      throw new Error(`HTTP ${response.status}: ${errorText}`);
     }
+    
+    const data = await response.json();
+    console.log('Response data:', data);
+    
+    if (data.auth_url) {
+      console.log('Redirecting to:', data.auth_url);
+      // Open Reddit OAuth in same window instead of popup
+      window.location.href = data.auth_url;
+    } else {
+      throw new Error('No auth_url in response');
+    }
+  } catch (error) {
+    console.error('Error connecting to Reddit:', error);
+    console.error('Error stack:', error.stack);
+    alert(`Failed to connect to Reddit: ${error.message}`);
+    redditConnecting = false;
   }
+}
   
   // Disconnect Reddit account
   async function disconnectReddit() {
@@ -631,9 +637,21 @@
   $: filteredOpportunities = opportunities.filter(o => !o.is_dismissed).sort((a, b) => new Date(b.scanned_at) - new Date(a.scanned_at));
 
   onMount(async () => {
-    await checkRedditConnection();
-    await loadBlogPosts();
-    await fetchProjectData();
+   // Check for Reddit OAuth success
+  const urlParams = new URLSearchParams(window.location.search);
+  const redditSuccess = urlParams.get('reddit_success');
+  const redditUsername = urlParams.get('username');
+  
+  if (redditSuccess === 'true' && redditUsername) {
+    successMessage = `Successfully connected to Reddit as u/${redditUsername}`;
+    showSuccessModal = true;
+    // Clean up URL
+    window.history.replaceState({}, '', window.location.pathname);
+  }
+  
+  await checkRedditConnection();
+  await loadBlogPosts();
+  await fetchProjectData();
 
     // Mock profile data
     profile = {

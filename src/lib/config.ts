@@ -2,7 +2,7 @@
 
 const DEVURL = 'http://127.0.0.1:8000'
 const PRODURL = 'https://api.flowjoy.online'
-const BASEURL  = PRODURL
+const BASEURL  = DEVURL
 
 const WORKERDEV = "http://127.0.0.1:8001"
 const WORKERPROD = "https://praw-hell-cry.vercel.app"

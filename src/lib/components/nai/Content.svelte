@@ -4,6 +4,8 @@
   import { RefreshCw, FileText, Calendar, Clock, Save, X, ChevronRight, ChevronDown } from 'lucide-svelte';
   import { marked } from 'marked';
   import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
+  import { page } from '$app/stores';
   import { contentStore } from '$lib/components/nai/stores';
   import type { BlogPost, PostStatus } from '$lib/components/nai/types';
   import type { UUID } from 'crypto';
@@ -13,6 +15,9 @@
   
   let editorInstance: any = null;
   let editorContainer: HTMLElement;
+
+  // Get project ID from page params if not provided
+  $: effectiveProjectId = projectId || $page.params.id;
 
   $: posts = $contentStore.blogPosts as BlogPost[];
   $: isLoading = $contentStore.postsLoading;
@@ -105,16 +110,21 @@
 
   async function convertToTweets(): Promise<void> {
     if (!selectedPost) return;
-    alert('Convert to X Tweets feature coming soon!');
+    // Navigate to Rio (Twitter agent)
+    await goto(`/projects/${effectiveProjectId}/rio`);
   }
 
   async function convertToReddit(): Promise<void> {
     if (!selectedPost) return;
-    alert('Convert to Reddit post feature coming soon!');
+    // Navigate to Elio (Reddit agent)
+    await goto(`/projects/${effectiveProjectId}/elio`);
   }
 
   async function saveContent(): Promise<void> {
-    if (!editContent.trim()) {
+    // Get content from editor if it exists, otherwise use editContent
+    const contentToSave = editorInstance ? editorInstance.value() : editContent;
+    
+    if (!contentToSave.trim()) {
       alert('Content cannot be empty');
       return;
     }
@@ -122,17 +132,27 @@
 
     isSaving = true;
     try {
-      const response = await fetch(`${apiBaseUrl}/orion/api/blog_posts/${selectedPost.id}/`, {
+      const response = await fetch(`${apiBaseUrl}/orion/api/blog-posts/${selectedPost.id}/`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Token ${authToken}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ content: editContent })
+        body: JSON.stringify({ content: contentToSave })
       });
+      
       if (response.ok) {
+        const updatedPost = await response.json();
+        // Update the selected post with new content
+        selectedPost.content = updatedPost.content;
         await refreshPosts();
-        closeDrawer();
+        
+        // Clean up editor and exit edit mode
+        if (editorInstance) {
+          editorInstance.toTextArea();
+          editorInstance = null;
+        }
+        isEditing = false;
       } else {
         const error = await response.json();
         alert(`Error: ${error.detail || 'Failed to save'}`);
@@ -158,9 +178,18 @@
     isEditing = false;
     showPublishMenu = false;
     if (editorInstance) {
-      editorInstance.destroy();
+      editorInstance.toTextArea();
       editorInstance = null;
     }
+  }
+
+  function cancelEdit(): void {
+    if (editorInstance) {
+      editorInstance.toTextArea();
+      editorInstance = null;
+    }
+    isEditing = false;
+    editContent = selectedPost?.content || '';
   }
 
   async function initEditor(): Promise<void> {
@@ -199,7 +228,7 @@
   }
 
   $: if (!isEditing && editorInstance) {
-    editorInstance.destroy();
+    editorInstance.toTextArea();
     editorInstance = null;
   }
 
@@ -359,7 +388,7 @@
             <span>{isSaving ? 'Saving...' : 'Save Changes'}</span>
           </button>
           <button
-            on:click={() => { isEditing = false; editContent = selectedPost?.content || ''; }}
+            on:click={cancelEdit}
             class="px-4 py-2.5 rounded-lg bg-zinc-200 hover:bg-zinc-300 text-zinc-700 text-sm font-medium transition-all active:scale-95"
           >
             Cancel
@@ -417,14 +446,14 @@
 
           <button
             on:click={convertToTweets}
-            class="px-5 py-2.5 rounded-lg bg-zinc-700 hover:bg-zinc-600 text-white text-sm font-medium transition-all active:scale-95"
+            class="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-all active:scale-95 shadow-sm"
           >
             → X Tweets
           </button>
 
           <button
             on:click={convertToReddit}
-            class="px-5 py-2.5 rounded-lg bg-zinc-700 hover:bg-zinc-600 text-white text-sm font-medium transition-all active:scale-95"
+            class="px-5 py-2.5 rounded-lg bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium transition-all active:scale-95 shadow-sm"
           >
             → Reddit Post
           </button>
