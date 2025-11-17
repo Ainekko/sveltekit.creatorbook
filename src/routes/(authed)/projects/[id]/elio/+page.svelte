@@ -5,7 +5,6 @@
   import { browser } from '$app/environment';
   import { contentStore } from '$lib/components/nai/stores';
   import { WORKER_API_URL, API_BASE_URL } from '$lib/config';
-  import { TrendingUp, Target, BarChart3, FileText, Settings, ArrowUpRight, User, Sparkles, Copy, Check, LogIn, LogOut } from 'lucide-svelte';
 
   import * as api from '$lib/components/elio/api';
 
@@ -13,9 +12,8 @@
   import Header from '$lib/components/elio/Header.svelte';
   import RedditConnectionAlert from '$lib/components/elio/RedditConnectionAlert.svelte';
   import ViewTabs from '$lib/components/elio/ViewTabs.svelte';
-  import ContentView from '$lib/components/elio/ContentView.svelte';
+  import ContentAndPostsView from '$lib/components/elio/ContentAndPostsView.svelte';
   import OpportunitiesView from '$lib/components/elio/OpportunitiesView.svelte';
-  import PostsView from '$lib/components/elio/PostsView.svelte';
   import ProfileView from '$lib/components/elio/ProfileView.svelte';
   import ConfigView from '$lib/components/elio/ConfigView.svelte';
 
@@ -38,49 +36,22 @@
   let projectData = null;
   let config = null;
   let opportunities = [];
-  let redditPosts = [];
   let pendingPosts = [];
   let approvedPosts = [];
   let scanning = false;
-  let view = 'content'; // 'content', 'opportunities', 'posts', 'profile', 'config'
+  let view = 'content-posts';
   let selectedOpportunity = null;
-  let hoveredPost = null;
   let generatingPosts = new Set();
   let showSuccessModal = false;
   let successMessage = '';
   let copiedIndex = null;
   let currentCopiedTimer;
-  let postsScroll;
-  let bestScroll;
-  let topScroll;
-  let opportunitiesScroll;
 
   // Reddit Auth State
   let redditConnected = false;
   let redditUsername = null;
   let redditConnecting = false;
   let checkingRedditAuth = true;
-
-  // Analytics mock data (you'll populate this from backend)
-  let analytics = {
-    totalKarma: 0,
-    totalPosts: 0,
-    avgKarma: 0,
-    bestPerformers: [],
-    topSubreddits: []
-  };
-
-  // Profile mock data
-  let profile = {};
-  // Default config
-  const defaultConfig = {
-    subreddits: ['entrepreneur', 'startups'],
-    keywords: [],
-    exclude_keywords: [],
-    min_relevance: 65.0,
-    time_window_hours: 24,
-    max_per_subreddit: 5
-  };
 
   // Load content from store
   async function loadBlogPosts() {
@@ -97,24 +68,8 @@
         pendingPosts = parsed.filter(p => !p.approved);
         approvedPosts = parsed.filter(p => p.approved);
       }
-      calculateAnalytics();
     } catch (error) {
       console.error('Failed to load reddit posts:', error);
-      pendingPosts = [];
-      approvedPosts = [];
-    }
-  }
-
-  function loadRedditPostsFromLocalStorage() {
-    try {
-      const stored = localStorage.getItem(getRedditPostsKey());
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        pendingPosts = parsed.filter(p => !p.approved);
-        approvedPosts = parsed.filter(p => p.approved);
-      }
-    } catch (error) {
-      console.error('Failed to load reddit posts from localStorage:', error);
       pendingPosts = [];
       approvedPosts = [];
     }
@@ -141,7 +96,7 @@
         original_content_id: blogPost.id,
         title: `${blogPost.title} - Var ${i+1}`,
         content: `Reddit version ${i+1} of: ${blogPost.content.substring(0, 200)}...\n\n[AI-generated content]`,
-        suggested_subreddits: config?.subreddits || ['entrepreneur'],
+        suggested_subreddits: config?.subreddits?.length > 0 ? config.subreddits : ['entrepreneur'],
         thread_type: ['Educational', 'Question', 'Story'][i],
         created_at: new Date().toISOString(),
         approved: false
@@ -158,6 +113,7 @@
       generatingPosts = generatingPosts;
     }
   }
+
   function savePosts(contentId, contentTitle, posts) {
     try {
       const newEntry = {
@@ -173,6 +129,7 @@
       console.error('Failed to save posts:', error);
     }
   }
+
   function approvePost(entry, postIndex) {
     const entryIndex = pendingPosts.findIndex(e => e.id === entry.id);
     if (entryIndex === -1) return;
@@ -190,11 +147,13 @@
     pendingPosts = pendingPosts.filter(e => e.posts.length > 0);
     saveRedditPostsToLocalStorage();
   }
+
   function deleteApprovedPost(postId) {
     if (!confirm('Delete this post?')) return;
     approvedPosts = approvedPosts.filter(p => p.id !== postId);
     saveRedditPostsToLocalStorage();
   }
+
   async function copyPost(post) {
     const postText = `${post.title}\n\n${post.content}\n\nSubreddits: ${post.suggested_subreddits.join(', ')}`;
     try {
@@ -208,38 +167,6 @@
     } catch (error) {
       console.error('Failed to copy:', error);
     }
-  }
-
-  // Calculate analytics
-  function calculateAnalytics() {
-    const postedPosts = approvedPosts.filter(p => p.post.posted).map(p => p.post);
-    const totalKarma = postedPosts.reduce((sum, p) => sum + (p.karma || 0), 0);
-
-    analytics = {
-      totalKarma,
-      totalPosts: postedPosts.length,
-      avgKarma: postedPosts.length > 0 ? Math.round(totalKarma / postedPosts.length) : 0,
-      bestPerformers: [...postedPosts]
-        .sort((a, b) => (b.karma || 0) - (a.karma || 0))
-        .slice(0, 5),
-      topSubreddits: getTopSubreddits(postedPosts)
-    };
-    // Update profile karma
-    profile.postKarma = totalKarma;
-  }
-
-  function getTopSubreddits(posts) {
-    const subredditCounts = {};
-    posts.forEach(post => {
-      if (post.subreddit) {
-        subredditCounts[post.subreddit] = (subredditCounts[post.subreddit] || 0) + (post.karma || 0);
-      }
-    });
-
-    return Object.entries(subredditCounts)
-      .sort(([, a], [, b]) => b - a)
-      .slice(0, 5)
-      .map(([subreddit, karma]) => ({ subreddit, karma }));
   }
 
   // LocalStorage helpers
@@ -257,11 +184,25 @@
       if (stored) {
         config = JSON.parse(stored);
       } else {
-        config = { ...defaultConfig };
+        config = {
+          subreddits: [],
+          keywords: [],
+          exclude_keywords: [],
+          min_relevance: 65.0,
+          time_window_hours: 24,
+          max_per_subreddit: 5
+        };
       }
     } catch (error) {
       console.error('Failed to load config from localStorage:', error);
-      config = { ...defaultConfig };
+      config = {
+        subreddits: [],
+        keywords: [],
+        exclude_keywords: [],
+        min_relevance: 65.0,
+        time_window_hours: 24,
+        max_per_subreddit: 5
+      };
     }
   }
 
@@ -329,7 +270,6 @@
     if (redditSuccess === 'true' && redditUsernameParam) {
       successMessage = `Successfully connected to Reddit as u/${redditUsernameParam}`;
       showSuccessModal = true;
-      // Clean up URL
       window.history.replaceState({}, '', window.location.pathname);
     }
 
@@ -342,6 +282,7 @@
     });
 
     await loadBlogPosts();
+    
     await api.fetchProjectData(projectId, authToken, MAIN_BACKEND_URL).then(({ project, config: backendConfig }) => {
       projectData = project;
       if (backendConfig) {
@@ -372,16 +313,6 @@
     await loadRedditPosts();
 
     loading = false;
-
-    // Mock profile data
-    profile = {
-      username: redditUsername || 'u/' + (projectData?.business_name || 'yourbusiness').toLowerCase().replace(/\s+/g, ''),
-      joined: 'Joined Jan 2023',
-      description: 'Your Reddit bio here. Edit in settings.',
-      avatar: 'https://www.redditstatic.com/avatars/defaults/avatar_default_7.png',
-      postKarma: 0,
-      commentKarma: 0
-    };
   });
 
   async function connectReddit() {
@@ -477,33 +408,10 @@
   function closeSuccessModal() {
     showSuccessModal = false;
   }
+
   function goToPostsView() {
     showSuccessModal = false;
-    view = 'posts';
-  }
-  function scrollPostsLeft() {
-    postsScroll?.scrollBy({ left: -400, behavior: 'smooth' });
-  }
-  function scrollPostsRight() {
-    postsScroll?.scrollBy({ left: 400, behavior: 'smooth' });
-  }
-  function scrollBestLeft() {
-    bestScroll?.scrollBy({ left: -300, behavior: 'smooth' });
-  }
-  function scrollBestRight() {
-    bestScroll?.scrollBy({ left: 300, behavior: 'smooth' });
-  }
-  function scrollTopLeft() {
-    topScroll?.scrollBy({ left: -300, behavior: 'smooth' });
-  }
-  function scrollTopRight() {
-    topScroll?.scrollBy({ left: 300, behavior: 'smooth' });
-  }
-  function scrollOpportunitiesLeft() {
-    opportunitiesScroll?.scrollBy({ left: -400, behavior: 'smooth' });
-  }
-  function scrollOpportunitiesRight() {
-    opportunitiesScroll?.scrollBy({ left: 400, behavior: 'smooth' });
+    view = 'content-posts';
   }
 </script>
 
@@ -543,12 +451,18 @@
       {approvedPosts}
     />
 
-    {#if view === 'content'}
-      <ContentView
+    {#if view === 'content-posts'}
+      <ContentAndPostsView
         {blogPosts}
         {generatingPosts}
-        bind:hoveredPost
-        on:convertToRedditPost={convertToRedditPost}
+        bind:pendingPosts
+        bind:approvedPosts
+        {copiedIndex}
+        {projectData}
+        on:convertToRedditPost={(e) => convertToRedditPost(e.detail)}
+        on:approvePost={(e) => approvePost(e.detail.entry, e.detail.postIndex)}
+        on:deleteApprovedPost={(e) => deleteApprovedPost(e.detail.postId)}
+        on:copyPost={(e) => copyPost(e.detail.post)}
       />
     {:else if view === 'opportunities'}
       <OpportunitiesView
@@ -557,17 +471,7 @@
         on:updateOpportunity={(e) => updateOpportunity(e.detail.id, e.detail.updates)}
         on:copyResponse={(e) => copyResponse(e.detail.text)}
       />
-    {:else if view === 'posts'}
-      <PostsView
-        bind:pendingPosts
-        bind:approvedPosts
-        {copiedIndex}
-        {projectData}
-        on:approvePost={(e) => approvePost(e.detail.entry, e.detail.postIndex)}
-        on:deleteApprovedPost={(e) => deleteApprovedPost(e.detail.postId)}
-        on:copyPost={(e) => copyPost(e.detail.post)}
-      />
-      {:else if view === 'profile'}
+    {:else if view === 'profile'}
       <ProfileView
         {projectId}
         {filteredOpportunities}
@@ -590,30 +494,6 @@
 />
 
 <style>
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 4px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 2px;
-  }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  .scrollbar-hide {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .animate-fadeIn {
-    animation: fadeIn 0.2s ease-out;
-  }
   .line-clamp-1 {
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -626,7 +506,6 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-
   .line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;

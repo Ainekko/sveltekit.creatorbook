@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher, onMount } from 'svelte';
-  import { TrendingUp, Target, BarChart3, FileText, User, RefreshCw } from 'lucide-svelte';
+  import { TrendingUp, Target, BarChart3, Globe, Briefcase, Users, RefreshCw, ExternalLink } from 'lucide-svelte';
   import { ArrowUpRight } from 'lucide-svelte';
   import * as api from '$lib/components/elio/api';
   import { API_BASE_URL } from '$lib/config';
@@ -13,38 +13,38 @@
   const authToken = localStorage.getItem('token');
   
   let loading = true;
-  let profile = null;
+  let projectData = null;
   let analytics = null;
   let error = null;
   let refreshing = false;
   
   let opportunitiesScroll;
   let postsScroll;
-  let bestScroll;
   let topScroll;
 
-  async function loadProfile() {
+  async function loadProjectProfile() {
     loading = true;
     error = null;
     
     try {
-      const data = await api.fetchProfile(projectId, authToken, API_BASE_URL);
-      profile = data.profile;
-      analytics = data.analytics;
+      const data = await api.fetchProjectData(projectId, authToken, API_BASE_URL);
+      projectData = data.project;
+      
+      // Calculate analytics from opportunities
+      analytics = calculateAnalytics();
+      
     } catch (err) {
-      console.error('Failed to load profile:', err);
+      console.error('Failed to load project:', err);
       error = err.message;
       
-      // Fallback to mock data if API fails
-      profile = {
-        username: 'u/yourbusiness',
-        reddit_username: 'yourbusiness',
-        avatar: 'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_7.png',
-        description: 'No bio set',
-        joined: 'Joined recently',
-        post_karma: 0,
-        comment_karma: 0,
-        total_karma: 0
+      // Fallback
+      projectData = {
+        business_name: 'Your Business',
+        url: '',
+        description: 'No description available',
+        target_audience: 'General audience',
+        industry: 'Technology',
+        tone: 'Professional'
       };
       
       analytics = {
@@ -61,15 +61,57 @@
     }
   }
 
+  function calculateAnalytics() {
+    const total = filteredOpportunities.length;
+    const active = filteredOpportunities.filter(o => !o.is_dismissed && !o.is_responded).length;
+    const responded = filteredOpportunities.filter(o => o.is_responded).length;
+    
+    const avgRelevance = total > 0 
+      ? filteredOpportunities.reduce((sum, o) => sum + o.relevance_score, 0) / total 
+      : 0;
+    
+    // Top subreddits by count
+    const subredditCounts = {};
+    filteredOpportunities.forEach(o => {
+      subredditCounts[o.subreddit] = (subredditCounts[o.subreddit] || 0) + 1;
+    });
+    
+    const topSubreddits = Object.entries(subredditCounts)
+      .map(([subreddit, count]) => ({ subreddit, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5);
+    
+    // Best opportunities by relevance
+    const bestOpportunities = [...filteredOpportunities]
+      .filter(o => !o.is_dismissed)
+      .sort((a, b) => b.relevance_score - a.relevance_score)
+      .slice(0, 5);
+    
+    return {
+      total_opportunities: total,
+      active_opportunities: active,
+      responded_opportunities: responded,
+      avg_relevance: Math.round(avgRelevance * 10) / 10,
+      top_subreddits: topSubreddits,
+      best_opportunities: bestOpportunities,
+      response_rate: total > 0 ? Math.round((responded / total) * 100) : 0
+    };
+  }
+
   async function handleRefresh() {
     refreshing = true;
-    await loadProfile();
+    await loadProjectProfile();
     refreshing = false;
   }
   
   onMount(() => {
-    loadProfile();
+    loadProjectProfile();
   });
+
+  // Update analytics when opportunities change
+  $: if (filteredOpportunities) {
+    analytics = calculateAnalytics();
+  }
 
   function scrollOpportunitiesLeft() {
     opportunitiesScroll?.scrollBy({ left: -400, behavior: 'smooth' });
@@ -83,28 +125,32 @@
   function scrollPostsRight() {
     postsScroll?.scrollBy({ left: 400, behavior: 'smooth' });
   }
-  function scrollBestLeft() {
-    bestScroll?.scrollBy({ left: -300, behavior: 'smooth' });
-  }
-  function scrollBestRight() {
-    bestScroll?.scrollBy({ left: 300, behavior: 'smooth' });
-  }
   function scrollTopLeft() {
     topScroll?.scrollBy({ left: -300, behavior: 'smooth' });
   }
   function scrollTopRight() {
     topScroll?.scrollBy({ left: 300, behavior: 'smooth' });
   }
+
+  function getInitials(name) {
+    if (!name) return '?';
+    return name
+      .split(' ')
+      .map(word => word[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  }
 </script>
 
 {#if loading}
   <div class="text-center py-12">
     <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
-    <p class="text-zinc-500 mt-4">Loading profile...</p>
+    <p class="text-zinc-500 mt-4">Loading project profile...</p>
   </div>
 {:else if error}
   <div class="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-    <p class="text-red-800 font-medium mb-2">Failed to load profile</p>
+    <p class="text-red-800 font-medium mb-2">Failed to load project</p>
     <p class="text-sm text-red-600 mb-4">{error}</p>
     <button
       on:click={handleRefresh}
@@ -117,7 +163,7 @@
   <div class="space-y-6">
     <!-- Header with Refresh Button -->
     <div class="flex items-center justify-between">
-      <h2 class="text-2xl font-bold text-zinc-900">Reddit Profile & Analytics</h2>
+      <h2 class="text-2xl font-bold text-zinc-900">Project Profile & Analytics</h2>
       <button
         on:click={handleRefresh}
         disabled={refreshing}
@@ -128,59 +174,59 @@
       </button>
     </div>
 
-    <!-- Profile Card -->
+    <!-- Project Card -->
     <div class="bg-white rounded-xl border border-zinc-200 p-6 shadow-xl">
       <h3 class="text-lg font-semibold text-zinc-900 mb-4 flex items-center gap-2">
-        <User class="w-5 h-5 text-orange-600" />
-        Reddit Profile
+        <Briefcase class="w-5 h-5 text-orange-600" />
+        Project Overview
       </h3>
       <div class="flex items-start gap-4 mb-6">
-        <img src="{profile.avatar}" alt="Avatar" class="w-16 h-16 rounded-full shadow-md" />
+        <!-- Project Avatar/Icon -->
+        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white text-2xl font-bold shadow-md">
+          {getInitials(projectData.business_name)}
+        </div>
+        
         <div class="flex-1">
-          <h4 class="font-bold text-xl text-zinc-900">{profile.username}</h4>
-          <p class="text-sm text-zinc-600">{profile.joined}</p>
-          <p class="text-sm text-zinc-600 mt-2">{profile.description}</p>
-          {#if profile.verified}
-            <span class="inline-block mt-2 text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded font-medium">
-              ✓ Verified
-            </span>
+          <h4 class="font-bold text-xl text-zinc-900">{projectData.business_name || 'Unnamed Project'}</h4>
+          {#if projectData.url}
+            <a 
+              href={projectData.url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="text-sm text-orange-600 hover:text-orange-700 flex items-center gap-1 mt-1"
+            >
+              <Globe class="w-3 h-3" />
+              {projectData.url}
+              <ExternalLink class="w-3 h-3" />
+            </a>
           {/if}
-          {#if profile.is_gold}
-            <span class="inline-block mt-2 text-xs px-2 py-1 bg-amber-100 text-amber-800 rounded font-medium">
-              🏆 Reddit Premium
-            </span>
-          {/if}
+          <p class="text-sm text-zinc-600 mt-2">{projectData.description || 'No description available'}</p>
+          
+          <div class="flex flex-wrap gap-2 mt-3">
+            {#if projectData.industry}
+              <span class="inline-block text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded font-medium">
+                {projectData.industry}
+              </span>
+            {/if}
+            {#if projectData.tone}
+              <span class="inline-block text-xs px-2 py-1 bg-purple-100 text-purple-800 rounded font-medium">
+                {projectData.tone}
+              </span>
+            {/if}
+          </div>
         </div>
       </div>
       
-      <div class="space-y-4">
-        <div>
-          <div class="flex items-center justify-between mb-1">
-            <p class="text-sm font-medium text-zinc-700">Post Karma</p>
-            <p class="text-sm text-zinc-600">{profile.post_karma.toLocaleString()}</p>
+      <!-- Target Audience Section -->
+      {#if projectData.target_audience}
+        <div class="mt-4 p-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-lg border border-orange-100">
+          <div class="flex items-center gap-2 mb-2">
+            <Users class="w-4 h-4 text-orange-600" />
+            <p class="text-sm font-semibold text-orange-900">Target Audience</p>
           </div>
-          <div class="bg-zinc-200 rounded-full h-2.5 overflow-hidden">
-            <div class="bg-gradient-to-r from-orange-600 to-amber-600 h-2.5 rounded-full transition-all duration-500" style="width: {Math.min(profile.post_karma / 1000 * 100, 100)}%"></div>
-          </div>
+          <p class="text-sm text-zinc-700">{projectData.target_audience}</p>
         </div>
-        
-        <div>
-          <div class="flex items-center justify-between mb-1">
-            <p class="text-sm font-medium text-zinc-700">Comment Karma</p>
-            <p class="text-sm text-zinc-600">{profile.comment_karma.toLocaleString()}</p>
-          </div>
-          <div class="bg-zinc-200 rounded-full h-2.5 overflow-hidden">
-            <div class="bg-gradient-to-r from-orange-600 to-amber-600 h-2.5 rounded-full transition-all duration-500" style="width: {Math.min(profile.comment_karma / 1000 * 100, 100)}%"></div>
-          </div>
-        </div>
-        
-        <div>
-          <div class="flex items-center justify-between mb-1">
-            <p class="text-sm font-medium text-zinc-700">Total Karma</p>
-            <p class="text-lg font-bold text-orange-600">{profile.total_karma.toLocaleString()}</p>
-          </div>
-        </div>
-      </div>
+      {/if}
     </div>
 
     <!-- Analytics Stats Grid -->
@@ -225,7 +271,7 @@
       </div>
     </div>
 
-    <!-- Best Opportunities from Analytics -->
+    <!-- Best Opportunities -->
     {#if analytics.best_opportunities.length > 0}
       <div class="bg-white rounded-xl border border-zinc-200 p-6 shadow-xl">
         <div class="flex items-center justify-between mb-4">
@@ -280,7 +326,7 @@
         <div class="flex items-center justify-between mb-4">
           <div class="flex items-center gap-2">
             <Target class="w-5 h-5 text-blue-600" />
-            <h3 class="text-lg font-semibold text-zinc-900">Top Subreddits by Activity</h3>
+            <h3 class="text-lg font-semibold text-zinc-900">Top Subreddits for {projectData.business_name}</h3>
           </div>
           <div class="flex gap-2">
             <button
@@ -313,11 +359,11 @@
       </div>
     {/if}
 
-    <!-- Approved Posts (from parent component) -->
+    <!-- Approved Posts -->
     {#if approvedPosts.length > 0}
       <div class="bg-white rounded-xl border border-zinc-200 p-6 shadow-xl">
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-lg font-semibold text-zinc-900">Reddit Posts</h3>
+          <h3 class="text-lg font-semibold text-zinc-900">Reddit Posts for {projectData.business_name}</h3>
           <div class="flex gap-2">
             <button
               on:click={scrollPostsLeft}

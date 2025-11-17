@@ -1,50 +1,74 @@
 <!-- src/lib/components/elio/ViewTabs.svelte -->
 <script>
-    import { FileText, Target, Sparkles, User, Settings } from 'lucide-svelte';
+  import { FileText, Target, User, Settings } from 'lucide-svelte';
   
-    export let view;
-    export let blogPosts;
-    export let filteredOpportunities;
-    export let pendingPosts;
-    export let approvedPosts;
-  </script>
-  
-  <div class="overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
-    <div class="flex gap-2 border-b border-zinc-200 min-w-max">
+  export let view;
+  export let blogPosts = [];
+  export let filteredOpportunities = [];
+  export let pendingPosts = [];
+  export let approvedPosts = [];
+
+  const tabs = [
+    {
+      id: 'content-posts',
+      label: 'Content & Posts',
+      icon: FileText,
+      count: blogPosts.length + pendingPosts.length + approvedPosts.length
+    },
+    {
+      id: 'opportunities',
+      label: 'Opportunities',
+      icon: Target,
+      count: filteredOpportunities.length
+    },
+    {
+      id: 'profile',
+      label: 'Profile',
+      icon: User,
+      count: null
+    },
+    {
+      id: 'config',
+      label: 'Configuration',
+      icon: Settings,
+      count: null
+    }
+  ];
+</script>
+
+<div class="mb-6 border-b border-zinc-200">
+  <div class="flex gap-2 overflow-x-auto scrollbar-hide">
+    {#each tabs as tab}
       <button
-        on:click={() => view = 'content'}
-        class="inline-flex items-center gap-2 px-4 py-2 font-medium text-sm transition-colors whitespace-nowrap {view === 'content' ? 'text-zinc-900 border-b-2 border-zinc-900' : 'text-zinc-500 hover:text-zinc-700'}"
+        on:click={() => view = tab.id}
+        class="flex items-center gap-2 px-4 py-3 border-b-2 transition-all whitespace-nowrap {
+          view === tab.id
+            ? 'border-orange-600 text-orange-600 font-semibold'
+            : 'border-transparent text-zinc-600 hover:text-zinc-900 hover:border-zinc-300'
+        }"
       >
-        <FileText class="w-4 h-4" />
-        Content ({blogPosts.length})
+        <svelte:component this={tab.icon} class="w-4 h-4" />
+        <span>{tab.label}</span>
+        {#if tab.count !== null}
+          <span class="px-2 py-0.5 rounded-full text-xs font-medium {
+            view === tab.id
+              ? 'bg-orange-100 text-orange-700'
+              : 'bg-zinc-100 text-zinc-600'
+          }">
+            {tab.count}
+          </span>
+        {/if}
       </button>
-      <button
-        on:click={() => view = 'opportunities'}
-        class="inline-flex items-center gap-2 px-4 py-2 font-medium text-sm transition-colors whitespace-nowrap {view === 'opportunities' ? 'text-zinc-900 border-b-2 border-zinc-900' : 'text-zinc-500 hover:text-zinc-700'}"
-      >
-        <Target class="w-4 h-4" />
-        Opportunities ({filteredOpportunities.length})
-      </button>
-      <button
-        on:click={() => view = 'posts'}
-        class="inline-flex items-center gap-2 px-4 py-2 font-medium text-sm transition-colors whitespace-nowrap {view === 'posts' ? 'text-zinc-900 border-b-2 border-zinc-900' : 'text-zinc-500 hover:text-zinc-700'}"
-      >
-        <Sparkles class="w-4 h-4" />
-        Posts ({pendingPosts.length + approvedPosts.length})
-      </button>
-      <button
-        on:click={() => view = 'profile'}
-        class="inline-flex items-center gap-2 px-4 py-2 font-medium text-sm transition-colors whitespace-nowrap {view === 'profile' ? 'text-zinc-900 border-b-2 border-zinc-900' : 'text-zinc-500 hover:text-zinc-700'}"
-      >
-        <User class="w-4 h-4" />
-        Profile
-      </button>
-      <button
-        on:click={() => view = 'config'}
-        class="inline-flex items-center gap-2 px-4 py-2 font-medium text-sm transition-colors whitespace-nowrap {view === 'config' ? 'text-zinc-900 border-b-2 border-zinc-900' : 'text-zinc-500 hover:text-zinc-700'}"
-      >
-        <Settings class="w-4 h-4" />
-        Config
-      </button>
-    </div>
+    {/each}
   </div>
+</div>
+
+<style>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

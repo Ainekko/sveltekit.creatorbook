@@ -1,7 +1,8 @@
 <!-- src/lib/components/elio/ContentView.svelte -->
 <script>
     import { createEventDispatcher } from 'svelte';
-    import { Sparkles } from 'lucide-svelte';
+    import { Sparkles, FileText,  } from 'lucide-svelte';
+
   
     export let blogPosts;
     export let generatingPosts;
