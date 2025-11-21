@@ -5,7 +5,6 @@
   import { browser } from '$app/environment';
   import { contentStore } from '$lib/components/nai/stores';
   import { WORKER_API_URL, API_BASE_URL } from '$lib/config';
-
   import * as api from '$lib/components/elio/api';
 
   import SuccessModal from '$lib/components/elio/SuccessModal.svelte';
@@ -17,12 +16,10 @@
   import ProfileView from '$lib/components/elio/ProfileView.svelte';
   import ConfigView from '$lib/components/elio/ConfigView.svelte';
 
-  // Get project ID from URL
   $: projectId = $page.params.id;
   $: blogPosts = $contentStore.blogPosts || [];
   let authToken = localStorage.getItem('token');
 
-  // Configuration from parent component or environment
   const MAIN_BACKEND_URL = API_BASE_URL;
   const WORKER_URL = WORKER_API_URL;
 
@@ -46,6 +43,7 @@
   let successMessage = '';
   let copiedIndex = null;
   let currentCopiedTimer;
+  let includeComments = true; // NEW: toggle for comment scanning
 
   // Reddit Auth State
   let redditConnected = false;
@@ -53,12 +51,10 @@
   let redditConnecting = false;
   let checkingRedditAuth = true;
 
-  // Load content from store
   async function loadBlogPosts() {
     await contentStore.loadBlogPosts(projectId);
   }
 
-  // Reddit Posts Management
   async function loadRedditPosts() {
     if (!browser) return;
     try {
@@ -84,30 +80,47 @@
     }
   }
 
-  // Convert blog post to Reddit post
+  // 🆕 Enhanced conversion using new expand API
   async function convertToRedditPost(blogPost) {
     generatingPosts.add(blogPost.id);
     generatingPosts = generatingPosts;
+    
     try {
-      // TODO: Call AI service to generate Reddit posts
-      // Placeholder: generate 3 variations
-      const variations = Array.from({length: 3}, (_, i) => ({
-        id: `post_${Date.now()}_${i}`,
-        original_content_id: blogPost.id,
-        title: `${blogPost.title} - Var ${i+1}`,
-        content: `Reddit version ${i+1} of: ${blogPost.content.substring(0, 200)}...\n\n[AI-generated content]`,
-        suggested_subreddits: config?.subreddits?.length > 0 ? config.subreddits : ['entrepreneur'],
-        thread_type: ['Educational', 'Question', 'Story'][i],
-        created_at: new Date().toISOString(),
-        approved: false
-      }));
-      savePosts(blogPost.id, blogPost.title, variations);
+      const targetSubreddits = config?.subreddits?.length > 0 
+        ? config.subreddits 
+        : ['entrepreneur', 'startups'];
 
-      successMessage = `Generated 3 Reddit post variations for "${blogPost.title}"`;
-      showSuccessModal = true;
+      const result = await api.expandContentToReddit(
+        blogPost,
+        projectData,
+        targetSubreddits,
+        WORKER_URL,
+        3 // Generate 3 variations
+      );
+
+      if (result.success && result.expansion.expanded_variations.length > 0) {
+        const variations = result.expansion.expanded_variations.map((v, i) => ({
+          id: `post_${Date.now()}_${i}`,
+          original_content_id: blogPost.id,
+          title: v.title,
+          content: v.content,
+          suggested_subreddits: v.suggested_subreddits,
+          thread_type: v.thread_type,
+          hook_type: v.hook_type,
+          reasoning: v.reasoning,
+          created_at: new Date().toISOString(),
+          approved: false
+        }));
+
+        savePosts(blogPost.id, blogPost.title, variations);
+        successMessage = `Generated ${variations.length} Reddit post variations for "${blogPost.title}"`;
+        showSuccessModal = true;
+      } else {
+        throw new Error('No variations generated');
+      }
     } catch (error) {
       console.error('Error converting to Reddit post:', error);
-      alert('Failed to convert content to Reddit post');
+      alert('Failed to convert content to Reddit post: ' + error.message);
     } finally {
       generatingPosts.delete(blogPost.id);
       generatingPosts = generatingPosts;
@@ -146,6 +159,8 @@
     approvedPosts = [approvedEntry, ...approvedPosts];
     pendingPosts = pendingPosts.filter(e => e.posts.length > 0);
     saveRedditPostsToLocalStorage();
+    successMessage = 'Post approved and ready to share!';
+    showSuccessModal = true;
   }
 
   function deleteApprovedPost(postId) {
@@ -155,7 +170,7 @@
   }
 
   async function copyPost(post) {
-    const postText = `${post.title}\n\n${post.content}\n\nSubreddits: ${post.suggested_subreddits.join(', ')}`;
+    const postText = `${post.title}\n\n${post.content}\n\nTarget Subreddits: ${post.suggested_subreddits.join(', ')}`;
     try {
       await navigator.clipboard.writeText(postText);
       if (currentCopiedTimer) clearTimeout(currentCopiedTimer);
@@ -169,7 +184,6 @@
     }
   }
 
-  // LocalStorage helpers
   function saveConfigToLocalStorage(cfg) {
     try {
       localStorage.setItem(getConfigKey(), JSON.stringify(cfg));
@@ -226,17 +240,16 @@
     }
   }
 
-  // Copy response to clipboard
   async function copyResponse(text) {
     try {
       await navigator.clipboard.writeText(text);
-      alert('Response copied to clipboard!');
+      successMessage = 'Response copied to clipboard!';
+      showSuccessModal = true;
     } catch (error) {
       console.error('Failed to copy:', error);
     }
   }
 
-  // Mark opportunity as responded/dismissed
   function updateOpportunity(opportunityId, updates) {
     opportunities = opportunities.map(opp =>
       opp.id === opportunityId ? { ...opp, ...updates } : opp
@@ -250,7 +263,6 @@
     }
   }
 
-  // Clear dismissed opportunities
   function clearDismissed() {
     if (confirm('Remove all dismissed opportunities?')) {
       opportunities = opportunities.filter(o => !o.is_dismissed);
@@ -258,11 +270,11 @@
     }
   }
 
-  // Filter opportunities
-  $: filteredOpportunities = opportunities.filter(o => !o.is_dismissed).sort((a, b) => new Date(b.scanned_at) - new Date(a.scanned_at));
+  $: filteredOpportunities = opportunities
+    .filter(o => !o.is_dismissed)
+    .sort((a, b) => new Date(b.scanned_at) - new Date(a.scanned_at));
 
   onMount(async () => {
-    // Check for Reddit OAuth success
     const urlParams = new URLSearchParams(window.location.search);
     const redditSuccess = urlParams.get('reddit_success');
     const redditUsernameParam = urlParams.get('username');
@@ -311,7 +323,6 @@
     });
 
     await loadRedditPosts();
-
     loading = false;
   });
 
@@ -335,7 +346,8 @@
       await api.disconnectReddit(authToken, MAIN_BACKEND_URL);
       redditConnected = false;
       redditUsername = null;
-      alert('Reddit account disconnected successfully');
+      successMessage = 'Reddit account disconnected successfully';
+      showSuccessModal = true;
     } catch (error) {
       alert('Failed to disconnect Reddit account');
     }
@@ -352,7 +364,8 @@
     scanning = true;
 
     try {
-      const result = await api.scanOpportunities(projectData, config, WORKER_URL);
+      const result = await api.scanOpportunities(projectData, config, WORKER_URL, includeComments);
+      
       if (result.opportunities && result.opportunities.length > 0) {
         const newOpportunities = result.opportunities.map(opp => ({
           ...opp,
@@ -369,12 +382,19 @@
           try {
             await api.saveOpportunitiesToBackend(uniqueNew, projectId, authToken, MAIN_BACKEND_URL);
             opportunities = [...uniqueNew, ...opportunities];
-            alert(`Found ${uniqueNew.length} new opportunities and saved to backend!`);
+            
+            const summary = result.summary || {};
+            const frustrated = summary.by_frustration?.frustrated || 0;
+            const desperate = summary.by_frustration?.desperate || 0;
+            
+            successMessage = `Found ${uniqueNew.length} new opportunities! ${frustrated + desperate > 0 ? `Including ${frustrated + desperate} high-priority leads.` : ''}`;
+            showSuccessModal = true;
           } catch (backendError) {
             console.error('Failed to save to backend, using localStorage fallback:', backendError);
             opportunities = [...uniqueNew, ...opportunities];
             saveOpportunitiesToLocalStorage(opportunities);
-            alert(`Found ${uniqueNew.length} new opportunities! (Saved locally - backend unavailable)`);
+            successMessage = `Found ${uniqueNew.length} new opportunities (saved locally)`;
+            showSuccessModal = true;
           }
         } else {
           alert('No new opportunities found (all duplicates)');
@@ -395,10 +415,12 @@
 
       try {
         await api.saveConfig(projectId, config, authToken, MAIN_BACKEND_URL);
-        alert('Configuration saved to server and locally!');
+        successMessage = 'Configuration saved successfully!';
+        showSuccessModal = true;
       } catch (backendError) {
         console.error('Backend save failed, but localStorage succeeded:', backendError);
-        alert('Configuration saved locally!');
+        successMessage = 'Configuration saved locally!';
+        showSuccessModal = true;
       }
     } catch (error) {
       alert('Failed to save configuration');
@@ -417,9 +439,9 @@
 
 <div class="max-w-screen-2xl mx-auto p-4 sm:p-6">
   {#if loading || checkingRedditAuth}
-    <div class="text-center py-12">
-      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-zinc-900 mx-auto"></div>
-      <p class="text-zinc-500 mt-4">Loading Elio...</p>
+    <div class="text-center py-16">
+      <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-600 mx-auto"></div>
+      <p class="text-zinc-600 mt-4 font-medium">Loading Elio...</p>
     </div>
   {:else}
     <Header
@@ -459,6 +481,8 @@
         bind:approvedPosts
         {copiedIndex}
         {projectData}
+        {config}
+        workerUrl={WORKER_URL}
         on:convertToRedditPost={(e) => convertToRedditPost(e.detail)}
         on:approvePost={(e) => approvePost(e.detail.entry, e.detail.postIndex)}
         on:deleteApprovedPost={(e) => deleteApprovedPost(e.detail.postId)}
@@ -480,6 +504,7 @@
     {:else if view === 'config'}
       <ConfigView
         bind:config
+        bind:includeComments
         on:saveConfig={saveConfig}
       />
     {/if}
@@ -492,24 +517,3 @@
   on:close={closeSuccessModal}
   on:goToPostsView={goToPostsView}
 />
-
-<style>
-  .line-clamp-1 {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-</style>
