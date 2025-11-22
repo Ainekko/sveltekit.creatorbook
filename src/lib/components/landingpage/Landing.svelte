@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	// import FloatingQuestions from './FloatingQuestions.svelte';
 	import HeroContent from './HeroContent.svelte';
+	import ProblemSection from './ProblemSection.svelte';
 	import AgentsSection from './AgentsSection.svelte';
 	import GetStartedBar from './GetStartedBar.svelte';
 	import PerfectFor from './PerfectFor.svelte';
@@ -132,7 +133,9 @@
 		</div>
 	</div>
 
-	<DashboardSection />
+	<!-- <DashboardSection /> -->
+
+	<ProblemSection />
 
 	<div class="relative z-10 bg-white pb-12">
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
