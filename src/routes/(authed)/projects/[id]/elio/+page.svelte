@@ -101,36 +101,34 @@
 		generatingPosts = generatingPosts;
 
 		try {
-			const targetSubreddits =
-				config?.subreddits?.length > 0 ? config.subreddits : ['entrepreneur', 'startups'];
-
+			// Call the new backend endpoint that handles expansion via worker
 			const result = await api.expandContentToReddit(
-				blogPost,
-				projectData,
-				targetSubreddits,
-				WORKER_URL,
-				3 // Generate 3 variations
+				projectId,
+				blogPost.id,
+				authToken,
+				MAIN_BACKEND_URL
 			);
 
-			if (result.success && result.expansion.expanded_variations.length > 0) {
-				const variations = result.expansion.expanded_variations.map((v, i) => ({
-					id: `post_${Date.now()}_${i}`,
+			// Backend returns { success: true, post: {...} }
+			if (result.success && result.post) {
+				const post = {
+					id: result.post.id,
 					original_content_id: blogPost.id,
-					title: v.title,
-					content: v.content,
-					suggested_subreddits: v.suggested_subreddits,
-					thread_type: v.thread_type,
-					hook_type: v.hook_type,
-					reasoning: v.reasoning,
-					created_at: new Date().toISOString(),
+					title: result.post.title,
+					content: result.post.content,
+					suggested_subreddits: result.post.suggested_subreddits,
+					thread_type: result.post.thread_type,
+					hook_type: result.post.hook_type,
+					reasoning: result.post.reasoning,
+					created_at: result.post.created_at,
 					approved: false
-				}));
+				};
 
-				savePosts(blogPost.id, blogPost.title, variations);
-				successMessage = `Generated ${variations.length} Reddit post variations for "${blogPost.title}"`;
+				savePosts(blogPost.id, blogPost.title, [post]);
+				successMessage = `Generated Reddit post for "${blogPost.title}"`;
 				showSuccessModal = true;
 			} else {
-				throw new Error('No variations generated');
+				throw new Error('No post generated');
 			}
 		} catch (error) {
 			console.error('Error converting to Reddit post:', error);
@@ -395,7 +393,7 @@
 		}, 3000);
 
 		try {
-			const result = await api.scanOpportunities(projectData, config, WORKER_URL, includeComments);
+			const result = await api.scanOpportunities(projectId, authToken, MAIN_BACKEND_URL);
 
 			clearInterval(stepInterval);
 			scanStep = 3; // Final step

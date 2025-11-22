@@ -45,31 +45,31 @@
 	};
 </script>
 
-<div
-	class="mb-8 relative z-10 w-4/5 max-w-[500px] mx-auto gap-2 flex flex-col justify-center items-center"
->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
 	<div
-		class="bg-zinc-800/10 text-black backdrop-blur-sm rounded-xl shadow-lg shadow-black/20 border p-1 flex flex-col w-full justify-center items-center md:flex-row overflow-x-auto no-scrollbar"
+		class="bg-zinc-900/80 backdrop-blur-xl border border-zinc-800/50 p-1.5 rounded-full shadow-2xl shadow-black/50 flex items-center gap-1"
 	>
 		{#each mappedNavItems as item}
+			{@const active = isActive(item.href)}
 			<a
 				href={item.href}
-				class="w-full md:w-auto px-6 py-3 rounded-lg text-sm font-medium flex items-center gap-2 min-w-max transition-all duration-200 {isActive(
-					item.href
-				)
-					? 'bg-zinc-800 text-zinc-200'
-					: 'text-zinc-800 hover:bg-zinc-800 hover:text-zinc-200'}"
+				class="relative px-5 py-2.5 rounded-full text-sm font-medium flex items-center gap-2.5 transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group
+          {active ? 'text-zinc-900' : 'text-zinc-400 hover:text-zinc-200'}"
 			>
-				{@html item.icon}
-				{item.title}
+				{#if active}
+					<div
+						class="absolute inset-0 bg-white rounded-full shadow-sm transition-all duration-300"
+						style="view-transition-name: nav-active-bg"
+					></div>
+				{/if}
+				<span class="relative z-10 flex items-center gap-2.5">
+					<span class="w-4 h-4 [&>svg]:w-full [&>svg]:h-full [&>svg]:stroke-[2.5]">
+						{@html item.icon}
+					</span>
+					{item.title}
+				</span>
 			</a>
 		{/each}
-
-		<div class="ml-auto px-2 flex justify-center items-center">
-			<button class="p-2 rounded-lg text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200">
-				<span class="i-mdi-dots-horizontal"></span>
-			</button>
-		</div>
 	</div>
 </div>
 

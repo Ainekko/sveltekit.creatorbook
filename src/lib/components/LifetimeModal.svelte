@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	
+
 	let showModal = false;
 	let spotsRemaining = 10;
 	let isClosing = false;
@@ -28,119 +28,170 @@
 
 {#if showModal}
 	<!-- Backdrop -->
-	<div 
-		class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 {isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}"
+	<div
+		class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 {isClosing
+			? 'animate-fadeOut'
+			: 'animate-fadeIn'}"
 		on:click={closeModal}
 		role="presentation"
 	>
 		<!-- Modal -->
-		<div 
-			class="relative max-w-2xl  w-full bg-zinc-950 rounded-3xl border border-amber-500/50 shadow-2xl shadow-amber-500/20 overflow-y-auto {isClosing ? 'animate-scaleOut' : 'animate-scaleIn'}"
+		<div
+			class="relative max-w-2xl w-full bg-white rounded-[2.5rem] p-2 shadow-2xl overflow-hidden {isClosing
+				? 'animate-scaleOut'
+				: 'animate-scaleIn'}"
 			on:click|stopPropagation
 			role="dialog"
 			aria-modal="true"
 			aria-labelledby="modal-title"
 		>
 			<!-- Close Button -->
-			<button 
+			<button
 				on:click={closeModal}
-				class="absolute top-6 right-6 z-10 text-zinc-400 hover:text-white transition-colors"
+				class="absolute top-6 right-6 z-10 text-zinc-400 hover:text-zinc-900 transition-colors bg-white rounded-full p-1 shadow-sm"
 				aria-label="Close modal"
 			>
-				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+				<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M6 18L18 6M6 6l12 12"
+					></path>
 				</svg>
 			</button>
 
-			<!-- Animated Gradient Background -->
-			<div class="absolute inset-0 bg-gradient-to-br from-amber-500/10 via-orange-500/10 to-red-600/10 animate-gradient"></div>
-			
-			<!-- Content -->
-			<div class="relative p-6 md:p-8">
-				<!-- Celebration Icon -->
-				<div class="flex justify-center mb-4">
-					<div class="relative">
-						<div class="absolute inset-0 bg-gradient-to-r from-amber-400 to-red-600 rounded-full blur-xl opacity-50 animate-pulse"></div>
-						<div class="relative w-16 h-16 bg-gradient-to-r from-amber-400 to-red-600 rounded-full flex items-center justify-center">
-							<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+			<!-- Inner Content with Amber Accent -->
+			<div class="bg-amber-50/30 rounded-[2rem] p-8 md:p-12 relative overflow-hidden">
+				<!-- Background Glow -->
+				<div
+					class="absolute top-0 right-0 w-64 h-64 bg-amber-200/20 rounded-full blur-3xl pointer-events-none"
+				></div>
+
+				<div class="relative z-10">
+					<!-- Star Icon -->
+					<div class="flex justify-center mb-6">
+						<div
+							class="w-20 h-20 rounded-full bg-gradient-to-b from-white to-amber-50 border border-amber-200 shadow-lg flex items-center justify-center"
+						>
+							<svg class="w-10 h-10 text-amber-500 fill-amber-500" viewBox="0 0 24 24">
+								<path
+									d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+								/>
 							</svg>
 						</div>
 					</div>
-				</div>
 
-				<!-- Headline -->
-				<h2 id="modal-title" class="text-2xl md:text-3xl font-bold text-white text-center mb-2">
-					🎉 Congratulations!
-				</h2>
-				<p class="text-lg text-amber-400 text-center font-semibold mb-4">
-					You're Eligible for Our Lifetime Deal
-				</p>
-
-				<!-- Spots Remaining Badge -->
-				<div class="flex justify-center mb-5">
-					<div class="bg-gradient-to-r from-red-600 to-orange-600 px-5 py-1.5 rounded-full border border-red-400/30 animate-pulse">
-						<p class="text-white font-bold text-xs flex items-center gap-2">
-							<svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-							</svg>
-							Only {spotsRemaining} Spots Remaining
-						</p>
-					</div>
-				</div>
-
-				<!-- Features -->
-				<div class="bg-zinc-900/50 rounded-2xl p-5 mb-5 border border-zinc-800">
-					<div class="text-center mb-4">
-						<div class="text-4xl font-bold text-white mb-1">
-							$299
-							<span class="text-base font-normal text-zinc-400 ml-2">one-time</span>
-						</div>
-						<p class="text-amber-400 font-medium text-sm">Pay once. Market forever.</p>
+					<!-- Headline -->
+					<div
+						class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-xs font-bold mb-4 border border-amber-200 mx-auto block w-fit"
+					>
+						<svg class="w-3 h-3 fill-amber-700" viewBox="0 0 24 24">
+							<path
+								d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+							/>
+						</svg>
+						LIMITED TIME OFFER
 					</div>
 
-					<div class="space-y-2.5">
-						{#each [
-							'20 projects included',
-							'All AI agents with priority execution',
-							'Advanced analytics & A/B testing',
-							'Custom content templates',
-							'Lifetime updates & support',
-							'API access',
-							'Early access to new features'
-						] as feature}
-							<div class="flex items-start text-zinc-300">
-								<svg class="w-4 h-4 text-amber-400 mr-2.5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+					<h2
+						id="modal-title"
+						class="text-3xl md:text-4xl font-bold text-zinc-900 text-center mb-3"
+					>
+						Become a Founding Member
+					</h2>
+					<p class="text-lg text-zinc-600 text-center mb-6">Pay once. Own it forever.</p>
+
+					<!-- Spots Remaining Badge -->
+					<div class="flex justify-center mb-8">
+						<div class="bg-red-50 px-4 py-2 rounded-full border border-red-200">
+							<p class="text-red-700 font-bold text-sm flex items-center gap-2">
+								<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+									<path
+										fill-rule="evenodd"
+										d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+										clip-rule="evenodd"
+									></path>
 								</svg>
-								<span class="text-xs leading-tight">{feature}</span>
-							</div>
-						{/each}
-					</div>
-				</div>
-
-				<!-- CTA Button -->
-				<button 
-					on:click={claimLifetimeDeal}
-					class="w-full bg-gradient-to-r from-amber-500 to-red-600 hover:from-amber-600 hover:to-red-700 text-white px-6 py-4 rounded-xl font-bold text-base transition-all duration-200 transform hover:scale-105 shadow-lg shadow-amber-500/30 mb-3"
-				>
-					 Automate Marketing for Lifetime
-				</button>
-
-				<!-- Subtext -->
-				<p class="text-center text-zinc-500 text-xs mb-4">
-					Limited-time offer • Secure your spot before they're gone
-				</p>
-
-				<!-- Social Proof -->
-				<div class="pt-4 border-t border-zinc-800">
-					<div class="flex items-center justify-center gap-2 text-zinc-400 text-xs">
-						<div class="flex -space-x-2">
-							<div class="w-7 h-7 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 border-2 border-zinc-950"></div>
-							<div class="w-7 h-7 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 border-2 border-zinc-950"></div>
-							<div class="w-7 h-7 rounded-full bg-gradient-to-r from-orange-500 to-red-600 border-2 border-zinc-950"></div>
+								Only {spotsRemaining} Spots Remaining
+							</p>
 						</div>
-						<span>43 builders already claimed their lifetime deal</span>
+					</div>
+
+					<!-- Price & Features Grid -->
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+						<!-- Price -->
+						<div class="bg-white/50 rounded-2xl p-6 border border-amber-100/50 text-center">
+							<div class="text-5xl font-bold text-zinc-900 mb-2">$299</div>
+							<p class="text-amber-600 font-medium text-sm">One-time payment</p>
+						</div>
+
+						<!-- Features -->
+						<div class="bg-white/50 rounded-2xl p-6 border border-amber-100/50">
+							<div class="space-y-3">
+								{#each ['20 Active Projects', 'All Future Updates', 'Priority Support', 'Community Access', 'Early Feature Access'] as feature}
+									<div class="flex items-start gap-3 text-sm text-zinc-700">
+										<div
+											class="mt-0.5 w-5 h-5 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0"
+										>
+											<svg
+												class="w-3 h-3 text-amber-600"
+												fill="none"
+												stroke="currentColor"
+												viewBox="0 0 24 24"
+											>
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="2"
+													d="M5 13l4 4L19 7"
+												></path>
+											</svg>
+										</div>
+										{feature}
+									</div>
+								{/each}
+							</div>
+						</div>
+					</div>
+
+					<!-- CTA Button -->
+					<button
+						on:click={claimLifetimeDeal}
+						class="w-full py-4 rounded-2xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2 bg-zinc-900 text-white hover:bg-zinc-800 mb-4"
+					>
+						Get Lifetime Access
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M13 7l5 5m0 0l-5 5m5-5H6"
+							></path>
+						</svg>
+					</button>
+
+					<!-- Subtext -->
+					<p class="text-center text-amber-600 text-xs font-medium animate-pulse mb-6">
+						Limited-time offer • Secure your spot now
+					</p>
+
+					<!-- Social Proof -->
+					<div class="pt-6 border-t border-amber-100">
+						<div class="flex items-center justify-center gap-3 text-zinc-500 text-sm">
+							<div class="flex -space-x-2">
+								<div
+									class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 border-2 border-white"
+								></div>
+								<div
+									class="w-8 h-8 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 border-2 border-white"
+								></div>
+								<div
+									class="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-red-600 border-2 border-white"
+								></div>
+							</div>
+							<span>43 builders already claimed their spot</span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -189,15 +240,6 @@
 		}
 	}
 
-	@keyframes gradient {
-		0%, 100% {
-			opacity: 0.3;
-		}
-		50% {
-			opacity: 0.6;
-		}
-	}
-
 	.animate-fadeIn {
 		animation: fadeIn 0.3s ease-out forwards;
 	}
@@ -212,9 +254,5 @@
 
 	.animate-scaleOut {
 		animation: scaleOut 0.3s ease-out forwards;
-	}
-
-	.animate-gradient {
-		animation: gradient 3s ease-in-out infinite;
 	}
 </style>

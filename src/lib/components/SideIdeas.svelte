@@ -230,7 +230,7 @@
 </script>
 
 <nav
-	class="h-screen bg-white text-gray-900 border-r border-gray-200 transition-all duration-300 {isCollapsed
+	class="h-screen bg-white text-zinc-900 border-r border-zinc-200 transition-all duration-300 {isCollapsed
 		? 'w-12'
 		: 'w-60'} flex flex-col z-40"
 >
@@ -239,88 +239,94 @@
 	{/if}
 
 	<!-- Header -->
-	<header class="flex-shrink-0 p-2 border-b border-gray-200">
+	<header class="flex-shrink-0 p-2 border-b border-zinc-100">
 		<div class="flex flex-col gap-2">
 			<div class="flex items-center justify-between">
 				{#if !isCollapsed}
-					<div class="flex items-center gap-2 min-w-0">
+					<div
+						class="flex items-center gap-2 min-w-0 group cursor-pointer p-1.5 -ml-1.5 hover:bg-zinc-50 rounded-lg transition-colors"
+					>
 						<div
-							class="w-7 h-7 rounded-full flex-shrink-0"
+							class="w-7 h-7 rounded-full flex-shrink-0 ring-1 ring-zinc-100 shadow-sm group-hover:ring-zinc-200 transition-all"
 							style="background-image: {userAvatarGradient}; background-size: cover;"
 						/>
 						<div class="flex flex-col min-w-0">
 							<div class="flex items-center gap-1">
-								<span class="text-xs text-gray-500">Welcome</span>
-								{#if $subscriptionTier === 'pro' || $subscriptionTier === 'lifetime'}
-									<Candy size={10} class="text-violet-800" />
-								{/if}
-							</div>
-							<div class="flex gap-2">
-								<span class="text-xs font-medium text-gray-900 truncate"
+								<span class="text-xs font-semibold text-zinc-900 truncate"
 									>{$user?.username || 'User'}</span
 								>
-								<p class="font-sm text-xs text-zinc-400">{$subscriptionTier || 'Free'}</p>
+								{#if $subscriptionTier === 'pro' || $subscriptionTier === 'lifetime'}
+									<div class="bg-violet-50 p-0.5 rounded-md">
+										<Candy size={8} class="text-violet-600" />
+									</div>
+								{/if}
 							</div>
+							<p class="text-[10px] text-zinc-500 font-medium leading-none">
+								{$subscriptionTier || 'Free'} Plan
+							</p>
 						</div>
 					</div>
 					<button
-						class="p-1 hover:bg-gray-100 rounded-md text-gray-500 flex-shrink-0"
+						class="p-1.5 hover:bg-zinc-100 rounded-lg text-zinc-400 hover:text-zinc-600 transition-colors flex-shrink-0"
 						on:click={toggleSidebar}
 						title="Collapse sidebar"
 					>
-						<Menu size={12} />
+						<Menu size={14} />
 					</button>
 				{:else}
 					<button
-						class="p-1 hover:bg-gray-100 rounded-md text-gray-500 mx-auto"
+						class="p-1.5 hover:bg-zinc-100 rounded-lg text-zinc-400 hover:text-zinc-600 mx-auto transition-colors"
 						on:click={toggleSidebar}
 						title="Expand sidebar"
 					>
-						<Menu size={12} />
+						<Menu size={14} />
 					</button>
 				{/if}
 			</div>
 			{#if !isCollapsed}
 				<button
 					on:click={startNewProject}
-					class="flex items-center justify-center gap-1.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg px-3 py-1.5 text-xs font-medium transition-all relative disabled:opacity-50 disabled:cursor-not-allowed"
+					class="flex items-center justify-center gap-1.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg px-3 py-2 text-xs font-medium transition-all relative disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md hover:-translate-y-0.5 group"
 					disabled={isAtProjectLimit}
 					title={isAtProjectLimit
 						? `Project limit reached (${$projectsCount}/${maxProjects})`
 						: 'Create new project'}
 				>
-					<Plus size={12} />
+					<Plus size={14} class="group-hover:scale-110 transition-transform" />
 					New Project
 					{#if isAtProjectLimit && $subscriptionTier !== 'pro'}
-						<span class="absolute -top-1 -right-1 w-2 h-2 bg-orange-400 rounded-full animate-pulse"
+						<span
+							class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-orange-500 rounded-full animate-pulse border border-white"
 						></span>
 					{/if}
 				</button>
 				{#if isAtProjectLimit}
-					<div class="text-[10px] text-center text-gray-500">
+					<div class="text-[10px] text-center text-zinc-400 font-medium">
 						{$projectsCount}/{maxProjects} projects used
 					</div>
 				{/if}
 			{:else}
 				<button
 					on:click={startNewProject}
-					class="p-1 bg-orange-400 hover:bg-orange-500 text-white rounded-lg mx-auto disabled:opacity-50"
+					class="p-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg mx-auto disabled:opacity-50 shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5"
 					title={isAtProjectLimit ? 'Project limit reached' : 'New Project'}
 					disabled={isAtProjectLimit}
 				>
-					<Plus size={12} />
+					<Plus size={14} />
 				</button>
 			{/if}
 		</div>
 	</header>
 
 	<!-- Projects Section -->
-	<section class="flex-1 min-h-0 px-2 py-2 flex flex-col">
+	<section class="flex-1 min-h-0 px-2 py-1 flex flex-col">
 		{#if !isCollapsed}
 			<div class="flex-shrink-0 flex items-center justify-between mb-2">
-				<h2 class="text-xs font-medium text-gray-700">Projects ({$projectsCount})</h2>
+				<h2 class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider pl-1">
+					Projects ({$projectsCount})
+				</h2>
 				<button
-					class="p-1 hover:bg-gray-100 rounded-md text-gray-500"
+					class="p-1 hover:bg-zinc-100 rounded-md text-zinc-400 hover:text-zinc-600 transition-colors"
 					on:click={() => (showProjectSearch = !showProjectSearch)}
 					title="Search projects"
 				>
@@ -333,13 +339,13 @@
 					<div class="relative">
 						<Search
 							size={12}
-							class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+							class="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-zinc-400"
 						/>
 						<input
 							type="text"
 							bind:value={searchQuery}
 							placeholder="Search projects..."
-							class="w-full pl-7 pr-3 py-1 bg-gray-100 border border-gray-200 rounded-lg text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400"
+							class="w-full pl-8 pr-2 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900/5 focus:border-zinc-300 transition-all shadow-sm"
 						/>
 					</div>
 				</div>
@@ -349,9 +355,9 @@
 		<!-- Loading State -->
 		{#if $isLoading && !$hasProjects}
 			<div class="flex-1 flex items-center justify-center">
-				<div class="text-center text-gray-500">
+				<div class="text-center text-zinc-500">
 					<div
-						class="animate-spin w-4 h-4 border-2 border-gray-300 border-t-orange-400 rounded-full mx-auto mb-2"
+						class="animate-spin w-4 h-4 border-2 border-zinc-700 border-t-zinc-400 rounded-full mx-auto mb-2"
 					></div>
 					<p class="text-xs">Loading projects...</p>
 				</div>
@@ -359,11 +365,11 @@
 			<!-- Error State -->
 		{:else if $error}
 			<div class="flex-1 flex items-center justify-center">
-				<div class="text-center text-gray-500">
+				<div class="text-center text-zinc-500">
 					<p class="text-xs mb-2">Failed to load projects</p>
 					<button
 						on:click={() => projectStore.clearError()}
-						class="text-xs text-orange-400 hover:text-orange-500"
+						class="text-xs text-zinc-400 hover:text-zinc-200 underline"
 					>
 						Retry
 					</button>
@@ -375,40 +381,44 @@
 				{#if sortedProjects.length > 0}
 					<!-- Pinned Projects -->
 					{#if sortedProjects.filter((p) => pinnedProjects.has(p.id)).length > 0}
-						<div class="mb-2">
+						<div class="mb-3">
 							{#if !isCollapsed}
-								<h3 class="text-xs font-medium text-gray-500 px-1 mb-1">Pinned</h3>
+								<h3
+									class="text-[10px] font-semibold text-zinc-400 px-2 mb-1 uppercase tracking-wider"
+								>
+									Pinned
+								</h3>
 							{/if}
-							<nav class="space-y-1">
+							<nav class="space-y-0.5">
 								{#each sortedProjects.filter( (p) => pinnedProjects.has(p.id) ) as project (project.id)}
 									{@const projectTitle = formatProjectTitle(project)}
 									{@const navItems = getProjectNavItems(project.id)}
 									<div class="relative group project-card" transition:slide={{ duration: 300 }}>
 										<button
-											class="flex items-center justify-between w-full px-2 py-1.5 rounded-lg bg-white shadow-md border border-gray-200 hover:bg-zinc-200 text-gray-900 focus:outline-none {isCollapsed
-												? 'justify-center px-0 border-0'
+											class="flex items-center justify-between w-full px-2 py-1.5 rounded-lg bg-white border border-zinc-200 hover:border-zinc-300 hover:shadow-sm text-zinc-600 hover:text-zinc-900 focus:outline-none transition-all {isCollapsed
+												? 'justify-center px-0 border-0 bg-transparent hover:bg-zinc-100'
 												: ''}"
 											on:click={() => !isCollapsed && toggleProject(project.id)}
 											title={isCollapsed ? projectTitle : ''}
 										>
-											<div class="flex items-center gap-1.5 min-w-0">
+											<div class="flex items-center gap-2 min-w-0">
 												<div
-													class="relative w-5 h-5 rounded-md flex-shrink-0"
+													class="relative w-5 h-5 rounded-md flex-shrink-0 shadow-sm ring-1 ring-black/5"
 													style="background-image: {generateRandomGradient()}; background-size: cover;"
 												>
 													<Pin
-														size={10}
-														class="absolute top-0 right-0 text-orange-400 gentle-float"
+														size={8}
+														class="absolute -top-0.5 -right-0.5 text-zinc-900 drop-shadow-sm gentle-float fill-zinc-900"
 													/>
 												</div>
 												{#if !isCollapsed}
-													<span class="text-xs truncate">{projectTitle}</span>
+													<span class="text-xs font-medium truncate">{projectTitle}</span>
 												{/if}
 											</div>
 											{#if !isCollapsed}
 												<div class="flex items-center gap-0.5 flex-shrink-0">
 													<button
-														class="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded-md text-gray-500 hover:text-gray-900"
+														class="opacity-0 group-hover:opacity-100 p-0.5 hover:bg-zinc-100 rounded-md text-zinc-400 hover:text-zinc-600 transition-all"
 														on:click={(e) => toggleProjectMenu(project.id, e)}
 														on:keydown={(e) => e.key === 'Escape' && closeAllMenus(e)}
 														title="Project options"
@@ -416,9 +426,9 @@
 														<MoreHorizontal size={12} />
 													</button>
 													{#if openProjects[project.id]}
-														<ChevronDown size={12} class="text-gray-500" />
+														<ChevronDown size={12} class="text-zinc-400" />
 													{:else}
-														<ChevronUp size={12} class="text-gray-500" />
+														<ChevronUp size={12} class="text-zinc-400" />
 													{/if}
 												</div>
 											{/if}
@@ -426,11 +436,11 @@
 
 										{#if !isCollapsed && projectMenuOpen[project.id]}
 											<div
-												class="absolute right-1 top-8 z-50 bg-white border border-gray-200 rounded-lg shadow-lg py-1 w-32"
+												class="absolute right-1 top-8 z-50 bg-white border border-zinc-200 rounded-lg shadow-xl shadow-zinc-200/50 py-1 w-36 overflow-hidden"
 												transition:scale={{ duration: 150, easing: cubicOut }}
 											>
 												<button
-													class="w-full px-2 py-1 text-left text-xs text-gray-700 hover:bg-gray-100 flex items-center gap-1.5"
+													class="w-full px-2 py-1.5 text-left text-[10px] font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 flex items-center gap-1.5 transition-colors"
 													on:click={() => togglePinProject(project.id)}
 													on:keydown={(e) => e.key === 'Escape' && closeAllMenus(e)}
 												>
@@ -438,7 +448,7 @@
 													{pinnedProjects.has(project.id) ? 'Unpin' : 'Pin'} Project
 												</button>
 												<button
-													class="w-full px-2 py-1 text-left text-xs text-gray-700 hover:bg-gray-100 flex items-center gap-1.5"
+													class="w-full px-2 py-1.5 text-left text-[10px] font-medium text-red-500 hover:text-red-600 hover:bg-red-50 flex items-center gap-1.5 transition-colors"
 													on:click={() => archiveProject(project.id)}
 													on:keydown={(e) => e.key === 'Escape' && closeAllMenus(e)}
 												>
@@ -450,21 +460,21 @@
 
 										{#if !isCollapsed && openProjects[project.id]}
 											<div
-												class="ml-3 pl-2 border-l border-gray-200 mt-0.5 space-y-0.5"
+												class="ml-3 pl-2 border-l border-zinc-200 mt-0.5 space-y-0.5"
 												transition:slide={{ duration: 200 }}
 											>
 												{#each navItems as navItem}
 													<a
 														href={navItem.href}
-														class="flex items-center gap-1.5 px-2 py-1 rounded-lg hover:bg-gray-100 text-xs {navItem.active
-															? 'bg-orange-400/10 text-orange-400'
-															: 'text-gray-700 hover:text-gray-900'} transition-all"
+														class="flex items-center gap-2 px-2 py-1 rounded-md text-[11px] font-medium transition-all {navItem.active
+															? 'bg-zinc-100 text-zinc-900 font-semibold'
+															: 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50'}"
 														title={isCollapsed ? navItem.label : ''}
 													>
 														<svelte:component
 															this={navItem.icon}
 															size={12}
-															class={navItem.active ? 'text-orange-400' : 'text-gray-500'}
+															class={navItem.active ? 'text-zinc-900' : 'text-zinc-400'}
 														/>
 														{#if !isCollapsed}
 															<span>{navItem.label}</span>
@@ -483,7 +493,11 @@
 					{#if sortedProjects.filter((p) => !pinnedProjects.has(p.id)).length > 0}
 						<div class="mb-2">
 							{#if !isCollapsed}
-								<h3 class="text-xs font-medium text-gray-500 px-1 mb-1">All Projects</h3>
+								<h3
+									class="text-[10px] font-semibold text-zinc-400 px-2 mb-1 uppercase tracking-wider"
+								>
+									All Projects
+								</h3>
 							{/if}
 							<nav class="space-y-0.5">
 								{#each sortedProjects.filter((p) => !pinnedProjects.has(p.id)) as project (project.id)}
@@ -491,25 +505,25 @@
 									{@const navItems = getProjectNavItems(project.id)}
 									<div class="relative group project-card" transition:slide={{ duration: 300 }}>
 										<button
-											class="flex items-center justify-between w-full px-2 py-1.5 rounded-lg bg-white border border-gray-200 hover:bg-gray-100 text-gray-900 focus:outline-none {isCollapsed
-												? 'justify-center px-0 border-0'
+											class="flex items-center justify-between w-full px-2 py-1.5 rounded-lg bg-transparent border border-transparent hover:bg-zinc-50 hover:border-zinc-200 text-zinc-600 hover:text-zinc-900 focus:outline-none transition-all {isCollapsed
+												? 'justify-center px-0 border-0 hover:bg-zinc-100'
 												: ''}"
 											on:click={() => !isCollapsed && toggleProject(project.id)}
 											title={isCollapsed ? projectTitle : ''}
 										>
-											<div class="flex items-center gap-1.5 min-w-0">
+											<div class="flex items-center gap-2 min-w-0">
 												<div
-													class="w-5 h-5 rounded-md flex-shrink-0"
+													class="w-5 h-5 rounded-md flex-shrink-0 shadow-sm ring-1 ring-black/5 opacity-80 group-hover:opacity-100 transition-opacity"
 													style="background-image: {generateRandomGradient()}; background-size: cover;"
 												/>
 												{#if !isCollapsed}
-													<span class="text-xs truncate">{projectTitle}</span>
+													<span class="text-xs font-medium truncate">{projectTitle}</span>
 												{/if}
 											</div>
 											{#if !isCollapsed}
 												<div class="flex items-center gap-0.5 flex-shrink-0">
 													<button
-														class="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded-md text-gray-500 hover:text-gray-900"
+														class="opacity-0 group-hover:opacity-100 p-0.5 hover:bg-zinc-100 rounded-md text-zinc-400 hover:text-zinc-600 transition-all"
 														on:click={(e) => toggleProjectMenu(project.id, e)}
 														on:keydown={(e) => e.key === 'Escape' && closeAllMenus(e)}
 														title="Project options"
@@ -517,9 +531,9 @@
 														<MoreHorizontal size={12} />
 													</button>
 													{#if openProjects[project.id]}
-														<ChevronDown size={12} class="text-gray-500" />
+														<ChevronDown size={12} class="text-zinc-400" />
 													{:else}
-														<ChevronUp size={12} class="text-gray-500" />
+														<ChevronUp size={12} class="text-zinc-400" />
 													{/if}
 												</div>
 											{/if}
@@ -527,11 +541,11 @@
 
 										{#if !isCollapsed && projectMenuOpen[project.id]}
 											<div
-												class="absolute right-1 top-8 z-50 bg-white border border-gray-200 rounded-lg shadow-lg py-1 w-32"
+												class="absolute right-1 top-8 z-50 bg-white border border-zinc-200 rounded-lg shadow-xl shadow-zinc-200/50 py-1 w-36 overflow-hidden"
 												transition:scale={{ duration: 150, easing: cubicOut }}
 											>
 												<button
-													class="w-full px-2 py-1 text-left text-xs text-gray-700 hover:bg-gray-100 flex items-center gap-1.5"
+													class="w-full px-2 py-1.5 text-left text-[10px] font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 flex items-center gap-1.5 transition-colors"
 													on:click={() => togglePinProject(project.id)}
 													on:keydown={(e) => e.key === 'Escape' && closeAllMenus(e)}
 												>
@@ -539,7 +553,7 @@
 													{pinnedProjects.has(project.id) ? 'Unpin' : 'Pin'} Project
 												</button>
 												<button
-													class="w-full px-2 py-1 text-left text-xs text-gray-700 hover:bg-gray-100 flex items-center gap-1.5"
+													class="w-full px-2 py-1.5 text-left text-[10px] font-medium text-red-500 hover:text-red-600 hover:bg-red-50 flex items-center gap-1.5 transition-colors"
 													on:click={() => archiveProject(project.id)}
 													on:keydown={(e) => e.key === 'Escape' && closeAllMenus(e)}
 												>
@@ -551,21 +565,21 @@
 
 										{#if !isCollapsed && openProjects[project.id]}
 											<div
-												class="ml-3 pl-2 border-l border-gray-200 mt-0.5 space-y-0.5"
+												class="ml-3 pl-2 border-l border-zinc-200 mt-0.5 space-y-0.5"
 												transition:slide={{ duration: 200 }}
 											>
 												{#each navItems as navItem}
 													<a
 														href={navItem.href}
-														class="flex items-center gap-1.5 px-2 py-1 rounded-lg hover:bg-gray-100 text-xs {navItem.active
-															? 'bg-orange-400/10 text-orange-400'
-															: 'text-gray-700 hover:text-gray-900'} transition-all"
+														class="flex items-center gap-2 px-2 py-1 rounded-md text-[11px] font-medium transition-all {navItem.active
+															? 'bg-zinc-100 text-zinc-900 font-semibold'
+															: 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50'}"
 														title={isCollapsed ? navItem.label : ''}
 													>
 														<svelte:component
 															this={navItem.icon}
 															size={12}
-															class={navItem.active ? 'text-orange-400' : 'text-gray-500'}
+															class={navItem.active ? 'text-zinc-900' : 'text-zinc-400'}
 														/>
 														{#if !isCollapsed}
 															<span>{navItem.label}</span>
@@ -580,18 +594,18 @@
 						</div>
 					{/if}
 				{:else if searchQuery}
-					<div class="text-center py-4 text-gray-500">
-						<Search size={14} class="mx-auto mb-1 opacity-50" />
+					<div class="text-center py-8 text-zinc-500">
+						<Search size={16} class="mx-auto mb-2 opacity-50" />
 						<p class="text-xs">No projects found</p>
 					</div>
 				{:else}
-					<div class="text-center py-4 text-gray-500">
-						<Plus size={14} class="mx-auto mb-1 opacity-50" />
+					<div class="text-center py-8 text-zinc-500">
+						<Plus size={16} class="mx-auto mb-2 opacity-50" />
 						<p class="text-xs">No projects yet</p>
 						{#if !isCollapsed}
 							<button
 								on:click={startNewProject}
-								class="text-xs text-orange-400 hover:text-orange-500 mt-1"
+								class="text-xs text-zinc-400 hover:text-zinc-200 mt-2 underline"
 							>
 								Create your first project
 							</button>
@@ -603,73 +617,81 @@
 	</section>
 
 	<!-- Footer -->
-	<footer class="flex-shrink-0 p-2 border-t border-gray-200">
+	<footer class="flex-shrink-0 p-2 border-t border-zinc-100">
 		<!-- Subscription Status Card -->
 		{#if !isCollapsed && $subscriptionTier !== 'pro'}
 			<a
 				href="/plans"
-				class="block mb-2 p-2 rounded-lg border bg-gradient-to-br from-violet-800 to-zinc-400 border-zin text-zinc-200 hover:border-amber-300 transition-all group"
+				class="block mb-2 p-3 rounded-xl bg-zinc-900 text-white shadow-md shadow-zinc-900/10 hover:scale-[1.02] transition-all group relative overflow-hidden"
 				transition:slide={{ duration: 200 }}
 			>
-				<div class="flex items-center gap-2 mb-1">
+				<div
+					class="absolute inset-0 bg-gradient-to-br from-zinc-800 to-transparent opacity-50"
+				></div>
+				<div class="flex items-center gap-2 mb-1.5 relative z-10">
 					<div
-						class="w-5 h-5 rounded-full bg-gradient-to-br from-zinc-400 to-zinc-500 flex items-center justify-center shimmer"
+						class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm"
 					>
 						<Candy size={12} class="text-white" />
 					</div>
-					<span class="text-xs font-semibold text-gray-100">Upgrade to Pro</span>
+					<span class="text-xs font-semibold">Upgrade to Pro</span>
 				</div>
-				<p class="text-[10px] text-gray-200 mb-1">Unlock unlimited projects and premium features</p>
-				<div class="flex items-center justify-between">
-					<span class="text-[10px] text-gray-100">Current: {getTierDisplay($subscriptionTier)}</span
+				<p class="text-[10px] text-zinc-400 mb-2 relative z-10 leading-relaxed">
+					Unlock unlimited projects and premium features
+				</p>
+				<div class="flex items-center justify-between relative z-10">
+					<span class="text-[9px] font-medium text-zinc-500 uppercase tracking-wider"
+						>Current: {getTierDisplay($subscriptionTier)}</span
 					>
-					<Sparkles size={10} class="text-amber-500 group-hover:scale-110 transition-transform" />
+					<Sparkles size={12} class="text-amber-400 group-hover:rotate-12 transition-transform" />
 				</div>
 			</a>
 		{:else if !isCollapsed && $subscriptionTier === 'pro'}
 			<div
-				class="mb-2 p-2 rounded-lg shadow-lg shadow-violet-500/20"
+				class="mb-2 p-3 rounded-xl bg-zinc-900 text-white shadow-md shadow-zinc-900/10"
 				transition:slide={{ duration: 200 }}
 			>
 				<div class="flex items-center gap-2 mb-1">
 					<div
-						class="w-5 h-5 rounded-full bg-gradient-to-br from-violet-400 to-violet-500 flex items-center justify-center"
+						class="w-5 h-5 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-md"
 					>
-						<Candy size={12} class="text-white" />
+						<Candy size={10} class="text-white" />
 					</div>
-					<span class="text-xs font-semibold text-gray-900">Pro Plan</span>
+					<span class="text-xs font-semibold">Pro Plan</span>
 				</div>
-				<p class="text-[10px] text-gray-600">You have unlimited projects and premium features</p>
+				<p class="text-[10px] text-zinc-400">You have unlimited projects and premium features</p>
 			</div>
 		{/if}
 
 		{#if !isCollapsed}
-			<h2 class="text-xs font-medium text-gray-500 mb-1 px-1">Account</h2>
+			<h2 class="text-[10px] font-semibold text-zinc-400 mb-1 px-2 uppercase tracking-wider">
+				Account
+			</h2>
 		{/if}
-		<nav class="space-y-1">
+		<nav class="space-y-0.5">
 			<a
 				href="/integrations"
-				class="flex items-center gap-1.5 px-2 py-1 rounded-lg hover:bg-gray-100 text-gray-700 {$page
+				class="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-zinc-100 text-zinc-500 hover:text-zinc-900 transition-all {$page
 					.url.pathname === '/integrations'
-					? 'bg-orange-400/10 text-orange-400'
+					? 'bg-zinc-100 text-zinc-900 font-medium'
 					: ''} {isCollapsed ? 'justify-center px-0' : ''}"
 				title={isCollapsed ? 'Integrations' : ''}
 			>
-				<Settings size={12} />
+				<Settings size={14} />
 				{#if !isCollapsed}
-					<span class="text-xs">Integrations</span>
+					<span class="text-xs font-medium">Integrations</span>
 				{/if}
 			</a>
 			<button
 				on:click={handleLogout}
-				class="flex items-center gap-1.5 px-2 py-1 rounded-lg hover:bg-gray-100 text-gray-700 w-full {isCollapsed
+				class="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-red-50 text-zinc-500 hover:text-red-600 w-full transition-all {isCollapsed
 					? 'justify-center px-0'
 					: ''}"
 				title={isCollapsed ? 'Logout' : ''}
 			>
-				<LogOut size={12} />
+				<LogOut size={14} />
 				{#if !isCollapsed}
-					<span class="text-xs">Logout</span>
+					<span class="text-xs font-medium">Logout</span>
 				{/if}
 			</button>
 		</nav>

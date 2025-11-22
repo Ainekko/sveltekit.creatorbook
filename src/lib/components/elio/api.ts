@@ -22,10 +22,10 @@ export async function checkRedditConnection(authToken, MAIN_BACKEND_URL) {
   const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/reddit-account/`, {
     headers: getHeaders(authToken)
   });
-  
+
   const data = await handleResponse(response);
-  return { 
-    connected: data.connected, 
+  return {
+    connected: data.connected,
     username: data.username || null,
     scopes: data.scopes || []
   };
@@ -33,13 +33,13 @@ export async function checkRedditConnection(authToken, MAIN_BACKEND_URL) {
 
 export async function connectReddit(projectId, authToken, MAIN_BACKEND_URL) {
   const url = `${MAIN_BACKEND_URL}/elio/api/reddit-account/initiate/?project_id=${projectId}`;
-  
+
   const response = await fetch(url, {
     method: 'GET',
     headers: getHeaders(authToken),
     credentials: 'include'
   });
-  
+
   return await handleResponse(response);
 }
 
@@ -48,7 +48,7 @@ export async function disconnectReddit(authToken, MAIN_BACKEND_URL) {
     method: 'POST',
     headers: getHeaders(authToken)
   });
-  
+
   return await handleResponse(response);
 }
 
@@ -57,7 +57,7 @@ export async function refreshRedditToken(authToken, MAIN_BACKEND_URL) {
     method: 'POST',
     headers: getHeaders(authToken)
   });
-  
+
   return await handleResponse(response);
 }
 
@@ -69,13 +69,9 @@ export async function fetchProjectData(projectId, authToken, MAIN_BACKEND_URL) {
   const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/projects/${projectId}/`, {
     headers: getHeaders(authToken)
   });
-  
-  const data = await handleResponse(response);
-  return { 
-    project: data.project, 
-    config: data.config,
-    reddit_account: data.reddit_account
-  };
+
+  // Backend returns { project, config, reddit_account }
+  return await handleResponse(response);
 }
 
 export async function saveConfig(projectId, config, authToken, MAIN_BACKEND_URL) {
@@ -85,7 +81,7 @@ export async function saveConfig(projectId, config, authToken, MAIN_BACKEND_URL)
     credentials: 'include',
     body: JSON.stringify(config)
   });
-  
+
   return await handleResponse(response);
 }
 
@@ -97,7 +93,7 @@ export async function fetchProfile(projectId, authToken, MAIN_BACKEND_URL) {
   const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/projects/${projectId}/profile/`, {
     headers: getHeaders(authToken)
   });
-  
+
   return await handleResponse(response);
 }
 
@@ -109,7 +105,8 @@ export async function fetchOpportunitiesFromBackend(projectId, authToken, MAIN_B
   const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/projects/${projectId}/opportunities/`, {
     headers: getHeaders(authToken)
   });
-  
+
+  // Backend returns { opportunities: [...], total: N }
   return await handleResponse(response);
 }
 
@@ -169,7 +166,7 @@ export async function fetchRedditPostsFromBackend(projectId, authToken, MAIN_BAC
       `${MAIN_BACKEND_URL}/elio/api/projects/${projectId}/reddit-posts/`,
       { headers: getHeaders(authToken) }
     );
-    
+
     return await handleResponse(response);
   } catch (error) {
     console.error('Failed to fetch Reddit posts from backend:', error);
@@ -187,7 +184,7 @@ export async function saveRedditPostsToBackend(posts, projectId, authToken, MAIN
         body: JSON.stringify({ posts })
       }
     );
-    
+
     return await handleResponse(response);
   } catch (error) {
     console.error('Failed to save Reddit posts to backend:', error);
@@ -200,57 +197,42 @@ export async function saveRedditPostsToBackend(posts, projectId, authToken, MAIN
 // ============================================================================
 
 /**
- * 🆕 Scan Reddit for opportunities (posts AND comments)
+ * 🆕 Scan Reddit for opportunities (Triggered via Main Backend)
+ * Backend handles worker communication and returns opportunities directly
  */
-export async function scanOpportunities(
-  projectData, 
-  config, 
-  WORKER_URL, 
-  includeComments = true
-) {
-  const response = await fetch(`${WORKER_URL}/elio/reddit/scan`, {
+export async function scanOpportunities(projectId, authToken, MAIN_BACKEND_URL) {
+  const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/projects/${projectId}/scan/`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      business_name: projectData.business_name,
-      business_description: projectData.description,
-      subreddits: config.subreddits,
-      keywords: config.keywords,
-      exclude_keywords: config.exclude_keywords,
-      min_relevance: config.min_relevance || 65.0,
-      time_window_hours: config.time_window_hours || 24,
-      max_per_subreddit: config.max_per_subreddit || 5,
-      include_comments: includeComments  // 🆕 NEW
-    })
+    headers: getHeaders(authToken),
+    body: JSON.stringify({})
   });
 
   if (!response.ok) {
-    throw new Error('Worker scan failed');
+    const errorText = await response.text();
+    throw new Error(`Scan failed: ${errorText}`);
   }
 
+  // Backend returns the worker response directly: { opportunities: [...] }
   return await response.json();
 }
 
 /**
  * 🆕 Expand content into Reddit-ready posts (NEW ENDPOINT)
  */
+/**
+ * 🆕 Expand content into Reddit-ready posts (Triggered via Main Backend)
+ */
 export async function expandContentToReddit(
-  blogPost,
-  projectData,
-  targetSubreddits,
-  WORKER_URL,
-  numVariations = 3
+  projectId,
+  postId,
+  authToken,
+  MAIN_BACKEND_URL
 ) {
-  const response = await fetch(`${WORKER_URL}/elio/reddit/expand`, {
+  const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/projects/${projectId}/expand/`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getHeaders(authToken),
     body: JSON.stringify({
-      business_name: projectData.business_name,
-      business_description: projectData.description,
-      original_title: blogPost.title,
-      original_content: blogPost.content,
-      target_subreddits: targetSubreddits,
-      num_variations: numVariations
+      post_id: postId
     })
   });
 

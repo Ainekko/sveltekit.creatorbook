@@ -9,6 +9,7 @@
 	import AgentCard from '$lib/components/AuthDashboard/AgentCard.svelte';
 	import { currentProjectAgents } from '$lib/projects/stores';
 	import { workflowStore, contentStore } from '$lib/components/nai/stores';
+	import { elioStore } from '$lib/components/elio/stores';
 
 	export let data;
 
@@ -256,18 +257,59 @@
 			name: 'Elio',
 			short: 'Reddit',
 			desc: 'Posts & community building',
-			status: 'monitoring',
-			lastScan: '8m ago',
+			status: $elioStore.loading.project
+				? 'loading'
+				: $elioStore.config?.subreddits?.length > 0
+					? 'active'
+					: 'setup needed',
+			lastScan: $elioStore.project?.last_scan
+				? formatRelativeTime($elioStore.project.last_scan)
+				: 'Never',
 			metrics: [
-				{ label: 'Posts', value: redditPosts.length, trend: redditPosts.length > 0 ? '+3' : '—' },
-				{ label: 'Karma', value: '1.2K', trend: '+89' }
+				{
+					label: 'Posts',
+					value: $elioStore.loading.posts ? '...' : $elioStore.posts.length,
+					trend: $elioStore.posts.length > 0 ? `+${$elioStore.posts.length}` : '—'
+				},
+				{
+					label: 'Karma',
+					value: $elioStore.profile?.total_karma || '0',
+					trend: '—'
+				}
 			],
-			activity: [
-				{ type: 'discussion', action: 'Discussion found', detail: 'r/ML debate', time: '10m ago' },
-				{ type: 'content', action: 'Draft created', detail: 'r/SideProject guide', time: '1h ago' }
-			],
-			insights: [{ title: 'Growth', desc: 'r/AI activity up', priority: 'high' }],
-			content: redditPosts
+			activity:
+				$elioStore.opportunities.length > 0
+					? $elioStore.opportunities.slice(0, 4).map((opp) => ({
+							type: 'opportunity',
+							action: 'Opportunity found',
+							detail: opp.title,
+							time: formatRelativeTime(opp.created_utc)
+						}))
+					: [
+							{
+								type: 'info',
+								action: 'No recent activity',
+								detail: 'Start a scan to find opportunities',
+								time: 'Now'
+							}
+						],
+			insights:
+				$elioStore.opportunities.length > 0
+					? [
+							{
+								title: 'Opportunities Found',
+								desc: `Found ${$elioStore.opportunities.length} potential discussions`,
+								priority: 'high'
+							}
+						]
+					: [
+							{
+								title: 'Get Started',
+								desc: 'Connect Reddit and configure keywords',
+								priority: 'medium'
+							}
+						],
+			content: $elioStore.posts.length > 0 ? $elioStore.posts : []
 		}
 	};
 
@@ -299,33 +341,57 @@
 		if (projectId) {
 			workflowStore.reset();
 			contentStore.reset();
-			await workflowStore.loadWorkflow(projectId);
-			await contentStore.loadAll(projectId);
-			await workflowStore.loadIntegrations(projectId);
+			elioStore.reset();
+			await Promise.all([
+				workflowStore.loadWorkflow(projectId),
+				contentStore.loadAll(projectId),
+				workflowStore.loadIntegrations(projectId),
+				elioStore.loadAll(projectId)
+			]);
 		}
 	});
 
 	onDestroy(() => {
 		workflowStore.destroy();
+		// elioStore doesn't have destroy currently, but good practice to reset if needed
 	});
 </script>
 
 <div class="min-h-screen bg-zinc-50 text-zinc-900 font-sans antialiased">
 	<main class="container mx-auto px-4 py-8">
-		<!-- Agent Tabs -->
-		<div class="bg-white rounded-2xl shadow-md overflow-hidden border border-zinc-200">
-			<AgentTabs {agents} {selectedAgentId} {agentStyles} onSelectAgent={handleSelectAgent} />
+		<!-- Main Dashboard Card -->
+		<div
+			class="bg-white rounded-[2rem] p-8 shadow-xl border border-zinc-200/20 relative overflow-hidden"
+		>
+			<!-- Premium Gradient Background -->
+			<div
+				class="absolute inset-0 bg-gradient-to-br from-zinc-50/50 to-transparent pointer-events-none"
+			></div>
 
-			<!-- Agent Content -->
-			{#key selectedAgentId}
-				<AgentCard
-					agent={selectedAgent}
-					agentId={selectedAgentId}
-					{projectId}
-					agentStyle={agentStyles[selectedAgentId]}
-					onGenerate={generateAgentContent}
-				/>
-			{/key}
+			<!-- Header -->
+			<div class="relative z-10 mb-8">
+				<h1 class="text-3xl font-semibold text-zinc-900 tracking-tight font-[Poppins]">
+					Project Overview
+				</h1>
+				<p class="text-zinc-500 mt-1">Manage your AI agents and content generation.</p>
+			</div>
+
+			<!-- Agent Tabs & Content -->
+			<div class="relative z-10">
+				<AgentTabs {agents} {selectedAgentId} {agentStyles} onSelectAgent={handleSelectAgent} />
+
+				<div class="mt-8">
+					{#key selectedAgentId}
+						<AgentCard
+							agent={selectedAgent}
+							agentId={selectedAgentId}
+							{projectId}
+							agentStyle={agentStyles[selectedAgentId]}
+							onGenerate={generateAgentContent}
+						/>
+					{/key}
+				</div>
+			</div>
 		</div>
 	</main>
 </div>
