@@ -17,14 +17,14 @@
 </script>
 
 <svelte:head>
-	<title>Flowjoy | AI Marketing Agents for SEO, X & Reddit Automation</title>
+	<title>Flowjoy | AI Marketing Agents for SEO & Reddit Automation</title>
 	<meta
 		name="description"
 		content="Meet Flowjoy: AI marketing agents that automate SEO, X, and Reddit growth without complex workflows. Perfect for founders, growth teams, and solo creators."
 	/>
 	<meta
 		name="keywords"
-		content="AI marketing, marketing automation, AI agents, SEO automation, X automation, Reddit marketing, generative AI, content automation, Flowjoy"
+		content="AI marketing, marketing automation, AI agents, SEO automation, Reddit marketing, generative AI, content automation, Flowjoy"
 	/>
 	<meta name="author" content="Flowjoy" />
 	<meta name="robots" content="index, follow" />
@@ -33,7 +33,7 @@
 
 	<link rel="canonical" href="https://flowjoy.online" />
 
-	<meta property="og:title" content="Flowjoy: AI Marketing Agents for SEO, X & Reddit" />
+	<meta property="og:title" content="Flowjoy: AI Marketing Agents for SEO & Reddit" />
 	<meta
 		property="og:description"
 		content="Automate SEO, X, and Reddit growth without complex workflows. Flowjoy's AI agents are built for founders, growth teams, and solo creators."
@@ -57,10 +57,10 @@
 	<meta name="twitter:site" content="" />
 	<meta name="twitter:creator" content="@_nagativeIQ" />
 
-	<meta name="twitter:title" content="Flowjoy: AI Marketing Agents for SEO, X & Reddit" />
+	<meta name="twitter:title" content="Flowjoy: AI Marketing Agents for SEO & Reddit" />
 	<meta
 		name="twitter:description"
-		content="Automate SEO, X, and Reddit growth without complex workflows. Built for founders, growth teams, and solo creators."
+		content="Automate SEO and Reddit growth without complex workflows. Built for founders, growth teams, and solo creators."
 	/>
 
 	<meta
@@ -82,7 +82,7 @@
 			"@type": "SoftwareApplication",
 			"name": "Flowjoy",
 			"url": "https://flowjoy.online",
-			"description": "AI marketing agents that automate SEO, X, and Reddit growth without complex workflows. Perfect for founders, growth teams, and solo creators.",
+			"description": "AI marketing agents that automate SEO, and Reddit growth without complex workflows. Perfect for founders, growth teams, and solo creators.",
 			"applicationCategory": "BusinessApplication",
 			"operatingSystem": "Web",
 			"offers": {
@@ -132,7 +132,7 @@
 	<div>
 		<!-- <NewHero /> -->
 
-		<DemoHero />
+		<!-- <DemoHero /> -->
 		<Landing posts={data.posts} />
 		<NewPricing />
 
