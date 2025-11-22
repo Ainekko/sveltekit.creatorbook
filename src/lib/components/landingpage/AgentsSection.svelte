@@ -100,7 +100,7 @@
 			return { ...agent, features };
 		})
 		.sort((a, b) => {
-			const order = { search: 0, reddit: 1, twitter: 2 };
+			const order = { search: 0, reddit: 1 }; // Rio (twitter) removed from order
 			return order[a.icon] - order[b.icon];
 		});
 
@@ -141,8 +141,7 @@
 			Your Agents Talk to Each Other
 		</h2>
 		<p class="text-xl text-zinc-500 max-w-2xl mx-auto mb-12">
-			Don't build silos. Nai's SEO research informs Elio's Reddit strategy, which fuels Rio's
-			Twitter threads. One cohesive engine.
+			Don't build silos. Nai's SEO research informs Elio's Reddit strategy. One cohesive engine.
 		</p>
 
 		<div

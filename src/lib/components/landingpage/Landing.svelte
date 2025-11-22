@@ -36,6 +36,7 @@
 			},
 			videoUrl: 'https://rechatcreatorbook.s3.us-west-2.amazonaws.com/s-teir/Nai+Demo.mp4'
 		},
+		/* Rio Hidden
 		Rio: {
 			id: 'Rio',
 			name: 'Rio',
@@ -56,6 +57,7 @@
 			},
 			videoUrl: 'https://rechatcreatorbook.s3.us-west-2.amazonaws.com/s-teir/Rio+Demo.mp4'
 		},
+		*/
 		Elio: {
 			id: 'Elio',
 			name: 'Elio',

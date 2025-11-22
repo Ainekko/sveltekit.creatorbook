@@ -175,7 +175,8 @@
 				>
 					Enter your website URL and watch our AI agents <span class="font-semibold text-zinc-700"
 						>Nai</span
-					>, <span class="font-semibold text-zinc-700">Rio</span>, and
+					>
+					and
 					<span class="font-semibold text-zinc-700">Elio</span> build your marketing strategy in seconds.
 				</p>
 
@@ -257,6 +258,7 @@
 							></div>
 						{/if}
 					</button>
+					<!-- Rio Tab Hidden
 					<button
 						class="pb-3 px-2 text-sm font-medium transition-all relative {activeTab === 'rio'
 							? 'text-sky-500'
@@ -273,6 +275,7 @@
 							></div>
 						{/if}
 					</button>
+					-->
 					<button
 						class="pb-3 px-2 text-sm font-medium transition-all relative {activeTab === 'elio'
 							? 'text-orange-500'
@@ -353,6 +356,7 @@
 					{/if}
 
 					<!-- Rio Content -->
+					<!-- Rio Content Hidden
 					{#if activeTab === 'rio'}
 						<div in:fade={{ duration: 200 }} class="space-y-6">
 							{#if loadingStates.rio}
@@ -395,6 +399,7 @@
 							{/if}
 						</div>
 					{/if}
+					-->
 
 					<!-- Elio Content -->
 					{#if activeTab === 'elio'}

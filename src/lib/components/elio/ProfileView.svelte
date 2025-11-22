@@ -170,11 +170,11 @@
 	<div class="space-y-6">
 		<!-- Header with Refresh Button -->
 		<div class="flex items-center justify-between">
-			<h2 class="text-2xl font-bold text-zinc-900">Project Profile & Analytics</h2>
+			<h2 class="text-3xl font-bold text-zinc-900 tracking-tight">Project Profile & Analytics</h2>
 			<button
 				on:click={handleRefresh}
 				disabled={refreshing}
-				class="flex items-center gap-2 px-4 py-2 bg-white border border-zinc-200 text-zinc-700 rounded-lg hover:bg-zinc-50 hover:border-zinc-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+				class="flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-zinc-200 text-zinc-700 rounded-xl hover:bg-zinc-50 hover:border-zinc-300 hover:text-zinc-900 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md font-medium text-sm"
 			>
 				<RefreshCw class="w-4 h-4 {refreshing ? 'animate-spin' : ''}" />
 				Refresh
@@ -183,10 +183,10 @@
 
 		<!-- Project Card -->
 		<div
-			class="bg-gradient-to-br from-white via-zinc-50 to-zinc-100 rounded-xl border border-zinc-200/80 p-6 shadow-sm relative overflow-hidden"
+			class="bg-white rounded-[2rem] border border-zinc-200/60 p-8 shadow-xl shadow-zinc-200/40 relative overflow-hidden"
 		>
 			<div
-				class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-zinc-100/50 to-transparent rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"
+				class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-zinc-100/80 to-transparent rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"
 			></div>
 			<h3 class="text-lg font-semibold text-zinc-900 mb-4 flex items-center gap-2">
 				<Briefcase class="w-5 h-5 text-zinc-900" />
@@ -252,9 +252,9 @@
 		</div>
 
 		<!-- Analytics Stats Grid -->
-		<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+		<div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
 			<div
-				class="bg-white rounded-xl border border-zinc-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+				class="bg-white rounded-2xl border border-zinc-200 p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
 			>
 				<div class="flex items-center gap-3 mb-2">
 					<div
@@ -273,7 +273,7 @@
 			</div>
 
 			<div
-				class="bg-white rounded-xl border border-zinc-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+				class="bg-white rounded-2xl border border-zinc-200 p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
 			>
 				<div class="flex items-center gap-3 mb-2">
 					<div
@@ -289,7 +289,7 @@
 			</div>
 
 			<div
-				class="bg-white rounded-xl border border-zinc-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+				class="bg-white rounded-2xl border border-zinc-200 p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
 			>
 				<div class="flex items-center gap-3 mb-2">
 					<div
@@ -307,7 +307,9 @@
 
 		<!-- Best Opportunities -->
 		{#if analytics.best_opportunities.length > 0}
-			<div class="bg-white rounded-xl border border-zinc-200 p-6 shadow-sm">
+			<div
+				class="bg-white rounded-[2rem] border border-zinc-200/60 p-8 shadow-xl shadow-zinc-200/40"
+			>
 				<div class="flex items-center justify-between mb-4">
 					<h3 class="text-lg font-semibold text-zinc-900 flex items-center gap-2">
 						<Target class="w-5 h-5 text-zinc-900" />
@@ -337,7 +339,7 @@
 							href={opp.url}
 							target="_blank"
 							rel="noopener noreferrer"
-							class="bg-white rounded-lg p-4 border border-zinc-200 min-w-[300px] snap-center shadow-sm hover:shadow-md transition-all hover:border-zinc-400 group"
+							class="bg-white rounded-2xl p-5 border border-zinc-200 min-w-[300px] snap-center shadow-sm hover:shadow-lg transition-all duration-300 hover:border-zinc-300 hover:-translate-y-1 group"
 						>
 							<div class="flex items-start justify-between mb-2">
 								<span
@@ -367,7 +369,9 @@
 
 		<!-- Top Subreddits -->
 		{#if analytics.top_subreddits.length > 0}
-			<div class="bg-white rounded-xl border border-zinc-200 p-6 shadow-sm">
+			<div
+				class="bg-white rounded-[2rem] border border-zinc-200/60 p-8 shadow-xl shadow-zinc-200/40"
+			>
 				<div class="flex items-center justify-between mb-4">
 					<div class="flex items-center gap-2">
 						<Target class="w-5 h-5 text-zinc-500" />
@@ -396,7 +400,7 @@
 				>
 					{#each analytics.top_subreddits as item, idx}
 						<div
-							class="flex items-center justify-between p-3 bg-white rounded-lg border border-zinc-200 min-w-[250px] snap-center shadow-sm hover:shadow-md transition-shadow"
+							class="flex items-center justify-between p-4 bg-zinc-50 rounded-xl border border-zinc-200 min-w-[250px] snap-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
 						>
 							<div class="flex items-center gap-3">
 								<div
@@ -415,7 +419,9 @@
 
 		<!-- Approved Posts -->
 		{#if approvedPosts.length > 0}
-			<div class="bg-white rounded-xl border border-zinc-200 p-6 shadow-sm">
+			<div
+				class="bg-white rounded-[2rem] border border-zinc-200/60 p-8 shadow-xl shadow-zinc-200/40"
+			>
 				<div class="flex items-center justify-between mb-4">
 					<h3 class="text-lg font-semibold text-zinc-900">
 						Reddit Posts for {projectData.business_name}
@@ -442,7 +448,7 @@
 				>
 					{#each approvedPosts as entry}
 						<div
-							class="border border-zinc-200 rounded-lg p-4 hover:border-zinc-400 hover:shadow-md transition-all duration-300 bg-white min-w-[350px] snap-center shadow-sm group"
+							class="border border-zinc-200 rounded-2xl p-5 hover:border-zinc-300 hover:shadow-lg transition-all duration-300 bg-white min-w-[350px] snap-center shadow-sm group hover:-translate-y-1"
 						>
 							<div class="flex items-start justify-between mb-3">
 								<div class="flex-1">

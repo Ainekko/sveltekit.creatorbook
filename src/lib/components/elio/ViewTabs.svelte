@@ -10,10 +10,10 @@
 
 	const tabs = [
 		{
-			id: 'content-posts',
-			label: 'Content & Posts',
-			icon: FileText,
-			count: blogPosts.length + pendingPosts.length + approvedPosts.length
+			id: 'profile',
+			label: 'Profile',
+			icon: User,
+			count: null
 		},
 		{
 			id: 'opportunities',
@@ -22,10 +22,10 @@
 			count: filteredOpportunities.length
 		},
 		{
-			id: 'profile',
-			label: 'Profile',
-			icon: User,
-			count: null
+			id: 'content-posts',
+			label: 'Content & Posts',
+			icon: FileText,
+			count: blogPosts.length + pendingPosts.length + approvedPosts.length
 		},
 		{
 			id: 'config',
@@ -36,23 +36,25 @@
 	];
 </script>
 
-<div class="mb-6 border-b border-zinc-200">
-	<div class="flex gap-2 overflow-x-auto scrollbar-hide">
+<div class="mb-8">
+	<div
+		class="flex p-1.5 bg-zinc-100 rounded-xl border border-zinc-200 w-full sm:w-auto inline-flex overflow-x-auto scrollbar-hide"
+	>
 		{#each tabs as tab}
 			<button
 				on:click={() => (view = tab.id)}
-				class="flex items-center gap-2 px-4 py-3 border-b-2 transition-all whitespace-nowrap {view ===
+				class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all whitespace-nowrap relative {view ===
 				tab.id
-					? 'border-zinc-900 text-zinc-900 font-semibold'
-					: 'border-transparent text-zinc-600 hover:text-zinc-900 hover:border-zinc-300'}"
+					? 'bg-white text-zinc-900 shadow-sm'
+					: 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-200/50'}"
 			>
 				<svelte:component this={tab.icon} class="w-4 h-4" />
 				<span>{tab.label}</span>
 				{#if tab.count !== null}
 					<span
-						class="px-2 py-0.5 rounded-full text-xs font-medium {view === tab.id
-							? 'bg-zinc-900 text-white'
-							: 'bg-zinc-100 text-zinc-600'}"
+						class="ml-1.5 px-1.5 py-0.5 rounded-md text-[10px] font-bold {view === tab.id
+							? 'bg-zinc-100 text-zinc-900'
+							: 'bg-zinc-200 text-zinc-600'}"
 					>
 						{tab.count}
 					</span>

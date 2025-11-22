@@ -23,7 +23,7 @@
 			class="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10"
 			use:animate={{ stagger: 0.15, y: 30 }}
 		>
-			{#each [{ step: '01', title: 'Sign up', description: 'Create your account in seconds. No credit card required for the trial.', icon: 'user', color: 'blue' }, { step: '02', title: 'Start a project', description: 'Get access to Nai for SEO, Rio for X, or Elio for Reddit.', icon: 'grid', color: 'purple' }, { step: '03', title: 'Connect tools', description: 'Link your WordPress, X account, or Reddit profile with one click.', icon: 'link', color: 'orange' }, { step: '04', title: 'Start growing', description: 'Tell your agents what to do and watch them execute flawlessly.', icon: 'rocket', color: 'emerald' }] as step, index}
+			{#each [{ step: '01', title: 'Sign up', description: 'Create your account in seconds. No credit card required for the trial.', icon: 'user', color: 'blue' }, { step: '02', title: 'Start a project', description: 'Get access to Nai for SEO or Elio for Reddit.', icon: 'grid', color: 'purple' }, { step: '03', title: 'Connect tools', description: 'Link your WordPress or Reddit profile with one click.', icon: 'link', color: 'orange' }, { step: '04', title: 'Start growing', description: 'Tell your agents what to do and watch them execute flawlessly.', icon: 'rocket', color: 'emerald' }] as step, index}
 				<div class="relative">
 					<!-- Step Number Badge -->
 					<div
