@@ -22,12 +22,6 @@
 			count: filteredOpportunities.length
 		},
 		{
-			id: 'content-posts',
-			label: 'Content & Posts',
-			icon: FileText,
-			count: blogPosts.length + pendingPosts.length + approvedPosts.length
-		},
-		{
 			id: 'config',
 			label: 'Configuration',
 			icon: Settings,

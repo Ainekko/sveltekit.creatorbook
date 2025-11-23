@@ -29,6 +29,8 @@ export interface User {
   email: string;
   subscription_status: SubscriptionStatus;
   subscription_info?: SubscriptionInfo;
+  source?: string;
+  intent?: string;
 }
 
 export interface UserState {

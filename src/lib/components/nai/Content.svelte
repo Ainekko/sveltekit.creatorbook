@@ -491,12 +491,14 @@
 					</button>
 					-->
 
+					<!-- Reddit Button Hidden
 					<button
 						on:click={convertToReddit}
 						class="px-5 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium transition-all duration-300 shadow-lg shadow-orange-900/20 hover:shadow-orange-900/30 active:scale-95 tracking-wide"
 					>
 						→ Reddit Post
 					</button>
+					-->
 
 					<button
 						on:click={closeDrawer}
