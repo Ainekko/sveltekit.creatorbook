@@ -385,17 +385,29 @@
 		scanning = true;
 		scanStep = 0;
 
-		// Simulate step progression (3 seconds per step)
-		const stepInterval = setInterval(() => {
-			if (scanStep < 3) {
+		// Variable step timing for realistic progression
+		// Step 0->1: 5s (connecting), 1->2: 30s (searching), 2->3: 60s (analyzing)
+		const stepTimings = [5000, 30000, 60000];
+		let currentStepIndex = 0;
+
+		const advanceStep = () => {
+			if (currentStepIndex < stepTimings.length && scanStep < 3) {
 				scanStep++;
+				currentStepIndex++;
+				if (currentStepIndex < stepTimings.length) {
+					setTimeout(advanceStep, stepTimings[currentStepIndex]);
+				}
 			}
-		}, 3000);
+		};
+
+		// Start the first step timer
+		const firstStepTimeout = setTimeout(advanceStep, stepTimings[0]);
 
 		try {
 			const result = await api.scanOpportunities(projectId, authToken, MAIN_BACKEND_URL);
 
-			clearInterval(stepInterval);
+			// Clear any pending timeouts
+			clearTimeout(firstStepTimeout);
 			scanStep = 3; // Final step
 
 			if (result.opportunities && result.opportunities.length > 0) {
@@ -415,18 +427,15 @@
 						await api.saveOpportunitiesToBackend(uniqueNew, projectId, authToken, MAIN_BACKEND_URL);
 						opportunities = [...uniqueNew, ...opportunities];
 
-						const summary = result.summary || {};
-						const frustrated = summary.by_frustration?.frustrated || 0;
-						const desperate = summary.by_frustration?.desperate || 0;
-
-						successMessage = `Found ${uniqueNew.length} new opportunities! ${frustrated + desperate > 0 ? `Including ${frustrated + desperate} high-priority leads.` : ''}`;
-						showSuccessModal = true;
+						// Redirect to opportunities view directly
+						view = 'opportunities';
 					} catch (backendError) {
 						console.error('Failed to save to backend, using localStorage fallback:', backendError);
 						opportunities = [...uniqueNew, ...opportunities];
 						saveOpportunitiesToLocalStorage(opportunities);
-						successMessage = `Found ${uniqueNew.length} new opportunities (saved locally)`;
-						showSuccessModal = true;
+
+						// Redirect to opportunities view directly
+						view = 'opportunities';
 					}
 				} else {
 					alert('No new opportunities found (all duplicates)');
@@ -435,7 +444,7 @@
 				alert('No new opportunities found');
 			}
 		} catch (error) {
-			clearInterval(stepInterval);
+			clearTimeout(firstStepTimeout);
 			alert('Failed to scan for opportunities: ' + error.message);
 		} finally {
 			scanning = false;
@@ -531,78 +540,98 @@
 <!-- Progress Dialog -->
 {#if scanning}
 	<div
-		class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+		class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4"
 		transition:fade={{ duration: 200 }}
 	>
 		<div
-			class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden"
+			class="bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 rounded-[2rem] shadow-2xl max-w-lg w-full overflow-hidden border border-white/10 relative"
 			transition:scale={{ duration: 300, easing: cubicOut, start: 0.95 }}
 		>
-			<!-- Header with gradient -->
-			<div class="bg-gradient-to-br from-zinc-700 to-zinc-900 p-6 text-white">
-				<div class="flex items-center gap-3 mb-2">
+			<!-- Ambient glow effect -->
+			<div
+				class="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-zinc-500/10 pointer-events-none"
+			></div>
+
+			<!-- Header -->
+			<div class="relative z-10 p-8 pb-6">
+				<div class="flex items-center gap-4 mb-3">
 					<div
-						class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shimmer"
+						class="w-14 h-14 rounded-full bg-gradient-to-b from-zinc-100 via-zinc-300 to-zinc-400 flex items-center justify-center shadow-[0_5px_15px_-5px_rgba(255,255,255,0.4)] border-2 border-white/20 shimmer"
 					>
-						<MessageCircle size={20} class="text-white" />
+						<MessageCircle size={24} class="text-zinc-900" />
 					</div>
 					<div>
-						<h3 class="text-lg font-semibold">Scanning Reddit for Opportunities</h3>
-						<p class="text-sm text-white/80">Hang tight—this usually takes 1-2 minutes</p>
+						<h3 class="text-2xl font-bold text-white tracking-tight">Scanning Reddit</h3>
+						<p class="text-sm text-zinc-400 mt-0.5">Finding high-value opportunities for you</p>
 					</div>
 				</div>
 			</div>
 
 			<!-- Progress Steps -->
-			<div class="p-6 space-y-4">
+			<div class="relative z-10 px-8 pb-6 space-y-5">
 				{#each scanProgressSteps as step, index}
-					<div class="flex items-start gap-3" transition:fly={{ y: 20, delay: index * 100 }}>
-						<div class="flex-shrink-0 mt-0.5">
+					<div class="flex items-start gap-4" transition:fly={{ y: 20, delay: index * 100 }}>
+						<div class="flex-shrink-0 mt-1">
 							{#if index < scanStep}
 								<div
-									class="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center"
+									class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30"
 									transition:scale={{ duration: 200 }}
 								>
-									<Check size={14} class="text-white" />
+									<Check size={16} class="text-white stroke-[3]" />
 								</div>
 							{:else if index === scanStep}
-								<div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
-									<Loader2 size={14} class="text-white animate-spin" />
+								<div
+									class="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/40 pulse-ring"
+								>
+									<Loader2 size={16} class="text-white animate-spin" />
 								</div>
 							{:else}
-								<div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">
-									<div class="w-2 h-2 rounded-full bg-gray-400"></div>
+								<div
+									class="w-8 h-8 rounded-full bg-zinc-700/50 border border-zinc-600 flex items-center justify-center"
+								>
+									<div class="w-2.5 h-2.5 rounded-full bg-zinc-500"></div>
 								</div>
 							{/if}
 						</div>
-						<div class="flex-1">
+						<div class="flex-1 pt-0.5">
 							<p
-								class="text-sm font-medium {index === scanStep
-									? 'text-blue-600'
+								class="text-base font-semibold mb-1 {index === scanStep
+									? 'text-white'
 									: index < scanStep
-										? 'text-emerald-600'
-										: 'text-gray-400'}"
+										? 'text-emerald-400'
+										: 'text-zinc-500'}"
 							>
 								{step.label}
 							</p>
-							<p class="text-xs text-gray-500 mt-0.5">
+							<p class="text-sm text-zinc-400 leading-relaxed">
 								{step.description}
 							</p>
 						</div>
 					</div>
 				{/each}
 
-				<!-- Progress Bar -->
-				<div class="mt-6">
-					<div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+				<!-- Liquid Light Progress Bar -->
+				<div class="mt-8 pt-6 border-t border-white/10">
+					<div
+						class="relative h-3 bg-zinc-800/50 rounded-full overflow-hidden border border-zinc-700/50"
+					>
 						<div
-							class="h-full bg-gradient-to-r from-zinc-700 to-zinc-900 transition-all duration-500 ease-out shimmer"
+							class="absolute inset-0 bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500 transition-all duration-700 ease-out liquid-light"
 							style="width: {((scanStep + 1) / scanProgressSteps.length) * 100}%"
-						></div>
+						>
+							<div
+								class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shimmer_2s_infinite]"
+							></div>
+						</div>
 					</div>
-					<p class="text-xs text-gray-500 text-center mt-2">
-						Step {scanStep + 1} of {scanProgressSteps.length}
-					</p>
+					<div class="flex items-center justify-between mt-3">
+						<p class="text-xs font-medium text-zinc-400">
+							Step {scanStep + 1} of {scanProgressSteps.length}
+						</p>
+						<p class="text-xs font-medium text-zinc-400">
+							{Math.round(((scanStep + 1) / scanProgressSteps.length) * 100)}% Complete
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -630,5 +659,36 @@
 		100% {
 			background-position: 200% 0;
 		}
+	}
+
+	.pulse-ring {
+		position: relative;
+	}
+
+	.pulse-ring::before {
+		content: '';
+		position: absolute;
+		inset: -4px;
+		border-radius: 50%;
+		background: radial-gradient(circle, rgba(251, 146, 60, 0.4), transparent 70%);
+		animation: pulse-ring 2s ease-out infinite;
+	}
+
+	@keyframes pulse-ring {
+		0% {
+			transform: scale(1);
+			opacity: 1;
+		}
+		100% {
+			transform: scale(1.5);
+			opacity: 0;
+		}
+	}
+
+	.liquid-light {
+		box-shadow:
+			0 0 20px rgba(251, 146, 60, 0.5),
+			0 0 40px rgba(251, 146, 60, 0.3),
+			inset 0 0 20px rgba(255, 255, 255, 0.2);
 	}
 </style>
