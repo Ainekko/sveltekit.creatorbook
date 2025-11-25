@@ -28,9 +28,9 @@
 		{#if activeTab === 'overview'}
 			<Overview {projectId} />
 		{:else if activeTab === 'keywords'}
-			<Keywords {projectId} />
+			<Keywords {projectId} on:changeTab={(e) => (activeTab = e.detail)} />
 		{:else if activeTab === 'outlines'}
-			<Outlines {projectId} />
+			<Outlines {projectId} on:changeTab={(e) => (activeTab = e.detail)} />
 		{:else if activeTab === 'content'}
 			<Content {projectId} />
 		{:else if activeTab === 'settings'}

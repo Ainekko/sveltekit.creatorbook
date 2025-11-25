@@ -1,6 +1,7 @@
 <!-- src/lib/components/nai/Keywords.svelte -->
 
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import {
 		RefreshCw,
 		TrendingUp,
@@ -25,6 +26,8 @@
 	import { cubicOut } from 'svelte/easing';
 
 	export let projectId: string;
+
+	const dispatch = createEventDispatcher();
 
 	// Subscribe to content store
 	$: keywords = $contentStore.keywords as Keyword[];
@@ -182,6 +185,8 @@
 				selectedKeywordIds = [];
 				showProgressDialog = false;
 				currentStep = 0;
+				// Redirect to outlines tab
+				dispatch('changeTab', 'outlines');
 			} else {
 				console.error('Failed to generate outlines');
 				showProgressDialog = false;

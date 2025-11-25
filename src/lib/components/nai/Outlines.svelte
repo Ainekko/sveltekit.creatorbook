@@ -1,6 +1,6 @@
 <!-- Outlines.svelte -->
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, createEventDispatcher } from 'svelte';
 	import {
 		RefreshCw,
 		FileText,
@@ -17,6 +17,8 @@
 	import { cubicOut } from 'svelte/easing';
 
 	export let projectId: string;
+
+	const dispatch = createEventDispatcher();
 
 	$: outlines = $contentStore.outlines;
 	$: isLoading = $contentStore.outlinesLoading;
@@ -105,6 +107,8 @@
 				selectedOutlineIds = [];
 				showProgressDialog = false;
 				currentStep = 0;
+				// Redirect to content tab
+				dispatch('changeTab', 'content');
 			} else {
 				console.error('Failed to generate posts');
 				showProgressDialog = false;
