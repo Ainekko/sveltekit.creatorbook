@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import ScanningLoader from './ScanningLoader.svelte';
 
 	// Props
 	export let businessName = 'Basecamp';
@@ -208,10 +209,7 @@
 		<!-- Opportunities List -->
 		<div class="col-span-5 space-y-3">
 			{#if loading}
-				<div class="text-center py-12">
-					<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-zinc-900 mx-auto"></div>
-					<p class="text-gray-500 mt-4">Finding opportunities...</p>
-				</div>
+				<ScanningLoader />
 			{:else if filteredOpportunities.length === 0}
 				<div class="text-center py-12">
 					<div class="text-6xl mb-4">🔍</div>

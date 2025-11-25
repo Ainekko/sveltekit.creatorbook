@@ -136,48 +136,6 @@
 			</p>
 		</div>
 
-		<!-- Billing Toggle -->
-		<div class="flex flex-col items-center mb-16">
-			<div
-				class="bg-white p-1.5 rounded-2xl border border-zinc-200 shadow-sm inline-flex relative mb-6"
-			>
-				<button
-					class="px-6 py-3 rounded-xl text-sm font-medium transition-all relative z-10 {billingPeriod ===
-					'monthly'
-						? 'text-zinc-900'
-						: 'text-zinc-500 hover:text-zinc-700'}"
-					on:click={() => (billingPeriod = 'monthly')}
-				>
-					Monthly Salary
-				</button>
-				<button
-					class="px-6 py-3 rounded-xl text-sm font-medium transition-all relative z-10 {billingPeriod ===
-					'annual'
-						? 'text-zinc-900'
-						: 'text-zinc-500 hover:text-zinc-700'}"
-					on:click={() => (billingPeriod = 'annual')}
-				>
-					Annual Contract <span class="text-emerald-600 text-xs font-bold ml-1">-20%</span>
-				</button>
-
-				<!-- Sliding Pill -->
-				<div
-					class="absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-zinc-100 rounded-xl transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] {billingPeriod ===
-					'annual'
-						? 'left-[calc(50%+3px)]'
-						: 'left-1.5'}"
-				></div>
-			</div>
-
-			<!-- Reassurance Text -->
-			<div
-				class="flex items-center gap-3 text-sm font-medium text-zinc-500 bg-white px-6 py-3 rounded-full border border-zinc-200 shadow-sm mt-2"
-			>
-				<Shield class="w-4 h-4 text-emerald-500" />
-				<span>Cancel anytime. No questions asked. We'll email you 2 days before trial ends.</span>
-			</div>
-		</div>
-
 		<!-- Lifetime Deal Banner -->
 		<div class="max-w-5xl mx-auto mb-20">
 			{#each tiers as tier}
@@ -253,6 +211,48 @@
 					</div>
 				{/if}
 			{/each}
+		</div>
+
+		<!-- Billing Toggle -->
+		<div class="flex flex-col items-center mb-16">
+			<div
+				class="bg-white p-1.5 rounded-2xl border border-zinc-200 shadow-sm inline-flex relative mb-6"
+			>
+				<button
+					class="px-6 py-3 rounded-xl text-sm font-medium transition-all relative z-10 {billingPeriod ===
+					'monthly'
+						? 'text-zinc-900'
+						: 'text-zinc-500 hover:text-zinc-700'}"
+					on:click={() => (billingPeriod = 'monthly')}
+				>
+					Monthly Salary
+				</button>
+				<button
+					class="px-6 py-3 rounded-xl text-sm font-medium transition-all relative z-10 {billingPeriod ===
+					'annual'
+						? 'text-zinc-900'
+						: 'text-zinc-500 hover:text-zinc-700'}"
+					on:click={() => (billingPeriod = 'annual')}
+				>
+					Annual Contract <span class="text-emerald-600 text-xs font-bold ml-1">-20%</span>
+				</button>
+
+				<!-- Sliding Pill -->
+				<div
+					class="absolute top-1.5 bottom-1.5 rounded-xl bg-zinc-100 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] {billingPeriod ===
+					'annual'
+						? 'left-[calc(50%+3px)] w-[calc(50%-6px)]'
+						: 'left-1.5 w-[calc(50%-6px)]'}"
+				></div>
+			</div>
+
+			<!-- Reassurance Text -->
+			<div
+				class="flex items-center gap-3 text-sm font-medium text-zinc-500 bg-white px-6 py-3 rounded-full border border-zinc-200 shadow-sm mt-2"
+			>
+				<Shield class="w-4 h-4 text-emerald-500" />
+				<span>Cancel anytime. No questions asked. We'll email you 2 days before trial ends.</span>
+			</div>
 		</div>
 
 		<!-- Pricing Cards with Conduit Effect -->

@@ -129,76 +129,6 @@
 		class="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-30 pointer-events-none fixed"
 	></div>
 
-	<!-- Connected Ecosystem Visual -->
-	<section
-		class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center mb-20"
-		use:animate={{ type: 'slide', y: 30, duration: 0.8 }}
-	>
-		<div
-			class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-sm font-medium mb-6"
-		>
-			<Share2 class="w-4 h-4" />
-			<span>Connected Ecosystem</span>
-		</div>
-		<h2 class="text-4xl md:text-5xl font-bold text-zinc-900 mb-6">
-			Your Agents Talk to Each Other
-		</h2>
-		<p class="text-xl text-zinc-500 max-w-2xl mx-auto mb-12">
-			Don't build silos. Nai's SEO research informs Elio's Reddit strategy. One cohesive engine.
-		</p>
-
-		<div
-			class="relative max-w-4xl mx-auto p-8 bg-white rounded-[2.5rem] border border-zinc-200 shadow-2xl"
-		>
-			<div
-				class="absolute inset-0 bg-gradient-to-b from-zinc-50/50 to-transparent rounded-[2.5rem] pointer-events-none"
-			></div>
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10 items-center">
-				<!-- Nai Node -->
-				<div class="flex flex-col items-center gap-4">
-					<div
-						class="w-16 h-16 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-600 shadow-sm"
-					>
-						<Search class="w-8 h-8" />
-					</div>
-					<div class="text-center">
-						<div class="font-bold text-zinc-900">Nai</div>
-						<div class="text-sm text-zinc-500">SEO Content</div>
-					</div>
-				</div>
-
-				<!-- Arrow 1 -->
-				<div class="hidden md:flex justify-center text-zinc-300">
-					<ArrowRight class="w-8 h-8 animate-pulse" />
-				</div>
-
-				<!-- Elio Node -->
-				<div class="flex flex-col items-center gap-4">
-					<div
-						class="w-16 h-16 rounded-2xl bg-orange-100 flex items-center justify-center text-orange-600 shadow-sm"
-					>
-						<Zap class="w-8 h-8" />
-					</div>
-					<div class="text-center">
-						<div class="font-bold text-zinc-900">Elio</div>
-						<div class="text-sm text-zinc-500">Reddit Strategy</div>
-					</div>
-				</div>
-
-				<!-- Arrow 2 (Visual only for 3-step, but user asked for interconnectivity generally. Let's imply a cycle or flow) -->
-				<!-- For simplicity in this grid, we'll just show the connection -->
-			</div>
-
-			<!-- Connecting Line Description -->
-			<div
-				class="mt-8 pt-8 border-t border-zinc-100 text-sm text-zinc-500 flex items-center justify-center gap-2"
-			>
-				<div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-				Live Data Sync: SEO keywords automatically trigger relevant Reddit monitoring.
-			</div>
-		</div>
-	</section>
-
 	{#each enhancedAgents as agent, i}
 		<section
 			class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
@@ -652,11 +582,17 @@
 												<!-- WordPress Logo SVG -->
 												<svg
 													class="w-12 h-12 text-[#21759b]"
-													viewBox="0 0 24 24"
+													viewBox="0 0 122.52 122.523"
 													fill="currentColor"
 												>
 													<path
-														d="M12.04 0C5.41 0 .04 5.37.04 12s5.37 12 12 12 12-5.37 12-12-5.37-12-12-12zm0 23.3c-2.6 0-4.98-.88-6.9-2.36l4.9-13.5 1.43 4.15 2.9-8.4c4.02 1.54 6.9 5.4 6.9 9.92 0 5.6-4.03 10.18-9.23 10.18zm-6.8-3.3c-1.6-1.9-2.58-4.35-2.58-7.03 0-2.2.66-4.25 1.8-6l5.2 14.3-4.42-1.27zm14.1-4.9l-3.4-9.8c1.6.5 3.04 1.4 4.18 2.64-.4 2.4-1.9 5.9-4.04 11.7l3.26-4.54z"
+														d="M8.708 61.26c0 20.802 12.089 38.779 29.619 47.298L13.258 39.872a52.354 52.354 0 0 0-4.55 21.388zM96.74 58.608c0-6.495-2.333-10.993-4.334-14.494-2.664-4.329-5.161-7.995-5.161-12.324 0-4.831 3.664-9.328 8.825-9.328.233 0 .454.029.681.042-9.35-8.566-21.807-13.796-35.489-13.796-18.36 0-34.513 9.42-43.91 23.688 1.233.037 2.395.063 3.382.063 5.497 0 14.006-.667 14.006-.667 2.833-.167 3.167 3.994.337 4.329 0 0-2.847.335-6.015.501L48.2 93.547l11.501-34.493-8.188-22.434c-2.83-.166-5.511-.501-5.511-.501-2.832-.166-2.5-4.496.332-4.329 0 0 8.679.667 13.843.667 5.496 0 14.006-.667 14.006-.667 2.835-.167 3.168 3.994.337 4.329 0 0-2.853.335-6.015.501l18.992 56.494 5.242-17.517c2.272-7.269 4.001-12.49 4.001-16.989z"
+													/>
+													<path
+														d="M62.184 65.857l-15.768 45.819a52.563 52.563 0 0 0 14.846 2.095c6.12 0 11.989-1.058 17.452-2.979a4.135 4.135 0 0 1-.336-.646l-16.194-44.289zM107.376 36.046c.226 1.674.354 3.471.354 5.404 0 5.333-.996 11.328-3.996 18.824l-16.053 46.413c15.624-9.111 26.133-26.038 26.133-45.426.001-9.137-2.333-17.729-6.438-25.215z"
+													/>
+													<path
+														d="M61.262 0C27.483 0 0 27.481 0 61.26c0 33.783 27.483 61.263 61.262 61.263 33.778 0 61.265-27.48 61.265-61.263C122.526 27.481 95.04 0 61.262 0zm0 119.715c-32.23 0-58.453-26.223-58.453-58.455 0-32.23 26.222-58.451 58.453-58.451 32.229 0 58.45 26.221 58.45 58.451 0 32.232-26.221 58.455-58.45 58.455z"
 													/>
 												</svg>
 											</div>
@@ -692,6 +628,97 @@
 							</div>
 						</div>
 					</div>
+				{/if}
+
+				<!-- Connected Ecosystem Visual -->
+				{#if agent.icon === 'search'}
+					<section
+						class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center my-32"
+						use:animate={{ type: 'slide', y: 30, duration: 0.8 }}
+					>
+						<div
+							class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-50 to-orange-50 border border-blue-100 text-blue-700 text-sm font-medium mb-6"
+						>
+							<Share2 class="w-4 h-4" />
+							<span>Connected Ecosystem</span>
+						</div>
+						<h2 class="text-4xl md:text-5xl font-bold text-zinc-900 mb-6">
+							Your Agents Talk to Each Other
+						</h2>
+						<p class="text-xl text-zinc-500 max-w-2xl mx-auto mb-12">
+							Don't build silos. Nai's SEO research informs Elio's Reddit strategy. One cohesive
+							engine.
+						</p>
+
+						<div
+							class="relative max-w-4xl mx-auto p-8 bg-white rounded-[2.5rem] border border-zinc-200 shadow-2xl"
+						>
+							<div
+								class="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-white to-orange-50/30 rounded-[2.5rem] pointer-events-none"
+							></div>
+							<div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10 items-center">
+								<!-- Nai Node (WordPress) -->
+								<div class="flex flex-col items-center gap-4">
+									<div
+										class="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 flex items-center justify-center text-blue-600 shadow-lg"
+									>
+										<!-- WordPress Icon -->
+										<svg class="w-11 h-11" viewBox="0 0 122.52 122.523" fill="currentColor">
+											<path
+												d="M8.708 61.26c0 20.802 12.089 38.779 29.619 47.298L13.258 39.872a52.354 52.354 0 0 0-4.55 21.388zM96.74 58.608c0-6.495-2.333-10.993-4.334-14.494-2.664-4.329-5.161-7.995-5.161-12.324 0-4.831 3.664-9.328 8.825-9.328.233 0 .454.029.681.042-9.35-8.566-21.807-13.796-35.489-13.796-18.36 0-34.513 9.42-43.91 23.688 1.233.037 2.395.063 3.382.063 5.497 0 14.006-.667 14.006-.667 2.833-.167 3.167 3.994.337 4.329 0 0-2.847.335-6.015.501L48.2 93.547l11.501-34.493-8.188-22.434c-2.83-.166-5.511-.501-5.511-.501-2.832-.166-2.5-4.496.332-4.329 0 0 8.679.667 13.843.667 5.496 0 14.006-.667 14.006-.667 2.835-.167 3.168 3.994.337 4.329 0 0-2.853.335-6.015.501l18.992 56.494 5.242-17.517c2.272-7.269 4.001-12.49 4.001-16.989z"
+											/>
+											<path
+												d="M62.184 65.857l-15.768 45.819a52.563 52.563 0 0 0 14.846 2.095c6.12 0 11.989-1.058 17.452-2.979a4.135 4.135 0 0 1-.336-.646l-16.194-44.289zM107.376 36.046c.226 1.674.354 3.471.354 5.404 0 5.333-.996 11.328-3.996 18.824l-16.053 46.413c15.624-9.111 26.133-26.038 26.133-45.426.001-9.137-2.333-17.729-6.438-25.215z"
+											/>
+											<path
+												d="M61.262 0C27.483 0 0 27.481 0 61.26c0 33.783 27.483 61.263 61.262 61.263 33.778 0 61.265-27.48 61.265-61.263C122.526 27.481 95.04 0 61.262 0zm0 119.715c-32.23 0-58.453-26.223-58.453-58.455 0-32.23 26.222-58.451 58.453-58.451 32.229 0 58.45 26.221 58.45 58.451 0 32.232-26.221 58.455-58.45 58.455z"
+											/>
+										</svg>
+									</div>
+									<div class="text-center">
+										<div class="font-bold text-zinc-900 text-lg">Nai</div>
+										<div class="text-sm text-zinc-500">SEO Content</div>
+									</div>
+								</div>
+
+								<!-- Arrow -->
+								<div class="hidden md:flex justify-center">
+									<div class="flex items-center gap-2">
+										<div class="h-px w-16 bg-gradient-to-r from-blue-300 to-orange-300"></div>
+										<ArrowRight class="w-6 h-6 text-zinc-400 animate-pulse" />
+										<div class="h-px w-16 bg-gradient-to-r from-blue-300 to-orange-300"></div>
+									</div>
+								</div>
+
+								<!-- Elio Node (Reddit) -->
+								<div class="flex flex-col items-center gap-4">
+									<div
+										class="w-20 h-20 rounded-2xl bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 flex items-center justify-center text-orange-600 shadow-lg"
+									>
+										<!-- Reddit Icon -->
+										<svg class="w-11 h-11" fill="currentColor" viewBox="0 0 24 24">
+											<path
+												d="M12 0A12 12 0 00 0 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 01-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 01.042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 014.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 01.14-.197.35.35 0 01.238-.042l2.906.617a1.214 1.214 0 011.108-.701zM9.25 12c-.689 0-1.25.561-1.25 1.25 0 .688.561 1.249 1.25 1.249.688 0 1.249-.561 1.249-1.249 0-.688-.561-1.25-1.249-1.25zm5.5 0c-.689 0-1.25.561-1.25 1.25 0 .688.561 1.249 1.25 1.249.688 0 1.249-.561 1.249-1.249 0-.688-.561-1.25-1.25-1.25zm-5.466 3.99a.327.327 0 00-.231.094.33.33 0 000 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 00.029-.463.33.33 0 00-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 00-.232-.095z"
+											/>
+										</svg>
+									</div>
+									<div class="text-center">
+										<div class="font-bold text-zinc-900 text-lg">Elio</div>
+										<div class="text-sm text-zinc-500">Reddit Strategy</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Connecting Line Description -->
+							<div
+								class="mt-8 pt-8 border-t border-zinc-200 text-sm text-zinc-600 flex items-center justify-center gap-2"
+							>
+								<div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+								<span class="font-medium">Live Data Sync:</span> SEO keywords automatically trigger relevant
+								Reddit monitoring.
+							</div>
+						</div>
+					</section>
 				{/if}
 
 				<!-- Elio Section (Reddit) -->
@@ -733,7 +760,12 @@
 											<div
 												class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center flex-shrink-0 border border-orange-100"
 											>
-												<Search class="w-6 h-6 text-orange-600" />
+												<!-- Reddit Icon -->
+												<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+													<path
+														d="M12 0A12 12 0 00 0 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 01-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 01.042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 014.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 01.14-.197.35.35 0 01.238-.042l2.906.617a1.214 1.214 0 011.108-.701zM9.25 12c-.689 0-1.25.561-1.25 1.25 0 .688.561 1.249 1.25 1.249.688 0 1.249-.561 1.249-1.249 0-.688-.561-1.25-1.249-1.25zm5.5 0c-.689 0-1.25.561-1.25 1.25 0 .688.561 1.249 1.25 1.249.688 0 1.249-.561 1.249-1.249 0-.688-.561-1.25-1.25-1.25zm-5.466 3.99a.327.327 0 00-.231.094.33.33 0 000 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 00.029-.463.33.33 0 00-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 00-.232-.095z"
+													/>
+												</svg>
 											</div>
 											<div>
 												<h4 class="text-xl font-bold mb-2 text-zinc-900">
@@ -815,9 +847,9 @@
 											class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-6 shadow-lg border border-zinc-100"
 										>
 											<!-- Reddit Logo SVG -->
-											<svg class="w-12 h-12 text-[#FF4500]" viewBox="0 0 24 24" fill="currentColor">
+											<svg class="w-12 h-12 text-[#FF4500]" fill="currentColor" viewBox="0 0 24 24">
 												<path
-													d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.926 15.563c-.21.21-.55.21-.76 0-.64-.64-2.47-1.08-4.166-1.08-1.69 0-3.52.44-4.16 1.08-.105.105-.243.158-.38.158-.138 0-.276-.053-.38-.158-.21-.21-.21-.55 0-.76.86-.86 2.98-1.4 4.92-1.4 1.94 0 4.06.54 4.92 1.4.216.21.216.55.006.76zm-1.14-3.33c-.7 0-1.27-.57-1.27-1.27s.57-1.27 1.27-1.27c.7 0 1.27.57 1.27 1.27s-.57 1.27-1.27 1.27zm-7.57 0c-.7 0-1.27-.57-1.27-1.27s.57-1.27 1.27-1.27c.7 0 1.27.57 1.27 1.27s-.57 1.27-1.27 1.27z"
+													d="M12 0A12 12 0 00 0 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 01-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 01.042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 014.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 01.14-.197.35.35 0 01.238-.042l2.906.617a1.214 1.214 0 011.108-.701zM9.25 12c-.689 0-1.25.561-1.25 1.25 0 .688.561 1.249 1.25 1.249.688 0 1.249-.561 1.249-1.249 0-.688-.561-1.25-1.249-1.25zm5.5 0c-.689 0-1.25.561-1.25 1.25 0 .688.561 1.249 1.25 1.249.688 0 1.249-.561 1.249-1.249 0-.688-.561-1.25-1.25-1.25zm-5.466 3.99a.327.327 0 00-.231.094.33.33 0 000 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 00.029-.463.33.33 0 00-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 00-.232-.095z"
 												/>
 											</svg>
 										</div>
