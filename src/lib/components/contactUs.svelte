@@ -207,6 +207,48 @@
 	let statsRef: HTMLDivElement | null = null;
 
 	onMount(() => {
+		// Initialize Cal.com embed
+		if (typeof window !== 'undefined') {
+			(function (C, A, L) {
+				let p = function (a, ar) {
+					a.q.push(ar);
+				};
+				let d = C.document;
+				C.Cal =
+					C.Cal ||
+					function () {
+						let cal = C.Cal;
+						let ar = arguments;
+						if (!cal.loaded) {
+							cal.ns = {};
+							cal.q = cal.q || [];
+							d.head.appendChild(d.createElement('script')).src = A;
+							cal.loaded = true;
+						}
+						if (ar[0] === L) {
+							const api = function () {
+								p(api, arguments);
+							};
+							const namespace = ar[1];
+							api.q = api.q || [];
+							if (typeof namespace === 'string') {
+								cal.ns[namespace] = cal.ns[namespace] || api;
+								p(cal.ns[namespace], ar);
+								p(cal, ['initNamespace', namespace]);
+							} else p(cal, ar);
+							return;
+						}
+						p(cal, ar);
+					};
+			})(window, 'https://app.cal.com/embed/embed.js', 'init');
+			window.Cal('init', '30min', { origin: 'https://app.cal.com' });
+			window.Cal.ns['30min']('ui', {
+				theme: 'light',
+				hideEventTypeDetails: false,
+				layout: 'month_view'
+			});
+		}
+
 		const obsHeader = setupObserver(headerRef, () => (isVisibleHeader = true));
 		const obsMain = setupObserver(mainRef, () => (isVisibleMain = true));
 		const obsAgents = setupObserver(agentsRef, () => (isVisibleAgents = true));
@@ -327,13 +369,21 @@
 					</div>
 				{/if}
 
-				<div class="mt-6 pt-6 border-t border-zinc-800 text-center">
+				<div class="mt-6 pt-6 border-t border-zinc-800 text-center space-y-4">
 					<p class="text-sm text-zinc-400">
 						Or email us at <a
 							href="mailto:hi@s-tierproject.online"
 							class="text-blue-400 hover:text-blue-300">hello@flowjoy.online</a
 						>
 					</p>
+					<button
+						data-cal-link="hafid-ahlaqach-nigixz/30min"
+						data-cal-namespace="30min"
+						data-cal-config={JSON.stringify({ layout: 'month_view', theme: 'light' })}
+						class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl"
+					>
+						📅 Schedule a Call
+					</button>
 				</div>
 			</div>
 

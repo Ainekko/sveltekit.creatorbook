@@ -7,6 +7,28 @@
 
 	const tiers = [
 		{
+			name: 'Free Demo',
+			role: 'Try Before You Hire',
+			planId: 'free',
+			priceMonthly: '$0',
+			priceAnnual: '$0',
+			description: 'Experience the power of AI agents with our free demo. No credit card required.',
+			features: [
+				'1 Active Project',
+				'2 AI Agents (Nai + Elio)',
+				'SEO Keyword Research',
+				'Blog Post Generation',
+				'Reddit Lead Monitoring',
+				'Community Support'
+			],
+			buttonText: 'Get Free Demo',
+			icon: Sparkles,
+			color: 'emerald',
+			highlight: false,
+			isLifetime: false,
+			isFree: true
+		},
+		{
 			name: 'The Intern',
 			role: 'Starter Team',
 			planId: 'starter',
@@ -91,9 +113,56 @@
 		}
 	];
 
+	onMount(() => {
+		// Initialize Cal.com embed
+		if (typeof window !== 'undefined') {
+			(function (C, A, L) {
+				let p = function (a, ar) {
+					a.q.push(ar);
+				};
+				let d = C.document;
+				C.Cal =
+					C.Cal ||
+					function () {
+						let cal = C.Cal;
+						let ar = arguments;
+						if (!cal.loaded) {
+							cal.ns = {};
+							cal.q = cal.q || [];
+							d.head.appendChild(d.createElement('script')).src = A;
+							cal.loaded = true;
+						}
+						if (ar[0] === L) {
+							const api = function () {
+								p(api, arguments);
+							};
+							const namespace = ar[1];
+							api.q = api.q || [];
+							if (typeof namespace === 'string') {
+								cal.ns[namespace] = cal.ns[namespace] || api;
+								p(cal.ns[namespace], ar);
+								p(cal, ['initNamespace', namespace]);
+							} else p(cal, ar);
+							return;
+						}
+						p(cal, ar);
+					};
+			})(window, 'https://app.cal.com/embed/embed.js', 'init');
+			window.Cal('init', '30min', { origin: 'https://app.cal.com' });
+			window.Cal.ns['30min']('ui', {
+				theme: 'light',
+				hideEventTypeDetails: false,
+				layout: 'month_view'
+			});
+		}
+	});
+
 	function handlePlanSelection(planId: string) {
 		if (planId === 'custom' || planId === 'agency') {
-			window.location.href = '/contact-us';
+			// Cal.com popup will be triggered by the data attributes on the button
+			return;
+		} else if (planId === 'free') {
+			window.location.href = '/signup';
 		} else {
 			window.location.href = `/plans?selected=${planId}&billing=${billingPeriod}`;
 		}
@@ -264,13 +333,15 @@
 				></div>
 			</div>
 
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start max-w-6xl mx-auto">
+			<div
+				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch max-w-7xl mx-auto"
+			>
 				{#each tiers as tier}
 					{#if !tier.isLifetime}
-						<div class="group relative">
+						<div class="group relative h-full">
 							<!-- Card Container -->
 							<div
-								class="bg-white rounded-[2rem] p-2 border border-zinc-200 shadow-xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl relative z-10 {tier.highlight
+								class="bg-white rounded-[2rem] p-2 border border-zinc-200 shadow-xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl relative z-10 h-full {tier.highlight
 									? 'ring-2 ring-violet-500/20'
 									: ''}"
 							>
@@ -319,6 +390,11 @@
 									<!-- CTA -->
 									<button
 										on:click={() => handlePlanSelection(tier.planId)}
+										data-cal-link={tier.planId === 'agency' ? 'hafid-ahlaqach-nigixz/30min' : null}
+										data-cal-namespace={tier.planId === 'agency' ? '30min' : null}
+										data-cal-config={tier.planId === 'agency'
+											? JSON.stringify({ layout: 'month_view', theme: 'light' })
+											: null}
 										class="w-full py-4 rounded-2xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2
 										{tier.highlight
 											? 'bg-zinc-900 text-white hover:bg-zinc-800'
