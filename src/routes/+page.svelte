@@ -12,6 +12,7 @@
 	import DemoHero from '$lib/components/DemoHero.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
 	import Landing from '$lib/components/landingpage/Landing.svelte';
+	import BlackFridayBanner from '$lib/components/BlackFridayBanner.svelte';
 
 	onMount(() => {});
 </script>
@@ -129,6 +130,8 @@
 <div class="sticky top-0 z-50">
 	<NavBar />
 </div>
+
+<BlackFridayBanner />
 
 <main class="">
 	<!-- <section class="">
