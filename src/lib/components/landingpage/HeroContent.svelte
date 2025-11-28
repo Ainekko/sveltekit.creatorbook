@@ -393,8 +393,9 @@
 	}
 
 	.twisted-underline {
-		display: inline-block;
+		display: inline;
 		position: relative;
+		white-space: nowrap;
 	}
 
 	.twisted-underline svg {
@@ -403,5 +404,6 @@
 		left: 0;
 		width: 100%;
 		height: 12px;
+		pointer-events: none;
 	}
 </style>
