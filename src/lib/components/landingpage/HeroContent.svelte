@@ -123,6 +123,7 @@
 					>no complex workflows
 					<svg
 						viewBox="0 0 100 10"
+						preserveAspectRatio="none"
 						fill="none"
 						stroke="#f97316"
 						stroke-width="2"
