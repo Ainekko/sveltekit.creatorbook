@@ -406,7 +406,7 @@
 
 									<div class="text-center mt-4">
 										<p class="text-sm font-bold text-zinc-900">14 Days Free Trial</p>
-										<p class="text-xs text-zinc-400 mt-1">No credit card required</p>
+										<p class="text-xs text-zinc-400 mt-1">Cancel anytime</p>
 									</div>
 								</div>
 							</div>
@@ -482,7 +482,7 @@
 					Start Onboarding
 					<ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
 				</button>
-				<p class="text-zinc-400 text-sm mt-6">No credit card required for trial • Cancel anytime</p>
+				<p class="text-zinc-400 text-sm mt-6">14 days free trial • Cancel anytime</p>
 			</div>
 		</div>
 	</main>

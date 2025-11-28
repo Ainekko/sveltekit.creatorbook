@@ -172,7 +172,7 @@
 						clip-rule="evenodd"
 					></path>
 				</svg>
-				14-day free trial · No credit card required
+				14 days free trial • Cancel anytime
 			</p>
 		{/if}
 	</div>
