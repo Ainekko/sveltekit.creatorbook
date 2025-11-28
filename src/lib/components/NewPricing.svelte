@@ -334,10 +334,10 @@
 			</div>
 
 			<div
-				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch max-w-7xl mx-auto"
+				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch max-w-7xl mx-auto"
 			>
 				{#each tiers as tier}
-					{#if !tier.isLifetime}
+					{#if !tier.isLifetime && !tier.isFree}
 						<div class="group relative h-full">
 							<!-- Card Container -->
 							<div
