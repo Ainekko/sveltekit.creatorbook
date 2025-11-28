@@ -17,10 +17,10 @@
 </script>
 
 <svelte:head>
-	<title>Flowjoy | AI Marketing Agents for SEO & Reddit Automation</title>
+	<title>Scale your content - delegate reasearch and grunt work to AI - In minutes</title>
 	<meta
 		name="description"
-		content="Meet Flowjoy: AI marketing agents that automate SEO, X, and Reddit growth without complex workflows. Perfect for founders, growth teams, and solo creators."
+		content="Meet Flowjoy: AI marketing agents that automate SEO and Reddit growth without complex workflows. Perfect for founders, growth teams, and solo creators."
 	/>
 	<meta
 		name="keywords"
@@ -31,9 +31,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta charset="UTF-8" />
 
-	<link rel="canonical" href="https://flowjoy.online" />
+	<link rel="canonical" href="https://www.flowjoy.online" />
 
-	<meta property="og:title" content="Flowjoy: AI Marketing Agents for SEO & Reddit" />
+	<meta
+		property="og:title"
+		content="Scale your content - delegate reasearch and grunt work to AI - In minutes"
+	/>
 	<meta
 		property="og:description"
 		content="Automate SEO, X, and Reddit growth without complex workflows. Flowjoy's AI agents are built for founders, growth teams, and solo creators."
@@ -47,7 +50,7 @@
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
 
-	<meta property="og:url" content="https://flowjoy.online" />
+	<meta property="og:url" content="https://www.flowjoy.online" />
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="Flowjoy" />
 	<meta property="og:locale" content="en_US" />
@@ -57,7 +60,10 @@
 	<meta name="twitter:site" content="" />
 	<meta name="twitter:creator" content="@_nagativeIQ" />
 
-	<meta name="twitter:title" content="Flowjoy: AI Marketing Agents for SEO & Reddit" />
+	<meta
+		name="twitter:title"
+		content="Scale your content - delegate reasearch and grunt work to AI - In minutes"
+	/>
 	<meta
 		name="twitter:description"
 		content="Automate SEO and Reddit growth without complex workflows. Built for founders, growth teams, and solo creators."
@@ -81,7 +87,7 @@
 			"@context": "https://schema.org",
 			"@type": "SoftwareApplication",
 			"name": "Flowjoy",
-			"url": "https://flowjoy.online",
+			"url": "https://www.flowjoy.online",
 			"description": "AI marketing agents that automate SEO, and Reddit growth without complex workflows. Perfect for founders, growth teams, and solo creators.",
 			"applicationCategory": "BusinessApplication",
 			"operatingSystem": "Web",

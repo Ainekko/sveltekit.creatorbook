@@ -72,16 +72,16 @@
 
 <!-- Main Hero Content -->
 <div class="text-center mb-16 min-h-screen">
-	<div bind:this={headlineRef} class="space-y-6 mb-12 relative">
+	<div bind:this={headlineRef} class="space-y-6 mb-12 relative flex flex-col items-center">
 		{#if isVisibleHeadline}
 			<h1
 				in:blur={{ delay: 0, duration: 600, amount: 5 }}
-				class="text-4xl md:text-5xl lg:text-6xl font-semibold text-zinc-700 leading-tight tracking-tight"
+				class="text-3xl max-w-[25ch] md:text-4xl lg:text-6xl font-semibold text-zinc-700 leading-tight tracking-tight"
 			>
-				AI for <span class="font-['Pacifico']">joyful</span> marketing.
+				Scale your content - delegate reasearch and grunt work to AI - In minutes.
 			</h1>
 
-			<p
+			<h2
 				in:blur={{ delay: 200, duration: 600, amount: 5 }}
 				class="text-xl md:text-2xl text-zinc-500 max-w-3xl mx-auto leading-relaxed font-light"
 			>
@@ -133,7 +133,7 @@
 						<path d="M0 5 C 20 0, 40 10, 60 5 C 80 0, 90 10, 100 5" />
 					</svg>
 				</span>.
-			</p>
+			</h2>
 		{/if}
 	</div>
 
