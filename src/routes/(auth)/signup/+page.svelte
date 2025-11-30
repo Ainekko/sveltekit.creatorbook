@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import Googleauth from '$lib/components/Googleauth.svelte';
 	import OnboardingModal from '$lib/components/OnboardingModal.svelte';
 	import { onMount } from 'svelte';
@@ -29,7 +30,16 @@
 	onMount(() => {
 		const token = localStorage.getItem('token');
 		if (token) {
-			goto('/dashboard');
+			// If user is already logged in and trying to access signup with plan params,
+			// redirect them to plans page with those params (for upgrade flow)
+			const planParam = $page.url.searchParams.get('plan');
+			const billingParam = $page.url.searchParams.get('billing');
+
+			if (planParam && billingParam) {
+				goto(`/plans?selected=${planParam}&billing=${billingParam}`);
+			} else {
+				goto('/dashboard');
+			}
 		}
 	});
 
@@ -94,7 +104,15 @@
 
 	function handleOnboardingComplete() {
 		showOnboarding = false;
-		goto('/plans');
+		// Forward plan parameters from URL to plans page
+		const planParam = $page.url.searchParams.get('plan');
+		const billingParam = $page.url.searchParams.get('billing');
+
+		if (planParam && billingParam) {
+			goto(`/plans?selected=${planParam}&billing=${billingParam}`);
+		} else {
+			goto('/plans');
+		}
 	}
 
 	async function handleGoogleSuccess(data: any) {
@@ -103,17 +121,31 @@
 			// Fetch user profile to check if they have completed onboarding
 			const user = await get_user();
 
+			// Get plan parameters from URL
+			const planParam = $page.url.searchParams.get('plan');
+			const billingParam = $page.url.searchParams.get('billing');
+			const plansUrl =
+				planParam && billingParam
+					? `/plans?selected=${planParam}&billing=${billingParam}`
+					: '/plans';
+
 			if (user && !user.source) {
 				// New user or hasn't completed onboarding -> Show modal
 				showOnboarding = true;
 			} else {
-				// Existing user with onboarding data -> Redirect
-				goto('/plans');
+				// Existing user with onboarding data -> Redirect with plan params
+				goto(plansUrl);
 			}
 		} catch (error) {
 			console.error('Error checking user status:', error);
-			// Fallback to redirect if check fails
-			goto('/plans');
+			// Fallback to redirect if check fails, preserve plan params
+			const planParam = $page.url.searchParams.get('plan');
+			const billingParam = $page.url.searchParams.get('billing');
+			const plansUrl =
+				planParam && billingParam
+					? `/plans?selected=${planParam}&billing=${billingParam}`
+					: '/plans';
+			goto(plansUrl);
 		}
 	}
 </script>

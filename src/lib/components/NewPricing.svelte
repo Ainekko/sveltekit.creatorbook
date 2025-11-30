@@ -170,7 +170,8 @@
 		} else if (planId === 'free') {
 			window.location.href = '/signup';
 		} else {
-			window.location.href = `/plans?selected=${planId}&billing=${billingPeriod}`;
+			// Redirect to signup with plan context to avoid flicker from hitting authed route
+			window.location.href = `/signup?plan=${planId}&billing=${billingPeriod}`;
 		}
 	}
 </script>
