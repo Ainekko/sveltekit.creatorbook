@@ -223,142 +223,151 @@
 								</svg>
 							</div>
 
-							<!-- Tech Bento Grid: 3 columns, 2 rows -->
-							<div
-								class="grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10"
-								use:animate={{ stagger: 0.15, y: 40 }}
-							>
-								<!-- Card 1: Research - Spans 2 columns -->
+							<!-- Tech Bento Grid -->
+							<div class="space-y-4 relative z-10">
+								<!-- Top Row: 2 Tall Cards -->
 								<div
-									class="group relative bg-white rounded-3xl border border-zinc-200 overflow-hidden hover:shadow-xl transition-all duration-300 md:col-span-2 h-[280px] flex flex-col shadow-lg"
+									class="grid grid-cols-1 md:grid-cols-2 gap-4"
+									use:animate={{ stagger: 0.15, y: 40 }}
 								>
-									<div class="relative z-10 p-6 flex flex-col h-full">
-										<div class="flex items-start justify-between mb-4">
+									<!-- Card 1: Workflow Visual -->
+									<div
+										class="group relative bg-white rounded-3xl border border-zinc-200 overflow-hidden hover:shadow-xl transition-all duration-300 h-[500px] flex flex-col shadow-lg"
+									>
+										<!-- Screenshot -->
+										<div
+											class="relative h-[80%] bg-zinc-50 border-b border-zinc-200 overflow-hidden"
+										>
+											<img
+												src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/NewAssets/Nai-workflow.jpg"
+												alt="Nai Workflow Interface"
+												class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+											/>
+											<!-- Overlay gradient for better text readability if needed, or just aesthetic -->
 											<div
-												class="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center"
-											>
-												<Search class="w-6 h-6 text-blue-600" />
+												class="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent"
+											></div>
+										</div>
+										<div class="relative z-10 p-6 flex flex-col flex-1 bg-white">
+											<div class="flex items-center justify-between mb-2">
+												<h3 class="text-xl font-bold text-zinc-900">Visual Workflow</h3>
+												<span
+													class="text-xs font-bold text-blue-600 uppercase tracking-wider px-2 py-1 bg-blue-50 rounded-full border border-blue-100"
+													>Easy</span
+												>
 											</div>
-											<span
-												class="text-xs font-bold text-blue-600 uppercase tracking-wider px-3 py-1 bg-blue-50 rounded-full border border-blue-100"
-												>Research</span
-											>
-										</div>
-										<h3 class="text-2xl font-bold text-zinc-900 mb-3">Keyword Discovery</h3>
-										<p class="text-zinc-600 text-sm leading-relaxed mb-auto">
-											Real-time volume & difficulty data. Know what's rankable before you write. Nai
-											scans your niche 24/7 finding low-competition keywords.
-										</p>
-										<div class="flex items-center gap-2 text-xs text-zinc-500 mt-4">
-											<div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
-											<span>Save 5h/week</span>
+											<p class="text-zinc-600 text-sm leading-relaxed">
+												Drag, drop, and connect nodes to build your perfect content engine.
+											</p>
 										</div>
 									</div>
-								</div>
 
-								<!-- Card 2: Competitor Analysis with Screenshot -->
-								<div
-									class="group relative bg-white rounded-3xl border border-zinc-200 overflow-hidden hover:shadow-xl transition-all duration-300 h-[280px] flex flex-col shadow-lg"
-								>
-									<!-- Screenshot Placeholder -->
-									<div class="relative h-[55%] bg-zinc-50 border-b border-zinc-200 overflow-hidden">
-										<div class="absolute inset-0 flex items-center justify-center">
-											<div class="text-center">
-												<TrendingUp class="w-12 h-12 text-purple-300 mx-auto mb-2" />
-												<p class="text-xs text-zinc-400 font-medium">Screenshot Placeholder</p>
-											</div>
-										</div>
-										<!-- Decorative grid pattern -->
-										<div
-											class="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)] bg-[size:20px_20px]"
-										></div>
-									</div>
-									<div class="relative z-10 p-4 flex flex-col flex-1">
-										<h3 class="text-lg font-bold text-zinc-900 mb-2">Competitor Analysis</h3>
-										<p class="text-zinc-600 text-xs leading-relaxed mb-auto">
-											See who ranks #1-10 and why. Extract their headers and snippets.
-										</p>
-										<span class="text-xs font-bold text-purple-600 uppercase tracking-wider"
-											>Intel</span
-										>
-									</div>
-								</div>
-
-								<!-- Card 3: Outline Generation -->
-								<div
-									class="group relative bg-white rounded-3xl border border-zinc-200 overflow-hidden hover:shadow-xl transition-all duration-300 h-[280px] flex flex-col shadow-lg"
-								>
-									<div class="relative z-10 p-6 flex flex-col h-full">
-										<div
-											class="w-12 h-12 rounded-xl bg-pink-50 border border-pink-100 flex items-center justify-center mb-4"
-										>
-											<FileText class="w-6 h-6 text-pink-600" />
-										</div>
-										<h3 class="text-xl font-bold text-zinc-900 mb-3">Smart Outlining</h3>
-										<p class="text-zinc-600 text-sm leading-relaxed mb-auto">
-											Structured briefs with word counts. No blank page syndrome.
-										</p>
-										<span class="text-xs font-bold text-pink-600 uppercase tracking-wider"
-											>Structure</span
-										>
-									</div>
-								</div>
-
-								<!-- Card 4: SEO Posts with Screenshot -->
-								<div
-									class="group relative bg-white rounded-3xl border-0 overflow-hidden hover:shadow-xl transition-all duration-300 h-[280px] flex flex-col shadow-lg"
-								>
-									<!-- Gradient Border Container -->
+									<!-- Card 2: Keywords & Competitors -->
 									<div
-										class="absolute inset-0 rounded-3xl p-[2px] bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 opacity-100"
+										class="group relative bg-white rounded-3xl border border-zinc-200 overflow-hidden hover:shadow-xl transition-all duration-300 h-[500px] flex flex-col shadow-lg"
 									>
-										<div class="bg-white rounded-[22px] h-full w-full"></div>
-									</div>
-
-									<!-- Screenshot Placeholder -->
-									<div
-										class="relative h-[55%] bg-zinc-50 border-b border-zinc-200 overflow-hidden rounded-t-[22px] z-10 mx-[2px] mt-[2px]"
-									>
-										<div class="absolute inset-0 flex items-center justify-center">
-											<div class="text-center">
-												<PenTool class="w-12 h-12 text-cyan-300 mx-auto mb-2" />
-												<p class="text-xs text-zinc-400 font-medium">Screenshot Placeholder</p>
-											</div>
-										</div>
-										<!-- Decorative grid pattern -->
+										<!-- Screenshot -->
 										<div
-											class="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.05)_1px,transparent_1px)] bg-[size:20px_20px]"
-										></div>
-									</div>
-									<div class="relative z-10 p-4 flex flex-col flex-1 mx-[2px] mb-[2px]">
-										<h3 class="text-lg font-bold text-zinc-900 mb-2">SEO Optimized Posts</h3>
-										<p class="text-zinc-600 text-xs leading-relaxed mb-auto">
-											Full articles based on your chosen keywords. You control the length.
-										</p>
-										<span class="text-xs font-bold text-cyan-600 uppercase tracking-wider"
-											>Growth</span
+											class="relative h-[80%] bg-zinc-50 border-b border-zinc-200 overflow-hidden"
 										>
+											<img
+												src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/NewAssets/Screenshot+2025-12-01+152134.jpg"
+												alt="Keywords and Competitors Analysis"
+												class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+											/>
+										</div>
+										<div class="relative z-10 p-6 flex flex-col flex-1 bg-white">
+											<div class="flex items-center justify-between mb-2">
+												<h3 class="text-xl font-bold text-zinc-900">Deep Research</h3>
+												<span
+													class="text-xs font-bold text-purple-600 uppercase tracking-wider px-2 py-1 bg-purple-50 rounded-full border border-purple-100"
+													>Data-Driven</span
+												>
+											</div>
+											<p class="text-zinc-600 text-sm leading-relaxed">
+												Spy on competitors and find winning keywords in seconds.
+											</p>
+										</div>
 									</div>
 								</div>
 
-								<!-- Card 5: CTA Button -->
+								<!-- Bottom Row: 3 Cards -->
 								<div
-									on:click={() => goto('/signup')}
-									on:keydown={(e) => e.key === 'Enter' && goto('/signup')}
-									role="button"
-									tabindex="0"
-									class="group relative bg-zinc-900 rounded-2xl border border-zinc-700 overflow-hidden hover:shadow-2xl hover:shadow-zinc-500/20 transition-all duration-300 h-[280px] flex flex-col items-center justify-center cursor-pointer hover:border-zinc-500"
+									class="grid grid-cols-1 md:grid-cols-3 gap-4"
+									use:animate={{ stagger: 0.15, y: 40, delay: 0.2 }}
 								>
-									<div class="absolute inset-0 bg-gradient-to-br from-zinc-800 to-zinc-900"></div>
-									<div class="relative z-10 text-center">
-										<h3 class="text-2xl font-bold text-white mb-3">Try Nai Free</h3>
-										<p class="text-zinc-400 text-sm mb-6 px-6">
-											14 days on us. No credit card required.
-										</p>
+									<!-- Card 3: Outlines -->
+									<div
+										class="group relative bg-white rounded-3xl border border-zinc-200 overflow-hidden hover:shadow-xl transition-all duration-300 h-[280px] flex flex-col shadow-lg"
+									>
+										<!-- Screenshot -->
 										<div
-											class="w-14 h-14 rounded-full bg-white text-zinc-900 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform shadow-lg"
+											class="relative h-[60%] bg-zinc-50 border-b border-zinc-200 overflow-hidden"
 										>
-											<ArrowRight class="w-7 h-7" />
+											<img
+												src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/NewAssets/Nai-Outlines.jpg"
+												alt="Smart Outlining"
+												class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+											/>
+										</div>
+										<div class="relative z-10 p-5 flex flex-col flex-1 bg-white">
+											<h3 class="text-lg font-bold text-zinc-900 mb-1">Smart Outlines</h3>
+											<p class="text-zinc-600 text-xs leading-relaxed">
+												Structured briefs that guarantee ranking.
+											</p>
+											<span class="text-xs font-bold text-pink-600 uppercase tracking-wider mt-auto"
+												>Structure</span
+											>
+										</div>
+									</div>
+
+									<!-- Card 4: SEO Posts (No Screenshot, just graphic/text) -->
+									<div
+										class="group relative bg-white rounded-3xl border-0 overflow-hidden hover:shadow-xl transition-all duration-300 h-[280px] flex flex-col shadow-lg"
+									>
+										<!-- Gradient Border Container -->
+										<div
+											class="absolute inset-0 rounded-3xl p-[2px] bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 opacity-100"
+										>
+											<div class="bg-white rounded-[22px] h-full w-full"></div>
+										</div>
+
+										<div
+											class="relative z-10 p-6 flex flex-col h-full mx-[2px] my-[2px] rounded-[22px]"
+										>
+											<div
+												class="w-12 h-12 rounded-xl bg-cyan-50 border border-cyan-100 flex items-center justify-center mb-4"
+											>
+												<PenTool class="w-6 h-6 text-cyan-600" />
+											</div>
+											<h3 class="text-xl font-bold text-zinc-900 mb-3">SEO Optimized</h3>
+											<p class="text-zinc-600 text-sm leading-relaxed mb-auto">
+												Full articles based on your chosen keywords. You control the length and
+												voice.
+											</p>
+											<span class="text-xs font-bold text-cyan-600 uppercase tracking-wider"
+												>Growth</span
+											>
+										</div>
+									</div>
+
+									<!-- Card 5: CTA Button -->
+									<div
+										on:click={() => goto('/signup')}
+										on:keydown={(e) => e.key === 'Enter' && goto('/signup')}
+										role="button"
+										tabindex="0"
+										class="group relative bg-zinc-900 rounded-2xl border border-zinc-700 overflow-hidden hover:shadow-2xl hover:shadow-zinc-500/20 transition-all duration-300 h-[280px] flex flex-col items-center justify-center cursor-pointer hover:border-zinc-500"
+									>
+										<div class="absolute inset-0 bg-gradient-to-br from-zinc-800 to-zinc-900"></div>
+										<div class="relative z-10 text-center">
+											<h3 class="text-2xl font-bold text-white mb-3">Try Nai Free</h3>
+											<p class="text-zinc-400 text-sm mb-6 px-6">14 days on us.</p>
+											<div
+												class="w-14 h-14 rounded-full bg-white text-zinc-900 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform shadow-lg"
+											>
+												<ArrowRight class="w-7 h-7" />
+											</div>
 										</div>
 									</div>
 								</div>
@@ -884,134 +893,133 @@
 						</div>
 					</div>
 
-					<!-- Tech Bento Grid: 3 columns, 2 rows -->
-					<div class="grid grid-cols-1 md:grid-cols-3 gap-4" use:animate={{ stagger: 0.15, y: 40 }}>
-						<!-- Card 1: Opportunity Scanning - Spans 2 columns -->
+					<!-- Elio Bento Grid -->
+					<div class="space-y-4 relative z-10">
+						<!-- Top Row: 1 Tall Card + 2 Regular Cards -->
 						<div
-							class="group relative bg-white rounded-3xl border-0 overflow-hidden hover:shadow-xl transition-all duration-300 md:col-span-2 h-[280px] flex flex-col shadow-lg"
+							class="grid grid-cols-1 md:grid-cols-3 gap-4"
+							use:animate={{ stagger: 0.15, y: 40 }}
 						>
-							<!-- Gradient Border Container -->
+							<!-- Card 1: Dashboard Screenshot - Spans 2 columns, tall -->
 							<div
-								class="absolute inset-0 rounded-3xl p-[2px] bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 opacity-100"
+								class="group relative bg-white rounded-3xl border-0 overflow-hidden hover:shadow-xl transition-all duration-300 md:col-span-2 h-[500px] flex flex-col shadow-lg"
 							>
-								<div class="bg-white rounded-[22px] h-full w-full"></div>
+								<!-- Gradient Border Container -->
+								<div
+									class="absolute inset-0 rounded-3xl p-[2px] bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 opacity-100"
+								>
+									<div class="bg-white rounded-[22px] h-full w-full"></div>
+								</div>
+
+								<!-- Screenshot -->
+								<div
+									class="relative h-[80%] bg-zinc-50 border-b border-zinc-200 overflow-hidden rounded-t-[22px] z-10 mx-[2px] mt-[2px]"
+								>
+									<img
+										src="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/NewAssets/Elio-dashboard.jpg"
+										alt="Elio Dashboard"
+										class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+									/>
+								</div>
+								<div
+									class="relative z-10 p-6 flex flex-col flex-1 bg-white mx-[2px] mb-[2px] rounded-b-[22px]"
+								>
+									<div class="flex items-center justify-between mb-2">
+										<h3 class="text-xl font-bold text-zinc-900">Opportunity Dashboard</h3>
+										<span
+											class="text-xs font-bold text-orange-600 uppercase tracking-wider px-2 py-1 bg-orange-50 rounded-full border border-orange-100"
+											>Live Data</span
+										>
+									</div>
+									<p class="text-zinc-600 text-sm leading-relaxed">
+										Track opportunities, stats, and best subreddits all in one place.
+									</p>
+								</div>
 							</div>
 
-							<div class="relative z-10 p-6 flex flex-col h-full mx-[2px] my-[2px]">
-								<div class="flex items-start justify-between mb-4">
+							<!-- Card 2: High-Intent Leads -->
+							<div
+								class="group relative bg-white rounded-3xl border border-zinc-200 overflow-hidden hover:shadow-xl transition-all duration-300 h-[500px] flex flex-col shadow-lg"
+							>
+								<div class="relative z-10 p-6 flex flex-col h-full">
 									<div
-										class="w-12 h-12 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center"
+										class="w-12 h-12 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center mb-4"
 									>
-										<Search class="w-6 h-6 text-orange-600" />
+										<TrendingUp class="w-6 h-6 text-orange-600" />
 									</div>
-									<span
-										class="text-xs font-bold text-orange-600 uppercase tracking-wider px-3 py-1 bg-orange-50 rounded-full border border-orange-100"
-										>Opportunity</span
+									<h3 class="text-xl font-bold text-zinc-900 mb-3">Spot High-Intent Leads</h3>
+									<p class="text-zinc-600 text-sm leading-relaxed mb-auto">
+										Identify users complaining about competitors or asking for your exact solution.
+									</p>
+									<span class="text-xs font-bold text-orange-600 uppercase tracking-wider"
+										>Intelligence</span
 									>
 								</div>
-								<h3 class="text-2xl font-bold text-zinc-900 mb-3">Opportunity Scanning</h3>
-								<p class="text-zinc-600 text-sm leading-relaxed mb-auto">
-									Find discussions where people are actually looking for you. Elio spots "Desperate"
-									and "Frustrated" users who need your solution.
-								</p>
-								<div class="flex items-center gap-2 text-xs text-zinc-500 mt-4">
-									<div class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></div>
-									<span>Frustration Detected</span>
-								</div>
 							</div>
 						</div>
 
-						<!-- Card 2: Smart Responses with Screenshot -->
+						<!-- Bottom Row: 3 Cards -->
 						<div
-							class="group relative bg-white rounded-3xl border border-zinc-200 overflow-hidden hover:shadow-xl transition-all duration-300 h-[280px] flex flex-col shadow-lg"
+							class="grid grid-cols-1 md:grid-cols-3 gap-4"
+							use:animate={{ stagger: 0.15, y: 40, delay: 0.2 }}
 						>
-							<!-- Screenshot Placeholder -->
-							<div class="relative h-[55%] bg-zinc-50 border-b border-zinc-200 overflow-hidden">
-								<div class="absolute inset-0 flex items-center justify-center">
-									<div class="text-center">
-										<PenTool class="w-12 h-12 text-orange-300 mx-auto mb-2" />
-										<p class="text-xs text-zinc-400 font-medium">Screenshot Placeholder</p>
+							<!-- Card 3: Engage Authentically -->
+							<div
+								class="group relative bg-white rounded-3xl border border-zinc-200 overflow-hidden hover:shadow-xl transition-all duration-300 h-[280px] flex flex-col shadow-lg"
+							>
+								<div class="relative z-10 p-6 flex flex-col h-full">
+									<div
+										class="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center mb-4"
+									>
+										<MessageCircle class="w-6 h-6 text-blue-600" />
 									</div>
+									<h3 class="text-xl font-bold text-zinc-900 mb-3">Engage Authentically</h3>
+									<p class="text-zinc-600 text-sm leading-relaxed mb-auto">
+										Draft helpful, non-salesy replies that build trust and drive clicks.
+									</p>
+									<span class="text-xs font-bold text-blue-600 uppercase tracking-wider"
+										>Conversion</span
+									>
 								</div>
-								<!-- Decorative grid pattern -->
-								<div
-									class="absolute inset-0 bg-[linear-gradient(rgba(249,115,22,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(249,115,22,0.05)_1px,transparent_1px)] bg-[size:20px_20px]"
-								></div>
 							</div>
-							<div class="relative z-10 p-4 flex flex-col flex-1">
-								<h3 class="text-lg font-bold text-zinc-900 mb-2">Smart Responses</h3>
-								<p class="text-zinc-600 text-xs leading-relaxed mb-auto">
-									Drafts context-aware replies based on the conversation history.
-								</p>
-								<span class="text-xs font-bold text-orange-600 uppercase tracking-wider"
-									>Engagement</span
-								>
-							</div>
-						</div>
 
-						<!-- Card 3: Match Reasoning -->
-						<div
-							class="group relative bg-white rounded-3xl border border-zinc-200 overflow-hidden hover:shadow-xl transition-all duration-300 h-[280px] flex flex-col shadow-lg"
-						>
-							<div class="relative z-10 p-6 flex flex-col h-full">
-								<div
-									class="w-12 h-12 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center mb-4"
-								>
-									<TrendingUp class="w-6 h-6 text-orange-600" />
-								</div>
-								<h3 class="text-xl font-bold text-zinc-900 mb-3">Match Reasoning</h3>
-								<p class="text-zinc-600 text-sm leading-relaxed mb-auto">
-									Tells you *why* a post is relevant before you engage.
-								</p>
-								<span class="text-xs font-bold text-orange-600 uppercase tracking-wider">Intel</span
-								>
-							</div>
-						</div>
-
-						<!-- Card 4: Reputation Management with Screenshot -->
-						<div
-							class="group relative bg-white rounded-3xl border border-zinc-200 overflow-hidden hover:shadow-xl transition-all duration-300 h-[280px] flex flex-col shadow-lg"
-						>
-							<!-- Screenshot Placeholder -->
-							<div class="relative h-[55%] bg-zinc-50 border-b border-zinc-200 overflow-hidden">
-								<div class="absolute inset-0 flex items-center justify-center">
-									<div class="text-center">
-										<MessageCircle class="w-12 h-12 text-orange-300 mx-auto mb-2" />
-										<p class="text-xs text-zinc-400 font-medium">Screenshot Placeholder</p>
+							<!-- Card 4: Focus on What Matters -->
+							<div
+								class="group relative bg-white rounded-3xl border border-zinc-200 overflow-hidden hover:shadow-xl transition-all duration-300 h-[280px] flex flex-col shadow-lg"
+							>
+								<div class="relative z-10 p-6 flex flex-col h-full">
+									<div
+										class="w-12 h-12 rounded-xl bg-green-50 border border-green-100 flex items-center justify-center mb-4"
+									>
+										<Zap class="w-6 h-6 text-green-600" />
 									</div>
+									<h3 class="text-xl font-bold text-zinc-900 mb-3">Skip the Noise</h3>
+									<p class="text-zinc-600 text-sm leading-relaxed mb-auto">
+										Elio filters out junk. You only see high-intent conversations worth your time.
+									</p>
+									<span class="text-xs font-bold text-green-600 uppercase tracking-wider"
+										>Efficiency</span
+									>
 								</div>
-								<!-- Decorative grid pattern -->
-								<div
-									class="absolute inset-0 bg-[linear-gradient(rgba(249,115,22,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(249,115,22,0.05)_1px,transparent_1px)] bg-[size:20px_20px]"
-								></div>
 							</div>
-							<div class="relative z-10 p-4 flex flex-col flex-1">
-								<h3 class="text-lg font-bold text-zinc-900 mb-2">Reputation Management</h3>
-								<p class="text-zinc-600 text-xs leading-relaxed mb-auto">
-									Monitor and manage your brand presence effectively.
-								</p>
-								<span class="text-xs font-bold text-orange-600 uppercase tracking-wider"
-									>Strategy</span
-								>
-							</div>
-						</div>
 
-						<!-- Card 5: CTA Button -->
-						<div
-							on:click={() => goto('/signup')}
-							on:keydown={(e) => e.key === 'Enter' && goto('/signup')}
-							role="button"
-							tabindex="0"
-							class="group relative bg-zinc-900 rounded-2xl border border-zinc-700 overflow-hidden hover:shadow-2xl hover:shadow-zinc-500/20 transition-all duration-300 h-[280px] flex flex-col items-center justify-center cursor-pointer hover:border-zinc-500"
-						>
-							<div class="absolute inset-0 bg-gradient-to-br from-zinc-800 to-zinc-900"></div>
-							<div class="relative z-10 text-center">
-								<h3 class="text-2xl font-bold text-white mb-3">Start with Elio</h3>
-								<p class="text-zinc-400 text-sm mb-6 px-6">Turn Reddit into your best channel</p>
-								<div
-									class="w-14 h-14 rounded-full bg-white text-zinc-900 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform shadow-lg"
-								>
-									<ArrowRight class="w-7 h-7" />
+							<!-- Card 5: CTA Button -->
+							<div
+								on:click={() => goto('/signup')}
+								on:keydown={(e) => e.key === 'Enter' && goto('/signup')}
+								role="button"
+								tabindex="0"
+								class="group relative bg-zinc-900 rounded-2xl border border-zinc-700 overflow-hidden hover:shadow-2xl hover:shadow-zinc-500/20 transition-all duration-300 h-[280px] flex flex-col items-center justify-center cursor-pointer hover:border-zinc-500"
+							>
+								<div class="absolute inset-0 bg-gradient-to-br from-zinc-800 to-zinc-900"></div>
+								<div class="relative z-10 text-center">
+									<h3 class="text-2xl font-bold text-white mb-3">Try Elio Free</h3>
+									<p class="text-zinc-400 text-sm mb-6 px-6">14 days on us.</p>
+									<div
+										class="w-14 h-14 rounded-full bg-white text-zinc-900 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform shadow-lg"
+									>
+										<ArrowRight class="w-7 h-7" />
+									</div>
 								</div>
 							</div>
 						</div>
