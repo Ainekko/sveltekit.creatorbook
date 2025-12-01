@@ -155,12 +155,14 @@
 						style="animation-delay: -3s;"
 					></div>
 				</a>
-				<a
-					href="/contact-us"
+				<button
+					data-cal-link="hafid-ahlaqach-nigixz/30min"
+					data-cal-namespace="30min"
+					data-cal-config={JSON.stringify({ layout: 'month_view', theme: 'light' })}
 					class="bg-white border border-zinc-200 text-zinc-900 px-6 py-3 rounded-lg font-medium hover:bg-zinc-100 transition-all duration-200"
 				>
-					Contact us
-				</a>
+					Let's talk
+				</button>
 			</div>
 			<p
 				in:blur={{ delay: 200, duration: 600, amount: 5 }}
