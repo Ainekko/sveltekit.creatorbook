@@ -78,7 +78,7 @@
 				in:blur={{ delay: 0, duration: 600, amount: 5 }}
 				class="text-3xl max-w-[25ch] md:text-4xl lg:text-6xl font-semibold text-zinc-700 leading-tight tracking-tight"
 			>
-				Scale your content - delegate reasearch and grunt work to AI - In minutes.
+				Scale your content - delegate research and grunt work to AI - In minutes.
 			</h1>
 
 			<h2
