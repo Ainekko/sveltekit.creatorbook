@@ -78,31 +78,9 @@
 				in:blur={{ delay: 0, duration: 600, amount: 5 }}
 				class="text-3xl max-w-[25ch] md:text-4xl lg:text-6xl font-semibold text-zinc-700 leading-tight tracking-tight"
 			>
-				Create Content 10x Faster. Grow on Autopilot.
-			</h1>
-
-			<h2
-				in:blur={{ delay: 200, duration: 600, amount: 5 }}
-				class="text-xl md:text-2xl text-zinc-500 max-w-3xl mx-auto leading-relaxed font-light"
-			>
-				Delegate research and grunt work to AI. Automate
+				Your Next Client is on
 				<svg
-					class="inline w-5 h-5 text-zinc-950 align-middle mx-1"
-					fill="none"
-					stroke="currentColor"
-					viewBox="0 0 24 24"
-					aria-label="SEO"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-					></path>
-				</svg>
-				SEO and
-				<svg
-					class="inline w-5 h-5 text-zinc-950 align-middle mx-1"
+					class="inline w-8 h-8 md:w-10 md:h-10 lg:w-14 lg:h-14 text-[#FF4500] align-middle mx-1 -mt-2"
 					fill="currentColor"
 					viewBox="0 0 24 24"
 					aria-label="Reddit"
@@ -111,7 +89,14 @@
 						d="M12 0A12 12 0 00 0 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 01-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 01.042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 014.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 01.14-.197.35.35 0 01.238-.042l2.906.617a1.214 1.214 0 011.108-.701zM9.25 12c-.689 0-1.25.561-1.25 1.25 0 .688.561 1.249 1.25 1.249.688 0 1.249-.561 1.249-1.249 0-.688-.561-1.25-1.249-1.25zm5.5 0c-.689 0-1.25.561-1.25 1.25 0 .688.561 1.249 1.25 1.249.688 0 1.249-.561 1.249-1.249 0-.688-.561-1.25-1.25-1.25zm-5.466 3.99a.327.327 0 00-.231.094.33.33 0 00.029.463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 00.029-.463.33.33 0 00-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 00-.232-.095z"
 					/>
 				</svg>
-				Reddit growth with a human-in-the-loop workflow.
+				Reddit. Find Them.
+			</h1>
+
+			<h2
+				in:blur={{ delay: 200, duration: 600, amount: 5 }}
+				class="text-xl md:text-2xl text-zinc-500 max-w-3xl mx-auto leading-relaxed font-light"
+			>
+				Seize 10x more opportunities with AI-powered Reddit monitoring and SEO automation.
 			</h2>
 		{/if}
 	</div>

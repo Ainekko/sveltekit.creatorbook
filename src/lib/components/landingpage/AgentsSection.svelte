@@ -103,7 +103,7 @@
 			return { ...agent, features };
 		})
 		.sort((a, b) => {
-			const order = { search: 0, reddit: 1 }; // Rio (twitter) removed from order
+			const order = { reddit: 0, search: 1 }; // Rio (twitter) removed from order
 			return order[a.icon] - order[b.icon];
 		});
 
@@ -745,7 +745,7 @@
 						<div class="relative z-10">
 							<div class="text-center max-w-3xl mx-auto mb-16">
 								<h3 class="text-3xl md:text-4xl font-bold mb-6 text-zinc-900">
-									Turn Reddit into a Revenue Engine
+									Your Next Client is Complaining on Reddit. Let's Find Them.
 								</h3>
 								<p class="text-lg text-zinc-500 mb-8 leading-relaxed">
 									Elio finds high-intent leads and drafts authentic responses that convert. Scale

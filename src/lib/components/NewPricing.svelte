@@ -32,10 +32,8 @@
 			name: 'The Intern',
 			role: 'Starter Team',
 			planId: 'starter',
-			priceMonthly: '$17.40',
-			priceAnnual: '$174',
-			originalPriceMonthly: '$29',
-			originalPriceAnnual: '$290',
+			priceMonthly: '$29',
+			priceAnnual: '$290',
 			description: 'Perfect for solopreneurs testing the waters with AI-powered content.',
 			features: [
 				'3 Active Projects',
@@ -55,10 +53,8 @@
 			name: 'The Pro Team',
 			role: 'Full Marketing Squad',
 			planId: 'pro',
-			priceMonthly: '$47.40',
-			priceAnnual: '$474',
-			originalPriceMonthly: '$79',
-			originalPriceAnnual: '$790',
+			priceMonthly: '$79',
+			priceAnnual: '$790',
 			description: 'Unlimited projects with deep Reddit intelligence and advanced SEO.',
 			features: [
 				'Unlimited Projects',
@@ -98,10 +94,8 @@
 			name: 'Lifetime Deal',
 			role: 'Founding Member',
 			planId: 'lifetime',
-			priceMonthly: '$179.40',
-			priceAnnual: '$179.40',
-			originalPriceMonthly: '$299',
-			originalPriceAnnual: '$299',
+			priceMonthly: '$299',
+			priceAnnual: '$299',
 			description: 'One-time payment for lifetime access to the SaaS platform.',
 			features: [
 				'20 Active Projects',
@@ -210,81 +204,6 @@
 				Don't just buy software. Onboard a 24/7 marketing team that researches, writes, and promotes
 				for you.
 			</p>
-		</div>
-
-		<!-- Black Friday Banner -->
-		<div class="max-w-5xl mx-auto mb-12">
-			<div class="relative group">
-				<div
-					class="bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900 rounded-[2rem] p-1 shadow-2xl transition-all duration-500 hover:-translate-y-1"
-				>
-					<div class="bg-zinc-900 rounded-[1.8rem] p-8 md:p-10 relative overflow-hidden">
-						<!-- Background Glow -->
-						<div
-							class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-orange-500/10 blur-3xl pointer-events-none"
-						></div>
-
-						<div class="relative z-10 text-center">
-							<div
-								class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/20 border border-orange-500/30 mb-4"
-							>
-								<svg
-									class="w-5 h-5 text-orange-400 animate-pulse"
-									fill="currentColor"
-									viewBox="0 0 20 20"
-								>
-									<path
-										d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-									/>
-								</svg>
-								<span class="text-sm font-bold text-orange-400 uppercase tracking-wider"
-									>Black Friday Deal</span
-								>
-							</div>
-
-							<h3 class="text-3xl md:text-4xl font-bold text-white mb-3">40% OFF Everything 🎉</h3>
-							<p class="text-lg text-zinc-400 mb-6">
-								Including the Lifetime Deal! Limited time only.
-							</p>
-
-							<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-								<div
-									class="flex items-center gap-3 bg-zinc-800/50 px-6 py-3 rounded-xl border border-zinc-700"
-								>
-									<span class="text-sm text-zinc-400">Use code:</span>
-									<code class="text-xl font-mono font-bold text-orange-400 tracking-wider"
-										>684G4GK4N2</code
-									>
-									<button
-										on:click={() => {
-											navigator.clipboard.writeText('684G4GK4N2');
-											alert('Promo code copied to clipboard!');
-										}}
-										class="ml-2 p-2 hover:bg-zinc-700 rounded-lg transition-colors"
-										aria-label="Copy promo code"
-									>
-										<svg
-											class="w-4 h-4 text-zinc-400"
-											fill="none"
-											stroke="currentColor"
-											viewBox="0 0 24 24"
-										>
-											<path
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												stroke-width="2"
-												d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-											/>
-										</svg>
-									</button>
-								</div>
-							</div>
-
-							<p class="text-xs text-zinc-500 mt-4">⏰ Offer ends soon • Apply code at checkout</p>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 
 		<!-- Lifetime Deal Banner -->
