@@ -217,6 +217,42 @@ export async function scanOpportunities(projectId, authToken, MAIN_BACKEND_URL) 
 }
 
 /**
+ * 🆕 Deep Scour (Pro Only)
+ * Triggers a deeper scan for opportunities
+ */
+export async function deepScour(projectId, authToken, MAIN_BACKEND_URL) {
+  const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/projects/${projectId}/deep-scour/`, {
+    method: 'POST',
+    headers: getHeaders(authToken),
+    body: JSON.stringify({})
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Deep scour failed: ${errorText}`);
+  }
+
+  // Backend returns { success: true, task_id: "...", ... }
+  return await response.json();
+}
+
+/**
+ * 🆕 Poll Deep Scour Task Status
+ */
+export async function getDeepScourTaskStatus(taskId, authToken, MAIN_BACKEND_URL) {
+  const response = await fetch(`${MAIN_BACKEND_URL}/elio/api/deep-scour/tasks/${taskId}/`, {
+    headers: getHeaders(authToken)
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Failed to get task status: ${errorText}`);
+  }
+
+  return await response.json();
+}
+
+/**
  * 🆕 Expand content into Reddit-ready posts (NEW ENDPOINT)
  */
 /**

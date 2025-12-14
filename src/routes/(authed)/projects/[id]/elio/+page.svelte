@@ -30,6 +30,7 @@
 	const getConfigKey = () => `elio_config_${projectId}`;
 	const getOpportunitiesKey = () => `elio_opportunities_${projectId}`;
 	const getRedditPostsKey = () => `elio_reddit_posts_${projectId}`;
+	const getDeepScourTaskKey = () => `elio_deep_scour_task_${projectId}`;
 
 	// State
 	let loading = true;
@@ -48,6 +49,9 @@
 	let currentCopiedTimer;
 	let includeComments = true; // NEW: toggle for comment scanning
 	let scanStep = 0; // Track scanning progress steps
+	let deepScourTaskId = null;
+	let deepScourStatus = null;
+	let checkingDeepScour = false;
 
 	// Progress steps for scanning
 	const scanProgressSteps = [
@@ -344,8 +348,43 @@
 			});
 
 		await loadRedditPosts();
+
+		// Check for active deep scour task
+		const storedTaskId = localStorage.getItem(getDeepScourTaskKey());
+		if (storedTaskId) {
+			deepScourTaskId = storedTaskId;
+			checkDeepScourStatus();
+		}
+
 		loading = false;
 	});
+
+	async function checkDeepScourStatus() {
+		if (!deepScourTaskId) return;
+
+		checkingDeepScour = true;
+		try {
+			const status = await api.getDeepScourTaskStatus(deepScourTaskId, authToken, MAIN_BACKEND_URL);
+			deepScourStatus = status;
+
+			// If completed or failed, we might want to update opportunities if completed
+			if (status.status === 'completed') {
+				// Optionally fetch new opportunities if we just found out it's done
+				// But maybe let the user trigger that or just do it silently
+				// For now just update the status display
+			}
+		} catch (error) {
+			console.error('Failed to check deep scour status:', error);
+			// If 404, maybe clear the task
+			if (error.message && error.message.includes('404')) {
+				deepScourTaskId = null;
+				deepScourStatus = null;
+				localStorage.removeItem(getDeepScourTaskKey());
+			}
+		} finally {
+			checkingDeepScour = false;
+		}
+	}
 
 	async function connectReddit() {
 		redditConnecting = true;
@@ -452,6 +491,42 @@
 		}
 	}
 
+	async function deepScour() {
+		if (!projectData || !config) return;
+
+		if (!redditConnected) {
+			alert('Please connect your Reddit account first to use Deep Scour');
+			return;
+		}
+
+		scanning = true;
+
+		try {
+			// 1. Initiate Deep Scour Task
+			const initResult = await api.deepScour(projectId, authToken, MAIN_BACKEND_URL);
+
+			if (!initResult.success || !initResult.task_id) {
+				throw new Error(initResult.error || 'Failed to start deep scour task');
+			}
+
+			const taskId = initResult.task_id;
+			console.log(`Deep Scour started, task_id: ${taskId}`);
+
+			deepScourTaskId = taskId;
+			deepScourStatus = { status: 'pending' }; // Optimistic update
+			localStorage.setItem(getDeepScourTaskKey(), taskId);
+
+			successMessage =
+				'Deep Scour started. This can take up to 30 minutes. You will be notified by email when results are ready.';
+			showSuccessModal = true;
+		} catch (error) {
+			console.error('Deep scour error:', error);
+			alert('Failed to perform Deep Scour: ' + error.message);
+		} finally {
+			scanning = false;
+		}
+	}
+
 	async function saveConfig() {
 		try {
 			saveConfigToLocalStorage(config);
@@ -498,7 +573,12 @@
 			on:connectReddit={connectReddit}
 			on:disconnectReddit={disconnectReddit}
 			on:scanOpportunities={scanOpportunities}
+			on:scanOpportunities={scanOpportunities}
+			on:deepScour={deepScour}
 			on:clearDismissed={clearDismissed}
+			{deepScourStatus}
+			{checkingDeepScour}
+			on:checkDeepScourStatus={checkDeepScourStatus}
 		/>
 
 		{#if !redditConnected}

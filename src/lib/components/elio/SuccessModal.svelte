@@ -36,7 +36,7 @@
 		</p>
 
 		<div class="flex flex-col gap-3 w-full">
-			{#if !successMessage.includes('connected')}
+			{#if !successMessage.includes('connected') && !successMessage.includes('Deep Scour started')}
 				<button
 					on:click={goToPostsView}
 					class="w-full bg-zinc-900 hover:bg-zinc-800 text-white px-6 py-4 rounded-xl font-bold text-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-zinc-900/20 hover:shadow-zinc-900/30 hover:-translate-y-0.5"
