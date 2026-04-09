@@ -12,6 +12,7 @@
 	import AgencyPricing from '$lib/components/agency/AgencyPricing.svelte';
 	import AgencyCTA from '$lib/components/agency/AgencyCTA.svelte';
 	import InlineCTA from '$lib/components/agency/InlineCTA.svelte';
+	import AgencyFooter from '$lib/components/agency/AgencyFooter.svelte';
 
 	import { getFeaturedCaseStudies } from '$lib/data/caseStudies';
 
@@ -169,6 +170,9 @@
 	<!-- 6. Pricing & Final CTA -->
 	<AgencyPricing />
 	<AgencyCTA />
+
+	<!-- 7. Footer -->
+	<AgencyFooter />
 </main>
 
 <style>
