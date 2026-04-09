@@ -1,49 +1,30 @@
 <script lang="ts">
 	import NavBar from '$lib/components/NavBar.svelte';
-	import AgencyCTA from '$lib/components/agency/AgencyCTA.svelte';
+	import AgencyFooter from '$lib/components/agency/AgencyFooter.svelte';
 	import { ArrowLeft, CheckCircle2 } from 'lucide-svelte';
 	import { page } from '$app/stores';
 	import { getCaseStudyBySlug } from '$lib/data/caseStudies';
 	import { onMount } from 'svelte';
 
-	let contentRef: HTMLElement;
-	let contentVisible = false;
+	let visible = false;
 
 	onMount(() => {
-		const obs = new IntersectionObserver(
-			([entry]) => {
-				if (entry.isIntersecting) {
-					contentVisible = true;
-					obs.disconnect();
-				}
-			},
-			{ threshold: 0.05 }
-		);
-		if (contentRef) obs.observe(contentRef);
-		return () => obs.disconnect();
+		setTimeout(() => (visible = true), 100);
 	});
 
 	$: slug = $page.params.slug;
-	$: study = getCaseStudyBySlug(slug) || getCaseStudyBySlug('nai-seo-agent'); // Fallback for dev
+	$: study = getCaseStudyBySlug(slug) || getCaseStudyBySlug('nai-seo-agent');
 
-	const accentMap: Record<string, string> = {
-		blue: 'text-blue-600 bg-blue-50 border-blue-100',
-		orange: 'text-orange-600 bg-orange-50 border-orange-100',
-		violet: 'text-violet-600 bg-violet-50 border-violet-100'
+	const heroGradientMap: Record<string, string> = {
+		blue: 'from-[#D4E8F0] via-[#D9F4ED] to-[#B8FAE4]',
+		orange: 'from-[#F0DFD4] via-[#F4DDD9] to-[#FAB8B8]',
+		violet: 'from-[#E2D4F0] via-[#F4D9DC] to-[#FADAB8]'
 	};
-	$: accent = study ? accentMap[study.accentColor] || accentMap['violet'] : '';
-
-	// Just parsing out icon coloring
-	const iconColorMap: Record<string, string> = {
-		blue: 'text-blue-500',
-		orange: 'text-orange-500',
-		violet: 'text-violet-500'
-	};
-	$: iconAccent = study ? iconColorMap[study.accentColor] || iconColorMap['violet'] : '';
+	$: heroGradient = study ? heroGradientMap[study.accentColor] || heroGradientMap['violet'] : '';
 </script>
 
 <svelte:head>
-	<title>{study?.title || 'Case Study'} | Flowjoy Case Studies</title>
+	<title>{study?.title || 'Case Study'} | Flowjoy</title>
 </svelte:head>
 
 {#if study}
@@ -51,194 +32,257 @@
 		<NavBar />
 	</div>
 
-	<main class="bg-zinc-50 font-[Poppins] min-h-screen pb-24 selection:bg-zinc-200">
-		<!-- Hero Section -->
-		<header class="bg-zinc-50 pt-28 pb-12">
-			<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+	<main class="bg-white font-[Poppins] min-h-screen">
+		<!-- ─── HERO ───────────────────────────────────────────────── -->
+		<header class="bg-white pt-24 pb-0">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<!-- back link -->
 				<a
 					href="/#case-studies"
-					class="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-900 transition-colors mb-12 font-bold text-sm tracking-wide uppercase"
+					class="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-900 transition-colors mb-12 font-semibold text-xs tracking-widest uppercase"
 				>
-					<ArrowLeft class="w-4 h-4" /> Back to all work
+					<ArrowLeft class="w-3.5 h-3.5" /> Back to work
 				</a>
 
-				<div class="flex flex-wrap items-center gap-3 mb-6">
-					<div
-						class="px-3 py-1.5 rounded-full {accent} border text-xs font-bold uppercase tracking-wider"
-					>
-						{study.client}
-					</div>
-					<div class="text-zinc-400 text-sm font-medium">{study.industry}</div>
-				</div>
-
-				<h1
-					class="text-5xl md:text-7xl lg:text-[6rem] font-bold text-zinc-900 leading-[0.95] mb-8 tracking-tight"
+				<!-- Title row -->
+				<div
+					class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16"
+					style="opacity:{visible ? 1 : 0}; transform:translateY({visible
+						? 0
+						: 20}px); transition: opacity 0.7s ease, transform 0.7s ease;"
 				>
-					{study.title}
-				</h1>
-
-				<!-- Metrics strip -->
-				<div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-8 border-t border-zinc-100">
-					{#each study.metrics as metric}
-						<div>
-							<div class="text-2xl md:text-3xl font-bold {iconAccent} mb-1">{metric.value}</div>
-							<div class="text-sm font-medium text-zinc-500">{metric.label}</div>
+					<div class="max-w-3xl">
+						<div
+							class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-50 border border-zinc-200 text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-6"
+						>
+							{study.industry}
 						</div>
-					{/each}
+						<h1
+							class="text-5xl md:text-7xl lg:text-8xl font-bold text-zinc-900 leading-[0.95] tracking-tight"
+						>
+							{study.title}
+						</h1>
+					</div>
+					<div class="text-zinc-500 text-lg font-light max-w-xs leading-relaxed lg:text-right mb-2">
+						{study.shortDescription}
+					</div>
 				</div>
 			</div>
 		</header>
 
-		<!-- Main article content -->
-		<article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
-			<!-- Hero Image -->
-			<div class="rounded-[2.5rem] overflow-hidden shadow-xl mb-12 aspect-[16/9] bg-zinc-100">
-				<img
-					src={study.heroImage}
-					alt={study.title}
-					class="w-full h-full object-cover object-top"
-				/>
+		<!-- ─── HERO IMAGE ────────────────────────────────────────── -->
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
+			<div
+				class="relative rounded-[2.5rem] overflow-hidden aspect-[16/9] bg-gradient-to-br {heroGradient} flex items-end justify-center px-8 pt-12"
+				style="opacity:{visible ? 1 : 0}; transform:translateY({visible
+					? 0
+					: 30}px); transition: opacity 0.8s ease 200ms, transform 0.8s ease 200ms;"
+			>
+				<div
+					class="absolute inset-0 opacity-[0.12] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPHBhdGggZD0iTTAgMEw4IDhaTTAgOEw4IDBaIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=')] [background-size:24px_24px]"
+				></div>
+				<div
+					class="relative z-10 w-[85%] rounded-t-[1.5rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.2)]"
+				>
+					<img
+						src={study.heroImage}
+						alt={study.title}
+						class="w-full h-auto object-cover object-top"
+					/>
+				</div>
 			</div>
+		</div>
 
-			<div class="grid grid-cols-1 md:grid-cols-12 gap-12">
-				<!-- Left column: Main story -->
-				<div class="md:col-span-8 space-y-16">
+		<!-- ─── METRICS BENTO STRIP ──────────────────────────────── -->
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
+			<div
+				class="grid grid-cols-2 md:grid-cols-4 gap-4"
+				style="opacity:{visible ? 1 : 0}; transition: opacity 0.9s ease 350ms;"
+			>
+				{#each study.metrics as metric}
+					<div
+						class="bg-[#181A1F] rounded-[2rem] p-7 flex flex-col justify-between border border-white/5 relative overflow-hidden group hover:-translate-y-0.5 transition-transform duration-300"
+					>
+						<div class="absolute -right-6 -bottom-6 w-24 h-24 opacity-[0.08] pointer-events-none">
+							<div class="w-full h-full rounded-full bg-white blur-2xl"></div>
+						</div>
+						<div class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">
+							{metric.value}
+						</div>
+						<div class="text-xs font-semibold text-zinc-500 uppercase tracking-widest leading-snug">
+							{metric.label}
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- ─── MAIN CONTENT GRID ────────────────────────────────── -->
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+			<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+				<!-- LEFT: Story cards -->
+				<div class="lg:col-span-8 flex flex-col gap-6">
 					<!-- The Challenge -->
-					<section>
-						<h2 class="text-2xl font-bold text-zinc-900 mb-6 flex items-center gap-3">
-							<span
-								class="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center text-sm"
-								>01</span
+					<div
+						class="bg-[#181A1F] rounded-[2.5rem] p-10 border border-white/5 relative overflow-hidden"
+					>
+						<div class="absolute -left-12 -bottom-12 w-48 h-48 opacity-[0.06] pointer-events-none">
+							<div class="w-full h-full rounded-full bg-rose-400 blur-3xl"></div>
+						</div>
+						<div class="relative z-10">
+							<div
+								class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-zinc-400 uppercase tracking-widest mb-8"
 							>
-							The Challenge
-						</h2>
-						<p class="text-lg text-zinc-600 leading-relaxed">
-							{study.challenge}
-						</p>
-					</section>
+								01 · Challenge
+							</div>
+							<h2 class="text-3xl font-bold text-white tracking-tight mb-6 leading-snug">
+								The Challenge
+							</h2>
+							<p class="text-zinc-400 text-lg leading-relaxed font-light">{study.challenge}</p>
+						</div>
+					</div>
 
 					<!-- The Solution -->
-					<section>
-						<h2 class="text-2xl font-bold text-zinc-900 mb-6 flex items-center gap-3">
-							<span
-								class="w-8 h-8 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center text-sm"
-								>02</span
+					<div
+						class="bg-[#181A1F] rounded-[2.5rem] p-10 border border-white/5 relative overflow-hidden"
+					>
+						<div class="absolute -right-12 -bottom-12 w-48 h-48 opacity-[0.06] pointer-events-none">
+							<div class="w-full h-full rounded-full bg-indigo-400 blur-3xl"></div>
+						</div>
+						<div class="relative z-10">
+							<div
+								class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-zinc-400 uppercase tracking-widest mb-8"
 							>
-							The Solution
-						</h2>
-						<p class="text-lg text-zinc-600 leading-relaxed mb-8">
-							{study.solution}
-						</p>
-
-						<!-- App Screenshots Grid -->
-						{#if study.screenshots.length > 0}
-							<div class="grid grid-cols-1 gap-6 md:gap-8">
-								{#each study.screenshots as shot}
-									<figure
-										class="rounded-[2.5rem] overflow-hidden bg-white shadow-xl border border-zinc-100"
-									>
-										<img src={shot.src} alt={shot.alt} class="w-full h-auto" />
-										<figcaption
-											class="p-4 border-t border-zinc-100 bg-zinc-50 text-sm text-zinc-500 text-center font-medium"
-										>
-											{shot.caption}
-										</figcaption>
-									</figure>
-								{/each}
+								02 · Solution
 							</div>
-						{/if}
-					</section>
+							<h2 class="text-3xl font-bold text-white tracking-tight mb-6 leading-snug">
+								The Solution
+							</h2>
+							<p class="text-zinc-400 text-lg leading-relaxed font-light mb-10">{study.solution}</p>
+
+							<!-- Screenshots -->
+							{#if study.screenshots.length > 0}
+								<div class="flex flex-col gap-5">
+									{#each study.screenshots as shot}
+										<figure
+											class="rounded-[2rem] overflow-hidden bg-[#212328] border border-white/5"
+										>
+											<img src={shot.src} alt={shot.alt} class="w-full h-auto" loading="lazy" />
+											<figcaption
+												class="px-6 py-4 border-t border-white/5 text-xs text-zinc-500 font-semibold uppercase tracking-widest"
+											>
+												{shot.caption}
+											</figcaption>
+										</figure>
+									{/each}
+								</div>
+							{/if}
+						</div>
+					</div>
 
 					<!-- The Results -->
-					<section>
-						<h2 class="text-2xl font-bold text-zinc-900 mb-6 flex items-center gap-3">
-							<span
-								class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center text-sm"
-								>03</span
+					<div
+						class="bg-[#181A1F] rounded-[2.5rem] p-10 border border-white/5 relative overflow-hidden"
+					>
+						<div class="absolute -right-12 -top-12 w-48 h-48 opacity-[0.06] pointer-events-none">
+							<div class="w-full h-full rounded-full bg-emerald-400 blur-3xl"></div>
+						</div>
+						<div class="relative z-10">
+							<div
+								class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-zinc-400 uppercase tracking-widest mb-8"
 							>
-							The Results
-						</h2>
-						<p class="text-lg text-zinc-600 leading-relaxed">
-							{study.results}
-						</p>
-					</section>
+								03 · Results
+							</div>
+							<h2 class="text-3xl font-bold text-white tracking-tight mb-6 leading-snug">
+								The Results
+							</h2>
+							<p class="text-zinc-400 text-lg leading-relaxed font-light">{study.results}</p>
+						</div>
+					</div>
 				</div>
 
-				<!-- Right column: Sidebar -->
-				<div
-					class="md:col-span-4 space-y-10"
-					style="opacity: {contentVisible ? 1 : 0}; transform: translateY({contentVisible
-						? 0
-						: 40}px); transition: opacity 0.8s ease 400ms, transform 0.8s ease 400ms;"
-				>
-					<!-- Client Quote on the side -->
+				<!-- RIGHT: Sidebar bento cards -->
+				<div class="lg:col-span-4 flex flex-col gap-6">
+					<!-- Quote -->
 					{#if study.quote}
 						<div
-							class="bg-zinc-900 rounded-[2.5rem] p-10 text-white relative shadow-lg overflow-hidden"
+							class="bg-[#181A1F] rounded-[2.5rem] p-8 border border-white/5 relative overflow-hidden"
 						>
-							<div
-								class="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-[80px] pointer-events-none"
-							></div>
-							<svg class="w-8 h-8 text-white/20 mb-6" fill="currentColor" viewBox="0 0 24 24">
-								<path
-									d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"
-								/>
-							</svg>
-							<blockquote class="text-xl font-medium leading-relaxed mb-6 relative z-10">
-								"{study.quote.text}"
-							</blockquote>
+							<div class="absolute -left-8 -bottom-8 w-40 h-40 opacity-[0.08] pointer-events-none">
+								<div class="w-full h-full rounded-full bg-violet-500 blur-3xl"></div>
+							</div>
 							<div class="relative z-10">
-								<div class="font-bold text-sm text-white">{study.quote.author}</div>
-								<div class="text-white/60 text-xs mt-0.5">{study.quote.role}</div>
+								<svg class="w-7 h-7 text-white/15 mb-6" fill="currentColor" viewBox="0 0 24 24">
+									<path
+										d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"
+									/>
+								</svg>
+								<blockquote class="text-white text-base font-medium leading-relaxed mb-6">
+									"{study.quote.text}"
+								</blockquote>
+								<div>
+									<div class="font-bold text-sm text-white">{study.quote.author}</div>
+									<div class="text-zinc-500 text-xs mt-0.5">{study.quote.role}</div>
+								</div>
 							</div>
 						</div>
 					{/if}
 
-					<!-- Services Used -->
+					<!-- Services delivered -->
 					<div
-						class="bg-white rounded-[2.5rem] p-10 shadow-sm shadow-zinc-100 border border-zinc-100"
+						class="bg-[#181A1F] rounded-[2.5rem] p-8 border border-white/5 relative overflow-hidden"
 					>
-						<h3 class="text-sm font-bold text-zinc-400 uppercase tracking-widest mb-6">
-							Services Delivered
-						</h3>
-						<ul class="space-y-3">
-							{#each study.services as service}
-								<li class="flex items-start gap-3 text-sm font-medium text-zinc-700">
-									<CheckCircle2 class="w-4 h-4 {iconAccent} flex-shrink-0 mt-0.5" />
-									{service}
-								</li>
-							{/each}
-						</ul>
+						<div
+							class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#fff_1.5px,transparent_1.5px)] [background-size:20px_20px] mix-blend-overlay"
+						></div>
+						<div class="relative z-10">
+							<h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-6">
+								Services Delivered
+							</h3>
+							<ul class="flex flex-col gap-3">
+								{#each study.services as service}
+									<li class="flex items-start gap-3 text-sm font-medium text-zinc-300">
+										<CheckCircle2 class="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+										{service}
+									</li>
+								{/each}
+							</ul>
+						</div>
 					</div>
 
-					<!-- Live product CTA -->
+					<!-- CTA -->
 					<div
-						class="bg-gradient-to-br from-zinc-50 to-zinc-100 rounded-[2.5rem] p-10 shadow-sm border border-zinc-100 text-center"
+						class="bg-[#181A1F] rounded-[2.5rem] p-8 border border-white/5 flex flex-col gap-5 relative overflow-hidden"
 					>
-						<h3 class="text-2xl font-bold text-zinc-900 mb-3 mt-4 tracking-tight">
-							See it in action
-						</h3>
-						<p class="text-zinc-500 mb-8 leading-relaxed">
-							This isn't just a portfolio piece. Test drive the exact software right now.
-						</p>
-						<a
-							href={study.cta.href}
-							class="block w-full py-3 px-4 bg-zinc-900 text-white font-bold rounded-xl hover:bg-zinc-800 transition-colors text-sm shadow-md"
-						>
-							{study.cta.label}
-						</a>
+						<div class="absolute -right-8 -top-8 w-40 h-40 opacity-[0.08] pointer-events-none">
+							<div class="w-full h-full rounded-full bg-white blur-3xl"></div>
+						</div>
+						<div class="relative z-10">
+							<h3 class="text-xl font-bold text-white tracking-tight mb-2">
+								Want something like this?
+							</h3>
+							<p class="text-zinc-400 text-sm leading-relaxed mb-6">
+								Book a free discovery call and we'll map out your project together.
+							</p>
+							<a
+								href={study.cta.href}
+								class="block w-full text-center py-4 px-6 bg-white text-zinc-900 font-bold rounded-[1.25rem] hover:bg-zinc-100 active:scale-95 transition-all text-sm shadow-lg"
+							>
+								{study.cta.label}
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
-		</article>
+		</div>
 	</main>
 
-	<AgencyCTA />
+	<AgencyFooter />
 {:else}
-	<div class="flex items-center justify-center h-screen bg-zinc-50">
+	<div class="flex items-center justify-center h-screen bg-[#0A0A0B]">
 		<div class="text-center">
-			<h1 class="text-2xl font-bold text-zinc-900 mb-4">Case study not found</h1>
-			<a href="/#case-studies" class="text-blue-600 hover:text-blue-800 font-medium"
+			<h1 class="text-2xl font-bold text-white mb-4">Case study not found</h1>
+			<a href="/#case-studies" class="text-zinc-400 hover:text-white font-medium transition-colors"
 				>← Back to work</a
 			>
 		</div>
