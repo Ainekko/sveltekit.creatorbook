@@ -71,11 +71,10 @@ export const caseStudies: CaseStudy[] = [
         results:
             "Users go from zero to published SEO article in under 10 minutes. Teams report 8–12 hours saved per week. Content velocity increased 4x for early customers.",
         features: [
-            { icon: 'search', title: 'Find Winning Keywords', desc: 'Instantly spot high-volume, low-competition terms you can actually rank for.' },
-            { icon: 'trending-up', title: 'Steal Competitor Strategy', desc: "See exactly why they rank #1 and reverse-engineer their approach to beat them." },
-            { icon: 'file-text', title: "Banish Writer's Block", desc: 'Get structured, SEO-perfect outlines in seconds. Never start from scratch again.' },
-            { icon: 'pen-tool', title: 'Write Like an Expert', desc: 'Deep, researched articles that drive traffic — you control the voice and length.' },
-            { icon: 'zap', title: 'Publish While You Sleep', desc: 'Auto-post to WordPress or your CMS. Scale your content without the grind.' }
+            { icon: '', title: 'Research', desc: '' },
+            { icon: '', title: 'Outline', desc: "" },
+            { icon: '', title: "Full Post", desc: '' },
+            { icon: '', title: 'Auto Publish', desc: '' }
         ],
         metrics: [
             { value: '10 min', label: 'Zero to published article' },
@@ -117,11 +116,10 @@ export const caseStudies: CaseStudy[] = [
         results:
             "Teams using Elio report finding 15–30 qualified lead opportunities per week on autopilot. Average response to a hot lead dropped from days to minutes. Competitor churn alerts let users swoop in at exactly the right moment.",
         features: [
-            { icon: 'target', title: 'Spot High-Intent Buyers', desc: "Find users asking for your exact solution or complaining about a competitor right now." },
-            { icon: 'alert-circle', title: 'Catch Competitor Churn', desc: 'Alerts you the moment users vent about your rivals so you can swoop in and offer the alternative.' },
-            { icon: 'message-circle', title: 'Engage Authentically', desc: 'AI-drafted replies that are helpful, value-first, and non-salesy — builds trust, not spam flags.' },
-            { icon: 'filter', title: 'Skip the Noise', desc: 'Intent scoring filters out irrelevant posts. You only see high-signal conversations worth acting on.' },
-            { icon: 'shield', title: 'Protect Your Brand', desc: 'Catch negative brand mentions early and control the narrative before it spirals.' }
+            { icon: '', title: 'Keyword Monitoring', desc: "" },
+            { icon: '', title: 'Intent Scoring', desc: '' },
+            { icon: '', title: 'Draft Reply', desc: '' },
+            { icon: '', title: 'Churn Alert', desc: '' }
         ],
         metrics: [
             { value: '24/7', label: 'Continuous Reddit monitoring' },

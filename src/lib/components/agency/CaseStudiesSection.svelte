@@ -1,10 +1,35 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { CaseStudy } from '$lib/data/caseStudies';
+	import {
+		Search,
+		TrendingUp,
+		FileText,
+		PenTool,
+		Zap,
+		Target,
+		AlertCircle,
+		MessageCircle,
+		Filter,
+		Shield
+	} from 'lucide-svelte';
 
 	export let caseStudies: CaseStudy[] = [];
 
 	let visibleCards: Set<number> = new Set();
+
+	const iconMap: Record<string, any> = {
+		search: Search,
+		'trending-up': TrendingUp,
+		'file-text': FileText,
+		'pen-tool': PenTool,
+		zap: Zap,
+		target: Target,
+		'alert-circle': AlertCircle,
+		'message-circle': MessageCircle,
+		filter: Filter,
+		shield: Shield
+	};
 
 	onMount(() => {
 		const observer = new IntersectionObserver(
@@ -81,16 +106,11 @@
 			</div>
 		</div>
 
-		<!-- Case Studies & Testimonial Bento Grid -->
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 lg:gap-8 mb-24">
+		<!-- Case Studies List -->
+		<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-24">
 			{#each caseStudies as study, idx}
-				{@const isFeatured = idx === 0}
-				<!-- Grid Cell / Card -->
-				<a
-					href="/case-studies/{study.slug}"
-					class="case-card group relative grid grid-cols-1 sm:grid-cols-2 gap-3 w-full rounded-[2.5rem] p-3 overflow-hidden bg-[#181A1F] border border-white/5 shadow-xl transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:border-white/10 {isFeatured
-						? 'lg:col-span-4'
-						: 'lg:col-span-2'} md:col-span-2"
+				<div
+					class="case-card group relative grid grid-cols-1 sm:grid-cols-3 gap-3 w-full rounded-[2.5rem] p-3 overflow-hidden bg-[#181A1F] border border-white/5 shadow-xl transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:border-white/10"
 					data-idx={idx}
 					style="opacity: {visibleCards.has(idx) ? 1 : 0}; transform: translateY({visibleCards.has(
 						idx
@@ -99,96 +119,98 @@
 						: 40}px); transition: opacity 0.8s ease {idx * 150}ms, transform 0.8s ease {idx *
 						150}ms;"
 				>
-					<!-- Top Bento box: Visual Half -->
-					<div
-						class="col-span-2 sm:col-span-2 relative w-full {isFeatured
-							? 'aspect-[16/10] lg:aspect-[16/9]'
-							: 'aspect-square'} rounded-[2rem] overflow-hidden bg-zinc-800 flex flex-col items-center justify-end px-6 pt-12"
-					>
-						<!-- Gradient backgrounds -->
-						{#if study.accentColor === 'violet'}
-							<div
-								class="absolute inset-0 bg-gradient-to-br from-[#E2D4F0] via-[#F4D9DC] to-[#FADAB8]"
-							></div>
-						{:else if study.accentColor === 'blue'}
-							<div
-								class="absolute inset-0 bg-gradient-to-br from-[#D4E8F0] via-[#D9F4ED] to-[#B8FAE4]"
-							></div>
-						{:else if study.accentColor === 'orange'}
-							<div
-								class="absolute inset-0 bg-gradient-to-br from-[#F0DFD4] via-[#F4DDD9] to-[#FAB8B8]"
-							></div>
-						{:else}
-							<div class="absolute inset-0 bg-gradient-to-br from-zinc-200 to-zinc-300"></div>
-						{/if}
-
-						<!-- Visual shape candy -->
-						<div
-							class="absolute inset-0 opacity-[0.15] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPHBhdGggZD0iTTAgMEw4IDhaTTAgOEw4IDBaIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=')] [background-size:24px_24px]"
-						></div>
-
-						<!-- Floating embedded screenshot -->
-						<div
-							class="relative z-10 w-[95%] sm:w-[90%] rounded-t-[1.25rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.15)] transition-transform duration-700 ease-out translate-y-6 group-hover:translate-y-3 group-hover:scale-[1.02]"
+					<!-- Left Side: Main Visual + Title (2/3 width) -->
+					<div class="sm:col-span-2 flex flex-col gap-3">
+						<!-- Visual Box -->
+						<a
+							href="/case-studies/{study.slug}"
+							class="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden bg-zinc-800 flex flex-col items-center justify-end px-6 pt-12 block group/img"
 						>
-							<img
-								src={study.heroImage}
-								alt={study.title}
-								class="w-full h-auto object-cover object-top"
-								loading="lazy"
-							/>
-						</div>
-					</div>
+							<!-- Gradient backgrounds -->
+							{#if study.accentColor === 'violet'}
+								<div
+									class="absolute inset-0 bg-gradient-to-br from-[#E2D4F0] via-[#F4D9DC] to-[#FADAB8]"
+								></div>
+							{:else if study.accentColor === 'blue'}
+								<div
+									class="absolute inset-0 bg-gradient-to-br from-[#D4E8F0] via-[#D9F4ED] to-[#B8FAE4]"
+								></div>
+							{:else if study.accentColor === 'orange'}
+								<div
+									class="absolute inset-0 bg-gradient-to-br from-[#F0DFD4] via-[#F4DDD9] to-[#FAB8B8]"
+								></div>
+							{:else}
+								<div class="absolute inset-0 bg-gradient-to-br from-zinc-200 to-zinc-300"></div>
+							{/if}
 
-					<!-- Bottom Left Bento box: Title & Arrow -->
-					<div
-						class="col-span-1 relative bg-[#212328] rounded-[2rem] p-6 flex flex-col justify-between overflow-hidden shadow-inner border border-white/5"
-					>
-						<!-- Visual gradient blob candy -->
-						<div
-							class="absolute -right-8 -bottom-8 w-32 h-32 opacity-20 pointer-events-none transition-transform duration-700 group-hover:scale-150 group-hover:opacity-30"
-						>
-							<div class="w-full h-full rounded-full bg-white blur-2xl"></div>
-						</div>
-						<div class="flex flex-col relative z-10">
-							<span class="text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2"
-								>Project</span
+							<div
+								class="absolute inset-0 opacity-[0.15] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPHBhdGggZD0iTTAgMEw4IDhaTTAgOEw4IDBaIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=')] [background-size:24px_24px]"
+							></div>
+
+							<div
+								class="relative z-10 w-[95%] sm:w-[90%] rounded-t-[1.25rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.15)] transition-transform duration-700 ease-out translate-y-6 group-hover/img:translate-y-3 group-hover/img:scale-[1.02]"
 							>
-							<h3
-								class="text-xl lg:text-2xl font-semibold text-white tracking-tight leading-[1.2] mb-5 pr-2"
-							>
-								{study.title}
-							</h3>
-						</div>
-						<div
-							class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-zinc-900 group-hover:border-transparent transition-all duration-300 relative z-10 shrink-0"
+								<img
+									src={study.heroImage}
+									alt={study.title}
+									class="w-full h-auto object-cover object-top"
+									loading="lazy"
+								/>
+							</div>
+						</a>
+
+						<!-- Title Strip -->
+						<a
+							href="/case-studies/{study.slug}"
+							class="relative bg-[#212328] rounded-[2rem] p-5 flex items-center justify-between overflow-hidden shadow-inner border border-white/5 block w-full"
 						>
-							<svg class="w-4 h-4 -rotate-45" viewBox="0 0 24 24" fill="currentColor">
-								<path
-									d="M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V5C3 4.44772 3.44772 4 4 4H10ZM21 3V11H19L18.9999 6.413L11.2071 14.2071L9.79289 12.7929L17.5849 5H13V3H21Z"
-								></path>
-							</svg>
-						</div>
+							<div
+								class="absolute -right-8 -bottom-8 w-32 h-32 opacity-20 pointer-events-none transition-transform duration-700 group-hover:scale-150 group-hover:opacity-30"
+							>
+								<div class="w-full h-full rounded-full bg-white blur-2xl"></div>
+							</div>
+
+							<div class="flex flex-col relative z-10 flex-1 min-w-0 pr-4">
+								<span class="text-[9px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-1"
+									>Project</span
+								>
+								<h3
+									class="text-[15px] font-semibold text-white tracking-tight leading-tight w-full truncate"
+								>
+									{study.title}
+								</h3>
+							</div>
+
+							<div
+								class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center transition-all duration-300 relative z-10 shrink-0 group-hover:bg-white group-hover:text-zinc-900 group-hover:border-transparent"
+							>
+								<svg class="w-4 h-4 -rotate-45" viewBox="0 0 24 24" fill="currentColor">
+									<path
+										d="M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V5C3 4.44772 3.44772 4 4 4H10ZM21 3V11H19L18.9999 6.413L11.2071 14.2071L9.79289 12.7929L17.5849 5H13V3H21Z"
+									></path>
+								</svg>
+							</div>
+						</a>
 					</div>
 
-					<!-- Bottom Right Bento box: Description -->
-					<div
-						class="col-span-1 relative bg-[#212328] rounded-[2rem] p-6 flex flex-col justify-start overflow-hidden border border-white/5 shadow-inner"
-					>
-						<!-- Dot pattern candy -->
-						<div
-							class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#fff_1.5px,transparent_1.5px)] [background-size:20px_20px] mix-blend-overlay"
-						></div>
-						<p class="text-zinc-400 text-[14px] leading-relaxed font-light relative z-10">
-							{study.shortDescription}
-						</p>
+					<!-- Right Side: Mini Outcome Cards Stack (1/3 width) -->
+					<div class="sm:col-span-1 flex flex-col gap-3 min-h-0">
+						{#each study.features.slice(0, 4) as feature}
+							<div
+								class="flex-1 min-h-[3.5rem] bg-[#212328] rounded-[1.5rem] border border-white/5 px-4 py-3 flex items-center justify-center text-center shadow-inner transition-colors duration-300 hover:bg-white/5"
+							>
+								<h4 class="text-zinc-300 font-bold text-[13px] leading-tight tracking-wide">
+									{feature.title}
+								</h4>
+							</div>
+						{/each}
 					</div>
-				</a>
+				</div>
 			{/each}
 
 			<!-- Testimonial card (Integrated into Bento) -->
 			<div
-				class="case-card group relative lg:col-span-6 md:col-span-2 w-full rounded-[2.5rem] p-3 overflow-hidden bg-[#181A1F] border border-white/5 shadow-xl transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:border-white/10 flex flex-col md:flex-row gap-3"
+				class="case-card group relative lg:col-span-2 md:col-span-2 w-full rounded-[2.5rem] p-3 overflow-hidden bg-[#181A1F] border border-white/5 shadow-xl transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:border-white/10 flex flex-col md:flex-row gap-3"
 				style="opacity: {visibleCards.size > 0 ? 1 : 0}; transform: translateY({visibleCards.size >
 				0
 					? 0
