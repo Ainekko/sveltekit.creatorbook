@@ -46,26 +46,61 @@
 
 					<p
 						in:blur={{ duration: 700, delay: 180, amount: 6 }}
-						class="text-lg md:text-xl text-zinc-500 leading-relaxed font-light max-w-xl"
+						class="text-lg md:text-xl text-zinc-500 leading-relaxed font-light max-w-lg"
 					>
-						We're a dedicated team building bespoke applications and automation workflows for small
-						businesses. <strong class="font-medium text-zinc-700">No ghosting, no lock-in</strong> —
-						just high-quality code and a team that actually stays.
+						One dedicated team for your apps and workflows. <strong
+							class="font-medium text-zinc-700">No ghosting, no lock-in</strong
+						> — just high-quality code.
 					</p>
 
 					<!-- Stats bar moved to left under copy -->
 					<div
 						in:fly={{ y: 20, duration: 600, delay: 420 }}
-						class="flex flex-wrap items-center gap-10 pt-6"
+						class="flex flex-col sm:flex-row items-center gap-4 pt-6 max-w-lg"
 					>
-						{#each stats as stat}
-							<div>
-								<div class="text-2xl font-bold text-zinc-900 tracking-tight">{stat.value}</div>
-								<div class="text-xs uppercase tracking-widest text-zinc-500 font-semibold mt-1">
-									{stat.label}
+						<div
+							class="flex-1 w-full p-6 rounded-[1.5rem] bg-white border border-zinc-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden group hover:-translate-y-1 transition-all duration-300"
+						>
+							<div
+								class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+							></div>
+							<div
+								class="absolute -right-4 -top-8 w-24 h-24 bg-emerald-100/50 rounded-full blur-xl pointer-events-none group-hover:bg-emerald-200/50 transition-colors duration-500"
+							></div>
+							<div
+								class="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuMSIvPjwvc3ZnPg==')] [background-size:12px_12px] mix-blend-overlay"
+							></div>
+							<div class="relative z-10">
+								<div class="text-[2rem] font-bold text-zinc-900 tracking-tight leading-none mb-2">
+									&lt; 4 wks
+								</div>
+								<div class="text-[11px] uppercase tracking-widest text-zinc-500 font-semibold">
+									Average delivery
 								</div>
 							</div>
-						{/each}
+						</div>
+
+						<div
+							class="flex-1 w-full p-6 rounded-[1.5rem] bg-white border border-zinc-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden group hover:-translate-y-1 transition-all duration-300"
+						>
+							<div
+								class="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+							></div>
+							<div
+								class="absolute -right-4 -top-8 w-24 h-24 bg-violet-100/50 rounded-full blur-xl pointer-events-none group-hover:bg-violet-200/50 transition-colors duration-500"
+							></div>
+							<div
+								class="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuMSIvPjwvc3ZnPg==')] [background-size:12px_12px] mix-blend-overlay"
+							></div>
+							<div class="relative z-10">
+								<div class="text-[2rem] font-bold text-zinc-900 tracking-tight leading-none mb-2">
+									100%
+								</div>
+								<div class="text-[11px] uppercase tracking-widest text-zinc-500 font-semibold">
+									Own it forever
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -101,26 +136,6 @@
 							</div>
 
 							<!-- Floating abstract visual element -->
-							<div
-								class="absolute -top-6 -right-12 rotate-[12deg] transition-transform duration-500 group-hover:rotate-[16deg] group-hover:scale-105 pointer-events-none hidden md:block"
-							>
-								<div
-									class="w-48 h-32 bg-[#212328] rounded-2xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.4)] overflow-hidden relative"
-								>
-									<div
-										class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPHBhdGggZD0iTTAgMEw4IDhaTTAgOEw4IDBaIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=')] [background-size:24px_24px] mix-blend-overlay"
-									></div>
-									<div class="absolute inset-0 flex flex-wrap gap-2 p-4 opacity-20">
-										<div class="w-6 h-6 rounded-full border-[3px] border-emerald-400"></div>
-										<div class="w-6 h-6 rounded-sm border-[3px] border-violet-400"></div>
-									</div>
-									<div
-										class="absolute bottom-3 left-3 text-[9px] uppercase tracking-[0.2em] text-zinc-500 font-bold"
-									>
-										Automation
-									</div>
-								</div>
-							</div>
 						</div>
 
 						<div class="relative z-20 mt-auto pt-16">
