@@ -51,28 +51,22 @@
 			<!-- Desktop Navigation -->
 			<div class="hidden lg:flex items-center gap-1">
 				<button
-					on:click={() => scrollToSection('agents')}
+					on:click={() => scrollToSection('case-studies')}
 					class="text-zinc-600 hover:text-zinc-900 text-sm font-medium transition rounded-lg px-4 py-2 hover:bg-zinc-50"
 				>
-					Agents
+					Work
 				</button>
 				<button
-					on:click={() => scrollToSection('how-it-works')}
+					on:click={() => scrollToSection('services')}
 					class="text-zinc-600 hover:text-zinc-900 text-sm font-medium transition rounded-lg px-4 py-2 hover:bg-zinc-50"
 				>
-					How It Works
+					Services
 				</button>
 				<button
 					on:click={() => scrollToSection('pricing')}
 					class="text-zinc-600 hover:text-zinc-900 text-sm font-medium transition rounded-lg px-4 py-2 hover:bg-zinc-50"
 				>
 					Pricing
-				</button>
-				<button
-					on:click={() => navigateAndClose('/blog')}
-					class="text-zinc-600 hover:text-zinc-900 text-sm font-medium transition rounded-lg px-4 py-2 hover:bg-zinc-50"
-				>
-					Blog
 				</button>
 			</div>
 
@@ -93,16 +87,18 @@
 					</button>
 				{:else}
 					<button
-						on:click={() => navigateAndClose('/login')}
+						on:click={() => navigateAndClose('/contact')}
 						class="text-zinc-600 hover:text-zinc-900 text-sm font-medium transition rounded-lg px-4 py-2 hover:bg-zinc-50"
 					>
-						Log in
+						Contact us
 					</button>
 					<button
-						on:click={() => navigateAndClose('/signup')}
+						data-cal-link="hafid-ahlaqach-nigixz/30min"
+						data-cal-namespace="30min"
+						data-cal-config={JSON.stringify({ layout: 'month_view', theme: 'light' })}
 						class="bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-medium transition rounded-lg px-5 py-2 shadow-sm"
 					>
-						Start for free
+						Book a call
 					</button>
 				{/if}
 			</div>
@@ -144,22 +140,22 @@
 	>
 		<div class="flex flex-col p-4 space-y-1">
 			<button
-				on:click={() => scrollToSection('agents')}
+				on:click={() => scrollToSection('case-studies')}
 				class="text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50 text-base font-medium transition rounded-lg px-4 py-3 text-left"
 			>
-				Agents
+				Work
 			</button>
 			<button
-				on:click={() => scrollToSection('how-it-works')}
+				on:click={() => scrollToSection('services')}
 				class="text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50 text-base font-medium transition rounded-lg px-4 py-3 text-left"
 			>
-				How It Works
+				Services
 			</button>
 			<button
-				on:click={() => navigateAndClose('/blog')}
+				on:click={() => scrollToSection('pricing')}
 				class="text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50 text-base font-medium transition rounded-lg px-4 py-3 text-left"
 			>
-				Blog
+				Pricing
 			</button>
 
 			<div class="border-t border-zinc-100 my-4"></div>
@@ -180,17 +176,18 @@
 			{:else}
 				<div class="space-y-3">
 					<button
-						on:click={() => navigateAndClose('/login')}
-						class="w-full text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50 text-base font-medium transition flex items-center justify-center rounded-lg px-4 py-3"
+						on:click={() => navigateAndClose('/contact')}
+						class="w-full text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50 text-base font-medium transition flex items-center justify-center rounded-lg px-4 py-3 border border-zinc-200"
 					>
-						Log in
+						Contact us
 					</button>
-					<Googleauth />
 					<button
-						on:click={() => navigateAndClose('/signup')}
+						data-cal-link="hafid-ahlaqach-nigixz/30min"
+						data-cal-namespace="30min"
+						data-cal-config={JSON.stringify({ layout: 'month_view', theme: 'light' })}
 						class="w-full text-white bg-zinc-900 hover:bg-zinc-800 text-base font-medium transition flex items-center justify-center rounded-lg px-4 py-3 shadow-sm"
 					>
-						Start for free
+						Book a call
 					</button>
 				</div>
 			{/if}
