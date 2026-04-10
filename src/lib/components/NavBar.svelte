@@ -87,7 +87,7 @@
 					</button>
 				{:else}
 					<button
-						on:click={() => navigateAndClose('/contact')}
+						on:click={() => navigateAndClose('/contact-us')}
 						class="text-zinc-600 hover:text-zinc-900 text-sm font-medium transition rounded-lg px-4 py-2 hover:bg-zinc-50"
 					>
 						Contact us

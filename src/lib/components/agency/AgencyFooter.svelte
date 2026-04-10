@@ -53,9 +53,11 @@
 				</div>
 				<div class="flex flex-col gap-4">
 					<h4 class="text-white text-xs font-bold tracking-widest uppercase mb-1">Company</h4>
-					<a href="#contact" class="text-sm hover:text-white transition-colors">Contact Us</a>
+					<a href="/contact-us" class="text-sm hover:text-white transition-colors">Contact Us</a>
 					<a href="/privacy" class="text-sm hover:text-white transition-colors">Privacy Policy</a>
-					<a href="/terms" class="text-sm hover:text-white transition-colors">Terms of Service</a>
+					<a href="/terms-of-service" class="text-sm hover:text-white transition-colors"
+						>Terms of Service</a
+					>
 				</div>
 			</div>
 		</div>
