@@ -73,39 +73,27 @@
 		<!-- ─── HERO IMAGE ────────────────────────────────────────── -->
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
 			<div
-				class="relative rounded-[2.5rem] overflow-hidden aspect-[16/9] flex items-end justify-center px-8 pt-12 {study.coverImage
+				class="relative rounded-[2.5rem] overflow-hidden aspect-[16/9] {study.coverImage
 					? ''
 					: 'bg-gradient-to-br ' + heroGradient}"
 				style="opacity:{visible ? 1 : 0}; transform:translateY({visible
 					? 0
 					: 30}px); transition: opacity 0.8s ease 200ms, transform 0.8s ease 200ms;"
 			>
-				<!-- Real cover photo -->
 				{#if study.coverImage}
+					<!-- Cover photo fills the full frame -->
 					<img
 						src={study.coverImage}
 						alt="{study.title} cover"
 						class="absolute inset-0 w-full h-full object-cover object-center"
 					/>
-					<!-- Gradient fade at bottom so the floating screenshot pops -->
-					<div
-						class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"
-					></div>
+					<!-- Subtle bottom vignette -->
+					<div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
 				{:else}
 					<div
 						class="absolute inset-0 opacity-[0.12] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPHBhdGggZD0iTTAgMEw4IDhaTTAgOEw4IDBaIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=')] [background-size:24px_24px]"
 					></div>
 				{/if}
-
-				<div
-					class="relative z-10 w-[85%] rounded-t-[1.5rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.3)]"
-				>
-					<img
-						src={study.heroImage}
-						alt={study.title}
-						class="w-full h-auto object-cover object-top"
-					/>
-				</div>
 			</div>
 		</div>
 
@@ -265,6 +253,32 @@
 							</ul>
 						</div>
 					</div>
+
+					<!-- Tech logos — only shown if defined -->
+					{#if study.techLogos && study.techLogos.length > 0}
+						<div
+							class="bg-[#181A1F] rounded-[2.5rem] p-8 border border-white/5 relative overflow-hidden"
+						>
+							<div class="absolute -right-8 -bottom-8 w-32 h-32 opacity-[0.06] pointer-events-none">
+								<div class="w-full h-full rounded-full bg-indigo-400 blur-3xl"></div>
+							</div>
+							<div class="relative z-10">
+								<h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-5">
+									Built with
+								</h3>
+								<div class="flex flex-wrap gap-3">
+									{#each study.techLogos as logo}
+										<div
+											class="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
+										>
+											<img src={logo.src} alt={logo.label} class="w-5 h-5 object-contain" />
+											<span class="text-sm font-semibold text-zinc-300">{logo.label}</span>
+										</div>
+									{/each}
+								</div>
+							</div>
+						</div>
+					{/if}
 
 					<!-- CTA -->
 					<div

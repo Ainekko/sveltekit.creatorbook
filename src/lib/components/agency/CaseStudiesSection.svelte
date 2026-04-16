@@ -165,9 +165,23 @@
 							</div>
 
 							<div class="flex flex-col relative z-10 flex-1 min-w-0 pr-4">
-								<span class="text-[9px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-1"
-									>Project</span
-								>
+								{#if study.techLogos && study.techLogos.length > 0}
+									<div class="flex items-center gap-1.5 mb-2">
+										{#each study.techLogos as logo}
+											<div
+												title={logo.label}
+												class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/8 border border-white/10"
+											>
+												<img src={logo.src} alt={logo.label} class="w-3 h-3 object-contain" />
+												<span class="text-[9px] font-semibold text-zinc-400">{logo.label}</span>
+											</div>
+										{/each}
+									</div>
+								{:else}
+									<span class="text-[9px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-1"
+										>Project</span
+									>
+								{/if}
 								<h3
 									class="text-[15px] font-semibold text-white tracking-tight leading-tight w-full truncate"
 								>

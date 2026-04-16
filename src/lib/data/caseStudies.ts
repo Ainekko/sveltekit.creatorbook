@@ -27,6 +27,7 @@ export interface CaseStudy {
     features: { icon: string; title: string; desc: string }[];
     metrics: { value: string; label: string }[];
     quote?: { text: string; author: string; role: string };
+    techLogos?: { src: string; label: string }[]; // small tech/platform logos shown on card & detail page
     tags: string[];
     cta: { label: string; href: string };
     published: boolean;
@@ -35,6 +36,119 @@ export interface CaseStudy {
 }
 
 export const caseStudies: CaseStudy[] = [
+    // ─── Front Desk Assistant ────────────────────────────────────────────────
+    {
+        id: 'front-desk-assistant',
+        slug: 'front-desk-assistant',
+        title: 'AI Front Desk Assistant',
+        client: 'Client Project',
+        industry: 'Small Business / Service Industry',
+        accentColor: 'blue',
+        coverImage: '/flowjoy/front_desk_assistant.jpg',
+        techLogos: [
+            { src: '/flowjoy/retell.svg', label: 'Retell AI' },
+            { src: '/flowjoy/clickup.svg', label: 'ClickUp' },
+            { src: '/flowjoy/make.svg', label: 'Make' }
+        ],
+        services: ['Voice AI', 'Calendar Automation', 'CRM Integration', 'SMS & Email Workflows'],
+        heroImage: '/flowjoy/front_desk_assistant.jpg',
+        screenshots: [],
+        shortDescription:
+            "Every missed call is a missed sale. We built an AI voice assistant that picks up every call, has a real conversation with the lead, books them straight into the calendar, and notifies the business — automatically.",
+        challenge:
+            "The client was missing calls while on the job, at lunch, or after hours. Those missed calls were going to voicemail — and most callers never called back. Leads were disappearing silently, and there was no way to track how many were being lost.",
+        solution:
+            "We built an AI front desk that never sleeps. It picks up every call, introduces itself, and has a natural two-way conversation with the lead. If they're ready to book, it checks the client's calendar in real time and locks in the appointment. The lead gets a confirmation SMS. The client gets an email summary with the lead's name, what they need, and the booked time slot. Everything syncs to ClickUp so nothing ever falls through the cracks.",
+        results:
+            "The client stopped losing leads to missed calls entirely. Bookings started coming in overnight, on weekends, and during busy periods — times when they would have gone to voicemail before. The ClickUp CRM gives a live view of every lead and booking, so the client always knows what's coming.",
+        features: [
+            { icon: '', title: 'Answers Every Call', desc: '' },
+            { icon: '', title: 'Books Meetings', desc: '' },
+            { icon: '', title: 'SMS Confirmation', desc: '' },
+            { icon: '', title: 'ClickUp CRM', desc: '' }
+        ],
+        metrics: [
+            { value: '0', label: 'Missed calls go unanswered' },
+            { value: '24/7', label: 'Always-on front desk' },
+            { value: 'Instant', label: 'SMS + email after every booking' },
+            { value: '100%', label: 'Leads logged in ClickUp CRM' }
+        ],
+        quote: {
+            text: "I was losing jobs just because I couldn't answer the phone on a busy day. Now the AI handles it, books them in, and I get an email summary. I've had bookings come in at 11pm that I would have completely missed.",
+            author: 'Business Owner',
+            role: 'Home Services'
+        },
+        tags: ['Voice AI', 'Automation', 'Lead Capture', 'Booking', 'CRM'],
+        cta: { label: 'Build something like this →', href: '/#case-studies' },
+        published: true,
+        featured: true,
+        publishedAt: '2025-02-01'
+    },
+
+    // ─── SMS Management Platform ─────────────────────────────────────────────
+    {
+        id: 'sms-platform',
+        slug: 'sms-management-platform',
+        title: 'SMS Management Platform',
+        client: 'Client Project',
+        industry: 'Small Business / Marketing',
+        accentColor: 'violet',
+        coverImage: '/flowjoy/sms_app.jpg',
+        techLogos: [
+            { src: '/flowjoy/Vercel_Logo_0.svg', label: 'Vercel' },
+            { src: '/flowjoy/Render_id1Uv7v4QJ_0.svg', label: 'Render' }
+        ],
+        services: ['Product Design', 'Full-Stack Dashboard', 'SMS Automation', 'Multi-brand System'],
+        heroImage: '/flowjoy/case_studies_screenshots/sms app/stats_screenshot.jpg',
+        screenshots: [
+            {
+                src: '/flowjoy/case_studies_screenshots/sms app/campain_page.jpg',
+                alt: 'SMS campaigns dashboard',
+                caption: 'Campaign Manager'
+            },
+            {
+                src: '/flowjoy/case_studies_screenshots/sms app/texting_page.jpg',
+                alt: 'SMS conversation view',
+                caption: 'Two-way Messaging'
+            },
+            {
+                src: '/flowjoy/case_studies_screenshots/sms app/stats_screenshot.jpg',
+                alt: 'SMS analytics and stats',
+                caption: 'Live Stats'
+            }
+        ],
+        shortDescription:
+            "We built a complete SMS management platform for a small business owner managing multiple brands. One dashboard to text customers, run campaigns, schedule follow-ups, and keep everything organised — no technical knowledge needed.",
+        challenge:
+            "The client was juggling multiple brands, manually texting customers one by one, and losing track of who replied and who didn't. Campaigns were disorganised, follow-ups were forgotten, and there was no way to see what was actually working.",
+        solution:
+            "We built a clean, easy-to-use SMS dashboard with everything in one place. Switch between brands in one click, import your contact list, and send to hundreds at once. The AI automatically builds and maintains a Do Not Contact (DNC) list — anyone who opts out gets flagged instantly and is permanently excluded from all future campaigns and follow-ups. No manual list management, no compliance headaches, no accidental re-contact.",
+        results:
+            "The client went from spending 2+ hours a day manually texting to running bulk campaigns in minutes. Response rates improved because follow-ups actually happen. The AI-powered DNC list means no contact is ever messaged after opting out — protecting the business and keeping customers happy. Managing multiple brands no longer means multiple headaches.",
+        features: [
+            { icon: '', title: 'Multi-brand', desc: '' },
+            { icon: '', title: 'Bulk SMS', desc: '' },
+            { icon: '', title: 'AI DNC List', desc: '' },
+            { icon: '', title: 'Follow-ups', desc: '' }
+        ],
+        metrics: [
+            { value: '3+', label: 'Brands in one login' },
+            { value: '1000s', label: 'Messages per campaign' },
+            { value: '2h/day', label: 'Time saved on manual texting' },
+            { value: 'AI', label: 'Automated DNC list — zero re-contacts' }
+        ],
+        quote: {
+            text: "Before this I was texting people one by one from my phone. Now I send to my whole list in two minutes and I can actually see who opened it. It's changed how I run my business.",
+            author: 'Business Owner',
+            role: 'Multi-brand Retailer'
+        },
+        tags: ['SMS', 'Marketing', 'Automation', 'Multi-brand', 'Small Business'],
+        cta: { label: 'Build something like this →', href: '/#case-studies' },
+        published: true,
+        featured: true,
+        publishedAt: '2025-01-01'
+    },
+
     // ─── Nai — SEO Content Engine ────────────────────────────────────────────
     {
         id: 'nai',
@@ -143,13 +257,6 @@ export const caseStudies: CaseStudy[] = [
     }
 
     // ─── ADD MORE CASE STUDIES BELOW ────────────────────────────────────────
-    // {
-    //   id: '3',
-    //   slug: 'your-project-slug',
-    //   title: 'Project Title',
-    //   client: 'Client Name',
-    //   ...
-    // }
 ];
 
 export const getFeaturedCaseStudies = () => caseStudies.filter((cs) => cs.featured && cs.published);
