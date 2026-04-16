@@ -124,10 +124,19 @@
 						<!-- Visual Box -->
 						<a
 							href="/case-studies/{study.slug}"
-							class="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden bg-zinc-800 flex flex-col items-center justify-end px-6 pt-12 block group/img"
+							class="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden bg-zinc-800 block group/img"
 						>
-							<!-- Gradient backgrounds -->
-							{#if study.accentColor === 'violet'}
+							{#if study.coverImage}
+								<!-- Cover fills the full box — no screenshot on top -->
+								<img
+									src={study.coverImage}
+									alt="{study.title} cover"
+									class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover/img:scale-105"
+									loading="lazy"
+								/>
+								<!-- Subtle vignette so the card edge stays sharp -->
+								<div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+							{:else if study.accentColor === 'violet'}
 								<div
 									class="absolute inset-0 bg-gradient-to-br from-[#E2D4F0] via-[#F4D9DC] to-[#FADAB8]"
 								></div>
@@ -142,21 +151,6 @@
 							{:else}
 								<div class="absolute inset-0 bg-gradient-to-br from-zinc-200 to-zinc-300"></div>
 							{/if}
-
-							<div
-								class="absolute inset-0 opacity-[0.15] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPHBhdGggZD0iTTAgMEw4IDhaTTAgOEw4IDBaIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=')] [background-size:24px_24px]"
-							></div>
-
-							<div
-								class="relative z-10 w-[95%] sm:w-[90%] rounded-t-[1.25rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.15)] transition-transform duration-700 ease-out translate-y-6 group-hover/img:translate-y-3 group-hover/img:scale-[1.02]"
-							>
-								<img
-									src={study.heroImage}
-									alt={study.title}
-									class="w-full h-auto object-cover object-top"
-									loading="lazy"
-								/>
-							</div>
 						</a>
 
 						<!-- Title Strip -->

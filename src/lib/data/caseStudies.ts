@@ -15,6 +15,7 @@ export interface CaseStudy {
     client: string;
     industry: string;
     accentColor: string; // tailwind color token e.g. 'blue' | 'orange' | 'violet'
+    coverImage?: string; // local static image used as hero background in cards & case study header
     services: string[];
     heroImage: string;
     screenshots: CaseStudyScreenshot[];
@@ -42,6 +43,7 @@ export const caseStudies: CaseStudy[] = [
         client: 'Flowjoy',
         industry: 'SaaS / Content Marketing',
         accentColor: 'blue',
+        coverImage: '/flowjoy/nai_cover.jpg',
         services: ['AI Product Design', 'Full-Stack Dev', 'NLP / LLM Integration', 'Auto-Publish Pipeline'],
         heroImage: 'https://rechatcreatorbook.s3.us-west-2.amazonaws.com/NewAssets/Nai-workflow.jpg',
         screenshots: [
@@ -97,6 +99,7 @@ export const caseStudies: CaseStudy[] = [
         client: 'Flowjoy',
         industry: 'SaaS / B2B Lead Generation',
         accentColor: 'orange',
+        coverImage: '/flowjoy/elio_cover.jpg',
         services: ['AI Product Design', 'Reddit API Integration', 'Lead Scanning Engine', 'Dashboard Dev'],
         heroImage: 'https://rechatcreatorbook.s3.us-west-2.amazonaws.com/flowjoy/og.jpg',
         screenshots: [

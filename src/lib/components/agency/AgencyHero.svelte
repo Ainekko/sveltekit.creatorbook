@@ -53,6 +53,35 @@
 						> — just high-quality code.
 					</p>
 
+					<!-- Tool icon strip -->
+					<div
+						in:fly={{ y: 12, duration: 600, delay: 300 }}
+						class="flex flex-wrap items-center gap-2.5 pt-1"
+					>
+						<span class="text-[11px] font-semibold uppercase tracking-widest text-zinc-400 mr-1"
+							>Built with</span
+						>
+						{#each [
+							{ src: '/flowjoy/make.svg', label: 'Make' },
+							{ src: '/flowjoy/chatgpt.svg', label: 'ChatGPT' },
+							{ src: '/flowjoy/clickup.svg', label: 'ClickUp' },
+							{ src: '/flowjoy/reddit.svg', label: 'Reddit' },
+							{ src: '/flowjoy/retell.svg', label: 'Retell AI' }
+						] as tool}
+							<div
+								title={tool.label}
+								class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-50 border border-zinc-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group cursor-default"
+							>
+								<img
+									src={tool.src}
+									alt={tool.label}
+									class="w-4 h-4 object-contain"
+								/>
+								<span class="text-[11px] font-semibold text-zinc-600 group-hover:text-zinc-900 transition-colors">{tool.label}</span>
+							</div>
+						{/each}
+					</div>
+
 					<!-- Stats bar moved to left under copy -->
 					<div
 						in:fly={{ y: 20, duration: 600, delay: 420 }}

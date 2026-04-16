@@ -73,16 +73,32 @@
 		<!-- ─── HERO IMAGE ────────────────────────────────────────── -->
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
 			<div
-				class="relative rounded-[2.5rem] overflow-hidden aspect-[16/9] bg-gradient-to-br {heroGradient} flex items-end justify-center px-8 pt-12"
+				class="relative rounded-[2.5rem] overflow-hidden aspect-[16/9] flex items-end justify-center px-8 pt-12 {study.coverImage
+					? ''
+					: 'bg-gradient-to-br ' + heroGradient}"
 				style="opacity:{visible ? 1 : 0}; transform:translateY({visible
 					? 0
 					: 30}px); transition: opacity 0.8s ease 200ms, transform 0.8s ease 200ms;"
 			>
+				<!-- Real cover photo -->
+				{#if study.coverImage}
+					<img
+						src={study.coverImage}
+						alt="{study.title} cover"
+						class="absolute inset-0 w-full h-full object-cover object-center"
+					/>
+					<!-- Gradient fade at bottom so the floating screenshot pops -->
+					<div
+						class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"
+					></div>
+				{:else}
+					<div
+						class="absolute inset-0 opacity-[0.12] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPHBhdGggZD0iTTAgMEw4IDhaTTAgOEw4IDBaIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=')] [background-size:24px_24px]"
+					></div>
+				{/if}
+
 				<div
-					class="absolute inset-0 opacity-[0.12] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPHBhdGggZD0iTTAgMEw4IDhaTTAgOEw4IDBaIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=')] [background-size:24px_24px]"
-				></div>
-				<div
-					class="relative z-10 w-[85%] rounded-t-[1.5rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.2)]"
+					class="relative z-10 w-[85%] rounded-t-[1.5rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.3)]"
 				>
 					<img
 						src={study.heroImage}
