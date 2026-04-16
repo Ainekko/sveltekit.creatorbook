@@ -78,8 +78,8 @@
 						p(cal, ar);
 					};
 			})(window, 'https://app.cal.com/embed/embed.js', 'init');
-			(window as any).Cal('init', '30min', { origin: 'https://app.cal.com' });
-			(window as any).Cal.ns['30min']('ui', {
+			(window as any).Cal('init', '15min', { origin: 'https://app.cal.com' });
+			(window as any).Cal.ns['15min']('ui', {
 				theme: 'light',
 				hideEventTypeDetails: false,
 				layout: 'month_view'
@@ -339,8 +339,8 @@
 								>
 									<p class="text-sm text-zinc-500">Prefer a call?</p>
 									<button
-										data-cal-link="hafid-ahlaqach-nigixz/30min"
-										data-cal-namespace="30min"
+										data-cal-link="hafid-ahlaqach-nigixz/15min"
+										data-cal-namespace="15min"
 										data-cal-config={JSON.stringify({ layout: 'month_view', theme: 'light' })}
 										class="inline-flex items-center gap-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-800 font-semibold text-sm px-5 py-2.5 rounded-xl transition-all duration-200 group"
 									>
@@ -357,7 +357,7 @@
 												d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
 											/>
 										</svg>
-										Book a 30-min discovery call
+										Book a 15-min discovery call
 										<svg
 											class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-200"
 											fill="none"
@@ -508,8 +508,8 @@
 
 							<!-- CTA button -->
 							<button
-								data-cal-link="hafid-ahlaqach-nigixz/30min"
-								data-cal-namespace="30min"
+								data-cal-link="hafid-ahlaqach-nigixz/15min"
+								data-cal-namespace="15min"
 								data-cal-config={JSON.stringify({ layout: 'month_view', theme: 'light' })}
 								class="w-full bg-white hover:bg-zinc-100 text-zinc-900 font-bold py-4 rounded-[1.25rem] text-sm transition-all duration-300 shadow-xl active:scale-[0.98]"
 							>

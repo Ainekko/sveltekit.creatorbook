@@ -51,8 +51,8 @@
 						p(cal, ar);
 					};
 			})(window, 'https://app.cal.com/embed/embed.js', 'init');
-			(window as any).Cal('init', '30min', { origin: 'https://app.cal.com' });
-			(window as any).Cal.ns['30min']('ui', {
+			(window as any).Cal('init', '15min', { origin: 'https://app.cal.com' });
+			(window as any).Cal.ns['15min']('ui', {
 				theme: 'light',
 				hideEventTypeDetails: false,
 				layout: 'month_view'
@@ -163,8 +163,8 @@
 
 					<!-- CTA -->
 					<button
-						data-cal-link="hafid-ahlaqach-nigixz/30min"
-						data-cal-namespace="30min"
+						data-cal-link="hafid-ahlaqach-nigixz/15min"
+						data-cal-namespace="15min"
 						data-cal-config={JSON.stringify({ layout: 'month_view', theme: 'light' })}
 						id="pricing-agency-cta"
 						class="w-full py-4 rounded-2xl font-bold text-sm bg-white text-zinc-900 hover:bg-zinc-100 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2"
@@ -173,7 +173,7 @@
 						<ArrowRight class="w-4 h-4" />
 					</button>
 					<p class="text-center text-white/40 text-xs mt-3">
-						No commitment · 30-min call · we'll scope the project together
+						No commitment · 15-min call · we'll scope the project together
 					</p>
 				</div>
 			</div>
@@ -242,8 +242,8 @@
 			<!-- Compare note -->
 			<p class="text-center text-sm text-zinc-400 mt-8">
 				Need something in between? <button
-					data-cal-link="hafid-ahlaqach-nigixz/30min"
-					data-cal-namespace="30min"
+					data-cal-link="hafid-ahlaqach-nigixz/15min"
+					data-cal-namespace="15min"
 					data-cal-config={JSON.stringify({ layout: 'month_view', theme: 'light' })}
 					class="text-violet-600 font-medium hover:underline"
 				>
@@ -290,8 +290,8 @@
 			</div>
 			<div class="relative z-10 w-full md:w-auto flex-shrink-0">
 				<button
-					data-cal-link="hafid-ahlaqach-nigixz/30min"
-					data-cal-namespace="30min"
+					data-cal-link="hafid-ahlaqach-nigixz/15min"
+					data-cal-namespace="15min"
 					data-cal-config={JSON.stringify({ layout: 'month_view', theme: 'light' })}
 					class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-sm bg-white text-zinc-900 hover:bg-zinc-100 transition-all shadow-md active:scale-95 whitespace-nowrap hidden md:block"
 				>

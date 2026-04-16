@@ -51,8 +51,8 @@
 						p(cal, ar);
 					};
 			})(window, 'https://app.cal.com/embed/embed.js', 'init');
-			(window as any).Cal('init', '30min', { origin: 'https://app.cal.com' });
-			(window as any).Cal.ns['30min']('ui', {
+			(window as any).Cal('init', '15min', { origin: 'https://app.cal.com' });
+			(window as any).Cal.ns['15min']('ui', {
 				theme: 'light',
 				hideEventTypeDetails: false,
 				layout: 'month_view'

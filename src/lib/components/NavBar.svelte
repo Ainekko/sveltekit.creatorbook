@@ -93,8 +93,8 @@
 						Contact us
 					</button>
 					<button
-						data-cal-link="hafid-ahlaqach-nigixz/30min"
-						data-cal-namespace="30min"
+						data-cal-link="hafid-ahlaqach-nigixz/15min"
+						data-cal-namespace="15min"
 						data-cal-config={JSON.stringify({ layout: 'month_view', theme: 'light' })}
 						class="bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-medium transition rounded-lg px-5 py-2 shadow-sm"
 					>
@@ -182,8 +182,8 @@
 						Contact us
 					</button>
 					<button
-						data-cal-link="hafid-ahlaqach-nigixz/30min"
-						data-cal-namespace="30min"
+						data-cal-link="hafid-ahlaqach-nigixz/15min"
+						data-cal-namespace="15min"
 						data-cal-config={JSON.stringify({ layout: 'month_view', theme: 'light' })}
 						class="w-full text-white bg-zinc-900 hover:bg-zinc-800 text-base font-medium transition flex items-center justify-center rounded-lg px-4 py-3 shadow-sm"
 					>
