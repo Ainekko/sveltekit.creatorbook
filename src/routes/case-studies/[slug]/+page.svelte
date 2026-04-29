@@ -222,12 +222,18 @@
 									/>
 								</svg>
 								<blockquote class="text-white text-base font-medium leading-relaxed mb-6">
-									"{study.quote.text}"
+									{#if study.quote.author}
+										"{study.quote.text}"
+									{:else}
+										{study.quote.text}
+									{/if}
 								</blockquote>
+								{#if study.quote.author}
 								<div>
 									<div class="font-bold text-sm text-white">{study.quote.author}</div>
 									<div class="text-zinc-500 text-xs mt-0.5">{study.quote.role}</div>
 								</div>
+								{/if}
 							</div>
 						</div>
 					{/if}

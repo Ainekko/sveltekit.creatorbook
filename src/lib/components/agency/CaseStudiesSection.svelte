@@ -71,13 +71,12 @@
 
 	// Testimonial
 	const testimonial = {
-		quote:
-			"I was losing leads every week and didn't even know it. They mapped the whole problem, built the CRM automation, and set up a follow-up system in under a month. The system runs itself now.",
-		author: 'Marcus R.',
-		role: 'Owner, Home Remodeling Co.',
-		project: 'CRM & Automation Setup',
-		initials: 'MR',
-		avatarColor: 'bg-zinc-800'
+		quote: 'Client: MHR',
+		author: '',
+		role: '',
+		project: '',
+		initials: '',
+		avatarColor: ''
 	};
 </script>
 
@@ -235,20 +234,27 @@
 						<div class="w-full h-full rounded-full bg-indigo-500 blur-3xl"></div>
 					</div>
 
-					<div class="relative z-10 flex flex-col">
+					<div class="relative z-10 flex flex-col {testimonial.author ? '' : 'items-center text-center'}">
+						{#if testimonial.author}
 						<svg class="w-8 h-8 text-white/10 mb-6" fill="currentColor" viewBox="0 0 24 24">
 							<path
 								d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"
 							/>
 						</svg>
+						{/if}
 						<blockquote
 							class="text-white text-lg md:text-xl font-medium leading-relaxed mb-4 max-w-4xl"
 						>
-							"{testimonial.quote}"
+							{#if testimonial.author}
+								"{testimonial.quote}"
+							{:else}
+								{testimonial.quote}
+							{/if}
 						</blockquote>
 					</div>
 				</div>
 
+				{#if testimonial.author}
 				<!-- Inner Bento Box for Author -->
 				<div
 					class="w-full md:w-[350px] lg:w-[400px] relative bg-[#212328] rounded-[2rem] p-8 md:p-10 flex flex-col justify-between overflow-hidden border border-white/5 shadow-inner"
@@ -289,6 +295,7 @@
 						</span>
 					</div>
 				</div>
+				{/if}
 			</div>
 		</div>
 	</div>

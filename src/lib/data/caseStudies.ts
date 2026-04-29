@@ -74,9 +74,9 @@ export const caseStudies: CaseStudy[] = [
             { value: '100%', label: 'Leads logged in ClickUp CRM' }
         ],
         quote: {
-            text: "I was losing jobs just because I couldn't answer the phone on a busy day. Now the AI handles it, books them in, and I get an email summary. I've had bookings come in at 11pm that I would have completely missed.",
-            author: 'Business Owner',
-            role: 'Home Services'
+            text: "Client: MHR",
+            author: '',
+            role: ''
         },
         tags: ['Voice AI', 'Automation', 'Lead Capture', 'Booking', 'CRM'],
         cta: { label: 'Build something like this →', href: '/#case-studies' },
@@ -138,9 +138,9 @@ export const caseStudies: CaseStudy[] = [
             { value: 'AI', label: 'Automated DNC list — zero re-contacts' }
         ],
         quote: {
-            text: "Before this I was texting people one by one from my phone. Now I send to my whole list in two minutes and I can actually see who opened it. It's changed how I run my business.",
-            author: 'Business Owner',
-            role: 'Multi-brand Retailer'
+            text: "Client: MHR",
+            author: '',
+            role: ''
         },
         tags: ['SMS', 'Marketing', 'Automation', 'Multi-brand', 'Small Business'],
         cta: { label: 'Build something like this →', href: '/#case-studies' },
@@ -245,9 +245,9 @@ export const caseStudies: CaseStudy[] = [
             { value: '∞', label: 'Subreddits monitored' }
         ],
         quote: {
-            text: "I was manually checking Reddit every day for mentions and it was killing my mornings. Elio just does it — and the leads it surfaces are actually good.",
-            author: 'Early Adopter',
-            role: 'SaaS Founder'
+            text: "Client: Flowjoy",
+            author: '',
+            role: ''
         },
         tags: ['Reddit', 'Lead Gen', 'AI Agent', 'B2B', 'Monitoring'],
         cta: { label: 'Try Elio for free →', href: '/signup' },
