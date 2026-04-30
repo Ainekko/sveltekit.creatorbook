@@ -16,6 +16,7 @@ export interface CaseStudy {
     industry: string;
     accentColor: string; // tailwind color token e.g. 'blue' | 'orange' | 'violet'
     coverImage?: string; // local static image used as hero background in cards & case study header
+    websiteUrl?: string; // live website URL — when set, a "Try it free" / "Visit website" button appears
     services: string[];
     heroImage: string;
     screenshots: CaseStudyScreenshot[];
@@ -45,6 +46,7 @@ export const caseStudies: CaseStudy[] = [
         industry: 'Small Business / Service Industry',
         accentColor: 'blue',
         coverImage: '/flowjoy/front_desk_assistant.jpg',
+        websiteUrl: 'https://laurie.flowjoy.online',
         techLogos: [
             { src: '/flowjoy/retell.svg', label: 'Retell AI' },
             { src: '/flowjoy/clickup.svg', label: 'ClickUp' },
@@ -94,6 +96,7 @@ export const caseStudies: CaseStudy[] = [
         industry: 'Small Business / Marketing',
         accentColor: 'violet',
         coverImage: '/flowjoy/sms_app.jpg',
+        websiteUrl: 'https://broadr.flowjoy.online',
         techLogos: [
             { src: '/flowjoy/Vercel_Logo_0.svg', label: 'Vercel' },
             { src: '/flowjoy/Render_id1Uv7v4QJ_0.svg', label: 'Render' }
@@ -158,6 +161,7 @@ export const caseStudies: CaseStudy[] = [
         industry: 'SaaS / Content Marketing',
         accentColor: 'blue',
         coverImage: '/flowjoy/nai_cover.jpg',
+        websiteUrl: '/signup',
         services: ['AI Product Design', 'Full-Stack Dev', 'NLP / LLM Integration', 'Auto-Publish Pipeline'],
         heroImage: 'https://rechatcreatorbook.s3.us-west-2.amazonaws.com/NewAssets/Nai-workflow.jpg',
         screenshots: [
@@ -214,6 +218,7 @@ export const caseStudies: CaseStudy[] = [
         industry: 'SaaS / B2B Lead Generation',
         accentColor: 'orange',
         coverImage: '/flowjoy/elio_cover.jpg',
+        websiteUrl: '/signup',
         services: ['AI Product Design', 'Reddit API Integration', 'Lead Scanning Engine', 'Dashboard Dev'],
         heroImage: 'https://rechatcreatorbook.s3.us-west-2.amazonaws.com/flowjoy/og.jpg',
         screenshots: [

@@ -286,6 +286,39 @@
 						</div>
 					{/if}
 
+					<!-- Visit Website — only shown if live -->
+					{#if study.websiteUrl}
+						<a
+							href={study.websiteUrl}
+							target={study.websiteUrl.startsWith('http') ? '_blank' : undefined}
+							rel={study.websiteUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
+							class="bg-[#181A1F] rounded-[2.5rem] p-8 border border-emerald-500/15 flex flex-col gap-5 relative overflow-hidden group/visit hover:border-emerald-400/25 transition-all duration-300 block"
+						>
+							<div class="absolute -left-8 -bottom-8 w-40 h-40 opacity-[0.08] pointer-events-none">
+								<div class="w-full h-full rounded-full bg-emerald-400 blur-3xl"></div>
+							</div>
+							<div class="relative z-10">
+								<div class="flex items-center gap-3 mb-3">
+									<div class="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+										<svg class="w-5 h-5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+									</div>
+									<div>
+										<div class="text-xs font-bold text-emerald-400 uppercase tracking-widest">Live Product</div>
+										<div class="text-zinc-500 text-[11px] mt-0.5">
+											{study.websiteUrl.startsWith('http') ? study.websiteUrl.replace('https://', '') : 'Free to try'}
+										</div>
+									</div>
+								</div>
+								<div
+									class="block w-full text-center py-4 px-6 bg-emerald-500 text-white font-bold rounded-[1.25rem] hover:bg-emerald-400 active:scale-95 transition-all text-sm shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
+								>
+									Try it free
+									<svg class="w-4 h-4 transition-transform duration-300 group-hover/visit:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+								</div>
+							</div>
+						</a>
+					{/if}
+
 					<!-- CTA -->
 					<div
 						class="bg-[#181A1F] rounded-[2.5rem] p-8 border border-white/5 flex flex-col gap-5 relative overflow-hidden"

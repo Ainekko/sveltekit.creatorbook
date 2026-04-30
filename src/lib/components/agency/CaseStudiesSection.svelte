@@ -202,7 +202,7 @@
 
 					<!-- Right Side: Mini Outcome Cards Stack (1/3 width) -->
 					<div class="sm:col-span-1 flex flex-col gap-3 min-h-0">
-						{#each study.features.slice(0, 4) as feature}
+						{#each study.features.slice(0, study.websiteUrl ? 3 : 4) as feature}
 							<div
 								class="flex-1 min-h-[3.5rem] bg-[#212328] rounded-[1.5rem] border border-white/5 px-4 py-3 flex items-center justify-center text-center shadow-inner transition-colors duration-300 hover:bg-white/5"
 							>
@@ -211,6 +211,19 @@
 								</h4>
 							</div>
 						{/each}
+						{#if study.websiteUrl}
+							<a
+								href={study.websiteUrl}
+								target={study.websiteUrl.startsWith('http') ? '_blank' : undefined}
+								rel={study.websiteUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
+								class="flex-1 min-h-[3.5rem] bg-emerald-500/10 rounded-[1.5rem] border border-emerald-500/20 px-4 py-3 flex items-center justify-center text-center shadow-inner transition-all duration-300 hover:bg-emerald-500/20 hover:border-emerald-400/30 hover:scale-[1.02] group/live"
+							>
+								<span class="text-emerald-400 font-bold text-[13px] leading-tight tracking-wide flex items-center gap-2">
+									Try it free
+									<svg class="w-3.5 h-3.5 transition-transform duration-300 group-hover/live:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+								</span>
+							</a>
+						{/if}
 					</div>
 				</div>
 			{/each}
