@@ -5,13 +5,10 @@
 	import NavBar from '$lib/components/NavBar.svelte';
 	import AgencyHero from '$lib/components/agency/AgencyHero.svelte';
 	import CaseStudiesSection from '$lib/components/agency/CaseStudiesSection.svelte';
-	import ProcessSection from '$lib/components/agency/ProcessSection.svelte';
-	import SaaSPromoSection from '$lib/components/agency/SaaSPromoSection.svelte';
 	import ServicesSection from '$lib/components/agency/ServicesSection.svelte';
-	import ValuesSection from '$lib/components/agency/ValuesSection.svelte';
+	import HowItWorks from '$lib/components/agency/HowItWorks.svelte';
 	import AgencyPricing from '$lib/components/agency/AgencyPricing.svelte';
 	import AgencyCTA from '$lib/components/agency/AgencyCTA.svelte';
-	import InlineCTA from '$lib/components/agency/InlineCTA.svelte';
 	import AgencyFooter from '$lib/components/agency/AgencyFooter.svelte';
 
 	import { getFeaturedCaseStudies } from '$lib/data/caseStudies';
@@ -62,14 +59,14 @@
 </script>
 
 <svelte:head>
-	<title>Flowjoy – Custom Software & AI Automation for Small Businesses</title>
+	<title>Flowjoy – Custom AI Operating Systems for Your Business</title>
 	<meta
 		name="description"
-		content="We build custom software, AI-powered apps, and automation systems for small businesses. No ghosting, no lock-in — just quality code and a team that stays."
+		content="We scope, build, and maintain custom AI systems that handle your repetitive ops — calls, scheduling, follow-ups, intake — so your team focuses on what actually moves the needle. Starting at $800/mo."
 	/>
 	<meta
 		name="keywords"
-		content="custom software development, AI automation, small business software, agency software, SaaS development, AI agents, automation"
+		content="custom AI system, business automation, AI operating system, AI agents, workflow automation, custom software development"
 	/>
 	<meta name="author" content="Flowjoy" />
 	<meta name="robots" content="index, follow" />
@@ -80,17 +77,17 @@
 
 	<meta
 		property="og:title"
-		content="Flowjoy – Custom Software & AI Automation for Small Businesses"
+		content="Flowjoy – Custom AI Operating Systems for Your Business"
 	/>
 	<meta
 		property="og:description"
-		content="We build custom software, AI-powered apps, and automation systems for small businesses. No ghosting, no lock-in — just quality code and a team that stays."
+		content="We scope, build, and maintain custom AI systems that handle your repetitive ops — calls, scheduling, follow-ups, intake. Starting at $800/mo."
 	/>
 	<meta
 		property="og:image"
 		content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/flowjoy/og.jpg"
 	/>
-	<meta property="og:image:alt" content="Flowjoy – Custom Software Agency" />
+	<meta property="og:image:alt" content="Flowjoy – Custom AI Systems" />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
 	<meta property="og:url" content="https://www.flowjoy.online" />
@@ -102,19 +99,19 @@
 	<meta name="twitter:creator" content="@_nagativeIQ" />
 	<meta
 		name="twitter:title"
-		content="Flowjoy – Custom Software & AI Automation for Small Businesses"
+		content="Flowjoy – Custom AI Operating Systems for Your Business"
 	/>
 	<meta
 		name="twitter:description"
-		content="We build custom software, AI-powered apps, and automation systems for small businesses. No ghosting, no lock-in."
+		content="We scope, build, and maintain custom AI systems that handle your repetitive ops — calls, scheduling, follow-ups, intake."
 	/>
 	<meta
 		name="twitter:image"
 		content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/flowjoy/og.jpg"
 	/>
-	<meta name="twitter:image:alt" content="Flowjoy – Custom Software Agency" />
+	<meta name="twitter:image:alt" content="Flowjoy – Custom AI Systems" />
 
-	<meta name="theme-color" content="#000000" />
+	<meta name="theme-color" content="#09090B" />
 	<meta name="application-name" content="Flowjoy" />
 	<meta name="apple-mobile-web-app-title" content="Flowjoy" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -126,8 +123,8 @@
 			"@type": "ProfessionalService",
 			"name": "Flowjoy",
 			"url": "https://www.flowjoy.online",
-			"description": "Custom software development and AI automation agency for small businesses.",
-			"serviceType": ["Custom Software Development", "AI Integration", "Business Automation"],
+			"description": "We scope, build, and maintain custom AI systems that handle your repetitive business operations — calls, scheduling, follow-ups, intake.",
+			"serviceType": ["Custom AI Systems", "Business Automation", "AI Integration"],
 			"areaServed": "Worldwide",
 			"author": {
 				"@type": "Organization",
@@ -144,34 +141,25 @@
 </div>
 
 <main>
-	<!-- 1. Hero -->
+	<!-- 1. Hero — Outcome-driven -->
 	<AgencyHero />
 
-	<!-- 2. Work (Case Studies) -->
+	<!-- 2. Case Studies — Proof first -->
 	<CaseStudiesSection {caseStudies} />
-	<InlineCTA text="See something you like?" buttonText="Book a discovery call" />
 
-	<!-- 3. What We Do -->
+	<!-- 3. What We Build — Industry + concrete examples -->
 	<ServicesSection />
-	<InlineCTA
-		text="Tired of dealing with bad code and ghosting?"
-		buttonText="Talk to a real engineer"
-	/>
 
-	<!-- 4. Process -->
-	<ProcessSection />
-	<InlineCTA text="Ready to sprint with us?" buttonText="Start your project" />
+	<!-- 4. How It Works — 3 steps -->
+	<HowItWorks />
 
-	<!-- 5. SaaS Promotion -->
-	<div class="bg-white pb-12 pt-4">
-		<SaaSPromoSection />
-	</div>
-
-	<!-- 6. Pricing & Final CTA -->
+	<!-- 4. Pricing — Single plan -->
 	<AgencyPricing />
+
+	<!-- 5. Final CTA -->
 	<AgencyCTA />
 
-	<!-- 7. Footer -->
+	<!-- 6. Footer -->
 	<AgencyFooter />
 </main>
 

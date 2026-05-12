@@ -21,14 +21,20 @@
 
 <section bind:this={sectionRef} class="py-24 bg-zinc-50 font-[Poppins] px-4 sm:px-6 lg:px-8">
 	<div
-		class="max-w-7xl mx-auto bg-zinc-900 rounded-[2.5rem] relative overflow-hidden shadow-2xl p-12 md:p-24"
+		class="max-w-7xl mx-auto bg-[#0F1114] rounded-[2.5rem] relative overflow-hidden shadow-2xl p-12 md:p-24"
 	>
 		<!-- Background elements -->
 		<div
-			class="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-violet-500/10 rounded-full blur-[100px] pointer-events-none"
+			class="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-violet-500/8 rounded-full blur-[100px] pointer-events-none"
 		></div>
 		<div
-			class="absolute -bottom-32 right-10 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"
+			class="absolute -bottom-32 right-10 w-[600px] h-[600px] bg-emerald-500/8 rounded-full blur-[100px] pointer-events-none"
+		></div>
+
+		<!-- Noise -->
+		<div
+			class="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none"
+			style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E');"
 		></div>
 
 		<div class="relative z-10 text-center">
@@ -46,29 +52,28 @@
 				</div>
 
 				<h2
-					class="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 tracking-tight leading-[0.95]"
+					class="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight leading-[0.95]"
 				>
-					Let's build something<br />
-					<span class="font-['Instrument_Serif'] italic font-normal text-white/60"
-						>that actually works.</span
+					Tell us what's<br />
+					<span class="font-['Instrument_Serif'] italic font-normal text-white/50"
+						>slowing you down.</span
 					>
 				</h2>
 
 				<p
-					class="text-xl md:text-2xl font-light text-white/50 mb-12 max-w-2xl mx-auto leading-relaxed"
+					class="text-lg md:text-xl font-light text-white/40 mb-12 max-w-xl mx-auto leading-relaxed"
 				>
-					Two paths forward: book a free discovery call to scope your project, or spin up Flowjoy
-					and start automating today.
+					15-minute call. No pitch. We'll listen to the problem and tell you honestly if we can solve it.
 				</p>
 
 				<!-- CTAs -->
 				<div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
 					<button
-						data-cal-link="hafid-ahlaqach-nigixz/30min"
-						data-cal-namespace="30min"
+						data-cal-link="hafid-ahlaqach-nigixz/15min"
+						data-cal-namespace="15min"
 						data-cal-config={JSON.stringify({ layout: 'month_view', theme: 'light' })}
 						id="final-cta-meeting"
-						class="group inline-flex items-center gap-3 bg-white text-zinc-900 hover:bg-zinc-100 px-8 py-4 rounded-xl font-bold text-base transition-all duration-200 shadow-xl hover:shadow-2xl hover:scale-[1.03]"
+						class="group inline-flex items-center gap-3 bg-white text-zinc-900 hover:bg-zinc-100 px-8 py-4 rounded-xl font-bold text-base transition-all duration-200 shadow-[0_0_60px_rgba(255,255,255,0.06)] hover:shadow-[0_0_80px_rgba(255,255,255,0.12)] hover:scale-[1.03]"
 					>
 						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path
@@ -80,19 +85,11 @@
 						</svg>
 						Book a discovery call
 					</button>
-
-					<a
-						href="/signup"
-						id="final-cta-saas"
-						class="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 border border-white/20 text-white px-8 py-4 rounded-xl font-bold text-base transition-all duration-200 hover:scale-[1.02]"
-					>
-						Sign up to Flowjoy
-					</a>
 				</div>
 
 				<!-- Reassurance row -->
 				<div class="flex flex-wrap items-center justify-center gap-6 text-sm text-white/40">
-					{#each ['No credit card for Flowjoy', 'No commitment for the call', 'Response within 24h', 'Clear pricing upfront'] as item}
+					{#each ['No commitment', 'Response within 24h', 'Clear pricing upfront', 'Money-back guarantee'] as item}
 						<span class="flex items-center gap-1.5">
 							<svg
 								class="w-4 h-4 text-emerald-400 flex-shrink-0"

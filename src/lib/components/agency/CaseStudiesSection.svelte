@@ -71,12 +71,12 @@
 
 	// Testimonial
 	const testimonial = {
-		quote: 'Client: MHR',
-		author: '',
-		role: '',
-		project: '',
-		initials: '',
-		avatarColor: ''
+		quote: 'We were missing calls left and right while on the job. They built us an AI front desk that picks up every call, books the meeting, and sends a confirmation — we haven\'t missed a lead since.',
+		author: 'MHR',
+		role: 'Service Business · AI Front Desk Client',
+		project: 'AI Front Desk Assistant',
+		initials: 'M',
+		avatarColor: 'bg-gradient-to-br from-violet-500 to-blue-500'
 	};
 </script>
 
@@ -87,20 +87,20 @@
 			<div
 				class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-50 border border-zinc-200 text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-8"
 			>
-				Work
+				Our work
 			</div>
 			<div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
 				<h2
 					class="text-5xl md:text-7xl lg:text-8xl font-medium text-zinc-900 leading-[0.95] tracking-tight max-w-2xl"
 				>
-					Software that <span class="font-['Instrument_Serif'] italic font-normal text-zinc-600"
+					Systems we <span class="font-['Instrument_Serif'] italic font-normal text-zinc-600"
 						>actually</span
-					> works.
+					> built.
 				</h2>
 				<p
 					class="text-zinc-500 text-lg md:text-xl font-light max-w-xs md:text-right leading-relaxed mb-2"
 				>
-					Live products — designed, built, and maintained by us.
+					Real products running in real businesses — try them yourself.
 				</p>
 			</div>
 		</div>
@@ -247,27 +247,20 @@
 						<div class="w-full h-full rounded-full bg-indigo-500 blur-3xl"></div>
 					</div>
 
-					<div class="relative z-10 flex flex-col {testimonial.author ? '' : 'items-center text-center'}">
-						{#if testimonial.author}
+					<div class="relative z-10 flex flex-col">
 						<svg class="w-8 h-8 text-white/10 mb-6" fill="currentColor" viewBox="0 0 24 24">
 							<path
 								d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"
 							/>
 						</svg>
-						{/if}
 						<blockquote
 							class="text-white text-lg md:text-xl font-medium leading-relaxed mb-4 max-w-4xl"
 						>
-							{#if testimonial.author}
-								"{testimonial.quote}"
-							{:else}
-								{testimonial.quote}
-							{/if}
+							"{testimonial.quote}"
 						</blockquote>
 					</div>
 				</div>
 
-				{#if testimonial.author}
 				<!-- Inner Bento Box for Author -->
 				<div
 					class="w-full md:w-[350px] lg:w-[400px] relative bg-[#212328] rounded-[2rem] p-8 md:p-10 flex flex-col justify-between overflow-hidden border border-white/5 shadow-inner"
@@ -300,7 +293,7 @@
 								stroke-width="2"
 								stroke-linecap="round"
 								stroke-linejoin="round"
-								><path d="M22 11.08V12a10 10 2-5.93-9.14"></path><polyline
+								><path d="M22 11.08V12a10 10 0 01-5.93 9.14"></path><polyline
 									points="22 4 12 14.01 9 11.01"
 								></polyline></svg
 							>
@@ -308,7 +301,6 @@
 						</span>
 					</div>
 				</div>
-				{/if}
 			</div>
 		</div>
 	</div>

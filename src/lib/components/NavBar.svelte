@@ -60,7 +60,7 @@
 					on:click={() => scrollToSection('services')}
 					class="text-zinc-600 hover:text-zinc-900 text-sm font-medium transition rounded-lg px-4 py-2 hover:bg-zinc-50"
 				>
-					Services
+					What we build
 				</button>
 				<button
 					on:click={() => scrollToSection('pricing')}
@@ -149,7 +149,7 @@
 				on:click={() => scrollToSection('services')}
 				class="text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50 text-base font-medium transition rounded-lg px-4 py-3 text-left"
 			>
-				Services
+				What we build
 			</button>
 			<button
 				on:click={() => scrollToSection('pricing')}

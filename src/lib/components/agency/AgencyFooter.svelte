@@ -46,9 +46,8 @@
 			<div class="md:col-span-7 lg:col-span-8 flex flex-wrap md:justify-end gap-16 lg:gap-32">
 				<div class="flex flex-col gap-4">
 					<h4 class="text-white text-xs font-bold tracking-widest uppercase mb-1">Product</h4>
-					<a href="#services" class="text-sm hover:text-white transition-colors">Services</a>
-					<a href="#case-studies" class="text-sm hover:text-white transition-colors">Case Studies</a
-					>
+					<a href="#case-studies" class="text-sm hover:text-white transition-colors">Our Work</a>
+					<a href="#services" class="text-sm hover:text-white transition-colors">What we build</a>
 					<a href="#pricing" class="text-sm hover:text-white transition-colors">Pricing</a>
 				</div>
 				<div class="flex flex-col gap-4">
