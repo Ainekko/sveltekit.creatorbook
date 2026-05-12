@@ -147,16 +147,41 @@
 			{/each}
 		</div>
 
-		<!-- Bottom note -->
-		<p
-			class="text-center text-zinc-400 text-sm mt-10 font-light"
-			style="opacity: {visible ? 1 : 0}; transition: opacity 0.6s ease 600ms;"
+		<!-- CTA Card -->
+		<div
+			class="mt-10 bg-zinc-50 border border-zinc-200 rounded-[2rem] p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden group"
+			style="opacity: {visible ? 1 : 0}; transform: translateY({visible
+				? 0
+				: 20}px); transition: opacity 0.6s ease 600ms, transform 0.6s ease 600ms;"
 		>
-			Don't see your industry? If your business has repetitive ops, we can automate them. <button
+			<!-- Glow accents -->
+			<div
+				class="absolute -top-10 -left-10 w-40 h-40 bg-violet-500/10 rounded-full blur-[50px] pointer-events-none group-hover:scale-150 transition-transform duration-700"
+			></div>
+			<div
+				class="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-500/10 rounded-full blur-[50px] pointer-events-none group-hover:scale-150 transition-transform duration-700"
+			></div>
+
+			<div class="relative z-10 text-center md:text-left">
+				<h3 class="text-xl font-bold text-zinc-900 mb-1.5 tracking-tight">
+					Don't see your industry?
+				</h3>
+				<p class="text-zinc-500 text-[15px] font-light">
+					If your business has repetitive ops, we can automate them.
+				</p>
+			</div>
+
+			<button
 				data-cal-link="hafid-ahlaqach-nigixz/15min"
 				data-cal-namespace="15min"
 				data-cal-config={JSON.stringify({ layout: 'month_view', theme: 'light' })}
-				class="text-zinc-900 font-semibold hover:underline">Let's talk →</button>
-		</p>
+				class="relative z-10 flex-shrink-0 inline-flex items-center gap-2 bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-sm px-7 py-3.5 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+			>
+				Let's talk
+				<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+				</svg>
+			</button>
+		</div>
 	</div>
 </section>
