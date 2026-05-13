@@ -8,6 +8,7 @@
 	import ServicesSection from '$lib/components/agency/ServicesSection.svelte';
 	import HowItWorks from '$lib/components/agency/HowItWorks.svelte';
 	import AgencyPricing from '$lib/components/agency/AgencyPricing.svelte';
+	import WhyUs from '$lib/components/agency/WhyUs.svelte';
 	import AgencyCTA from '$lib/components/agency/AgencyCTA.svelte';
 	import AgencyFooter from '$lib/components/agency/AgencyFooter.svelte';
 
@@ -156,7 +157,10 @@
 	<!-- 4. Pricing — Single plan -->
 	<AgencyPricing />
 
-	<!-- 5. Final CTA -->
+	<!-- 5. Why Us — comparison table -->
+	<WhyUs />
+
+	<!-- 6. Final CTA -->
 	<AgencyCTA />
 
 	<!-- 6. Footer -->

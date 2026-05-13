@@ -68,6 +68,12 @@
 				>
 					Pricing
 				</button>
+				<button
+					on:click={() => scrollToSection('why-us')}
+					class="text-zinc-600 hover:text-zinc-900 text-sm font-medium transition rounded-lg px-4 py-2 hover:bg-zinc-50"
+				>
+					Why us
+				</button>
 			</div>
 
 			<!-- Desktop CTA Buttons -->
@@ -156,6 +162,12 @@
 				class="text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50 text-base font-medium transition rounded-lg px-4 py-3 text-left"
 			>
 				Pricing
+			</button>
+			<button
+				on:click={() => scrollToSection('why-us')}
+				class="text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50 text-base font-medium transition rounded-lg px-4 py-3 text-left"
+			>
+				Why us
 			</button>
 
 			<div class="border-t border-zinc-100 my-4"></div>
