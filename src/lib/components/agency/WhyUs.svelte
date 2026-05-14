@@ -79,7 +79,7 @@
 		{
 			key: 'flowjoy',
 			label: 'Flowjoy',
-			sub: 'From $800/mo — cancel or pause anytime.',
+			sub: 'From $999/mo — cancel or pause anytime.',
 			highlight: true,
 			headerClass: 'bg-white/[0.08] border-white/20'
 		}

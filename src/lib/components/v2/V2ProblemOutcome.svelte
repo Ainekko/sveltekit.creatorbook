@@ -50,9 +50,9 @@
     },
     {
       problem: 'Paying $4k/mo for a receptionist who still misses calls',
-      outcome: 'AI front desk starting at $800/mo — never sick, never late',
+      outcome: 'AI front desk starting at $999/mo — never sick, never late',
       icon: '💰',
-      metric: 'From $800',
+      metric: 'From $999',
       metricLabel: '/month',
       source: 'vs $3.5k–$4.5k for a full-time hire'
     },

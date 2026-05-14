@@ -63,7 +63,7 @@
 	<title>Flowjoy – Custom AI Operating Systems for Your Business</title>
 	<meta
 		name="description"
-		content="We scope, build, and maintain custom AI systems that handle your repetitive ops — calls, scheduling, follow-ups, intake — so your team focuses on what actually moves the needle. Starting at $800/mo."
+		content="We scope, build, and maintain custom AI systems that handle your repetitive ops — calls, scheduling, follow-ups, intake — so your team focuses on what actually moves the needle. Starting at $999/mo."
 	/>
 	<meta
 		name="keywords"
@@ -82,7 +82,7 @@
 	/>
 	<meta
 		property="og:description"
-		content="We scope, build, and maintain custom AI systems that handle your repetitive ops — calls, scheduling, follow-ups, intake. Starting at $800/mo."
+		content="We scope, build, and maintain custom AI systems that handle your repetitive ops — calls, scheduling, follow-ups, intake. Starting at $999/mo."
 	/>
 	<meta
 		property="og:image"

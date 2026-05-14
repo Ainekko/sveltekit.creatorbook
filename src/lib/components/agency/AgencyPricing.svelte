@@ -125,13 +125,20 @@
 				></div>
 
 				<div class="relative z-10">
+					<!-- Urgency badge -->
+					<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold tracking-wide mb-6">
+						<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+						Launch pricing · 3 of 5 spots left
+					</div>
+
 					<!-- Price -->
-					<div class="flex items-baseline gap-2 mb-2">
-						<span class="text-6xl md:text-7xl font-bold tracking-tight">$800</span>
+					<div class="flex items-baseline gap-3 mb-1">
+						<span class="text-2xl text-white/30 line-through font-medium">$1,200</span>
+						<span class="text-6xl md:text-7xl font-bold tracking-tight">$999</span>
 						<span class="text-white/50 text-xl">/mo</span>
 					</div>
 					<p class="text-white/40 text-sm mb-10">
-						Starting price · custom quote based on scope · cancel anytime
+						First 5 clients only · custom quote based on scope · cancel anytime
 					</p>
 
 					<!-- Features -->
