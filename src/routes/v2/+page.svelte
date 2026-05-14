@@ -82,10 +82,7 @@
 		<!-- 2. Try It Live — USP: real working products + images -->
 		<V2TryLive />
 
-		<!-- 3. Testimonial -->
-		<V2Testimonial />
-
-		<!-- 6. Problem → Outcome -->
+		<!-- 3. Problem → Outcome -->
 		<V2ProblemOutcome />
 
 		<!-- 4. What We Build — Industry-specific -->

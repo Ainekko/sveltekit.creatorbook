@@ -18,11 +18,11 @@
   const demos = [
     {
       label: 'AI Front Desk',
-      tagline: 'Never miss a call again',
-      desc: 'Call our live AI receptionist right now. It answers, qualifies, books a meeting, and sends an SMS — all in under 60 seconds.',
-      cta: 'Try Laurie live →',
+      tagline: 'Every call answered. Every lead booked.',
+      desc: 'An AI receptionist that picks up every call, qualifies the lead, books a meeting on your real calendar, and sends an SMS confirmation — 24/7.',
+      cta: 'Try it live →',
       href: 'https://laurie.flowjoy.online',
-      icon: '🔊',
+      icon: '📞',
       accent: 'from-emerald-500/20 to-emerald-600/5',
       borderAccent: 'border-emerald-500/20 hover:border-emerald-400/30',
       textAccent: 'text-emerald-400',
@@ -30,10 +30,10 @@
       coverImage: '/flowjoy/front_desk_assistant.jpg'
     },
     {
-      label: 'SMS Platform',
-      tagline: 'Bulk outreach on autopilot',
-      desc: 'Multi-brand SMS management with AI-powered DNC lists. Send thousands of messages, track responses, schedule follow-ups.',
-      cta: 'Try Broadr free →',
+      label: 'Bulk Outreach',
+      tagline: 'Reach thousands without lifting a finger',
+      desc: 'Multi-brand SMS management with AI-powered DNC filtering. Send campaigns, track responses, and automate follow-ups across all your brands.',
+      cta: 'Try it free →',
       href: 'https://broadr.flowjoy.online',
       icon: '💬',
       accent: 'from-violet-500/20 to-violet-600/5',
@@ -43,10 +43,10 @@
       coverImage: '/flowjoy/sms_app.jpg'
     },
     {
-      label: 'SEO Content Engine',
-      tagline: 'Research → Write → Publish',
-      desc: 'AI agent that does keyword research, competitor analysis, writes SEO-optimized posts, and publishes to WordPress. 10 min per article.',
-      cta: 'Try Nai free →',
+      label: 'Content Automation',
+      tagline: 'Research, write, and publish — without a marketing hire',
+      desc: 'AI that does your keyword research, writes SEO-optimized posts, and publishes to WordPress. What used to take a copywriter a day takes 10 minutes.',
+      cta: 'Try it free →',
       href: '/signup',
       icon: '✍️',
       accent: 'from-blue-500/20 to-blue-600/5',
@@ -56,10 +56,10 @@
       coverImage: '/flowjoy/nai_cover.jpg'
     },
     {
-      label: 'Reddit Lead Scanner',
-      tagline: 'Find buyers before competitors',
-      desc: 'Monitors Reddit 24/7 for high-intent leads. Scores intent, filters noise, drafts authentic reply suggestions.',
-      cta: 'Try Elio free →',
+      label: 'Lead Intelligence',
+      tagline: 'Find where your customers are asking for help right now',
+      desc: 'Monitors online communities 24/7 for people looking for your services. Scores intent, filters noise, and surfaces the leads that matter.',
+      cta: 'Try it free →',
       href: '/signup',
       icon: '🎯',
       accent: 'from-orange-500/20 to-orange-600/5',
