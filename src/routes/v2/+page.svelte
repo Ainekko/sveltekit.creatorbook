@@ -91,11 +91,11 @@
 		<!-- 4. What We Build — Industry-specific -->
 		<ServicesSection />
 
-		<!-- 7. How It Works -->
-		<HowItWorks />
-
 		<!-- 8. Who Is This For -->
 		<V2WhoIsFor />
+
+		<!-- 7. How It Works -->
+		<HowItWorks />
 
 		<!-- 9. Pricing -->
 		<AgencyPricing />
