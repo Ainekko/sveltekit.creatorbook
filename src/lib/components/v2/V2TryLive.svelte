@@ -26,7 +26,8 @@
       accent: 'from-emerald-500/20 to-emerald-600/5',
       borderAccent: 'border-emerald-500/20 hover:border-emerald-400/30',
       textAccent: 'text-emerald-400',
-      metric: { value: '24/7', label: 'Uptime' }
+      metric: { value: '24/7', label: 'Uptime' },
+      coverImage: '/flowjoy/front_desk_assistant.jpg'
     },
     {
       label: 'SMS Platform',
@@ -38,7 +39,8 @@
       accent: 'from-violet-500/20 to-violet-600/5',
       borderAccent: 'border-violet-500/20 hover:border-violet-400/30',
       textAccent: 'text-violet-400',
-      metric: { value: '2h/day', label: 'Saved' }
+      metric: { value: '2h/day', label: 'Saved' },
+      coverImage: '/flowjoy/sms_app.jpg'
     },
     {
       label: 'SEO Content Engine',
@@ -50,7 +52,8 @@
       accent: 'from-blue-500/20 to-blue-600/5',
       borderAccent: 'border-blue-500/20 hover:border-blue-400/30',
       textAccent: 'text-blue-400',
-      metric: { value: '4x', label: 'Velocity' }
+      metric: { value: '~10 min', label: 'Per article' },
+      coverImage: '/flowjoy/nai_cover.jpg'
     },
     {
       label: 'Reddit Lead Scanner',
@@ -62,7 +65,8 @@
       accent: 'from-orange-500/20 to-orange-600/5',
       borderAccent: 'border-orange-500/20 hover:border-orange-400/30',
       textAccent: 'text-orange-400',
-      metric: { value: '15-30', label: 'Leads/wk' }
+      metric: { value: '24/7', label: 'Scanning' },
+      coverImage: '/flowjoy/elio_cover.jpg'
     }
   ];
 </script>
@@ -79,14 +83,14 @@
     >
       <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.06] border border-white/10 text-sm font-medium text-zinc-400 mb-6">
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        Our unfair advantage
+        Our work
       </div>
       <h2 class="text-4xl md:text-6xl font-bold text-white mb-5 tracking-tight leading-[1.05]">
         Don't take our word<br class="hidden md:block" />
         <span class="font-['Instrument_Serif'] italic font-normal text-zinc-500">for it.</span>
       </h2>
       <p class="text-zinc-500 text-lg max-w-2xl mx-auto leading-relaxed">
-        Most agencies show mockups. <strong class="text-white font-medium">We ship real products.</strong> Try them yourself — right now, for free.
+        Real products running in real businesses. <strong class="text-white font-medium">Try them yourself</strong> — right now, for free.
       </p>
     </div>
 
@@ -107,6 +111,16 @@
           <div class="absolute inset-0 opacity-[0.12] mix-blend-overlay pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E');"></div>
 
           <div class="relative z-10">
+            <!-- Cover image -->
+            <div class="w-full aspect-[16/9] rounded-xl overflow-hidden mb-5 border border-white/[0.06]">
+              <img
+                src={demo.coverImage}
+                alt="{demo.label} screenshot"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+
             <!-- Top row: emoji + label + metric -->
             <div class="flex items-center justify-between mb-4">
               <div class="flex items-center gap-3">

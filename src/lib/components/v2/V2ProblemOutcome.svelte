@@ -20,43 +20,49 @@
       problem: 'Missing calls while on the job',
       outcome: 'Zero missed calls — AI picks up every time, 24/7',
       icon: '📞',
-      metric: '100%',
-      metricLabel: 'calls answered'
+      metric: '0',
+      metricLabel: 'missed calls',
+      source: 'MHR client · first 30 days'
     },
     {
       problem: 'Spending hours on manual follow-ups',
       outcome: 'Automatic SMS + email follow-ups after every interaction',
       icon: '⏰',
-      metric: '2h/day',
-      metricLabel: 'time saved'
+      metric: '2h+',
+      metricLabel: 'saved daily',
+      source: 'MHR client · manual texting eliminated'
     },
     {
       problem: 'Leads going cold before you respond',
-      outcome: 'Instant response — leads booked in under 60 seconds',
+      outcome: 'Instant response — leads engaged in under 60 seconds',
       icon: '🔥',
       metric: '<60s',
-      metricLabel: 'response time'
+      metricLabel: 'response time',
+      source: 'Retell AI voice latency'
     },
     {
       problem: 'No visibility into what\'s happening',
       outcome: 'Custom dashboard with every call, lead, and metric — live',
       icon: '📊',
       metric: 'Real-time',
-      metricLabel: 'visibility'
+      metricLabel: 'visibility',
+      source: ''
     },
     {
       problem: 'Paying $4k/mo for a receptionist who still misses calls',
-      outcome: 'AI front desk for a fraction of the cost — never sick, never late',
+      outcome: 'AI front desk starting at $800/mo — never sick, never late',
       icon: '💰',
-      metric: '80%',
-      metricLabel: 'cost reduction'
+      metric: 'From $800',
+      metricLabel: '/month',
+      source: 'vs $3.5k–$4.5k for a full-time hire'
     },
     {
       problem: 'Trying to DIY with Zapier/GHL but it breaks',
       outcome: 'One custom system, built for YOUR workflow, maintained by us',
       icon: '🔧',
-      metric: 'Zero',
-      metricLabel: 'DIY headaches'
+      metric: '4 weeks',
+      metricLabel: 'to working MVP',
+      source: ''
     }
   ];
 </script>
@@ -112,6 +118,11 @@
               <span class="text-emerald-400 mt-0.5 flex-shrink-0">✓</span>
               <span>{item.outcome}</span>
             </p>
+
+            <!-- Source attribution -->
+            {#if item.source}
+              <p class="text-[10px] text-zinc-600 mt-3 pl-5 italic">{item.source}</p>
+            {/if}
           </div>
         </div>
       {/each}

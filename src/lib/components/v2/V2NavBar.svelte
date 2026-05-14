@@ -23,13 +23,16 @@
       <!-- Desktop Nav -->
       <div class="hidden lg:flex items-center gap-1">
         <button on:click={() => scrollToSection('try-live')} class="text-zinc-400 hover:text-white text-sm font-medium transition rounded-lg px-4 py-2 hover:bg-white/5">
-          Live demos
+          Our work
         </button>
         <button on:click={() => scrollToSection('how-it-works')} class="text-zinc-400 hover:text-white text-sm font-medium transition rounded-lg px-4 py-2 hover:bg-white/5">
           How it works
         </button>
         <button on:click={() => scrollToSection('pricing')} class="text-zinc-400 hover:text-white text-sm font-medium transition rounded-lg px-4 py-2 hover:bg-white/5">
           Pricing
+        </button>
+        <button on:click={() => scrollToSection('why-us')} class="text-zinc-400 hover:text-white text-sm font-medium transition rounded-lg px-4 py-2 hover:bg-white/5">
+          Why us
         </button>
       </div>
 
@@ -60,9 +63,10 @@
 {#if isMenuOpen}
   <div class="lg:hidden fixed inset-x-0 top-16 z-40 bg-[#09090B]/95 backdrop-blur-xl border-b border-white/[0.06]">
     <div class="flex flex-col p-4 space-y-1">
-      <button on:click={() => scrollToSection('try-live')} class="text-zinc-300 hover:text-white hover:bg-white/5 text-base font-medium transition rounded-lg px-4 py-3 text-left">Live demos</button>
+      <button on:click={() => scrollToSection('try-live')} class="text-zinc-300 hover:text-white hover:bg-white/5 text-base font-medium transition rounded-lg px-4 py-3 text-left">Our work</button>
       <button on:click={() => scrollToSection('how-it-works')} class="text-zinc-300 hover:text-white hover:bg-white/5 text-base font-medium transition rounded-lg px-4 py-3 text-left">How it works</button>
       <button on:click={() => scrollToSection('pricing')} class="text-zinc-300 hover:text-white hover:bg-white/5 text-base font-medium transition rounded-lg px-4 py-3 text-left">Pricing</button>
+      <button on:click={() => scrollToSection('why-us')} class="text-zinc-300 hover:text-white hover:bg-white/5 text-base font-medium transition rounded-lg px-4 py-3 text-left">Why us</button>
       <div class="border-t border-white/[0.06] my-3"></div>
       <button
         data-cal-link="hafid-ahlaqach-nigixz/15min"
