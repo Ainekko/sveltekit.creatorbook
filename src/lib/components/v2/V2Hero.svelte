@@ -3,146 +3,101 @@
 	import { blur, fly } from 'svelte/transition';
 
 	let mounted = false;
+	let videoPlaying = false;
+
 	onMount(() => {
 		setTimeout(() => (mounted = true), 50);
 	});
-
-	const painPoints = [
-		'Missed calls going to voicemail',
-		'Hours lost on manual follow-ups',
-		'Leads slipping through the cracks',
-		'Staff doing work a machine should do'
-	];
-
-	let activePain = 0;
-	onMount(() => {
-		const interval = setInterval(() => {
-			activePain = (activePain + 1) % painPoints.length;
-		}, 2800);
-		return () => clearInterval(interval);
-	});
 </script>
 
-<section
-	class="hero-wrap font-[Poppins] relative overflow-hidden min-h-[100vh] flex flex-col justify-center bg-[#09090B]"
->
-	<!-- Grid pattern -->
-	<div
-		class="absolute inset-0 pointer-events-none opacity-[0.06] z-[1]"
-		style="background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 60px 60px;"
-	></div>
+<section class="hero-bg font-[Poppins] relative overflow-hidden flex flex-col justify-center bg-white">
 
-	<!-- Glow orbs -->
+	<!-- Prism gradient mesh -->
+	<div class="prism-wrap">
+		<div class="prism-blob prism-1"></div>
+		<div class="prism-blob prism-2"></div>
+		<div class="prism-blob prism-3"></div>
+		<div class="prism-blob prism-4"></div>
+	</div>
+
+	<!-- Noise overlay -->
+	<div class="noise-overlay"></div>
+
+	<!-- Dot grid -->
 	<div
-		class="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-violet-600/15 rounded-full blur-[120px] pointer-events-none z-[1]"
-	></div>
-	<div
-		class="absolute bottom-[-20%] right-[-5%] w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none z-[1]"
+		class="absolute inset-0 pointer-events-none opacity-[0.3] z-[2]"
+		style="background-image: radial-gradient(circle, #d4d4d8 0.6px, transparent 0.6px); background-size: 28px 28px;"
 	></div>
 
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-20 md:py-28">
 		{#if mounted}
-			<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-center">
-				<!-- Left: Copy -->
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+				<!-- ─── LEFT: Copy ─────────────────────────────────────── -->
 				<div class="flex flex-col">
-					<!-- Badge -->
+
+					<!-- Availability badge -->
 					<div
 						in:fly={{ y: -10, duration: 500, delay: 0 }}
-						class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.06] backdrop-blur-md border border-white/10 text-xs font-semibold text-zinc-400 mb-8 tracking-wide w-fit"
+						class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/70 backdrop-blur-md border border-zinc-200 shadow-sm text-xs font-semibold text-zinc-600 mb-8 tracking-wide w-fit"
 					>
-						<span
-							class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"
-						></span>
+						<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
 						Accepting new clients · Start this week
 					</div>
 
 					<!-- Headline -->
-					<h1
-						class="text-[2.75rem] sm:text-5xl md:text-6xl lg:text-[4.25rem] font-bold text-white leading-[1.06] tracking-tight mb-4"
-					>
+					<h1 class="text-[2.6rem] sm:text-5xl md:text-[3.5rem] lg:text-[4rem] font-bold text-zinc-900 leading-[1.08] tracking-tight mb-5">
 						<span in:blur={{ duration: 700, delay: 80, amount: 8 }}>We build AI systems</span><br />
-						<span
-							in:blur={{ duration: 700, delay: 220, amount: 8 }}
-							class="font-['Instrument_Serif'] italic text-zinc-500 font-normal"
-							>that run your ops.</span
-						>
+						<span in:blur={{ duration: 700, delay: 220, amount: 8 }} class="font-['Instrument_Serif'] italic text-zinc-500 font-normal">that run your ops.</span>
 					</h1>
 
-					<!-- Subheading — the pitch -->
-					<!-- <p
-            in:blur={{ duration: 600, delay: 300, amount: 5 }}
-            class="text-xl md:text-2xl text-white font-medium tracking-tight mb-4"
-          >
-            We build the AI your business is missing.
-          </p> -->
-
-					<!-- Descriptive sub -->
+					<!-- Sub -->
 					<p
-						in:blur={{ duration: 600, delay: 380, amount: 5 }}
-						class="text-base md:text-lg text-zinc-400 leading-relaxed font-light max-w-xl mb-10"
+						in:blur={{ duration: 600, delay: 300, amount: 5 }}
+						class="text-base md:text-lg text-zinc-500 leading-relaxed font-light max-w-xl mb-10"
 					>
-						We automate your repetitive ops — <strong class="font-medium text-zinc-300"
-							>calls, scheduling, follow-ups, intake</strong
-						> — so your team focuses on clients.
+						We automate your repetitive ops — <strong class="font-medium text-zinc-700">calls, scheduling, follow-ups, intake</strong> — so your team focuses on clients.
 					</p>
 
 					<!-- CTA Row -->
 					<div
-						in:fly={{ y: 16, duration: 600, delay: 400 }}
-						class="flex flex-col sm:flex-row items-center gap-4 mb-12"
+						in:fly={{ y: 16, duration: 600, delay: 380 }}
+						class="flex flex-col sm:flex-row items-center gap-4 mb-10"
 					>
 						<button
 							data-cal-link="hafid-ahlaqach-nigixz/15min"
 							data-cal-namespace="15min"
 							data-cal-config={JSON.stringify({ layout: 'month_view', theme: 'light' })}
 							id="v2-hero-cta-call"
-							class="group w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white hover:bg-zinc-100 text-zinc-900 px-8 py-4 rounded-2xl font-bold text-[15px] transition-all duration-300 shadow-[0_0_60px_rgba(255,255,255,0.06)] hover:shadow-[0_0_80px_rgba(255,255,255,0.12)] hover:scale-[1.02] active:scale-[0.98]"
+							class="group w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-zinc-900 hover:bg-zinc-800 text-white px-8 py-4 rounded-2xl font-bold text-[15px] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
 						>
 							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-								/>
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
 							</svg>
 							Book a free discovery call
 						</button>
 
 						<a
-							href="#try-live"
-							id="v2-hero-cta-try"
-							class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/[0.06] hover:bg-white/10 border border-white/10 hover:border-white/20 text-white px-8 py-4 rounded-2xl font-semibold text-[15px] transition-all duration-300 backdrop-blur-sm"
+							href="#case-studies"
+							id="v2-hero-cta-work"
+							class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/70 hover:bg-white border border-zinc-200 hover:border-zinc-300 text-zinc-700 px-8 py-4 rounded-2xl font-semibold text-[15px] transition-all duration-300 backdrop-blur-sm shadow-sm"
 						>
-							Try our AI live
+							See our work
 							<svg class="w-4 h-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M19 9l-7 7-7-7"
-								/>
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
 							</svg>
 						</a>
 					</div>
 
-					<!-- Social proof micro -->
+					<!-- Trust strip -->
 					<div
-						in:fly={{ y: 10, duration: 500, delay: 550 }}
-						class="flex flex-wrap items-center gap-5 text-xs text-zinc-500"
+						in:fly={{ y: 10, duration: 500, delay: 520 }}
+						class="flex flex-wrap items-center gap-5 text-xs text-zinc-400"
 					>
-						{#each ['MVP in 4 weeks', 'You own the code', 'Cancel anytime', 'Money-back guarantee'] as item}
+						{#each ['MVP in 4 weeks', 'You own the code', 'No lock-in'] as item}
 							<span class="flex items-center gap-1.5">
-								<svg
-									class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0"
-									fill="currentColor"
-									viewBox="0 0 20 20"
-								>
-									<path
-										fill-rule="evenodd"
-										d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-										clip-rule="evenodd"
-									/>
+								<svg class="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+									<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
 								</svg>
 								{item}
 							</span>
@@ -150,108 +105,164 @@
 					</div>
 				</div>
 
-				<!-- Right: Rotating pain card -->
-				<div in:fly={{ y: 30, duration: 800, delay: 300 }} class="w-full relative">
-					<div
-						class="relative bg-[#111215] rounded-[2.5rem] p-8 lg:p-10 border border-white/[0.06] shadow-2xl overflow-hidden"
+				<!-- ─── RIGHT: Video placeholder ───────────────────────── -->
+				<div in:fly={{ y: 30, duration: 800, delay: 280 }} class="w-full">
+					<div class="relative rounded-[2rem] overflow-hidden shadow-2xl border border-zinc-200/80 bg-zinc-50 aspect-video group cursor-pointer"
+						on:click={() => videoPlaying = !videoPlaying}
+						role="button"
+						tabindex="0"
+						on:keydown={(e) => e.key === 'Enter' && (videoPlaying = !videoPlaying)}
+						aria-label="Play demo video"
 					>
-						<!-- Glow -->
-						<div
-							class="absolute -top-20 -right-20 w-80 h-80 bg-rose-500/10 rounded-full blur-[80px] pointer-events-none"
-						></div>
-						<div
-							class="absolute -bottom-20 -left-20 w-60 h-60 bg-violet-500/10 rounded-full blur-[70px] pointer-events-none"
-						></div>
+						<!-- Background gradient thumbnail -->
+						<div class="absolute inset-0 bg-gradient-to-br from-violet-100 via-indigo-50 to-cyan-100"></div>
 
-						<!-- Noise -->
-						<div
-							class="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none"
-							style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E');"
-						></div>
+						<!-- Animated mesh gradient overlay -->
+						<div class="absolute inset-0 opacity-60" style="background: radial-gradient(ellipse at 20% 50%, rgba(139,92,246,0.25) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(59,130,246,0.2) 0%, transparent 55%), radial-gradient(ellipse at 60% 80%, rgba(16,185,129,0.15) 0%, transparent 50%);"></div>
 
-						<div class="relative z-10">
-							<!-- Header -->
-							<div class="flex items-center gap-3 mb-8">
-								<div class="w-3 h-3 rounded-full bg-rose-500 animate-pulse"></div>
-								<span class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500"
-									>What's costing you right now</span
-								>
+						<!-- Subtle dot grid on top -->
+						<div class="absolute inset-0 opacity-[0.25]" style="background-image: radial-gradient(circle, #a1a1aa 0.5px, transparent 0.5px); background-size: 20px 20px;"></div>
+
+						<!-- Label top-left -->
+						<div class="absolute top-5 left-5 z-10">
+							<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur-sm border border-zinc-200 shadow-sm">
+								<span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+								<span class="text-[11px] font-bold text-zinc-600 uppercase tracking-wider">Product Demo</span>
 							</div>
+						</div>
 
-							<!-- Animated pain points -->
-							<div class="space-y-3 mb-8">
-								{#each painPoints as pain, i}
-									<div
-										class="flex items-center gap-4 px-5 py-4 rounded-2xl border transition-all duration-500 {activePain ===
-										i
-											? 'bg-rose-500/10 border-rose-500/20 scale-[1.02]'
-											: 'bg-white/[0.02] border-white/[0.04] opacity-50'}"
-									>
-										<div
-											class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 {activePain ===
-											i
-												? 'bg-rose-500/20'
-												: 'bg-white/5'}"
-										>
-											<svg
-												class="w-4 h-4 {activePain === i ? 'text-rose-400' : 'text-zinc-600'}"
-												fill="none"
-												stroke="currentColor"
-												viewBox="0 0 24 24"
-											>
-												<path
-													stroke-linecap="round"
-													stroke-linejoin="round"
-													stroke-width="2"
-													d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"
-												/>
-											</svg>
-										</div>
-										<span
-											class="text-sm font-medium {activePain === i
-												? 'text-white'
-												: 'text-zinc-500'}">{pain}</span
-										>
-									</div>
-								{/each}
+						<!-- Duration badge top-right -->
+						<div class="absolute top-5 right-5 z-10">
+							<div class="px-3 py-1.5 rounded-full bg-black/20 backdrop-blur-sm border border-white/20">
+								<span class="text-[11px] font-semibold text-white">2:34</span>
 							</div>
+						</div>
 
-							<!-- Arrow + solution tease -->
-							<div class="border-t border-white/[0.06] pt-6">
-								<div class="flex items-center gap-3">
-									<div
-										class="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center"
-									>
-										<svg
-											class="w-5 h-5 text-emerald-400"
-											fill="none"
-											stroke="currentColor"
-											viewBox="0 0 24 24"
-										>
-											<path
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												stroke-width="2"
-												d="M5 13l4 4L19 7"
-											/>
-										</svg>
-									</div>
-									<div>
-										<p class="text-white font-semibold text-sm">We fix all of this.</p>
-										<p class="text-zinc-500 text-xs">Custom AI system. 4 weeks. You own it.</p>
-									</div>
+						<!-- Central play button -->
+						<div class="absolute inset-0 flex items-center justify-center z-10">
+							<div class="relative">
+								<!-- Outer pulse ring -->
+								<div class="absolute inset-0 rounded-full bg-white/30 animate-ping scale-110"></div>
+								<!-- Mid ring -->
+								<div class="absolute -inset-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20"></div>
+								<!-- Play button -->
+								<div class="relative w-20 h-20 rounded-full bg-white shadow-2xl flex items-center justify-center group-hover:scale-110 group-hover:shadow-white/50 transition-all duration-300">
+									<!-- Gradient behind play icon -->
+									<div class="absolute inset-0 rounded-full bg-gradient-to-br from-violet-500 via-indigo-500 to-blue-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+									<svg class="w-8 h-8 text-zinc-900 ml-1 relative z-10" fill="currentColor" viewBox="0 0 24 24">
+										<path d="M8 5v14l11-7z" />
+									</svg>
 								</div>
 							</div>
 						</div>
+
+						<!-- Bottom caption bar -->
+						<div class="absolute bottom-0 inset-x-0 z-10 p-5 bg-gradient-to-t from-black/40 to-transparent">
+							<p class="text-white font-semibold text-sm">See how Flowjoy replaces a $4,000/mo ops hire</p>
+							<p class="text-white/60 text-xs mt-0.5">Watch the full product walkthrough</p>
+						</div>
+
+						<!-- Hover shimmer -->
+						<div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-tr from-transparent via-white/8 to-transparent pointer-events-none"></div>
+					</div>
+
+					<!-- Below video: social proof micro bar -->
+					<div class="flex items-center justify-between mt-4 px-1">
+						<div class="flex items-center gap-1.5 text-xs text-zinc-400">
+							<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+							No sign-up required
+						</div>
+						<div class="flex items-center gap-1.5 text-xs text-zinc-400">
+							<svg class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+							Loved by 4 clients &amp; growing
+						</div>
 					</div>
 				</div>
+
 			</div>
 		{/if}
 	</div>
 </section>
 
 <style>
-	.hero-wrap {
-		background: #09090b;
+	.hero-bg {
+		background: #fff;
+	}
+
+	/* ── Prism container ── */
+	.prism-wrap {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		pointer-events: none;
+		overflow: hidden;
+		clip-path: inset(0);   /* clips the blur output to this box */
+		filter: blur(80px) saturate(1.8);
+		opacity: 0.45;
+	}
+
+	.prism-blob {
+		position: absolute;
+		border-radius: 50%;
+		will-change: transform;
+	}
+
+	.prism-1 {
+		width: 45%; height: 55%;
+		top: -15%; left: -8%;
+		background: conic-gradient(from 0deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #ff6b6b);
+		animation: drift1 18s ease-in-out infinite;
+	}
+
+	.prism-2 {
+		width: 40%; height: 50%;
+		bottom: -20%; right: -10%;
+		background: conic-gradient(from 120deg, #0abde3, #a29bfe, #fd79a8, #fdcb6e, #0abde3);
+		animation: drift2 22s ease-in-out infinite;
+	}
+
+	.prism-3 {
+		width: 30%; height: 40%;
+		top: 30%; right: 15%;
+		background: conic-gradient(from 240deg, #6c5ce7, #00cec9, #e17055, #74b9ff, #6c5ce7);
+		animation: drift3 25s ease-in-out infinite;
+	}
+
+	.prism-4 {
+		width: 25%; height: 35%;
+		bottom: 10%; left: 20%;
+		background: conic-gradient(from 60deg, #fd79a8, #fdcb6e, #00b894, #e84393, #fd79a8);
+		animation: drift4 20s ease-in-out infinite;
+	}
+
+	@keyframes drift1 {
+		0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+		33%       { transform: translate(8%, 12%) rotate(40deg) scale(1.08); }
+		66%       { transform: translate(-5%, 6%) rotate(-20deg) scale(0.95); }
+	}
+	@keyframes drift2 {
+		0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+		33%       { transform: translate(-10%, -8%) rotate(-35deg) scale(1.1); }
+		66%       { transform: translate(6%, -4%) rotate(25deg) scale(0.92); }
+	}
+	@keyframes drift3 {
+		0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+		50%       { transform: translate(-12%, 10%) rotate(50deg) scale(1.12); }
+	}
+	@keyframes drift4 {
+		0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+		40%       { transform: translate(10%, -6%) rotate(-30deg) scale(1.05); }
+		70%       { transform: translate(-8%, 8%) rotate(20deg) scale(0.98); }
+	}
+
+	/* ── Noise overlay ── */
+	.noise-overlay {
+		position: absolute;
+		inset: 0;
+		z-index: 2;
+		pointer-events: none;
+		opacity: 0.1;
+		mix-blend-mode: overlay;
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 	}
 </style>

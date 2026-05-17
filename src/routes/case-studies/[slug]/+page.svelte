@@ -24,7 +24,17 @@
 </script>
 
 <svelte:head>
-	<title>{study?.title || 'Case Study'} | Flowjoy</title>
+	<title>{study?.title || 'Case Study'} [Case Study] | Flowjoy</title>
+	<meta name="description" content={study?.shortDescription || 'A Flowjoy case study — real AI systems built for real businesses.'} />
+	<meta property="og:title" content="{study?.title || 'Case Study'} [Case Study] | Flowjoy" />
+	<meta property="og:description" content={study?.shortDescription || 'A Flowjoy case study.'} />
+	<meta property="og:type" content="article" />
+	{#if study?.coverImage}
+		<meta property="og:image" content={study.coverImage} />
+	{/if}
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="{study?.title || 'Case Study'} | Flowjoy" />
+	<meta name="twitter:description" content={study?.shortDescription || 'A Flowjoy case study.'} />
 </svelte:head>
 
 {#if study}
@@ -303,16 +313,16 @@
 										<svg class="w-5 h-5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
 									</div>
 									<div>
-										<div class="text-xs font-bold text-emerald-400 uppercase tracking-widest">Live Product</div>
+										<div class="text-xs font-bold text-emerald-400 uppercase tracking-widest">Demo</div>
 										<div class="text-zinc-500 text-[11px] mt-0.5">
-											{study.websiteUrl.startsWith('http') ? study.websiteUrl.replace('https://', '') : 'Free to try'}
+											{study.websiteUrl.startsWith('http') ? study.websiteUrl.replace('https://', '') : 'Try the live demo'}
 										</div>
 									</div>
 								</div>
 								<div
 									class="block w-full text-center py-4 px-6 bg-emerald-500 text-white font-bold rounded-[1.25rem] hover:bg-emerald-400 active:scale-95 transition-all text-sm shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
 								>
-									Try it free
+									View Demo
 									<svg class="w-4 h-4 transition-transform duration-300 group-hover/visit:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
 								</div>
 							</div>

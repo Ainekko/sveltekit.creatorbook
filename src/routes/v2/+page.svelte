@@ -3,7 +3,7 @@
 
 	import V2NavBar from '$lib/components/v2/V2NavBar.svelte';
 	import V2Hero from '$lib/components/v2/V2Hero.svelte';
-	import V2TryLive from '$lib/components/v2/V2TryLive.svelte';
+	import V2CaseStudies from '$lib/components/v2/V2CaseStudies.svelte';
 	import V2ProblemOutcome from '$lib/components/v2/V2ProblemOutcome.svelte';
 	import V2Testimonial from '$lib/components/v2/V2Testimonial.svelte';
 	import V2WhoIsFor from '$lib/components/v2/V2WhoIsFor.svelte';
@@ -58,10 +58,23 @@
 </script>
 
 <svelte:head>
-	<title>Flowjoy – Stop Losing Leads to Slow Ops</title>
+	<title>Flowjoy – AI Systems for Growing Businesses</title>
 	<meta
 		name="description"
 		content="We build custom AI systems that handle your calls, bookings, follow-ups, and busywork — so your team focuses on closing. Working MVP in 4 weeks. You own the code."
+	/>
+	<meta property="og:title" content="Flowjoy – AI Systems for Growing Businesses" />
+	<meta
+		property="og:description"
+		content="We build custom AI systems that handle your calls, bookings, follow-ups, and busywork — so your team focuses on closing. Working MVP in 4 weeks. You own the code."
+	/>
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://flowjoy.online/v2" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="Flowjoy – AI Systems for Growing Businesses" />
+	<meta
+		name="twitter:description"
+		content="We build custom AI systems that handle your calls, bookings, follow-ups, and busywork — so your team focuses on closing."
 	/>
 	<link
 		href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500;600;700&family=Pacifico&display=swap"
@@ -69,18 +82,20 @@
 	/>
 </svelte:head>
 
+<!-- Navbar: white frosted glass, sticky -->
+<div class="bg-white sticky top-0 z-50">
+	<V2NavBar />
+</div>
+
+<!-- Hero: blur is clipped internally via clip-path on the section itself -->
+
+<V2Hero />
+
+<!-- Dark lower sections -->
 <div class="bg-[#09090B]">
-	<!-- Sticky Navbar -->
-	<div class="sticky top-0 z-50">
-		<V2NavBar />
-	</div>
-
 	<main>
-		<!-- 1. Hero -->
-		<V2Hero />
-
-		<!-- 2. Try It Live — USP: real working products + images -->
-		<V2TryLive />
+		<!-- 2. Case Studies — portfolio presentation -->
+		<V2CaseStudies />
 
 		<!-- 3. Problem → Outcome -->
 		<V2ProblemOutcome />
@@ -88,22 +103,22 @@
 		<!-- 4. What We Build — Industry-specific -->
 		<ServicesSection />
 
-		<!-- 8. Who Is This For -->
+		<!-- 5. Who Is This For -->
 		<V2WhoIsFor />
 
-		<!-- 7. How It Works -->
+		<!-- 6. How It Works -->
 		<HowItWorks />
 
-		<!-- 9. Pricing -->
+		<!-- 7. Pricing -->
 		<AgencyPricing />
 
-		<!-- 9. Why Us — comparison table -->
+		<!-- 8. Why Us — comparison table -->
 		<WhyUs />
 
-		<!-- 10. Final CTA -->
+		<!-- 9. Final CTA -->
 		<AgencyCTA />
 
-		<!-- 11. Footer -->
+		<!-- 10. Footer -->
 		<AgencyFooter />
 	</main>
 </div>

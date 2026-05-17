@@ -76,10 +76,7 @@
 
 	<link rel="canonical" href="https://www.flowjoy.online" />
 
-	<meta
-		property="og:title"
-		content="Flowjoy – Custom AI Operating Systems for Your Business"
-	/>
+	<meta property="og:title" content="Flowjoy – Custom AI Operating Systems for Your Business" />
 	<meta
 		property="og:description"
 		content="We scope, build, and maintain custom AI systems that handle your repetitive ops — calls, scheduling, follow-ups, intake. Starting at $999/mo."
@@ -98,10 +95,7 @@
 
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:creator" content="@_nagativeIQ" />
-	<meta
-		name="twitter:title"
-		content="Flowjoy – Custom AI Operating Systems for Your Business"
-	/>
+	<meta name="twitter:title" content="Flowjoy – Custom AI Operating Systems for Your Business" />
 	<meta
 		name="twitter:description"
 		content="We scope, build, and maintain custom AI systems that handle your repetitive ops — calls, scheduling, follow-ups, intake."

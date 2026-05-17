@@ -26,7 +26,7 @@ export interface CaseStudy {
     solution: string;
     results: string;
     features: { icon: string; title: string; desc: string }[];
-    metrics: { value: string; label: string }[];
+    metrics: { value: string; label: string; highlight?: boolean }[];
     quote?: { text: string; author: string; role: string };
     techLogos?: { src: string; label: string }[]; // small tech/platform logos shown on card & detail page
     tags: string[];
@@ -71,7 +71,7 @@ export const caseStudies: CaseStudy[] = [
         ],
         metrics: [
             { value: '0', label: 'Missed calls go unanswered' },
-            { value: '24/7', label: 'Always-on front desk' },
+            { value: '24/7', label: 'Always-on front desk', highlight: true },
             { value: 'Instant', label: 'SMS + email after every booking' },
             { value: '100%', label: 'Leads logged in ClickUp CRM' }
         ],
@@ -137,7 +137,7 @@ export const caseStudies: CaseStudy[] = [
         metrics: [
             { value: '3+', label: 'Brands in one login' },
             { value: '1000s', label: 'Messages per campaign' },
-            { value: '2h/day', label: 'Time saved on manual texting' },
+            { value: '2h/day', label: 'Time saved on manual texting', highlight: true },
             { value: 'AI', label: 'Automated DNC list — zero re-contacts' }
         ],
         quote: {
@@ -199,7 +199,7 @@ export const caseStudies: CaseStudy[] = [
         metrics: [
             { value: '10 min', label: 'Zero to published article' },
             { value: '8–12h', label: 'Saved per user per week' },
-            { value: '4x', label: 'Content velocity increase' },
+            { value: '4x', label: 'Content velocity increase', highlight: true },
             { value: '98/100', label: 'Avg SEO score' }
         ],
         tags: ['SEO', 'AI Agent', 'Content', 'WordPress', 'LLM'],
@@ -245,7 +245,7 @@ export const caseStudies: CaseStudy[] = [
         ],
         metrics: [
             { value: '24/7', label: 'Continuous Reddit monitoring' },
-            { value: '15–30', label: 'Qualified leads found/week' },
+            { value: '15–30', label: 'Qualified leads found/week', highlight: true },
             { value: '< 5 min', label: 'Alert to response time' },
             { value: '∞', label: 'Subreddits monitored' }
         ],
