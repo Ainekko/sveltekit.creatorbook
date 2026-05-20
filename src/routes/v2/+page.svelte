@@ -3,6 +3,7 @@
 
 	import V2NavBar from '$lib/components/v2/V2NavBar.svelte';
 	import V2Hero from '$lib/components/v2/V2Hero.svelte';
+	import V2StatBanner from '$lib/components/v2/V2StatBanner.svelte';
 	import V2CaseStudies from '$lib/components/v2/V2CaseStudies.svelte';
 	import V2ProblemOutcome from '$lib/components/v2/V2ProblemOutcome.svelte';
 	import V2Testimonial from '$lib/components/v2/V2Testimonial.svelte';
@@ -94,6 +95,9 @@
 <!-- Dark lower sections -->
 <div class="bg-[#09090B]">
 	<main>
+		<!-- 1.5 Stat Banner Hook -->
+		<V2StatBanner />
+
 		<!-- 2. Case Studies — portfolio presentation -->
 		<V2CaseStudies />
 

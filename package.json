@@ -56,5 +56,13 @@
 		"svelte-chartjs": "^3.1.5",
 		"tailwind-scrollbar": "^3.1.0",
 		"uuid": "^9.0.1"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@sveltejs/kit",
+			"core-js",
+			"esbuild",
+			"svelte-preprocess"
+		]
 	}
 }
