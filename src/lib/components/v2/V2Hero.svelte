@@ -36,13 +36,35 @@
 				<!-- ─── LEFT: Copy ─────────────────────────────────────── -->
 				<div class="flex flex-col">
 
-					<!-- Availability badge -->
+					<!-- Integration Logos Row -->
 					<div
 						in:fly={{ y: -10, duration: 500, delay: 0 }}
-						class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/70 backdrop-blur-md border border-zinc-200 shadow-sm text-xs font-semibold text-zinc-600 mb-8 tracking-wide w-fit"
+						class="flex items-center justify-start mb-10 pl-2"
 					>
-						<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
-						Accepting new clients · Start this week
+						<!-- Make / Automation (Small) -->
+						<div class="relative z-10 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white border border-zinc-100 shadow-[0_2px_10px_rgba(0,0,0,0.06)] flex items-center justify-center p-2.5 hover:-translate-y-1 transition-transform cursor-pointer">
+							<img src="/flowjoy/make.svg" alt="Make" class="w-full h-full object-contain" />
+						</div>
+
+						<!-- Anthropic (Medium) -->
+						<div class="relative z-20 -ml-4 w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white border border-zinc-100 shadow-[0_4px_15px_rgba(0,0,0,0.08)] flex items-center justify-center p-3 hover:-translate-y-1 transition-transform cursor-pointer">
+							<img src="https://cdn.simpleicons.org/anthropic/D97757" alt="Anthropic Claude" class="w-full h-full object-contain" />
+						</div>
+
+						<!-- OpenAI (Large Center) -->
+						<div class="relative z-30 -ml-5 w-[72px] h-[72px] sm:w-[84px] sm:h-[84px] rounded-full bg-white border border-zinc-50 shadow-[0_8px_25px_rgba(0,0,0,0.12)] flex items-center justify-center p-4 hover:-translate-y-1 transition-transform cursor-pointer ring-4 ring-white">
+							<img src="/flowjoy/chatgpt.svg" alt="OpenAI" class="w-full h-full object-contain" />
+						</div>
+
+						<!-- Retell AI (Medium) -->
+						<div class="relative z-20 -ml-5 w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white border border-zinc-100 shadow-[0_4px_15px_rgba(0,0,0,0.08)] flex items-center justify-center p-3.5 hover:-translate-y-1 transition-transform cursor-pointer">
+							<img src="/flowjoy/retell.svg" alt="Retell AI" class="w-full h-full object-contain" />
+						</div>
+
+						<!-- ClickUp (Small) -->
+						<div class="relative z-10 -ml-4 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white border border-zinc-100 shadow-[0_2px_10px_rgba(0,0,0,0.06)] flex items-center justify-center p-2.5 hover:-translate-y-1 transition-transform cursor-pointer">
+							<img src="/flowjoy/clickup.svg" alt="ClickUp" class="w-full h-full object-contain" />
+						</div>
 					</div>
 
 					<!-- Headline -->
