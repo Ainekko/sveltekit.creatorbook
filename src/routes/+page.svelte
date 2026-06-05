@@ -11,6 +11,7 @@
 	import WhyUs from '$lib/components/agency/WhyUs.svelte';
 	import AgencyCTA from '$lib/components/agency/AgencyCTA.svelte';
 	import AgencyFooter from '$lib/components/agency/AgencyFooter.svelte';
+	import FloatingScheduler from '$lib/components/FloatingScheduler.svelte';
 
 	import { getFeaturedCaseStudies } from '$lib/data/caseStudies';
 
@@ -160,6 +161,7 @@
 	<!-- 6. Footer -->
 	<AgencyFooter />
 </main>
+<FloatingScheduler />
 
 <style>
 </style>

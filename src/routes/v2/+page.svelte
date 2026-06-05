@@ -14,6 +14,7 @@
 	import WhyUs from '$lib/components/agency/WhyUs.svelte';
 	import AgencyCTA from '$lib/components/agency/AgencyCTA.svelte';
 	import AgencyFooter from '$lib/components/agency/AgencyFooter.svelte';
+	import FloatingScheduler from '$lib/components/FloatingScheduler.svelte';
 
 	onMount(() => {
 		// Cal.com global embed init
@@ -125,4 +126,5 @@
 		<!-- 10. Footer -->
 		<AgencyFooter />
 	</main>
+	<FloatingScheduler />
 </div>
