@@ -15,7 +15,7 @@
     <div class="flex justify-between items-center h-16">
 
       <!-- Logo -->
-      <a href="/v2" class="text-zinc-900 hover:text-zinc-700 transition flex items-center">
+      <a href="/" class="text-zinc-900 hover:text-zinc-700 transition flex items-center">
         <span class="text-xl font-semibold">
           flow<span class="font-[Pacifico]">j</span>oy
         </span>

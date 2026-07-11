@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	export let data;
 
-	import NavBar from '$lib/components/NavBar.svelte';
-	import AgencyHero from '$lib/components/agency/AgencyHero.svelte';
-	import CaseStudiesSection from '$lib/components/agency/CaseStudiesSection.svelte';
+	import V2NavBar from '$lib/components/v2/V2NavBar.svelte';
+	import V2Hero from '$lib/components/v2/V2Hero.svelte';
+	import V2StatBanner from '$lib/components/v2/V2StatBanner.svelte';
+	import V2CaseStudies from '$lib/components/v2/V2CaseStudies.svelte';
+	import V2ProblemOutcome from '$lib/components/v2/V2ProblemOutcome.svelte';
+	import V2Testimonial from '$lib/components/v2/V2Testimonial.svelte';
+	import V2WhoIsFor from '$lib/components/v2/V2WhoIsFor.svelte';
 	import ServicesSection from '$lib/components/agency/ServicesSection.svelte';
 	import HowItWorks from '$lib/components/agency/HowItWorks.svelte';
 	import AgencyPricing from '$lib/components/agency/AgencyPricing.svelte';
@@ -13,21 +16,17 @@
 	import AgencyFooter from '$lib/components/agency/AgencyFooter.svelte';
 	import FloatingScheduler from '$lib/components/FloatingScheduler.svelte';
 
-	import { getFeaturedCaseStudies } from '$lib/data/caseStudies';
-
-	const caseStudies = getFeaturedCaseStudies();
-
 	onMount(() => {
-		// Cal.com global embed init (shared across all sections that use it)
+		// Cal.com global embed init
 		if (typeof window !== 'undefined') {
-			(function (C: any, A: string, L: string) {
-				let p = (a: any, ar: any) => a.q.push(ar);
+			(function (C, A, L) {
+				let p = (a, ar) => a.q.push(ar);
 				let d = C.document;
 				C.Cal =
 					C.Cal ||
 					function () {
 						let cal = C.Cal;
-						let ar: any = arguments;
+						let ar = arguments;
 						if (!cal.loaded) {
 							cal.ns = {};
 							cal.q = cal.q || [];
@@ -35,7 +34,7 @@
 							cal.loaded = true;
 						}
 						if (ar[0] === L) {
-							const api: any = function () {
+							const api = function () {
 								p(api, arguments);
 							};
 							const ns = ar[1];
@@ -50,8 +49,8 @@
 						p(cal, ar);
 					};
 			})(window, 'https://app.cal.com/embed/embed.js', 'init');
-			(window as any).Cal('init', '15min', { origin: 'https://app.cal.com' });
-			(window as any).Cal.ns['15min']('ui', {
+			window.Cal('init', '15min', { origin: 'https://app.cal.com' });
+			window.Cal.ns['15min']('ui', {
 				theme: 'light',
 				hideEventTypeDetails: false,
 				layout: 'month_view'
@@ -61,107 +60,72 @@
 </script>
 
 <svelte:head>
-	<title>Flowjoy – Custom AI Operating Systems for Your Business</title>
+	<title>Flowjoy – AI Systems for Growing Businesses</title>
 	<meta
 		name="description"
-		content="We scope, build, and maintain custom AI systems that handle your repetitive ops — calls, scheduling, follow-ups, intake — so your team focuses on what actually moves the needle. Starting at $999/mo."
+		content="We build custom AI systems that handle your calls, bookings, follow-ups, and busywork — so your team focuses on closing. Working MVP in 4 weeks. You own the code."
 	/>
-	<meta
-		name="keywords"
-		content="custom AI system, business automation, AI operating system, AI agents, workflow automation, custom software development"
-	/>
-	<meta name="author" content="Flowjoy" />
-	<meta name="robots" content="index, follow" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta charset="UTF-8" />
-
-	<link rel="canonical" href="https://www.flowjoy.online" />
-
-	<meta property="og:title" content="Flowjoy – Custom AI Operating Systems for Your Business" />
+	<meta property="og:title" content="Flowjoy – AI Systems for Growing Businesses" />
 	<meta
 		property="og:description"
-		content="We scope, build, and maintain custom AI systems that handle your repetitive ops — calls, scheduling, follow-ups, intake. Starting at $999/mo."
+		content="We build custom AI systems that handle your calls, bookings, follow-ups, and busywork — so your team focuses on closing. Working MVP in 4 weeks. You own the code."
 	/>
-	<meta
-		property="og:image"
-		content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/flowjoy/og.jpg"
-	/>
-	<meta property="og:image:alt" content="Flowjoy – Custom AI Systems" />
-	<meta property="og:image:width" content="1200" />
-	<meta property="og:image:height" content="630" />
-	<meta property="og:url" content="https://www.flowjoy.online" />
 	<meta property="og:type" content="website" />
-	<meta property="og:site_name" content="Flowjoy" />
-	<meta property="og:locale" content="en_US" />
-
+	<link rel="canonical" href="https://www.flowjoy.online" />
+	<meta property="og:url" content="https://www.flowjoy.online" />
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:creator" content="@_nagativeIQ" />
-	<meta name="twitter:title" content="Flowjoy – Custom AI Operating Systems for Your Business" />
+	<meta name="twitter:title" content="Flowjoy – AI Systems for Growing Businesses" />
 	<meta
 		name="twitter:description"
-		content="We scope, build, and maintain custom AI systems that handle your repetitive ops — calls, scheduling, follow-ups, intake."
+		content="We build custom AI systems that handle your calls, bookings, follow-ups, and busywork — so your team focuses on closing."
 	/>
-	<meta
-		name="twitter:image"
-		content="https://rechatcreatorbook.s3.us-west-2.amazonaws.com/flowjoy/og.jpg"
+	<link
+		href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500;600;700&family=Pacifico&display=swap"
+		rel="stylesheet"
 	/>
-	<meta name="twitter:image:alt" content="Flowjoy – Custom AI Systems" />
-
-	<meta name="theme-color" content="#09090B" />
-	<meta name="application-name" content="Flowjoy" />
-	<meta name="apple-mobile-web-app-title" content="Flowjoy" />
-	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
-	<script type="application/ld+json">
-		{
-			"@context": "https://schema.org",
-			"@type": "ProfessionalService",
-			"name": "Flowjoy",
-			"url": "https://www.flowjoy.online",
-			"description": "We scope, build, and maintain custom AI systems that handle your repetitive business operations — calls, scheduling, follow-ups, intake.",
-			"serviceType": ["Custom AI Systems", "Business Automation", "AI Integration"],
-			"areaServed": "Worldwide",
-			"author": {
-				"@type": "Organization",
-				"name": "Flowjoy"
-			},
-			"image": "https://rechatcreatorbook.s3.us-west-2.amazonaws.com/flowjoy/og.jpg"
-		}
-	</script>
 </svelte:head>
 
-<!-- Sticky Navbar -->
-<div class="sticky top-0 z-50">
-	<NavBar />
+<!-- Navbar: white frosted glass, sticky -->
+<div class="bg-white sticky top-0 z-50">
+	<V2NavBar />
 </div>
 
-<main>
-	<!-- 1. Hero — Outcome-driven -->
-	<AgencyHero />
+<!-- Hero: blur is clipped internally via clip-path on the section itself -->
 
-	<!-- 2. Case Studies — Proof first -->
-	<CaseStudiesSection {caseStudies} />
+<V2Hero />
 
-	<!-- 3. What We Build — Industry + concrete examples -->
-	<ServicesSection />
+<!-- Dark lower sections -->
+<div class="bg-[#09090B]">
+	<main>
+		<!-- 1.5 Stat Banner Hook -->
+		<V2StatBanner />
 
-	<!-- 4. How It Works — 3 steps -->
-	<HowItWorks />
+		<!-- 2. Case Studies — portfolio presentation -->
+		<V2CaseStudies />
 
-	<!-- 4. Pricing — Single plan -->
-	<AgencyPricing />
+		<!-- 3. Problem → Outcome -->
+		<V2ProblemOutcome />
 
-	<!-- 5. Why Us — comparison table -->
-	<WhyUs />
+		<!-- 4. What We Build — Industry-specific -->
+		<ServicesSection />
 
-	<!-- 6. Final CTA -->
-	<AgencyCTA />
+		<!-- 5. Who Is This For -->
+		<V2WhoIsFor />
 
-	<!-- 6. Footer -->
-	<AgencyFooter />
-</main>
-<FloatingScheduler />
+		<!-- 6. How It Works -->
+		<HowItWorks />
 
-<style>
-</style>
+		<!-- 7. Pricing -->
+		<AgencyPricing />
+
+		<!-- 8. Why Us — comparison table -->
+		<WhyUs />
+
+		<!-- 9. Final CTA -->
+		<AgencyCTA />
+
+		<!-- 10. Footer -->
+		<AgencyFooter />
+	</main>
+	<FloatingScheduler />
+</div>
