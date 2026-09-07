@@ -240,48 +240,45 @@
       <!-- CARD 4: SUNSET TEARDOWN CTA (Bottom Right - 5 cols)       -->
       <!-- ══════════════════════════════════════════════════════════ -->
       <div
-        class="lg:col-span-5 relative rounded-[2rem] p-7 sm:p-8 shadow-2xl overflow-hidden flex flex-col justify-between hover:shadow-3xl transition-all duration-300 border border-[#F97316]/30 min-h-[380px]"
-        style="background: linear-gradient(150deg, #180D07 0%, #361608 40%, #7C2D12 75%, #C2410C 100%);"
+        class="lg:col-span-5 rounded-[2rem] p-7 sm:p-8 shadow-2xl flex flex-col justify-between relative overflow-hidden min-h-[380px]"
+        style="background: linear-gradient(135deg, #F9B233 0%, #EAA224 45%, #F5C564 100%);"
       >
-        <!-- Subtle warm ambient glow in top-right -->
-        <div class="absolute -top-10 -right-10 w-44 h-44 bg-amber-500/20 rounded-full blur-2xl pointer-events-none"></div>
-
-        <div class="relative z-10">
-          <span class="text-xs font-mono uppercase tracking-wider text-amber-300 font-bold block mb-2">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-wider text-zinc-900/80 font-bold block mb-2">
             Free Architecture Teardown
           </span>
-          <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight mb-3">
+          <h3 class="text-2xl sm:text-3xl font-bold text-zinc-950 tracking-tight leading-snug mb-3">
             Have a broken GTM workflow?
           </h3>
-          <p class="text-zinc-200 text-sm font-light leading-relaxed mb-6">
-            Tell us where your revenue process stalls. We'll inspect your stack and deliver a proposed architecture and working prototype.
+          <p class="text-zinc-900/85 text-xs sm:text-sm font-normal leading-relaxed mb-6">
+            Tell us where your revenue process stalls. We'll inspect your stack and deliver a proposed architecture and prototype.
           </p>
 
-          <div class="space-y-2.5 mb-6 text-xs text-zinc-100 font-medium">
+          <div class="space-y-2.5 mb-6 text-xs text-zinc-900/90 font-medium">
             <div class="flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-zinc-950"></span>
               Shipped in 2–4 weeks to production
             </div>
             <div class="flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-zinc-950"></span>
               You own 100% of the code &amp; pipelines
             </div>
             <div class="flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-zinc-950"></span>
               Zero distraction for your core eng team
             </div>
           </div>
         </div>
 
-        <div class="relative z-10">
+        <div>
           <button
             on:click={() => scrollToSection('gtm-teardown')}
-            class="w-full bg-white text-zinc-950 font-bold py-3.5 px-6 rounded-xl shadow-xl hover:bg-amber-50 hover:scale-[1.01] active:scale-[0.99] transition-all text-sm flex items-center justify-center gap-2 cursor-pointer"
+            class="w-full bg-zinc-950 text-white font-semibold py-3.5 px-6 rounded-xl shadow-xl hover:bg-black transition-all text-sm flex items-center justify-center gap-2 cursor-pointer"
           >
             Get a free GTM teardown
-            <svg class="w-4 h-4 text-zinc-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
           </button>
-          <p class="text-[11px] text-zinc-300/80 text-center mt-2.5 font-medium">
+          <p class="text-[11px] text-zinc-900/60 text-center mt-2.5 font-medium">
             100% technical teardown crafted by an engineer
           </p>
         </div>
