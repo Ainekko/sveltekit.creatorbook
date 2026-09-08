@@ -1,13 +1,8 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { blur, fly } from 'svelte/transition';
 
-  let mounted = false;
   let videoPlaying = false;
 
-  onMount(() => {
-    setTimeout(() => (mounted = true), 50);
-  });
 
   function scrollToSection(sectionId: string) {
     const element = document.getElementById(sectionId);
@@ -17,7 +12,7 @@
   }
 </script>
 
-<section class="hero-bg font-[Poppins] relative overflow-hidden flex flex-col justify-center bg-white">
+<section class="hero-bg font-[Poppins] relative overflow-hidden flex flex-col justify-center bg-white min-h-[100vh]">
 
   <!-- Prism gradient mesh -->
   <div class="prism-wrap">
@@ -37,7 +32,6 @@
   ></div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-20 md:py-28">
-    {#if mounted}
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
         <!-- ─── LEFT: Copy ─────────────────────────────────────── -->
@@ -205,7 +199,6 @@
         </div>
 
       </div>
-    {/if}
   </div>
 </section>
 

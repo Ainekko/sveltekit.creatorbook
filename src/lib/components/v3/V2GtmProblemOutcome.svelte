@@ -7,7 +7,7 @@
       metricLabel: 'saved per rep weekly',
       logos: [
         'https://cdn.simpleicons.org/hubspot/FF7A59',
-        'https://cdn.simpleicons.org/salesforce/00A1E0'
+        '/flowjoy/logos/apollo/apollo-icon.svg'
       ]
     },
     {
@@ -17,7 +17,7 @@
       metricLabel: 'signal to outreach',
       logos: [
         '/flowjoy/reddit.svg',
-        'https://cdn.simpleicons.org/slack/4A154B'
+        '/flowjoy/slack.svg'
       ]
     },
     {
@@ -26,7 +26,7 @@
       metric: '0',
       metricLabel: 'core eng hours lost',
       logos: [
-        'https://cdn.simpleicons.org/postgresql/4169E1',
+        '/flowjoy/make.svg',
         '/flowjoy/Vercel_Logo_0.svg'
       ]
     },
@@ -37,7 +37,7 @@
       metricLabel: 'inbounds engaged',
       logos: [
         '/flowjoy/retell.svg',
-        'https://cdn.simpleicons.org/twilio/F22F46'
+        '/flowjoy/twilio.svg'
       ]
     },
     {

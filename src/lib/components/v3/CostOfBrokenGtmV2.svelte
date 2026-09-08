@@ -43,10 +43,10 @@
                 </span>
                 <div class="flex items-center -space-x-1.5">
                   <div class="w-7 h-7 rounded-lg bg-white border border-amber-200 p-1 shadow-xs" title="Apollo">
-                    <img src="https://cdn.simpleicons.org/apollographql/311C87" alt="Apollo" class="w-full h-full object-contain" />
+                    <img src="/flowjoy/logos/apollo/apollo-icon.svg" alt="Apollo" class="w-full h-full object-contain" />
                   </div>
                   <div class="w-7 h-7 rounded-lg bg-white border border-amber-200 p-1 shadow-xs" title="Clay">
-                    <img src="https://cdn.simpleicons.org/clay/2563EB" alt="Clay" class="w-full h-full object-contain" />
+                    <img src="/flowjoy/logos/Full%20Mark/Dark/Clay_Logo_Primary_Blk.png" alt="Clay" class="w-full h-full object-contain" />
                   </div>
                 </div>
                 <span class="text-xs font-bold text-zinc-900 ml-1">Apollo + Clay Waterfall</span>
@@ -106,65 +106,85 @@
         </div>
 
         <!-- Copy Right -->
-        <div class="lg:col-span-5 flex flex-col justify-center">
-          <span class="text-xs font-mono uppercase tracking-wider text-amber-600 font-semibold mb-3">
-            01 &bull; Account Intelligence
-          </span>
-          <h3 class="text-3xl sm:text-4xl font-bold text-zinc-950 tracking-tight leading-tight mb-4">
-            Stop paying reps to copy and paste data.
+        <div class="lg:col-span-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200/80 text-xs font-semibold text-amber-900 mb-4">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            Enrichment Bottleneck Solved
+          </div>
+          <h3 class="text-2xl sm:text-3xl font-bold text-zinc-950 tracking-tight leading-snug mb-4">
+            Clean, enriched ICP accounts delivered before reps sit down.
           </h3>
-          <p class="text-zinc-600 text-base leading-relaxed font-light mb-6">
+          <p class="text-zinc-600 text-sm sm:text-base leading-relaxed font-light mb-6">
             We engineer multi-source waterfalls uniting Apollo, Clay, and custom scrapers. Every account lands in your CRM verified, scored, and enriched with deep firmographic context.
           </p>
-
-          <div class="flex items-baseline gap-3 pt-4 border-t border-zinc-200">
-            <span class="text-3xl font-bold text-zinc-950 tracking-tight">15h+</span>
-            <span class="text-xs text-zinc-500 font-light">saved per sales rep every week</span>
+          <div class="space-y-3 text-xs sm:text-sm text-zinc-700">
+            <div class="flex items-center gap-2.5">
+              <svg class="w-4 h-4 text-amber-600 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+              <span>Automated waterfall across 3+ data vendors</span>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <svg class="w-4 h-4 text-amber-600 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+              <span>Deterministic CRM write with zero duplicates</span>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <svg class="w-4 h-4 text-amber-600 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+              <span>Reps spend 0 hours on manual account research</span>
+            </div>
           </div>
         </div>
 
       </div>
 
 
-      <!-- ─── PART 2: SIGNALS (Copy Left, Illustration Right - ALTERNATING!) ─── -->
+      <!-- ─── PART 2: INTENT (Copy Left, Illustration Right) ─── -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
         <!-- Copy Left -->
-        <div class="lg:col-span-5 order-2 lg:order-1 flex flex-col justify-center">
-          <span class="text-xs font-mono uppercase tracking-wider text-violet-600 font-semibold mb-3">
-            02 &bull; Buying Signal Detection
-          </span>
-          <h3 class="text-3xl sm:text-4xl font-bold text-zinc-950 tracking-tight leading-tight mb-4">
-            Catch buyers before your competitors know they exist.
+        <div class="lg:col-span-5 order-2 lg:order-1">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-50 border border-violet-200/80 text-xs font-semibold text-violet-900 mb-4">
+            <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
+            Intent Blindness Solved
+          </div>
+          <h3 class="text-2xl sm:text-3xl font-bold text-zinc-950 tracking-tight leading-snug mb-4">
+            Buying signals detected, qualified, and drafted in under 60 seconds.
           </h3>
-          <p class="text-zinc-600 text-base leading-relaxed font-light mb-6">
+          <p class="text-zinc-600 text-sm sm:text-base leading-relaxed font-light mb-6">
             High-intent questions on Reddit, X, and job listings go unnoticed every day. We build autonomous scanners that detect buying triggers, qualify the buyer, and draft tailored outreach straight into Slack.
           </p>
-
-          <div class="flex items-baseline gap-3 pt-4 border-t border-zinc-200">
-            <span class="text-3xl font-bold text-zinc-950 tracking-tight">&lt;60s</span>
-            <span class="text-xs text-zinc-500 font-light">from buying intent to drafted Slack alert</span>
+          <div class="space-y-3 text-xs sm:text-sm text-zinc-700">
+            <div class="flex items-center gap-2.5">
+              <svg class="w-4 h-4 text-violet-600 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+              <span>Sub-60-second signal to Slack alert</span>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <svg class="w-4 h-4 text-violet-600 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+              <span>Pre-drafted response referencing specific pain points</span>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <svg class="w-4 h-4 text-violet-600 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+              <span>Continuous 24/7 scanning of 40+ high-intent channels</span>
+            </div>
           </div>
         </div>
 
         <!-- Illustration Right -->
         <div class="lg:col-span-7 order-1 lg:order-2">
           <div class="relative rounded-[2.5rem] p-7 sm:p-10 shadow-lg border border-violet-200/80 overflow-hidden"
-               style="background: linear-gradient(180deg, #FAF8FF 0%, #EDE9FE 100%);">
+               style="background: linear-gradient(180deg, #FAF7FE 0%, #EDE5FA 100%);">
 
-            <!-- Top Raw Input: Reddit Signal -->
+            <!-- Top Raw Input: Social Intent Trigger -->
             <div class="flex items-center justify-between pb-4 mb-4 border-b border-violet-200/60">
               <div class="flex items-center gap-2">
                 <span class="text-xs font-mono uppercase tracking-wider text-violet-900/70 font-semibold">
-                  Detected Signal:
+                  Signal Source:
                 </span>
                 <div class="w-7 h-7 rounded-lg bg-white border border-violet-200 p-1 shadow-xs" title="Reddit">
                   <img src="/flowjoy/reddit.svg" alt="Reddit" class="w-full h-full object-contain" />
                 </div>
-                <span class="text-xs font-bold text-zinc-900">r/sales &bull; High Intent Post</span>
+                <span class="text-xs font-bold text-zinc-900">Reddit r/sales Buying Thread</span>
               </div>
-              <span class="text-[11px] font-mono text-violet-700 bg-violet-100 px-2.5 py-0.5 rounded-full font-medium">
-                Live Trigger
+              <span class="text-[11px] font-mono text-violet-800 bg-violet-100 px-2.5 py-0.5 rounded-full font-medium">
+                Live Signal
               </span>
             </div>
 
@@ -180,8 +200,13 @@
             <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-xl border border-violet-100 mt-2">
               <div class="flex items-center justify-between pb-3 mb-3 border-b border-zinc-100">
                 <div class="flex items-center gap-2">
-                  <div class="w-6 h-6 rounded-md bg-zinc-900 flex items-center justify-center p-1">
-                    <img src="https://cdn.simpleicons.org/slack/4A154B" alt="Slack" class="w-full h-full object-contain" />
+                  <div class="w-6 h-6 rounded-md bg-white border border-zinc-200 flex items-center justify-center p-0.5">
+                    <svg class="w-full h-full" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M27.2 80.6c0 7.3-5.9 13.2-13.2 13.2C6.7 93.8.8 87.9.8 80.6c0-7.3 5.9-13.2 13.2-13.2h13.2v13.2zm6.7 0c0-7.3 5.9-13.2 13.2-13.2 7.3 0 13.2 5.9 13.2 13.2v33.2c0 7.3-5.9 13.2-13.2 13.2-7.3 0-13.2-5.9-13.2-13.2V80.6z" fill="#E01E5A"/>
+                      <path d="M47.1 27.2c-7.3 0-13.2-5.9-13.2-13.2C33.9 6.7 39.8.8 47.1.8c7.3 0 13.2 5.9 13.2 13.2v13.2H47.1zm0 6.7c7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2H13.9C6.6 60.3.7 54.4.7 47.1c0-7.3 5.9-13.2 13.2-13.2h33.2z" fill="#36C5F0"/>
+                      <path d="M100.8 47.1c0-7.3 5.9-13.2 13.2-13.2 7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2h-13.2V47.1zm-6.7 0c0 7.3-5.9 13.2-13.2 13.2-7.3 0-13.2-5.9-13.2-13.2V13.9C80.9 6.6 86.8.7 94.1.7c7.3 0 13.2 5.9 13.2 13.2v33.2z" fill="#2EB67D"/>
+                      <path d="M80.9 100.8c7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2-7.3 0-13.2-5.9-13.2-13.2v-13.2h13.2zm0-6.7c-7.3 0-13.2-5.9-13.2-13.2 0-7.3 5.9-13.2 13.2-13.2h33.2c7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2H80.9z" fill="#ECB22E"/>
+                    </svg>
                   </div>
                   <span class="text-xs font-bold text-zinc-900">#gtm-buying-signals</span>
                   <span class="text-[10px] text-zinc-400 font-mono">1m ago</span>
@@ -229,9 +254,9 @@
                   Inbound Channel:
                 </span>
                 <div class="w-7 h-7 rounded-lg bg-white border border-emerald-200 p-1 shadow-xs" title="Twilio">
-                  <img src="https://cdn.simpleicons.org/twilio/F22F46" alt="Twilio" class="w-full h-full object-contain" />
+                  <img src="/flowjoy/logos/Twilio/Twilio_idseuPD28S_0.svg" alt="Twilio" class="w-full h-full object-contain" />
                 </div>
-                <span class="text-xs font-bold text-zinc-900">Live Phone & Web Inbound</span>
+                <span class="text-xs font-bold text-zinc-900">Live Phone &amp; Web Inbound</span>
               </div>
               <span class="text-[11px] font-mono text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full font-medium">
                 24/7/365

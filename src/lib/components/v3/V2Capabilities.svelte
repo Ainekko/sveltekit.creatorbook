@@ -15,7 +15,7 @@
         { name: 'Reddit', src: '/flowjoy/reddit.svg' },
         { name: 'Claude', src: 'https://cdn.simpleicons.org/anthropic/D97757' },
         { name: 'OpenAI', src: '/flowjoy/chatgpt.svg' },
-        { name: 'Slack', src: 'https://cdn.simpleicons.org/slack/4A154B' },
+        { name: 'Slack', src: '/flowjoy/slack.svg' },
         { name: 'HubSpot', src: 'https://cdn.simpleicons.org/hubspot/FF7A59' }
       ],
       deliverables: [
@@ -36,8 +36,8 @@
       outcomeHighlight: 'Multi-source enrichment orchestrating your existing data subscriptions.',
       logos: [
         { name: 'HubSpot', src: 'https://cdn.simpleicons.org/hubspot/FF7A59' },
-        { name: 'Salesforce', src: 'https://cdn.simpleicons.org/salesforce/00A1E0' },
-        { name: 'Postgres', src: 'https://cdn.simpleicons.org/postgresql/4169E1' },
+        { name: 'Apollo', src: '/flowjoy/logos/apollo/apollo-icon.svg' },
+        { name: 'Clay', src: '/flowjoy/logos/Full%20Mark/Dark/Clay_Logo_Primary_Blk.png' },
         { name: 'ClickUp', src: '/flowjoy/clickup.svg' }
       ],
       deliverables: [
@@ -59,8 +59,8 @@
       logos: [
         { name: 'Make', src: '/flowjoy/make.svg' },
         { name: 'OpenAI', src: '/flowjoy/chatgpt.svg' },
-        { name: 'Twilio', src: 'https://cdn.simpleicons.org/twilio/F22F46' },
-        { name: 'Slack', src: 'https://cdn.simpleicons.org/slack/4A154B' }
+        { name: 'Twilio', src: '/flowjoy/twilio.svg' },
+        { name: 'Slack', src: '/flowjoy/slack.svg' }
       ],
       deliverables: [
         'Personalized cold outbound engines with contextual research hooks',
@@ -81,7 +81,7 @@
       logos: [
         { name: 'Retell AI', src: '/flowjoy/retell.svg' },
         { name: 'Claude', src: 'https://cdn.simpleicons.org/anthropic/D97757' },
-        { name: 'Twilio', src: 'https://cdn.simpleicons.org/twilio/F22F46' },
+        { name: 'Twilio', src: '/flowjoy/twilio.svg' },
         { name: 'Vercel', src: '/flowjoy/Vercel_Logo_0.svg' }
       ],
       deliverables: [
@@ -101,8 +101,8 @@
       outcomeMetric: 'Real-time pipeline telemetry',
       outcomeHighlight: 'Custom command centers and Slack deal rooms tailored to your motion.',
       logos: [
-        { name: 'Postgres', src: 'https://cdn.simpleicons.org/postgresql/4169E1' },
-        { name: 'Slack', src: 'https://cdn.simpleicons.org/slack/4A154B' },
+        { name: 'Make', src: '/flowjoy/make.svg' },
+        { name: 'Slack', src: '/flowjoy/slack.svg' },
         { name: 'HubSpot', src: 'https://cdn.simpleicons.org/hubspot/FF7A59' },
         { name: 'ClickUp', src: '/flowjoy/clickup.svg' }
       ],

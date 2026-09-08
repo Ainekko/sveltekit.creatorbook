@@ -11,8 +11,8 @@
       logos: [
         { name: 'Reddit', src: '/flowjoy/reddit.svg' },
         { name: 'OpenAI', src: '/flowjoy/chatgpt.svg' },
-        { name: 'Slack', src: 'https://cdn.simpleicons.org/slack/4A154B' },
-        { name: 'Postgres', src: 'https://cdn.simpleicons.org/postgresql/4169E1' }
+        { name: 'Slack', src: '/flowjoy/slack.svg' },
+        { name: 'Make', src: '/flowjoy/make.svg' }
       ],
       metrics: [
         { label: 'Signal response', val: '<60 seconds' },
@@ -31,7 +31,7 @@
       logos: [
         { name: 'Claude', src: 'https://cdn.simpleicons.org/anthropic/D97757' },
         { name: 'Vercel', src: '/flowjoy/Vercel_Logo_0.svg' },
-        { name: 'Postgres', src: 'https://cdn.simpleicons.org/postgresql/4169E1' }
+        { name: 'Make', src: '/flowjoy/make.svg' }
       ],
       metrics: [
         { label: 'Production cycle', val: '15 min/post' },
@@ -48,7 +48,7 @@
       description: 'Multi-number SMS delivery with automated DNC (Do Not Call) compliance handling, 10DLC carrier reputation protection, and real-time AI reply classification.',
       image: '/flowjoy/sms_app.jpg',
       logos: [
-        { name: 'Twilio', src: 'https://cdn.simpleicons.org/twilio/F22F46' },
+        { name: 'Twilio', src: '/flowjoy/twilio.svg' },
         { name: 'ClickUp', src: '/flowjoy/clickup.svg' },
         { name: 'Make', src: '/flowjoy/make.svg' }
       ],
@@ -69,7 +69,7 @@
       logos: [
         { name: 'Retell AI', src: '/flowjoy/retell.svg' },
         { name: 'OpenAI', src: '/flowjoy/chatgpt.svg' },
-        { name: 'Twilio', src: 'https://cdn.simpleicons.org/twilio/F22F46' }
+        { name: 'Twilio', src: '/flowjoy/twilio.svg' }
       ],
       metrics: [
         { label: 'Voice latency', val: 'Sub-600ms' },
@@ -189,7 +189,7 @@
             <img src="https://cdn.simpleicons.org/hubspot/FF7A59" alt="HubSpot" class="w-full h-full object-contain" />
           </div>
           <div class="w-12 h-12 rounded-full bg-white border border-zinc-200 shadow-md flex items-center justify-center p-2.5">
-            <img src="https://cdn.simpleicons.org/slack/4A154B" alt="Slack" class="w-full h-full object-contain" />
+            <img src="/flowjoy/slack.svg" alt="Slack" class="w-full h-full object-contain" />
           </div>
           <div class="w-12 h-12 rounded-full bg-white border border-zinc-200 shadow-md flex items-center justify-center p-2.5">
             <img src="https://cdn.simpleicons.org/anthropic/D97757" alt="Claude" class="w-full h-full object-contain" />
