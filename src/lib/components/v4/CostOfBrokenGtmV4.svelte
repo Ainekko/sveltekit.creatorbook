@@ -23,13 +23,6 @@
       <p class="text-zinc-600 text-base sm:text-lg leading-relaxed font-light max-w-2xl mx-auto mb-6">
         Your team wastes 15+ hours a week on research, manual enrichment, and lead qualification. Clay made GTM Engineering possible. Most early-stage teams still can’t hire (or keep) a great GTME. That’s the gap we close.
       </p>
-
-      <!-- Clay Ecosystem Callout Pill -->
-      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-100 border border-zinc-200/80 text-xs sm:text-sm font-medium text-zinc-800">
-        <span class="font-bold text-zinc-950">Clay is the infrastructure.</span>
-        <span class="text-zinc-400">•</span>
-        <span class="text-zinc-600">We’re the GTM engineering team.</span>
-      </div>
     </div>
 
     <div class="space-y-24 lg:space-y-36">

@@ -21,7 +21,7 @@
       <div>&copy; {new Date().getFullYear()} Flowjoy. All rights reserved. 100% code ownership guaranteed.</div>
       <div class="flex items-center gap-2">
         <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-        <span class="text-zinc-400">Clay is the infrastructure. We’re the GTM engineering team.</span>
+        <span class="text-zinc-400">Custom revenue pipelines &bull; 100% code ownership.</span>
       </div>
     </div>
   </div>

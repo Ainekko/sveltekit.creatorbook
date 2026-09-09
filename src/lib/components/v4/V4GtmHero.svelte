@@ -67,13 +67,13 @@
           </div>
         </div>
 
-        <!-- Positioning Callout Pill -->
+        <!-- Studio Badge -->
         <div
           in:fly={{ y: -8, duration: 500, delay: 50 }}
-          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200/80 text-xs font-semibold text-amber-900 mb-5 w-fit shadow-xs"
+          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-100 border border-zinc-200/80 text-xs font-semibold text-zinc-800 mb-5 w-fit shadow-xs"
         >
-          <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-          <span><strong>Clay is the infrastructure.</strong> We’re the GTM engineering team.</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span><strong>GTM Engineering Studio</strong> &bull; Custom Revenue Systems</span>
         </div>
 
         <!-- Headline: Short, direct, benefit-first -->
