@@ -3,7 +3,7 @@
     <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/[0.06]">
       <div class="flex items-center gap-3">
         <span class="text-xl font-semibold tracking-tight">
-          flow<span class="font-[Pacifico] text-amber-500">j</span>oy
+          flow<span class="font-[Pacifico]">j</span>oy
         </span>
         <span class="text-xs text-zinc-500 font-light">| GTM Engineering Studio</span>
       </div>

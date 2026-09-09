@@ -15,13 +15,11 @@
     <div class="flex justify-between items-center h-16 sm:h-20">
 
       <!-- Brand Logo -->
-      <a href="/v4" class="text-zinc-900 hover:text-zinc-700 transition flex items-center gap-2.5">
+      <a href="/v4" class="text-zinc-900 hover:text-zinc-700 transition flex items-center">
         <span class="text-xl font-semibold tracking-tight">
-          flow<span class="font-[Pacifico] text-amber-500">j</span>oy
+          flow<span class="font-[Pacifico]">j</span>oy
         </span>
-        <span class="text-[10px] uppercase font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-600 border border-zinc-200/60 hidden sm:inline-block">
-          GTM Engineering
-        </span>
+        
       </a>
 
       <!-- Desktop Navigation Links -->

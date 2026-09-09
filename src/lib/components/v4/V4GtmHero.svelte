@@ -136,7 +136,7 @@
         </div>
       </div>
 
-      <!-- ─── RIGHT: Interactive Demo Visual ───────────────────────── -->
+      <!-- ─── RIGHT: Video Introduction (Clean, no extra badges) ─── -->
       <div in:fly={{ y: 30, duration: 800, delay: 280 }} class="w-full">
         <div
           class="relative rounded-[2rem] overflow-hidden shadow-2xl border border-zinc-200/90 bg-zinc-50 aspect-video group cursor-pointer"
@@ -144,73 +144,39 @@
           role="button"
           tabindex="0"
           on:keydown={(e) => e.key === 'Enter' && (videoPlaying = !videoPlaying)}
-          aria-label="Play demo video"
+          aria-label="Play introduction video"
         >
           <!-- Background gradient thumbnail -->
-          <div class="absolute inset-0 bg-gradient-to-br from-amber-100/50 via-zinc-50 to-orange-100/40"></div>
+          <div class="absolute inset-0 bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200/60"></div>
 
-          <!-- Animated mesh gradient overlay -->
-          <div class="absolute inset-0 opacity-60" style="background: radial-gradient(ellipse at 20% 50%, rgba(245,158,11,0.2) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(59,130,246,0.15) 0%, transparent 55%), radial-gradient(ellipse at 60% 80%, rgba(16,185,129,0.15) 0%, transparent 50%);"></div>
+          <!-- Subtle mesh overlay -->
+          <div class="absolute inset-0 opacity-40" style="background: radial-gradient(ellipse at 30% 40%, rgba(245,158,11,0.12) 0%, transparent 60%), radial-gradient(ellipse at 80% 70%, rgba(59,130,246,0.08) 0%, transparent 55%);"></div>
 
           <!-- Dot grid overlay -->
-          <div class="absolute inset-0 opacity-[0.25]" style="background-image: radial-gradient(circle, #a1a1aa 0.5px, transparent 0.5px); background-size: 20px 20px;"></div>
-
-          <!-- Top-left Badge -->
-          <div class="absolute top-5 left-5 z-10">
-            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-zinc-200 shadow-sm">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span class="text-[11px] font-bold text-zinc-700 uppercase tracking-wider">Live Pipeline Demo</span>
-            </div>
-          </div>
-
-          <!-- Duration badge top-right -->
-          <div class="absolute top-5 right-5 z-10">
-            <div class="px-3 py-1.5 rounded-full bg-black/25 backdrop-blur-md border border-white/20">
-              <span class="text-[11px] font-semibold text-white">2:14</span>
-            </div>
-          </div>
+          <div class="absolute inset-0 opacity-[0.2]" style="background-image: radial-gradient(circle, #a1a1aa 0.5px, transparent 0.5px); background-size: 20px 20px;"></div>
 
           <!-- Central play button -->
           <div class="absolute inset-0 flex items-center justify-center z-10">
             <div class="relative">
-              <div class="absolute inset-0 rounded-full bg-amber-500/20 animate-ping scale-110"></div>
-              <div class="absolute -inset-3 rounded-full bg-white/15 backdrop-blur-sm border border-white/30"></div>
-              <div class="relative w-20 h-20 rounded-full bg-white shadow-2xl flex items-center justify-center group-hover:scale-110 group-hover:shadow-amber-500/20 transition-all duration-300">
-                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-                <svg class="w-8 h-8 text-zinc-950 ml-1 relative z-10" fill="currentColor" viewBox="0 0 24 24">
+              <div class="absolute inset-0 rounded-full bg-zinc-900/10 animate-ping scale-110"></div>
+              <div class="relative w-20 h-20 rounded-full bg-white shadow-2xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 border border-zinc-100">
+                <svg class="w-8 h-8 text-zinc-950 ml-1" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               </div>
             </div>
           </div>
 
-          <!-- Bottom caption bar -->
-          <div class="absolute bottom-0 inset-x-0 z-10 p-5 bg-gradient-to-t from-black/60 via-black/30 to-transparent">
-            <p class="text-white font-semibold text-sm">See how Flowjoy engineers production GTM pipelines</p>
-            <p class="text-white/70 text-xs mt-0.5">Automatic lead enrichment &bull; Instant buyer alerts &bull; Zero manual research</p>
+          <!-- Bottom caption bar: Founder introduction -->
+          <div class="absolute bottom-0 inset-x-0 z-10 p-6 bg-gradient-to-t from-black/75 via-black/35 to-transparent">
+            <p class="text-white font-semibold text-base">Introducing Flowjoy</p>
+            <p class="text-white/80 text-xs mt-0.5 font-light">Who we are, what we solve, and whether you need us.</p>
           </div>
 
           <!-- Hover shimmer -->
           <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
         </div>
-
-        <!-- Below video: proof tags -->
-        <div class="flex items-center justify-between mt-4 px-1">
-          <div class="flex items-center gap-1.5 text-xs text-zinc-500">
-            <svg class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm3.707 6.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
-            </svg>
-            Zero Zapier / Brittle Zaps
-          </div>
-          <div class="flex items-center gap-1.5 text-xs text-zinc-500">
-            <svg class="w-3.5 h-3.5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm3.707 6.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
-            </svg>
-            Production Code in Your Repo
-          </div>
-        </div>
       </div>
-
     </div>
   </div>
 </section>
