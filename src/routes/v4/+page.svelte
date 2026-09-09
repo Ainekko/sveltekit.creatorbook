@@ -13,10 +13,10 @@
 </script>
 
 <svelte:head>
-  <title>Flowjoy • Build the GTM systems you can’t hire for yet</title>
+  <title>Flowjoy • Your GTM Stack Is Powerful. Your Workflow Isn't.</title>
   <meta
     name="description"
-    content="Your GTM is under-engineered. Not under-staffed. We build the automated revenue systems most Seed–Series A teams can’t hire for yet. You own 100% of the code. Shipped in 2–4 weeks."
+    content="You're paying for Apollo, Clay, HubSpot, Slack and dozens of other tools. Yet your team is still doing work manually. We engineer the AI systems, data pipelines and automations that make your entire GTM operation faster, smarter and more scalable."
   />
 </svelte:head>
 

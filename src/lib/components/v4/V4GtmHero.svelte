@@ -78,19 +78,27 @@
 
         <!-- Headline: Short, direct, benefit-first -->
         <h1 class="text-[2.6rem] sm:text-5xl md:text-[3.5rem] lg:text-[4rem] font-bold text-zinc-950 leading-[1.06] tracking-tight mb-6">
-          <span in:blur={{ duration: 700, delay: 80, amount: 8 }}>Your GTM is under-engineered.</span><br />
+          <span in:blur={{ duration: 700, delay: 80, amount: 8 }}>Your GTM Stack Is Powerful.</span><br />
           <span in:blur={{ duration: 700, delay: 220, amount: 8 }} class="font-['Instrument_Serif'] italic text-zinc-500 font-normal">
-            Not under-staffed.
+            Your Workflow Isn't.
           </span>
         </h1>
 
         <!-- Subheading: Outcome-based, crisp Clay style -->
-        <p
+        <div
           in:blur={{ duration: 600, delay: 300, amount: 5 }}
-          class="text-base sm:text-lg text-zinc-600 leading-relaxed font-light max-w-xl mb-9"
+          class="max-w-xl mb-9 space-y-4"
         >
-          We build the automated revenue systems most Seed–Series A teams can’t hire for yet. Production pipelines around Clay, Apollo, and your CRM. You own 100% of the code. Shipped in 2–4 weeks.
-        </p>
+          <p class="text-base sm:text-lg text-zinc-600 leading-relaxed font-light">
+            You're paying for Apollo, Clay, HubSpot, Slack and dozens of other tools. Yet your team is still doing work manually.
+          </p>
+          <p class="text-base sm:text-lg text-zinc-600 leading-relaxed font-light">
+            We engineer the AI systems, data pipelines and automations that make your entire GTM operation faster, smarter and more scalable.
+          </p>
+          <p class="text-sm sm:text-base font-medium text-zinc-900 tracking-wide">
+            More intelligence. Less manual work. More revenue.
+          </p>
+        </div>
 
         <!-- CTA Row -->
         <div
