@@ -97,15 +97,15 @@
             </div>
 
             <div class="mb-6">
-              <span class="text-xs font-mono uppercase tracking-wider text-amber-400 font-bold block mb-2">The Positioning</span>
+              <span class="text-xs font-mono uppercase tracking-wider text-amber-400 font-bold block mb-2">Engineered For Scale</span>
               <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-snug">
-                Clay is the infrastructure.<br />
-                <span class="font-['Instrument_Serif'] italic font-normal text-amber-300">We’re the GTM engineering team.</span>
+                Stop patching brittle tools.<br />
+                <span class="font-['Instrument_Serif'] italic font-normal text-amber-300">Deploy production revenue systems.</span>
               </h3>
             </div>
 
             <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed mb-6 font-light">
-              Most teams buy Clay and Apollo expecting magic, but get stuck when it comes to custom webhooks, data hygiene, and end-to-end CRM integration. We bridge the gap with production-grade engineering.
+              Most teams stitch together Apollo, Clay, and HubSpot with fragile zaps and manual spreadsheets. We engineer reliable data pipelines, custom AI agents, and deterministic CRM syncs that run autonomously.
             </p>
 
             <div class="space-y-3 pt-4 border-t border-white/10 text-xs">
