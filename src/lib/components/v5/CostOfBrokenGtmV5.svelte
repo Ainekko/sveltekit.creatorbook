@@ -42,13 +42,13 @@
             </span>
             <div class="flex items-center -space-x-1.5">
               <div class="w-7 h-7 rounded-lg bg-white border border-amber-200/80 p-1 shadow-2xs flex items-center justify-center" title="Apollo">
-                <img src="/flowjoy/logos/apollo/apollo-icon.svg" alt="Apollo" class="w-full h-full object-contain" />
+                <img loading="lazy" decoding="async" src="/flowjoy/logos/apollo/apollo-icon.svg" alt="Apollo" class="w-full h-full object-contain" />
               </div>
               <div class="w-7 h-7 rounded-lg bg-white border border-amber-200/80 p-1 shadow-2xs flex items-center justify-center" title="Clay">
-                <img src="/flowjoy/logos/Full%20Mark/Dark/Clay_Logo_Primary_Blk.png" alt="Clay" class="w-full h-full object-contain" />
+                <img loading="lazy" decoding="async" src="/flowjoy/logos/Full%20Mark/Dark/Clay_Logo_Primary_Blk.png" alt="Clay" class="w-full h-full object-contain" />
               </div>
               <div class="w-7 h-7 rounded-lg bg-white border border-amber-200/80 p-1 shadow-2xs flex items-center justify-center" title="HubSpot">
-                <img src="https://cdn.simpleicons.org/hubspot/FF7A59" alt="HubSpot" class="w-full h-full object-contain" />
+                <img loading="lazy" decoding="async" src="https://cdn.simpleicons.org/hubspot/FF7A59" alt="HubSpot" class="w-full h-full object-contain" />
               </div>
             </div>
           </div>
@@ -81,7 +81,7 @@
               </div>
             </div>
             <div class="w-6 h-6 rounded-md bg-orange-50 border border-orange-200 p-1 flex items-center justify-center">
-              <img src="https://cdn.simpleicons.org/hubspot/FF7A59" alt="HubSpot" class="w-full h-full object-contain" />
+              <img loading="lazy" decoding="async" src="https://cdn.simpleicons.org/hubspot/FF7A59" alt="HubSpot" class="w-full h-full object-contain" />
             </div>
           </div>
 
@@ -111,10 +111,10 @@
             </span>
             <div class="flex items-center -space-x-1.5">
               <div class="w-7 h-7 rounded-lg bg-white border border-violet-200 p-1 shadow-2xs flex items-center justify-center" title="Reddit">
-                <img src="/flowjoy/reddit.svg" alt="Reddit" class="w-full h-full object-contain" />
+                <img loading="lazy" decoding="async" src="/flowjoy/reddit.svg" alt="Reddit" class="w-full h-full object-contain" />
               </div>
               <div class="w-7 h-7 rounded-lg bg-white border border-violet-200 p-1 shadow-2xs flex items-center justify-center" title="Slack">
-                <img src="/flowjoy/slack.svg" alt="Slack" class="w-full h-full object-contain" />
+                <img loading="lazy" decoding="async" src="/flowjoy/slack.svg" alt="Slack" class="w-full h-full object-contain" />
               </div>
             </div>
           </div>
@@ -132,7 +132,7 @@
           <div class="flex items-center justify-between pb-2.5 mb-2.5 border-b border-zinc-100">
             <div class="flex items-center gap-2">
               <div class="w-5 h-5 rounded bg-violet-50 flex items-center justify-center p-0.5">
-                <img src="/flowjoy/slack.svg" alt="Slack" class="w-full h-full object-contain" />
+                <img loading="lazy" decoding="async" src="/flowjoy/slack.svg" alt="Slack" class="w-full h-full object-contain" />
               </div>
               <span class="text-xs font-bold text-zinc-900">#revenue-signals</span>
               <span class="text-[10px] text-zinc-400 font-mono">42s ago</span>
@@ -172,13 +172,13 @@
             </span>
             <div class="flex items-center -space-x-1.5">
               <div class="w-7 h-7 rounded-lg bg-white border border-emerald-200 p-1 shadow-2xs flex items-center justify-center" title="Twilio">
-                <img src="/flowjoy/twilio.svg" alt="Twilio" class="w-full h-full object-contain" />
+                <img loading="lazy" decoding="async" src="/flowjoy/twilio.svg" alt="Twilio" class="w-full h-full object-contain" />
               </div>
               <div class="w-7 h-7 rounded-lg bg-white border border-emerald-200 p-1 shadow-2xs flex items-center justify-center" title="Retell AI">
-                <img src="/flowjoy/retell.svg" alt="Retell AI" class="w-full h-full object-contain" />
+                <img loading="lazy" decoding="async" src="/flowjoy/retell.svg" alt="Retell AI" class="w-full h-full object-contain" />
               </div>
               <div class="w-7 h-7 rounded-lg bg-white border border-emerald-200 p-1 shadow-2xs flex items-center justify-center" title="Google Calendar">
-                <img src="https://cdn.simpleicons.org/googlecalendar/4285F4" alt="Google Calendar" class="w-full h-full object-contain" />
+                <img loading="lazy" decoding="async" src="https://cdn.simpleicons.org/googlecalendar/4285F4" alt="Google Calendar" class="w-full h-full object-contain" />
               </div>
             </div>
           </div>
@@ -196,7 +196,7 @@
           <div class="flex items-center justify-between pb-2.5 mb-2.5 border-b border-zinc-100">
             <div class="flex items-center gap-2">
               <div class="w-5 h-5 rounded bg-emerald-50 border border-emerald-200 flex items-center justify-center p-0.5">
-                <img src="https://cdn.simpleicons.org/googlecalendar/4285F4" alt="Calendar" class="w-3.5 h-3.5 object-contain" />
+                <img loading="lazy" decoding="async" src="https://cdn.simpleicons.org/googlecalendar/4285F4" alt="Calendar" class="w-3.5 h-3.5 object-contain" />
               </div>
               <span class="text-xs font-bold text-zinc-900">Demo Scheduled: Tomorrow 2:00 PM</span>
             </div>
@@ -232,13 +232,13 @@
             </span>
             <div class="flex items-center -space-x-1.5">
               <div class="w-7 h-7 rounded-lg bg-white border border-blue-200 p-1 shadow-2xs flex items-center justify-center" title="Twilio">
-                <img src="/flowjoy/twilio.svg" alt="Twilio" class="w-full h-full object-contain" />
+                <img loading="lazy" decoding="async" src="/flowjoy/twilio.svg" alt="Twilio" class="w-full h-full object-contain" />
               </div>
               <div class="w-7 h-7 rounded-lg bg-white border border-blue-200 p-1 shadow-2xs flex items-center justify-center" title="Make">
-                <img src="/flowjoy/make.svg" alt="Make" class="w-full h-full object-contain" />
+                <img loading="lazy" decoding="async" src="/flowjoy/make.svg" alt="Make" class="w-full h-full object-contain" />
               </div>
               <div class="w-7 h-7 rounded-lg bg-white border border-blue-200 p-1 shadow-2xs flex items-center justify-center" title="HubSpot">
-                <img src="https://cdn.simpleicons.org/hubspot/FF7A59" alt="HubSpot" class="w-full h-full object-contain" />
+                <img loading="lazy" decoding="async" src="https://cdn.simpleicons.org/hubspot/FF7A59" alt="HubSpot" class="w-full h-full object-contain" />
               </div>
             </div>
           </div>
@@ -256,7 +256,7 @@
           <div class="flex items-center justify-between pb-3 mb-3 border-b border-zinc-100">
             <div class="flex items-center gap-2">
               <div class="w-6 h-6 rounded-md bg-blue-50 border border-blue-200 flex items-center justify-center p-0.5">
-                <img src="/flowjoy/twilio.svg" alt="Twilio" class="w-4 h-4 object-contain" />
+                <img loading="lazy" decoding="async" src="/flowjoy/twilio.svg" alt="Twilio" class="w-4 h-4 object-contain" />
               </div>
               <span class="text-xs font-bold text-zinc-900">Carrier-Safe 10DLC Multi-DID Pool</span>
             </div>

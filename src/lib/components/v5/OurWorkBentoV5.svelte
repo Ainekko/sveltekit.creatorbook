@@ -29,6 +29,7 @@
       primaryBtnText: 'Explore Elio',
       secondaryBtnText: 'Case study',
       image: '/flowjoy/projects/elio-cover.jpg',
+      webp: '/flowjoy/projects/elio-cover.webp',
       imageAlt: 'Elio Buyer Intent System'
     },
     {
@@ -53,6 +54,7 @@
       primaryBtnText: 'Explore Laurie',
       secondaryBtnText: 'Voice architecture',
       image: '/flowjoy/projects/laurie-voice-assistant.jpg',
+      webp: '/flowjoy/projects/laurie-voice-assistant.webp',
       imageAlt: 'Laurie Inbound Voice Assistant'
     },
     {
@@ -77,6 +79,7 @@
       primaryBtnText: 'Explore Broadr',
       secondaryBtnText: 'SMS engine',
       image: '/flowjoy/projects/broadr-cover.jpg',
+      webp: '/flowjoy/projects/broadr-cover.webp',
       imageAlt: 'Broadr SMS Reactivation System'
     }
   ];
@@ -172,11 +175,18 @@
             <!-- ─── RIGHT: Clean Large Visual Window (Exact Clay frame) ─── -->
             <div class="lg:col-span-6">
               <div class="rounded-[2rem] overflow-hidden bg-white/70 border border-black/5 shadow-xl aspect-[4/3] sm:aspect-[16/11] relative group">
-                <img
-                  src={project.image}
-                  alt={project.imageAlt}
-                  class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                />
+                <picture class="w-full h-full">
+                  <source srcset={project.webp} type="image/webp" />
+                  <img
+                    src={project.image}
+                    alt={project.imageAlt}
+                    loading="lazy"
+                    decoding="async"
+                    width="800"
+                    height="550"
+                    class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  />
+                </picture>
               </div>
             </div>
 
