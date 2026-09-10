@@ -282,21 +282,31 @@
 
     </div>
 
-    <!-- ─── BOTTOM POSITIONING BAR ─── -->
-    <div class="rounded-3xl bg-zinc-950 text-white p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
-      <div>
-        <h4 class="text-xl sm:text-2xl font-bold tracking-tight mb-2">
-          Flowjoy builds the revenue systems that turn GTM data and signals into pipeline.
-        </h4>
-        <p class="text-xs sm:text-sm text-zinc-400 font-light max-w-xl">
-          We inspect your stack &bull; map required signals and logic &bull; engineer the production system directly into your workflow.
-        </p>
+    <!-- BOTTOM POSITIONING BAR -->
+    <div class="relative overflow-hidden rounded-3xl bg-zinc-950 text-white p-8 sm:p-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 sm:gap-8 shadow-xl border border-zinc-800/80">
+      <!-- Subtle ambient emerald glow echoing the logo -->
+      <div class="absolute -left-10 -top-10 w-56 h-56 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-6">
+        <!-- Flowjoy Green Logo -->
+        <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-zinc-900/90 border border-zinc-800 p-2.5 sm:p-3 flex items-center justify-center shrink-0 shadow-lg shadow-black/50">
+          <img src="/logo-green.png" alt="Flowjoy" class="w-full h-full object-contain" />
+        </div>
+
+        <div>
+          <h4 class="text-xl sm:text-2xl font-bold tracking-tight mb-2 text-white">
+            Flowjoy builds the revenue systems that turn GTM data and signals into pipeline.
+          </h4>
+          <p class="text-xs sm:text-sm text-zinc-400 font-light max-w-xl leading-relaxed">
+            We inspect your stack &bull; map required signals and logic &bull; engineer the production system directly into your workflow.
+          </p>
+        </div>
       </div>
 
       <button
         type="button"
         on:click={() => scrollToSection('gtm-teardown')}
-        class="bg-white hover:bg-zinc-100 text-zinc-950 font-semibold text-sm px-7 py-3.5 rounded-full transition shadow-sm whitespace-nowrap cursor-pointer hover:scale-[1.02] active:scale-[0.98] shrink-0"
+        class="relative z-10 bg-white hover:bg-zinc-100 text-zinc-950 font-semibold text-sm px-7 py-3.5 rounded-full transition shadow-sm whitespace-nowrap cursor-pointer hover:scale-[1.02] active:scale-[0.98] shrink-0 self-start lg:self-center"
       >
         Get a free GTM teardown &rarr;
       </button>

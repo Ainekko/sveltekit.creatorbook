@@ -2,6 +2,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/[0.06]">
       <div class="flex items-center gap-3">
+        <img src="/logo-green.png" alt="Flowjoy" class="w-6 h-6 object-contain" />
         <span class="text-xl font-semibold tracking-tight">
           flow<span class="font-[Pacifico]">j</span>oy
         </span>
