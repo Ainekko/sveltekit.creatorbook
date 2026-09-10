@@ -1,284 +1,189 @@
 <script lang="ts">
-  function scrollToSection(id: string) {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  function scrollToSection(sectionId: string) {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   }
+
+  const projects = [
+    {
+      id: 'elio',
+      badge: 'BUYER-INTENT SYSTEM',
+      badgeBg: 'bg-[#963816]',
+      cardBg: 'bg-[#FAF1E8]',
+      cardBorder: 'border-[#ECDCCF]',
+      textColor: 'text-[#23150D]',
+      subTextColor: 'text-[#5C483D]',
+      primaryBtnBg: 'bg-[#963816] hover:bg-[#802F12] text-white',
+      title: 'A buyer-intent system that turns social discussions into pipeline',
+      description:
+        'It detects conversations where potential buyers are expressing relevant problems, researches and contextualizes them with AI, and delivers actionable, scored outreach directly to your team.',
+      proofLogos: [
+        { src: '/flowjoy/reddit.svg', alt: 'Reddit' },
+        { src: 'https://cdn.simpleicons.org/anthropic/D97757', alt: 'Claude' },
+        { src: '/flowjoy/slack.svg', alt: 'Slack' }
+      ],
+      proofText:
+        'Automated continuous signal detection across 40+ communities, delivering qualified buyer intent directly into Slack in under 60 seconds.',
+      primaryBtnText: 'Explore Elio',
+      secondaryBtnText: 'Case study',
+      image: '/flowjoy/projects/elio-cover.jpg',
+      imageAlt: 'Elio Buyer Intent System'
+    },
+    {
+      id: 'laurie',
+      badge: 'INBOUND CONVERSION SYSTEM',
+      badgeBg: 'bg-[#18533C]',
+      cardBg: 'bg-[#EDF5F0]',
+      cardBorder: 'border-[#D6E7DC]',
+      textColor: 'text-[#0E241B]',
+      subTextColor: 'text-[#3E5A4E]',
+      primaryBtnBg: 'bg-[#18533C] hover:bg-[#124230] text-white',
+      title: 'An inbound conversion system that qualifies and books 24/7',
+      description:
+        'Someone calls, AI handles the interaction with sub-600ms latency, qualifies ICP fit against your rules, schedules the meeting directly on your calendar, and updates your business workflow.',
+      proofLogos: [
+        { src: '/flowjoy/retell.svg', alt: 'Retell AI' },
+        { src: '/flowjoy/twilio.svg', alt: 'Twilio' },
+        { src: 'https://cdn.simpleicons.org/googlecalendar/4285F4', alt: 'Google Calendar' }
+      ],
+      proofText:
+        'Fielded 1,200+ inbound calls with zero dropped rings, sub-600ms conversational response, and instant CRM calendar sync.',
+      primaryBtnText: 'Explore Laurie',
+      secondaryBtnText: 'Voice architecture',
+      image: '/flowjoy/projects/laurie-voice-assistant.jpg',
+      imageAlt: 'Laurie Inbound Voice Assistant'
+    },
+    {
+      id: 'broadr',
+      badge: 'LEAD REACTIVATION SYSTEM',
+      badgeBg: 'bg-[#1A456F]',
+      cardBg: 'bg-[#EDF3F9]',
+      cardBorder: 'border-[#D7E3EE]',
+      textColor: 'text-[#0C1E30]',
+      subTextColor: 'text-[#3B526B]',
+      primaryBtnBg: 'bg-[#1A456F] hover:bg-[#133557] text-white',
+      title: 'A dormant-lead reactivation system for neglected CRM pipeline',
+      description:
+        'Connects to your existing CRM, identifies neglected opportunities, personalizes outreach at scale, contacts via carrier-safe SMS pools, handles responses, and updates the system.',
+      proofLogos: [
+        { src: '/flowjoy/twilio.svg', alt: 'Twilio' },
+        { src: '/flowjoy/make.svg', alt: 'Make' },
+        { src: 'https://cdn.simpleicons.org/hubspot/FF7A59', alt: 'HubSpot' }
+      ],
+      proofText:
+        'Reactivated 3,400+ cold CRM records across 10 rotating 10DLC numbers, generating 142 booked discovery calls with zero carrier flags.',
+      primaryBtnText: 'Explore Broadr',
+      secondaryBtnText: 'SMS engine',
+      image: '/flowjoy/projects/broadr-cover.jpg',
+      imageAlt: 'Broadr SMS Reactivation System'
+    }
+  ];
 </script>
 
-<section id="what-we-built" class="py-24 bg-[#070708] font-[Poppins] text-white border-t border-white/[0.06] relative overflow-hidden">
-  <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-amber-500/[0.02] blur-[140px] pointer-events-none"></div>
+<section id="what-we-built" class="py-24 sm:py-32 bg-[#090A0E] font-[Poppins] text-white relative overflow-hidden">
+
+  <!-- Subtle dark background glow -->
+  <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-amber-500/5 via-blue-500/5 to-transparent blur-[120px] pointer-events-none"></div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-    <!-- Section Header (Clay style: crisp, bold, benefit-based) -->
-    <div class="text-center max-w-2xl mx-auto mb-14">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-medium text-zinc-400 mb-4">
+    <!-- Clean, non-cluttered section header -->
+    <div class="text-center max-w-2xl mx-auto mb-16 sm:mb-20">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/10 text-xs font-medium text-zinc-400 mb-4">
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-        Proof of execution
+        Production Systems
       </div>
       <h2 class="text-3xl sm:text-5xl font-bold text-white tracking-tight leading-tight mb-4">
         Production GTM systems.<br />
         <span class="font-['Instrument_Serif'] italic font-normal text-zinc-400">Not experiments.</span>
       </h2>
       <p class="text-zinc-400 text-sm sm:text-base font-light leading-relaxed">
-        We engineer around your existing stack. Then we hand you the code.
+        Custom revenue engines engineered around your existing stack.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+    <!-- Stack of Clean Clay Cards (Each with distinct color, exactly matching inspiration) -->
+    <div class="space-y-10 sm:space-y-14">
+      {#each projects as project}
+        <div
+          id={project.id}
+          class="rounded-[2.5rem] {project.cardBg} border {project.cardBorder} p-7 sm:p-10 lg:p-14 shadow-2xl transition-all duration-300"
+        >
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
 
-      <!-- ═══════════════════════════════════════ -->
-      <!-- ELIO — Top Left (7 cols)               -->
-      <!-- ═══════════════════════════════════════ -->
-      <div class="lg:col-span-7 relative rounded-[2rem] overflow-hidden bg-[#0D0E11] border border-white/[0.08] shadow-2xl hover:border-amber-500/30 transition-all duration-300 group flex flex-col min-h-[500px]">
-
-        <div class="absolute inset-0 z-0 pointer-events-none">
-          <img src="/flowjoy/elio_cover.jpg" alt="" class="w-full h-full object-cover object-top opacity-10 filter blur-[4px] scale-105 group-hover:opacity-15 transition-all duration-700" />
-          <div class="absolute inset-0 bg-gradient-to-b from-[#0D0E11]/60 via-[#0D0E11]/80 to-[#0D0E11]"></div>
-        </div>
-
-        <div class="relative z-10 flex flex-col flex-1 p-6 sm:p-8">
-          <div class="mb-5">
-            <span class="text-xs font-mono uppercase tracking-wider text-amber-400 font-semibold flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-              Reddit &amp; Social Intent Engine
-            </span>
-          </div>
-
-          <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">Elio</h3>
-          <p class="text-zinc-400 text-sm font-light mb-8 max-w-md leading-relaxed">
-            Buying signal detection from Reddit, X, and job boards delivered to Slack in seconds. Claude 3.5 scores threads and fires pre-drafted outreach straight into your team's channels.
-          </p>
-
-          <!-- Logo visual flow -->
-          <div class="flex-1 flex items-center justify-center my-4">
-            <div class="flex items-center gap-6 sm:gap-10">
-              <div class="flex flex-col items-center gap-2">
-                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center p-3 shadow-lg hover:border-orange-500/40 transition">
-                  <img src="/flowjoy/reddit.svg" alt="Reddit" class="w-full h-full object-contain" />
+            <!-- ─── LEFT: Clay-style specs & copy ─── -->
+            <div class="lg:col-span-6 flex flex-col justify-between {project.textColor}">
+              <div>
+                <!-- Badge Pill (e.g. AGENTS style) -->
+                <div class="mb-5">
+                  <span class="inline-flex items-center px-3.5 py-1 rounded-full {project.badgeBg} text-white text-[11px] font-bold tracking-wider uppercase font-mono shadow-xs">
+                    {project.badge}
+                  </span>
                 </div>
-                <span class="text-[10px] font-mono text-zinc-500">Reddit Signals</span>
-              </div>
 
-              <div class="flex items-center gap-1 pb-5">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-500/40"></span>
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-500/70"></span>
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-500/40"></span>
-              </div>
+                <!-- Display Headline -->
+                <h3 class="text-2xl sm:text-3xl lg:text-[38px] font-bold {project.textColor} tracking-tight leading-[1.15] mb-4">
+                  {project.title}
+                </h3>
 
-              <div class="flex flex-col items-center gap-2">
-                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-[1.25rem] bg-white/[0.08] border border-amber-500/25 flex items-center justify-center p-3.5 shadow-xl shadow-amber-950/30 hover:border-amber-500/50 transition">
-                  <img src="https://cdn.simpleicons.org/anthropic/D97757" alt="Claude" class="w-full h-full object-contain" />
-                </div>
-                <span class="text-[10px] font-mono text-zinc-500">Claude 3.5</span>
-              </div>
+                <!-- Clean paragraph description -->
+                <p class="{project.subTextColor} text-sm sm:text-base leading-relaxed font-light mb-8 max-w-lg">
+                  {project.description}
+                </p>
 
-              <div class="flex items-center gap-1 pb-5">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500/40"></span>
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500/70"></span>
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500/40"></span>
-              </div>
-
-              <div class="flex flex-col items-center gap-2">
-                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center p-3 shadow-lg hover:border-emerald-500/40 transition">
-                  <svg class="w-full h-full" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M27.2 80.6c0 7.3-5.9 13.2-13.2 13.2C6.7 93.8.8 87.9.8 80.6c0-7.3 5.9-13.2 13.2-13.2h13.2v13.2zm6.7 0c0-7.3 5.9-13.2 13.2-13.2 7.3 0 13.2 5.9 13.2 13.2v33.2c0 7.3-5.9 13.2-13.2 13.2-7.3 0-13.2-5.9-13.2-13.2V80.6z" fill="#E01E5A"/>
-                    <path d="M47.1 27.2c-7.3 0-13.2-5.9-13.2-13.2C33.9 6.7 39.8.8 47.1.8c7.3 0 13.2 5.9 13.2 13.2v13.2H47.1zm0 6.7c7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2H13.9C6.6 60.3.7 54.4.7 47.1c0-7.3 5.9-13.2 13.2-13.2h33.2z" fill="#36C5F0"/>
-                    <path d="M100.8 47.1c0-7.3 5.9-13.2 13.2-13.2 7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2h-13.2V47.1zm-6.7 0c0 7.3-5.9 13.2-13.2 13.2-7.3 0-13.2-5.9-13.2-13.2V13.9C80.9 6.6 86.8.7 94.1.7c7.3 0 13.2 5.9 13.2 13.2v33.2z" fill="#2EB67D"/>
-                    <path d="M80.9 100.8c7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2-7.3 0-13.2-5.9-13.2-13.2v-13.2h13.2zm0-6.7c-7.3 0-13.2-5.9-13.2-13.2 0-7.3 5.9-13.2 13.2-13.2h33.2c7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2H80.9z" fill="#ECB22E"/>
-                  </svg>
-                </div>
-                <span class="text-[10px] font-mono text-zinc-500">Slack</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Tags -->
-          <div class="flex flex-wrap gap-2.5 mt-8">
-            <span class="px-3 py-1.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-xs font-mono text-amber-300 flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-              &lt;60s signal to Slack
-            </span>
-            <span class="px-3 py-1.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-xs font-mono text-zinc-300">Automated reply drafts</span>
-            <span class="px-3 py-1.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-xs font-mono text-zinc-300">Full context enrichment</span>
-          </div>
-
-          <div class="pt-5 mt-5 border-t border-white/[0.08] flex items-center justify-between text-xs text-zinc-500">
-            <span>Continuous social intent scanning</span>
-            <button on:click={() => scrollToSection('gtm-teardown')} class="text-white hover:text-amber-400 font-medium transition inline-flex items-center gap-1 cursor-pointer">See pipeline &rarr;</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════════ -->
-      <!-- BROADR — Top Right (5 cols)            -->
-      <!-- ═══════════════════════════════════════ -->
-      <div class="lg:col-span-5 relative rounded-[2rem] overflow-hidden bg-[#0D0E11] border border-white/[0.08] shadow-2xl hover:border-blue-500/30 transition-all duration-300 group flex flex-col min-h-[500px]">
-
-        <div class="absolute inset-0 z-0 pointer-events-none">
-          <img src="/flowjoy/sms_app.jpg" alt="" class="w-full h-full object-cover object-top opacity-10 filter blur-[4px] scale-105 group-hover:opacity-15 transition-all duration-700" />
-          <div class="absolute inset-0 bg-gradient-to-b from-[#0D0E11]/60 via-[#0D0E11]/80 to-[#0D0E11]"></div>
-        </div>
-
-        <div class="relative z-10 flex flex-col flex-1 p-6 sm:p-8">
-          <div class="mb-5">
-            <span class="text-xs font-mono uppercase tracking-wider text-blue-400 font-semibold flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
-              High-throughput outbound engine
-            </span>
-          </div>
-
-          <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">Broadr</h3>
-          <p class="text-zinc-400 text-sm font-light mb-8 max-w-sm leading-relaxed">
-            Re-engages dormant CRM contacts with personalized messaging. Interested replies alert your team in Slack within seconds; unsubscribes are handled automatically.
-          </p>
-
-          <!-- Logo visual -->
-          <div class="flex-1 flex items-center justify-center my-4">
-            <div class="flex items-center gap-5 sm:gap-7">
-              <div class="flex flex-col items-center gap-2">
-                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center p-2.5 shadow-lg hover:border-red-500/40 transition">
-                  <img src="/flowjoy/logos/Twilio/Twilio_idseuPD28S_0.svg" alt="Twilio" class="w-full h-full object-contain" />
-                </div>
-                <span class="text-[10px] font-mono text-zinc-500">Twilio</span>
-              </div>
-
-              <!-- Center 10DLC Pool node -->
-              <div class="flex flex-col items-center gap-2">
-                <div class="relative w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center">
-                  <div class="absolute inset-0 rounded-2xl bg-blue-500/20 filter blur-lg animate-pulse pointer-events-none"></div>
-                  <div class="w-full h-full rounded-2xl bg-[#0A0E17] border border-blue-500/40 shadow-[0_0_20px_rgba(59,130,246,0.25)] flex items-center justify-center">
-                    <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                    </svg>
+                <!-- Mini Proof: 3 Circular Logos + Bold Outcome Quote (Exact Clay design) -->
+                <div class="flex items-center gap-3.5 mb-8">
+                  <div class="flex items-center -space-x-2 shrink-0">
+                    {#each project.proofLogos as logo}
+                      <div class="w-8 h-8 rounded-full bg-white border border-black/10 flex items-center justify-center p-1.5 shadow-xs">
+                        <img src={logo.src} alt={logo.alt} class="w-full h-full object-contain" />
+                      </div>
+                    {/each}
                   </div>
+                  <p class="text-xs {project.subTextColor} leading-snug">
+                    {project.proofText}
+                  </p>
                 </div>
-                <span class="text-[10px] font-mono text-zinc-500">10DLC Pool</span>
               </div>
 
-              <div class="flex flex-col items-center gap-2">
-                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center p-2.5 shadow-lg hover:border-blue-500/40 transition">
-                  <img src="/flowjoy/make.svg" alt="Make" class="w-full h-full object-contain" />
-                </div>
-                <span class="text-[10px] font-mono text-zinc-500">Make</span>
-              </div>
-            </div>
-          </div>
+              <!-- Dual Action Buttons: Primary Colored Pill + Secondary White Pill -->
+              <div class="flex flex-wrap items-center gap-3 pt-2">
+                <button
+                  type="button"
+                  on:click={() => scrollToSection('gtm-teardown')}
+                  class="{project.primaryBtnBg} font-semibold px-6 py-3 rounded-full text-sm flex items-center gap-2 shadow-xs transition hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                >
+                  <span>{project.primaryBtnText}</span>
+                  <span>&rarr;</span>
+                </button>
 
-          <!-- Tags -->
-          <div class="flex flex-wrap gap-2.5 mt-8">
-            <span class="px-3 py-1.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-xs font-mono text-blue-300 flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
-              Multi-DID rotation
-            </span>
-            <span class="px-3 py-1.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-xs font-mono text-zinc-300">Instant DNC sync</span>
-            <span class="px-3 py-1.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-xs font-mono text-zinc-300">Carrier safe</span>
-          </div>
-
-          <div class="pt-5 mt-5 border-t border-white/[0.08] flex items-center justify-between text-xs text-zinc-500">
-            <span>Carrier reputation safe</span>
-            <button on:click={() => scrollToSection('gtm-teardown')} class="text-white hover:text-blue-400 font-medium transition inline-flex items-center gap-1 cursor-pointer">Scope sprint &rarr;</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════════ -->
-      <!-- LAURIE — Bottom Left (7 cols)          -->
-      <!-- ═══════════════════════════════════════ -->
-      <div class="lg:col-span-7 relative rounded-[2rem] overflow-hidden bg-[#0D0E11] border border-white/[0.08] shadow-2xl hover:border-emerald-500/30 transition-all duration-300 group flex flex-col min-h-[460px]">
-
-        <div class="absolute inset-0 z-0 pointer-events-none">
-          <img src="/flowjoy/front_desk_assistant.jpg" alt="" class="w-full h-full object-cover object-top opacity-10 filter blur-[4px] scale-105 group-hover:opacity-15 transition-all duration-700" />
-          <div class="absolute inset-0 bg-gradient-to-b from-[#0D0E11]/60 via-[#0D0E11]/80 to-[#0D0E11]"></div>
-        </div>
-
-        <div class="relative z-10 flex flex-col flex-1 p-6 sm:p-8">
-          <div class="mb-5">
-            <span class="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              Inbound conversational voice AI
-            </span>
-          </div>
-
-          <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">Laurie</h3>
-          <p class="text-zinc-400 text-sm font-light mb-8 max-w-md leading-relaxed">
-            Inbound voice agents that qualify and book meetings 24/7 with zero dropped calls. Answers in sub-600ms, qualifies ICP fit, and syncs full dossiers directly into your CRM.
-          </p>
-
-          <!-- Stepped logos visual -->
-          <div class="flex-1 flex items-center justify-center my-4">
-            <div class="flex items-end gap-5 sm:gap-8">
-              <div class="flex flex-col items-center gap-2 mb-3">
-                <div class="w-13 h-13 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center p-2.5 shadow-lg hover:border-emerald-500/40 transition" style="width:3.25rem;height:3.25rem;">
-                  <img src="/flowjoy/retell.svg" alt="Retell AI" class="w-full h-full object-contain" />
-                </div>
-                <span class="text-[10px] font-mono text-zinc-500">Retell AI</span>
-              </div>
-
-              <div class="flex flex-col items-center gap-2">
-                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-[1.25rem] bg-white/[0.08] border border-emerald-500/25 flex items-center justify-center p-3 shadow-xl shadow-emerald-950/30 hover:border-emerald-500/50 transition">
-                  <img src="/flowjoy/logos/Twilio/Twilio_idseuPD28S_0.svg" alt="Twilio" class="w-full h-full object-contain" />
-                </div>
-                <span class="text-[10px] font-mono text-zinc-500">Twilio</span>
-              </div>
-
-              <div class="flex flex-col items-center gap-2 mb-3">
-                <div class="rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center p-2.5 shadow-lg hover:border-blue-500/40 transition" style="width:3.25rem;height:3.25rem;">
-                  <img src="https://cdn.simpleicons.org/googlecalendar/4285F4" alt="Google Calendar" class="w-full h-full object-contain" />
-                </div>
-                <span class="text-[10px] font-mono text-zinc-500">Google Cal</span>
+                <button
+                  type="button"
+                  on:click={() => scrollToSection('gtm-teardown')}
+                  class="bg-white hover:bg-white/90 text-zinc-900 border border-black/10 font-medium px-5 py-3 rounded-full text-sm shadow-xs transition cursor-pointer"
+                >
+                  {project.secondaryBtnText}
+                </button>
               </div>
             </div>
-          </div>
 
-          <!-- Tags -->
-          <div class="flex flex-wrap gap-2.5 mt-8">
-            <span class="px-3 py-1.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-xs font-mono text-emerald-300 flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              Sub-600ms latency
-            </span>
-            <span class="px-3 py-1.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-xs font-mono text-zinc-300">Auto calendar booking</span>
-            <span class="px-3 py-1.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-xs font-mono text-zinc-300">CRM transcript sync</span>
-          </div>
+            <!-- ─── RIGHT: Clean Large Visual Window (Exact Clay frame) ─── -->
+            <div class="lg:col-span-6">
+              <div class="rounded-[2rem] overflow-hidden bg-white/70 border border-black/5 shadow-xl aspect-[4/3] sm:aspect-[16/11] relative group">
+                <img
+                  src={project.image}
+                  alt={project.imageAlt}
+                  class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+            </div>
 
-          <div class="pt-5 mt-5 border-t border-white/[0.08] flex items-center justify-between text-xs text-zinc-500">
-            <span>Active 24/7/365 &bull; Real-time qualification</span>
-            <button on:click={() => scrollToSection('gtm-teardown')} class="text-white hover:text-emerald-400 font-medium transition inline-flex items-center gap-1 cursor-pointer">See voice architecture &rarr;</button>
           </div>
         </div>
-      </div>
-
-      <!-- ═══════════════════════════════════════ -->
-      <!-- TEARDOWN CTA — Bottom Right (5 cols)   -->
-      <!-- ═══════════════════════════════════════ -->
-      <div
-        class="lg:col-span-5 rounded-[2rem] p-7 sm:p-8 shadow-2xl flex flex-col justify-between relative overflow-hidden min-h-[460px]"
-        style="background: linear-gradient(135deg, #F9B233 0%, #EAA224 45%, #F5C564 100%);"
-      >
-        <div>
-          <span class="text-xs font-mono uppercase tracking-wider text-zinc-900/80 font-bold block mb-2">Free Architecture Teardown</span>
-          <h3 class="text-2xl sm:text-3xl font-bold text-zinc-950 tracking-tight leading-snug mb-3">Have a broken GTM workflow?</h3>
-          <p class="text-zinc-900/85 text-xs sm:text-sm font-normal leading-relaxed mb-6">
-            Tell us where your revenue process stalls. We'll inspect your stack and deliver a proposed architecture and prototype.
-          </p>
-          <div class="space-y-2.5 mb-6 text-xs text-zinc-900/90 font-medium">
-            <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-zinc-950"></span>Shipped in 2–4 weeks to production</div>
-            <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-zinc-950"></span>You own 100% of the code &amp; pipelines</div>
-            <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-zinc-950"></span>Zero distraction for your core eng team</div>
-          </div>
-        </div>
-        <div>
-          <button
-            on:click={() => scrollToSection('gtm-teardown')}
-            class="w-full bg-zinc-950 text-white font-semibold py-3.5 px-6 rounded-xl shadow-xl hover:bg-black transition-all text-sm flex items-center justify-center gap-2 cursor-pointer"
-          >
-            Get a free GTM teardown
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-          </button>
-          <p class="text-[11px] text-zinc-900/70 text-center mt-2.5 font-medium">15-min call &bull; Zero spam &bull; You keep the architecture</p>
-        </div>
-      </div>
-
+      {/each}
     </div>
+
   </div>
 </section>
