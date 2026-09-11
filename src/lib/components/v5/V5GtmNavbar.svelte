@@ -33,6 +33,9 @@
         <button on:click={() => scrollToSection('who-its-for')} class="text-zinc-600 hover:text-zinc-950 text-sm font-medium transition rounded-xl px-4 py-2 hover:bg-zinc-50 cursor-pointer">
           Who It's For
         </button>
+        <button on:click={() => scrollToSection('who-we-are')} class="text-zinc-600 hover:text-zinc-950 text-sm font-medium transition rounded-xl px-4 py-2 hover:bg-zinc-50 cursor-pointer">
+          Team
+        </button>
         <button on:click={() => scrollToSection('how-it-works')} class="text-zinc-600 hover:text-zinc-950 text-sm font-medium transition rounded-xl px-4 py-2 hover:bg-zinc-50 cursor-pointer">
           How It Works
         </button>
@@ -90,6 +93,9 @@
       </button>
       <button on:click={() => scrollToSection('who-its-for')} class="text-zinc-800 hover:text-zinc-950 hover:bg-zinc-50 text-base font-medium transition rounded-xl px-4 py-3 text-left cursor-pointer">
         Who It's For
+      </button>
+      <button on:click={() => scrollToSection('who-we-are')} class="text-zinc-800 hover:text-zinc-950 hover:bg-zinc-50 text-base font-medium transition rounded-xl px-4 py-3 text-left cursor-pointer">
+        Team & Values
       </button>
       <button on:click={() => scrollToSection('how-it-works')} class="text-zinc-800 hover:text-zinc-950 hover:bg-zinc-50 text-base font-medium transition rounded-xl px-4 py-3 text-left cursor-pointer">
         How It Works

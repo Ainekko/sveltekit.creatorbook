@@ -5,6 +5,7 @@
   import V5GtmStatBanner from '$lib/components/v5/V5GtmStatBanner.svelte';
   import OurWorkBentoV5 from '$lib/components/v5/OurWorkBentoV5.svelte';
   import V5GtmWhoIsFor from '$lib/components/v5/V5GtmWhoIsFor.svelte';
+  import V5TeamAndValues from '$lib/components/v5/V5TeamAndValues.svelte';
   import V5HowItWorks from '$lib/components/v5/V5HowItWorks.svelte';
   import V5OfferPricing from '$lib/components/v5/V5OfferPricing.svelte';
   import V5TeardownCTA from '$lib/components/v5/V5TeardownCTA.svelte';
@@ -39,16 +40,19 @@
   <!-- 5. For Whom -->
   <V5GtmWhoIsFor />
 
-  <!-- 6. How It Works -->
+  <!-- 6. Who We Are as a Team & Core Values (Clay Bento Cards on Dark) -->
+  <V5TeamAndValues />
+
+  <!-- 7. How It Works -->
   <V5HowItWorks />
 
-  <!-- 7. Pricing: GTM engineering without the hire -->
+  <!-- 8. Pricing: GTM engineering without the hire -->
   <V5OfferPricing />
 
-  <!-- 8. Final CTA: Stop waiting to hire a GTME -->
+  <!-- 9. Final CTA: Stop waiting to hire a GTME -->
   <V5TeardownCTA />
 
-  <!-- 9. Footer -->
+  <!-- 10. Footer -->
   <V5GtmFooter />
 </main>
 
