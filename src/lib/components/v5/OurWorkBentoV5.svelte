@@ -1,9 +1,18 @@
 <script lang="ts">
-  function scrollToSection(sectionId: string) {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  import { onMount } from 'svelte';
+
+  let s: HTMLElement;
+  let v = false;
+
+  onMount(() => {
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { v = true; o.disconnect(); } }, { threshold: 0.05 });
+    o.observe(s);
+    return () => o.disconnect();
+  });
+
+  function scrollToSection(id: string) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   }
 
   const projects = [
@@ -85,15 +94,18 @@
   ];
 </script>
 
-<section id="what-we-built" class="py-24 sm:py-32 bg-[#090A0E] font-[Poppins] text-white relative overflow-hidden">
+<section id="what-we-built" bind:this={s} class="py-24 sm:py-32 bg-[#090A0E] font-[Poppins] text-white relative overflow-hidden">
 
   <!-- Subtle dark background glow -->
   <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-amber-500/5 via-blue-500/5 to-transparent blur-[120px] pointer-events-none"></div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-    <!-- Clean, non-cluttered section header -->
-    <div class="text-center max-w-2xl mx-auto mb-16 sm:mb-20">
+    <!-- Section header -->
+    <div
+      class="text-center max-w-2xl mx-auto mb-16 sm:mb-20"
+      style="opacity:{v?1:0};transform:translateY({v?0:28}px);transition:opacity .7s ease,transform .7s ease"
+    >
       <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/10 text-xs font-medium text-zinc-400 mb-4">
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
         Production Systems
@@ -107,19 +119,20 @@
       </p>
     </div>
 
-    <!-- Stack of Clean Clay Cards (Each with distinct color, exactly matching inspiration) -->
+    <!-- Stack of cards -->
     <div class="space-y-10 sm:space-y-14">
-      {#each projects as project}
+      {#each projects as project, i}
         <div
           id={project.id}
           class="rounded-[2.5rem] {project.cardBg} border {project.cardBorder} p-7 sm:p-10 lg:p-14 shadow-2xl transition-all duration-300"
+          style="opacity:{v?1:0};transform:translateY({v?0:40}px);transition:opacity .7s ease {i*150}ms,transform .7s ease {i*150}ms"
         >
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
 
             <!-- ─── LEFT: Clay-style specs & copy ─── -->
             <div class="lg:col-span-6 flex flex-col justify-between {project.textColor}">
               <div>
-                <!-- Badge Pill (e.g. AGENTS style) -->
+                <!-- Badge Pill -->
                 <div class="mb-5">
                   <span class="inline-flex items-center px-3.5 py-1 rounded-full {project.badgeBg} text-white text-[11px] font-bold tracking-wider uppercase font-mono shadow-xs">
                     {project.badge}
@@ -136,7 +149,7 @@
                   {project.description}
                 </p>
 
-                <!-- Mini Proof: 3 Circular Logos + Bold Outcome Quote (Exact Clay design) -->
+                <!-- Mini Proof -->
                 <div class="flex items-center gap-3.5 mb-8">
                   <div class="flex items-center -space-x-2 shrink-0">
                     {#each project.proofLogos as logo}
@@ -151,7 +164,7 @@
                 </div>
               </div>
 
-              <!-- Dual Action Buttons: Primary Colored Pill + Secondary White Pill -->
+              <!-- Dual Action Buttons -->
               <div class="flex flex-wrap items-center gap-3 pt-2">
                 <button
                   type="button"
@@ -172,7 +185,7 @@
               </div>
             </div>
 
-            <!-- ─── RIGHT: Clean Large Visual Window (Exact Clay frame) ─── -->
+            <!-- ─── RIGHT: Clean Large Visual Window ─── -->
             <div class="lg:col-span-6">
               <div class="rounded-[2rem] overflow-hidden bg-white/70 border border-black/5 shadow-xl aspect-[4/3] sm:aspect-[16/11] relative group">
                 <picture class="w-full h-full">

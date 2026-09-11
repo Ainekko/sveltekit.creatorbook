@@ -1,23 +1,39 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+
+  let s1: HTMLElement;
+  let s2: HTMLElement;
+  let v1 = false;
+  let v2 = false;
+
+  onMount(() => {
+    const obs = (el: HTMLElement, setter: () => void) => {
+      const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setter(); o.disconnect(); } }, { threshold: 0.05 });
+      o.observe(el);
+      return o;
+    };
+    const o1 = obs(s1, () => v1 = true);
+    const o2 = obs(s2, () => v2 = true);
+    return () => { o1.disconnect(); o2.disconnect(); };
+  });
+
   function scrollToSection(sectionId: string) {
     const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (element) element.scrollIntoView({ behavior: 'smooth' });
   }
 </script>
 
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- 1. WHO WE ARE AS A TEAM (White Background)                            -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<section id="who-we-are" class="py-20 sm:py-28 bg-white font-[Poppins] text-zinc-900 border-t border-zinc-100 relative overflow-hidden">
+<!-- WHO WE ARE AS A TEAM (White Background) -->
+<section id="who-we-are" bind:this={s1} class="py-20 sm:py-28 bg-white font-[Poppins] text-zinc-900 border-t border-zinc-100 relative overflow-hidden">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-    <!-- Outer Card -->
-    <div class="rounded-[2.5rem] bg-[#F4F7FB] border border-[#DCE5EF] p-8 sm:p-12 lg:p-14 shadow-lg text-[#0C1E30] transition-all duration-300">
+    <div
+      class="rounded-[2.5rem] bg-[#F4F7FB] border border-[#DCE5EF] p-8 sm:p-12 lg:p-14 shadow-lg text-[#0C1E30] transition-all duration-300"
+      style="opacity:{v1?1:0};transform:translateY({v1?0:32}px);transition:opacity .7s ease,transform .7s ease"
+    >
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
 
-        <!-- ─── LEFT (5 cols): Pitch & Positioning ─── -->
+        <!-- LEFT -->
         <div class="lg:col-span-5 flex flex-col justify-between">
           <div>
             <div class="mb-4">
@@ -54,34 +70,31 @@
           </div>
         </div>
 
-        <!-- ─── RIGHT (7 cols): Hafid & Xander Profiles ─── -->
+        <!-- RIGHT: Hafid & Xander -->
         <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5">
-          
+
           <!-- Hafid -->
-          <div class="bg-white rounded-3xl p-6 sm:p-7 border border-[#DCE5EF] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between">
+          <div
+            class="bg-white rounded-3xl p-6 sm:p-7 border border-[#DCE5EF] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+            style="opacity:{v1?1:0};transform:translateY({v1?0:24}px);transition:opacity .6s ease .15s,transform .6s ease .15s"
+          >
             <div>
               <div class="flex items-center gap-3.5 mb-4">
                 <div class="w-13 h-13 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-700 text-white font-bold text-xl flex items-center justify-center shadow-md shrink-0">
                   H
                 </div>
                 <div>
-                  <h3 class="text-xl font-bold text-zinc-900 tracking-tight leading-none">
-                    Hafid
-                  </h3>
+                  <h3 class="text-xl font-bold text-zinc-900 tracking-tight leading-none">Hafid</h3>
                   <span class="text-xs font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md mt-1 inline-block">
                     The Engineer
                   </span>
                 </div>
               </div>
-
-              <p class="text-xs font-medium text-zinc-500 mb-2">
-                Engineer with a love for marketing
-              </p>
+              <p class="text-xs font-medium text-zinc-500 mb-2">Engineer with a love for marketing</p>
               <p class="text-xs text-zinc-600 font-light leading-relaxed">
                 Builds the scrapers, webhooks, sub-second API pipelines, and LLM scoring systems that eliminate manual data entry.
               </p>
             </div>
-
             <div class="pt-4 mt-5 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-400">
               <span>Stack: Python &bull; APIs &bull; LLMs</span>
               <span class="text-emerald-700 font-semibold">Pipelines</span>
@@ -89,30 +102,27 @@
           </div>
 
           <!-- Xander -->
-          <div class="bg-white rounded-3xl p-6 sm:p-7 border border-[#DCE5EF] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between">
+          <div
+            class="bg-white rounded-3xl p-6 sm:p-7 border border-[#DCE5EF] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+            style="opacity:{v1?1:0};transform:translateY({v1?0:24}px);transition:opacity .6s ease .3s,transform .6s ease .3s"
+          >
             <div>
               <div class="flex items-center gap-3.5 mb-4">
                 <div class="w-13 h-13 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-800 text-white font-bold text-xl flex items-center justify-center shadow-md shrink-0">
                   X
                 </div>
                 <div>
-                  <h3 class="text-xl font-bold text-zinc-900 tracking-tight leading-none">
-                    Xander
-                  </h3>
+                  <h3 class="text-xl font-bold text-zinc-900 tracking-tight leading-none">Xander</h3>
                   <span class="text-xs font-semibold text-blue-800 bg-blue-50 px-2 py-0.5 rounded-md mt-1 inline-block">
                     Former Sales Guy
                   </span>
                 </div>
               </div>
-
-              <p class="text-xs font-medium text-zinc-500 mb-2">
-                Quota carrier &amp; outbound strategist
-              </p>
+              <p class="text-xs font-medium text-zinc-500 mb-2">Quota carrier &amp; outbound strategist</p>
               <p class="text-xs text-zinc-600 font-light leading-relaxed">
                 Carried quota and dialed thousands of prospects. Ensures every automated touchpoint reads like a high-conviction conversation.
               </p>
             </div>
-
             <div class="pt-4 mt-5 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-400">
               <span>Focus: Psychology &bull; Offer &bull; Angles</span>
               <span class="text-blue-700 font-semibold">Conversions</span>
@@ -120,25 +130,25 @@
           </div>
 
         </div>
-
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- 2. OUR CORE VALUES (Dark Background)                                  -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<section id="our-values" class="py-24 sm:py-32 bg-[#090A0E] font-[Poppins] text-white border-t border-b border-white/[0.06] relative overflow-hidden">
+<!-- OUR CORE VALUES (Dark Background) -->
+<section id="our-values" bind:this={s2} class="py-24 sm:py-32 bg-[#090A0E] font-[Poppins] text-white border-t border-b border-white/[0.06] relative overflow-hidden">
   <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[550px] bg-gradient-to-b from-amber-500/5 via-blue-500/5 to-transparent blur-[130px] pointer-events-none"></div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-    <!-- ── Outer card: header zone + cards zone, one cohesive block ── -->
-    <div class="rounded-[2.5rem] overflow-hidden border border-white/[0.08] shadow-2xl">
+    <!-- Outer card -->
+    <div
+      class="rounded-[2.5rem] overflow-hidden border border-white/[0.08] shadow-2xl"
+      style="opacity:{v2?1:0};transform:translateY({v2?0:32}px);transition:opacity .7s ease,transform .7s ease"
+    >
 
-      <!-- Top: text header on white/light bg -->
+      <!-- Top: text header -->
       <div class="bg-[#F5F4F0] px-8 sm:px-12 pt-10 pb-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-end">
         <div>
           <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/[0.07] border border-zinc-900/10 text-xs font-medium text-zinc-500 mb-5">
@@ -159,14 +169,16 @@
         </div>
       </div>
 
-      <!-- Bottom: cards zone on sand/warm bg -->
+      <!-- Bottom: cards zone -->
       <div class="bg-[#E8E4DC] px-6 sm:px-10 pt-8 pb-8">
 
-        <!-- 4 Value Cards -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-4">
 
           <!-- 1. Speed with AI (7 cols) -->
-          <div class="lg:col-span-7 rounded-3xl bg-[#FAF1E8] border border-[#ECDCCF] p-7 sm:p-9 flex flex-col justify-between">
+          <div
+            class="lg:col-span-7 rounded-3xl bg-[#FAF1E8] border border-[#ECDCCF] p-7 sm:p-9 flex flex-col justify-between"
+            style="opacity:{v2?1:0};transform:translateY({v2?0:28}px);transition:opacity .6s ease .15s,transform .6s ease .15s"
+          >
             <div>
               <div class="flex items-center justify-between mb-4">
                 <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-white bg-[#963816] px-3 py-1 rounded-full">
@@ -188,7 +200,10 @@
           </div>
 
           <!-- 2. Right tools (5 cols) -->
-          <div class="lg:col-span-5 rounded-3xl bg-[#EDF5F0] border border-[#D6E7DC] p-7 sm:p-9 flex flex-col justify-between">
+          <div
+            class="lg:col-span-5 rounded-3xl bg-[#EDF5F0] border border-[#D6E7DC] p-7 sm:p-9 flex flex-col justify-between"
+            style="opacity:{v2?1:0};transform:translateY({v2?0:28}px);transition:opacity .6s ease .25s,transform .6s ease .25s"
+          >
             <div>
               <div class="flex items-center justify-between mb-4">
                 <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-white bg-[#18533C] px-3 py-1 rounded-full">
@@ -210,7 +225,10 @@
           </div>
 
           <!-- 3. Brand reputation (5 cols) -->
-          <div class="lg:col-span-5 rounded-3xl bg-[#EDF3F9] border border-[#D7E3EE] p-7 sm:p-9 flex flex-col justify-between">
+          <div
+            class="lg:col-span-5 rounded-3xl bg-[#EDF3F9] border border-[#D7E3EE] p-7 sm:p-9 flex flex-col justify-between"
+            style="opacity:{v2?1:0};transform:translateY({v2?0:28}px);transition:opacity .6s ease .35s,transform .6s ease .35s"
+          >
             <div>
               <div class="flex items-center justify-between mb-4">
                 <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-white bg-[#1A456F] px-3 py-1 rounded-full">
@@ -232,7 +250,10 @@
           </div>
 
           <!-- 4. AI grunt work (7 cols) -->
-          <div class="lg:col-span-7 rounded-3xl bg-[#FAF5FE] border border-[#E9DDF8] p-7 sm:p-9 flex flex-col justify-between">
+          <div
+            class="lg:col-span-7 rounded-3xl bg-[#FAF5FE] border border-[#E9DDF8] p-7 sm:p-9 flex flex-col justify-between"
+            style="opacity:{v2?1:0};transform:translateY({v2?0:28}px);transition:opacity .6s ease .45s,transform .6s ease .45s"
+          >
             <div>
               <div class="flex items-center justify-between mb-4">
                 <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-white bg-[#6D28D9] px-3 py-1 rounded-full">
@@ -256,8 +277,11 @@
 
         </div>
 
-        <!-- 5. Human-to-Human — full width, untouched content -->
-        <div class="rounded-3xl bg-[#FFF9F2] border border-[#FDE6D2] p-7 sm:p-9">
+        <!-- Human-to-Human -->
+        <div
+          class="rounded-3xl bg-[#FFF9F2] border border-[#FDE6D2] p-7 sm:p-9"
+          style="opacity:{v2?1:0};transform:translateY({v2?0:28}px);transition:opacity .6s ease .55s,transform .6s ease .55s"
+        >
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
             <div class="max-w-2xl">
               <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-white bg-[#B45309] px-3 py-1 rounded-full mb-3 inline-block shadow-xs">

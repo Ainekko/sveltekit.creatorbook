@@ -1,22 +1,36 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+
+  let s: HTMLElement;
+  let v = false;
+
+  onMount(() => {
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { v = true; o.disconnect(); } }, { threshold: 0.05 });
+    o.observe(s);
+    return () => o.disconnect();
+  });
+
   function scrollToSection(id: string) {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   }
 </script>
 
-<section id="problem" class="py-24 sm:py-32 bg-white font-[Poppins] text-zinc-900 border-t border-zinc-100 relative">
+<section id="problem" bind:this={s} class="py-24 sm:py-32 bg-white font-[Poppins] text-zinc-900 border-t border-zinc-100 relative">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    <!-- ─── SECTION HEADER (Clay style: crisp display type on white) ─── -->
-    <div class="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+    <!-- SECTION HEADER -->
+    <div
+      class="text-center max-w-3xl mx-auto mb-16 sm:mb-20"
+      style="opacity:{v?1:0};transform:translateY({v?0:28}px);transition:opacity .7s ease,transform .7s ease"
+    >
       <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200/70 text-xs font-semibold text-rose-800 mb-5">
         <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
         The Revenue Bottlenecks
       </div>
 
       <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-zinc-950 tracking-tight leading-[1.08] mb-6">
-        More reps won’t fix<br />
+        More reps won't fix<br />
         <span class="font-['Instrument_Serif'] italic font-normal text-zinc-500">
           broken systems.
         </span>
@@ -27,15 +41,15 @@
       </p>
     </div>
 
-    <!-- ─── CLAY-INSPIRED BENTO GRID ─── -->
+    <!-- CLAY-INSPIRED BENTO GRID -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mb-16">
 
-      <!-- ════════════════════════════════════════════════════════════════════ -->
-      <!-- BENTO CARD 1 (Top Left, 7 cols): Account Intelligence (Wide)         -->
-      <!-- ════════════════════════════════════════════════════════════════════ -->
-      <div class="lg:col-span-7 rounded-[2.5rem] bg-[#FAF5EE] border border-[#EBDCCF] p-7 sm:p-10 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300">
+      <!-- BENTO CARD 1 (7 cols) -->
+      <div
+        class="lg:col-span-7 rounded-[2.5rem] bg-[#FAF5EE] border border-[#EBDCCF] p-7 sm:p-10 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300"
+        style="opacity:{v?1:0};transform:translateY({v?0:36}px);transition:opacity .65s ease .1s,transform .65s ease .1s"
+      >
         <div>
-          <!-- Tag & Logos Header -->
           <div class="flex items-center justify-between gap-4 mb-6">
             <span class="inline-flex items-center px-3 py-1 rounded-full bg-[#963816] text-white text-[11px] font-mono font-bold tracking-wider uppercase shadow-2xs">
               ACCOUNT INTELLIGENCE
@@ -61,7 +75,6 @@
           </p>
         </div>
 
-        <!-- The Sarah Jenkins CRM Dossier Illustration from version 1 -->
         <div class="rounded-2xl bg-white p-5 sm:p-6 shadow-sm border border-amber-200/60 mt-2">
           <div class="flex items-start justify-between gap-3 mb-3">
             <div class="flex items-center gap-3">
@@ -90,7 +103,7 @@
           </div>
 
           <div class="flex items-center justify-between text-[11px] text-zinc-500 pt-2 border-t border-zinc-100">
-            <span>Verified work phone & email</span>
+            <span>Verified work phone &amp; email</span>
             <span class="text-emerald-700 font-semibold flex items-center gap-1">
               Synced directly to HubSpot CRM
               <svg class="w-3.5 h-3.5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
@@ -99,12 +112,12 @@
         </div>
       </div>
 
-      <!-- ════════════════════════════════════════════════════════════════════ -->
-      <!-- BENTO CARD 2 (Top Right, 5 cols): Intent Signals (Slack Alert)       -->
-      <!-- ════════════════════════════════════════════════════════════════════ -->
-      <div class="lg:col-span-5 rounded-[2.5rem] bg-[#FAF5FE] border border-[#E9DDF8] p-7 sm:p-9 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300">
+      <!-- BENTO CARD 2 (5 cols) -->
+      <div
+        class="lg:col-span-5 rounded-[2.5rem] bg-[#FAF5FE] border border-[#E9DDF8] p-7 sm:p-9 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300"
+        style="opacity:{v?1:0};transform:translateY({v?0:36}px);transition:opacity .65s ease .2s,transform .65s ease .2s"
+      >
         <div>
-          <!-- Tag & Logos Header -->
           <div class="flex items-center justify-between gap-4 mb-5">
             <span class="inline-flex items-center px-3 py-1 rounded-full bg-[#6D28D9] text-white text-[11px] font-mono font-bold tracking-wider uppercase shadow-2xs">
               BUYER INTENT
@@ -127,7 +140,6 @@
           </p>
         </div>
 
-        <!-- The David Chen Slack Alert Illustration from version 1 -->
         <div class="rounded-2xl bg-white p-4 sm:p-5 shadow-sm border border-violet-100 mt-2">
           <div class="flex items-center justify-between pb-2.5 mb-2.5 border-b border-zinc-100">
             <div class="flex items-center gap-2">
@@ -160,12 +172,12 @@
         </div>
       </div>
 
-      <!-- ════════════════════════════════════════════════════════════════════ -->
-      <!-- BENTO CARD 3 (Bottom Left, 5 cols): Inbound Voice (Twilio + Cal)     -->
-      <!-- ════════════════════════════════════════════════════════════════════ -->
-      <div class="lg:col-span-5 rounded-[2.5rem] bg-[#F3FAF6] border border-[#D5EFE3] p-7 sm:p-9 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300">
+      <!-- BENTO CARD 3 (5 cols) -->
+      <div
+        class="lg:col-span-5 rounded-[2.5rem] bg-[#F3FAF6] border border-[#D5EFE3] p-7 sm:p-9 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300"
+        style="opacity:{v?1:0};transform:translateY({v?0:36}px);transition:opacity .65s ease .3s,transform .65s ease .3s"
+      >
         <div>
-          <!-- Tag & Logos Header -->
           <div class="flex items-center justify-between gap-4 mb-5">
             <span class="inline-flex items-center px-3 py-1 rounded-full bg-[#18533C] text-white text-[11px] font-mono font-bold tracking-wider uppercase shadow-2xs">
               SPEED-TO-LEAD
@@ -191,7 +203,6 @@
           </p>
         </div>
 
-        <!-- The Marcus Vance Booked Meeting Illustration from version 1 -->
         <div class="rounded-2xl bg-white p-4 sm:p-5 shadow-sm border border-emerald-100 mt-2">
           <div class="flex items-center justify-between pb-2.5 mb-2.5 border-b border-zinc-100">
             <div class="flex items-center gap-2">
@@ -213,19 +224,19 @@
               <strong>AI Qualification:</strong> $2M ARR, 25-person team, looking for automated GTM pipelines to replace manual research.
             </div>
             <div class="flex items-center justify-between pt-1 text-[11px] text-zinc-500">
-              <span>Synced to Calendar & CRM</span>
+              <span>Synced to Calendar &amp; CRM</span>
               <span class="text-emerald-700 font-semibold">Zero dropped calls</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ════════════════════════════════════════════════════════════════════ -->
-      <!-- BENTO CARD 4 (Bottom Right, 7 cols): Dormant CRM Reactivation (Wide)  -->
-      <!-- ════════════════════════════════════════════════════════════════════ -->
-      <div class="lg:col-span-7 rounded-[2.5rem] bg-[#F1F6FB] border border-[#D9E6F2] p-7 sm:p-10 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300">
+      <!-- BENTO CARD 4 (7 cols) -->
+      <div
+        class="lg:col-span-7 rounded-[2.5rem] bg-[#F1F6FB] border border-[#D9E6F2] p-7 sm:p-10 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300"
+        style="opacity:{v?1:0};transform:translateY({v?0:36}px);transition:opacity .65s ease .4s,transform .65s ease .4s"
+      >
         <div>
-          <!-- Tag & Logos Header -->
           <div class="flex items-center justify-between gap-4 mb-6">
             <span class="inline-flex items-center px-3 py-1 rounded-full bg-[#1A456F] text-white text-[11px] font-mono font-bold tracking-wider uppercase shadow-2xs">
               CRM REACTIVATION
@@ -251,7 +262,6 @@
           </p>
         </div>
 
-        <!-- The SMS Reactivation Illustration -->
         <div class="rounded-2xl bg-white p-5 sm:p-6 shadow-sm border border-blue-100 mt-2">
           <div class="flex items-center justify-between pb-3 mb-3 border-b border-zinc-100">
             <div class="flex items-center gap-2">
@@ -283,12 +293,13 @@
     </div>
 
     <!-- BOTTOM POSITIONING BAR -->
-    <div class="relative overflow-hidden rounded-3xl bg-zinc-950 text-white p-8 sm:p-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 sm:gap-8 shadow-xl border border-zinc-800/80">
-      <!-- Subtle ambient emerald glow echoing the logo -->
+    <div
+      class="relative overflow-hidden rounded-3xl bg-zinc-950 text-white p-8 sm:p-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 sm:gap-8 shadow-xl border border-zinc-800/80"
+      style="opacity:{v?1:0};transform:translateY({v?0:24}px);transition:opacity .7s ease .5s,transform .7s ease .5s"
+    >
       <div class="absolute -left-10 -top-10 w-56 h-56 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
       <div class="relative z-10 flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-6">
-        <!-- Flowjoy Green Logo -->
         <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-zinc-900/90 border border-zinc-800 p-2.5 sm:p-3 flex items-center justify-center shrink-0 shadow-lg shadow-black/50">
           <img src="/logo-green.png" alt="Flowjoy" class="w-full h-full object-contain" />
         </div>

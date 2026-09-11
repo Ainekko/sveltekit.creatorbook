@@ -1,4 +1,15 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+
+  let s: HTMLElement;
+  let v = false;
+
+  onMount(() => {
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { v = true; o.disconnect(); } }, { threshold: 0.05 });
+    o.observe(s);
+    return () => o.disconnect();
+  });
+
   const steps = [
     {
       num: '01',
@@ -24,10 +35,13 @@
   ];
 </script>
 
-<section id="how-it-works" class="py-24 bg-[#09090A] font-[Poppins] text-white border-t border-[#2C2420] relative">
+<section id="how-it-works" bind:this={s} class="py-24 bg-[#09090A] font-[Poppins] text-white border-t border-[#2C2420] relative">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    <div class="text-center mb-16">
+    <div
+      class="text-center mb-16"
+      style="opacity:{v?1:0};transform:translateY({v?0:28}px);transition:opacity .7s ease,transform .7s ease"
+    >
       <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.06] border border-white/10 text-sm font-medium text-zinc-400 mb-6">
         <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
         How It Works
@@ -43,8 +57,11 @@
 
     <!-- 3 Step Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {#each steps as step}
-        <div class="flex flex-col justify-between p-8 rounded-3xl bg-[#1C1714] border border-[#2C2420] hover:border-[#5C4435] transition duration-300">
+      {#each steps as step, i}
+        <div
+          class="flex flex-col justify-between p-8 rounded-3xl bg-[#1C1714] border border-[#2C2420] hover:border-[#5C4435] transition duration-300"
+          style="opacity:{v?1:0};transform:translateY({v?0:36}px);transition:opacity .65s ease {i*120}ms,transform .65s ease {i*120}ms"
+        >
           <div>
             <div class="flex items-center justify-between mb-6">
               <span class="font-['Instrument_Serif'] italic text-4xl text-amber-400">{step.num}</span>
