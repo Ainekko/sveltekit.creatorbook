@@ -19,68 +19,54 @@
 <section id="problem" bind:this={s} class="py-16 sm:py-24 lg:py-32 bg-white font-[Poppins] text-zinc-900 border-t border-zinc-100 relative w-full overflow-hidden">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    <!-- SECTION HEADER: Full-width, two-part layout -->
+    <!-- SECTION HEADER WITH CREATIVE PUFFY PILL BLOCKS -->
     <div
-      class="mb-12 sm:mb-16 lg:mb-20"
+      class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-12 sm:mb-16 lg:mb-20"
       style="opacity:{v?1:0};transform:translateY({v?0:28}px);transition:opacity .7s ease,transform .7s ease"
     >
-      <!-- Top label -->
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200/70 text-xs font-semibold text-rose-800 mb-6">
-        <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
-        The Revenue Bottlenecks
+      <!-- Left: Title & Sub -->
+      <div class="lg:col-span-7">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200/70 text-xs font-semibold text-rose-800 mb-4 sm:mb-5">
+          <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+          The Revenue Bottlenecks
+        </div>
+
+        <h2 class="text-3xl sm:text-5xl lg:text-6xl font-bold text-zinc-950 tracking-tight leading-[1.08] mb-4 sm:mb-6">
+          More reps won't fix<br />
+          <span class="font-['Instrument_Serif'] italic font-normal text-zinc-500">
+            broken systems.
+          </span>
+        </h2>
+
+        <p class="text-zinc-600 text-sm sm:text-base lg:text-lg leading-relaxed font-light max-w-xl">
+          Companies don't need more GTM tools. You have revenue bottlenecks your existing people, data, and software aren't solving.
+        </p>
       </div>
 
-      <!-- Two-column: Headline left, creative pill block right -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-end">
-
-        <!-- Left: Punchy single headline — no duplicate pill text -->
-        <div class="lg:col-span-6">
-          <h2 class="text-3xl sm:text-5xl lg:text-6xl font-bold text-zinc-950 tracking-tight leading-[1.08] mb-4 sm:mb-6">
-            Broken systems.<br />
-            <span class="font-['Instrument_Serif'] italic font-normal text-zinc-500">
-              Not broken teams.
-            </span>
-          </h2>
-          <p class="text-zinc-600 text-sm sm:text-base lg:text-lg leading-relaxed font-light max-w-xl">
-            Companies don't need more GTM tools. You have revenue bottlenecks your existing people, data, and software aren't solving.
-          </p>
+      <!-- Right: 4 Bottleneck Category Pills -->
+      <div class="lg:col-span-5 flex flex-col items-center lg:items-end justify-center select-none gap-2.5">
+        <div class="flex items-center gap-2 sm:gap-3">
+          <span class="px-5 py-2.5 sm:px-6 sm:py-3 rounded-2xl sm:rounded-3xl bg-[#963816] text-white text-sm sm:text-base font-black shadow-md -rotate-1">
+            Account Intelligence
+          </span>
+          <span class="px-5 py-2.5 sm:px-6 sm:py-3 rounded-2xl sm:rounded-3xl bg-[#6D28D9] text-white text-sm sm:text-base font-black shadow-md rotate-1">
+            Buyer Intent
+          </span>
         </div>
-
-        <!-- Right: Creative "Zero agency fluff" pill block — solution promise right inside the problem section -->
-        <div class="lg:col-span-6 flex flex-col items-start lg:items-end justify-end select-none">
-          <p class="text-[11px] font-mono font-bold tracking-widest uppercase text-zinc-400 mb-3 lg:text-right">
-            How we fix it
-          </p>
-          <div class="inline-flex flex-col items-start lg:items-end gap-2.5">
-            <!-- Row 1 -->
-            <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
-              <span class="px-5 py-2.5 sm:px-6 sm:py-3 rounded-2xl sm:rounded-3xl bg-[#8B5CF6] text-white text-lg sm:text-2xl font-black shadow-md -rotate-2">
-                Zero
-              </span>
-              <span class="px-5 py-2.5 sm:px-6 sm:py-3 rounded-2xl sm:rounded-3xl bg-[#FF3815] text-white text-lg sm:text-2xl font-black shadow-md rotate-1">
-                agency fluff
-              </span>
-            </div>
-            <!-- Row 2 -->
-            <div class="flex items-center gap-2 sm:gap-3">
-              <span class="px-6 py-3 sm:px-8 sm:py-4 rounded-2xl sm:rounded-3xl bg-[#FFEB00] text-zinc-950 text-xl sm:text-3xl font-black shadow-lg -rotate-1">
-                you own the code
-              </span>
-            </div>
-            <!-- Row 3 -->
-            <div class="flex items-center gap-2 sm:gap-3">
-              <span class="px-6 py-2.5 sm:px-7 sm:py-3 rounded-2xl sm:rounded-3xl bg-[#FFD2E8] text-zinc-950 text-lg sm:text-2xl font-black shadow-md rotate-2">
-                14–28 day sprints
-              </span>
-            </div>
-          </div>
+        <div class="flex items-center gap-2 sm:gap-3">
+          <span class="px-5 py-2.5 sm:px-6 sm:py-3 rounded-2xl sm:rounded-3xl bg-[#18533C] text-white text-sm sm:text-base font-black shadow-md rotate-1">
+            Speed-to-Lead
+          </span>
+          <span class="px-5 py-2.5 sm:px-6 sm:py-3 rounded-2xl sm:rounded-3xl bg-[#1A456F] text-white text-sm sm:text-base font-black shadow-md -rotate-1">
+            CRM Reactivation
+          </span>
         </div>
-
+        <p class="text-[11px] sm:text-xs text-zinc-400 font-light mt-1 text-center lg:text-right">4 systems broken. All fixable.</p>
       </div>
     </div>
 
     <!-- CLAY-INSPIRED BENTO GRID WITH LARGE COLORFUL PILLS -->
-    <div class="grid grid-cols-2 lg:grid-cols-12 gap-3 sm:gap-6 lg:gap-8">
+    <div class="grid grid-cols-2 lg:grid-cols-12 gap-3 sm:gap-6 lg:gap-8 mb-12 sm:mb-16">
 
       <!-- BENTO CARD 1 (col-span-2 on mobile, 7 cols on desktop) -->
       <div
@@ -411,6 +397,37 @@
         </div>
       </div>
 
+    </div>
+
+    <!-- BOTTOM POSITIONING BAR -->
+    <div
+      class="relative overflow-hidden rounded-3xl bg-zinc-950 text-white p-6 sm:p-8 lg:p-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 sm:gap-8 shadow-xl border border-zinc-800/80"
+      style="opacity:{v?1:0};transform:translateY({v?0:24}px);transition:opacity .7s ease .5s,transform .7s ease .5s"
+    >
+      <div class="absolute -left-10 -top-10 w-56 h-56 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+        <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-zinc-900/90 border border-zinc-800 p-2 sm:p-3 flex items-center justify-center shrink-0 shadow-lg shadow-black/50">
+          <img src="/logo-green.png" alt="Flowjoy" class="w-full h-full object-contain" />
+        </div>
+
+        <div>
+          <h4 class="text-lg sm:text-2xl font-bold tracking-tight mb-1.5 sm:mb-2 text-white">
+            Flowjoy builds the revenue systems that turn GTM data and signals into pipeline.
+          </h4>
+          <p class="text-xs sm:text-sm text-zinc-400 font-light max-w-xl leading-relaxed">
+            We inspect your stack &bull; map required signals and logic &bull; engineer the production system directly into your workflow.
+          </p>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        on:click={() => scrollToSection('gtm-teardown')}
+        class="relative z-10 bg-white hover:bg-zinc-100 text-zinc-950 font-semibold text-xs sm:text-sm px-6 sm:px-7 py-3 sm:py-3.5 rounded-full transition shadow-sm whitespace-nowrap cursor-pointer hover:scale-[1.02] active:scale-[0.98] shrink-0 self-start lg:self-center"
+      >
+        Get a free GTM teardown &rarr;
+      </button>
     </div>
 
   </div>

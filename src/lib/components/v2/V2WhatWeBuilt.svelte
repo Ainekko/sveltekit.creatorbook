@@ -75,6 +75,25 @@
         { label: 'Voice latency', val: 'Sub-600ms' },
         { label: 'Availability', val: '24/7/365' },
         { label: 'Direct calendar booking', val: 'Cal.com / Google' }
+    },
+    {
+      id: 'startupscrape',
+      name: 'StartupScrape',
+      category: 'Autonomous account intelligence & outbound engine',
+      badge: 'Live Production System',
+      outcome: '<500ms Algolia Queries & 10/10 ICP Qualification',
+      description: 'Queries Algolia search APIs in <500ms, extracts deep founder intelligence without browser overhead, gates cloud browsers selectively, and qualifies pipeline via Gemini AI.',
+      image: '/flowjoy/yc.svg',
+      logos: [
+        { name: 'Y Combinator', src: '/flowjoy/yc.svg' },
+        { name: 'Algolia', src: 'https://cdn.simpleicons.org/algolia/003DFF' },
+        { name: 'Gemini', src: 'https://cdn.simpleicons.org/googlegemini/8E75B2' },
+        { name: 'Python', src: '/flowjoy/logos/Python_Software_Foundation/Python_Software_Foundation_idixzIbrOi_1.svg' }
+      ],
+      metrics: [
+        { label: 'Search latency', val: '<500ms' },
+        { label: 'Browser credit savings', val: '90%+' },
+        { label: 'Founder qualification', val: '10/10 fit' }
       ]
     }
   ];
@@ -123,7 +142,7 @@
               <img
                 src={project.image}
                 alt={project.name}
-                class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                class="w-full h-full {project.image.endsWith('.svg') ? 'object-contain p-12 bg-white' : 'object-cover object-top'} group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-[#111215] via-transparent to-transparent opacity-80"></div>
 

@@ -259,6 +259,57 @@ export const caseStudies: CaseStudy[] = [
         published: true,
         featured: true,
         publishedAt: '2024-11-01'
+    },
+
+    // ─── StartupScrape — Autonomous Account Intelligence ────────────────────
+    {
+        id: 'startupscrape',
+        slug: 'startupscrape-gtm-engine',
+        title: 'StartupScrape — Autonomous Account Intelligence Engine',
+        client: 'Flowjoy',
+        industry: 'B2B GTM / Outbound Engineering',
+        accentColor: 'orange',
+        coverImage: '/flowjoy/yc.svg',
+        websiteUrl: 'https://flowjoy.online',
+        techLogos: [
+            { src: '/flowjoy/yc.svg', label: 'Y Combinator' },
+            { src: 'https://cdn.simpleicons.org/algolia/003DFF', label: 'Algolia' },
+            { src: 'https://cdn.simpleicons.org/googlegemini/8E75B2', label: 'Gemini 3.6 Flash' },
+            { src: '/flowjoy/logos/Python_Software_Foundation/Python_Software_Foundation_idixzIbrOi_1.svg', label: 'Python' }
+        ],
+        services: ['Algolia Direct Query', 'Inertia Intelligence Extraction', 'Selective Cloud Browser Gating', 'Gemini AI Pitch Generation'],
+        heroImage: '/flowjoy/yc.svg',
+        screenshots: [],
+        shortDescription:
+            "A signal-driven outbound intelligence engine that combines sub-second Algolia search across Y Combinator and Work at a Startup, deep founder extraction, selective cloud browser automation, and closed-loop AI qualification.",
+        challenge:
+            "Targeting early-stage startups for high-ticket B2B services is plagued by fragile DOM scrapers that break constantly, wasteful headless browser runs that burn cloud minutes and get rate-limited, and shallow leads with generic emails lacking verified founder backgrounds, hiring signals, or actionable value angles.",
+        solution:
+            "We engineered a 4-tier pipeline: Tier 0 queries Algolia backend APIs in <500ms with zero bot detection. Tier 1 extracts verified websites, socials, open roles, and full founder profiles (LinkedIn, bio, past projects, verified email) via raw HTTP. Tier 2 scores accounts against ICP triggers. Tier 3 fires cloud browser sessions only for high-value targets missing critical intelligence. Tier 4 uses Gemini to synthesize founder backgrounds into tailored value hooks and outreach drafts.",
+        results:
+            "Reduced prospecting cycle time from 30+ seconds per lead to sub-second API fetches while saving 90%+ of cloud browser costs. Discovered verified founders with 10/10 fit scores, personalized pitch hooks, and automated outcome tracking.",
+        features: [
+            { icon: '', title: 'Algolia Direct Query', desc: '' },
+            { icon: '', title: 'Inertia Founder Intel', desc: '' },
+            { icon: '', title: 'Selective Browser Gating', desc: '' },
+            { icon: '', title: 'Gemini GTM Scorer', desc: '' }
+        ],
+        metrics: [
+            { value: '<500ms', label: 'Sub-second search response', highlight: true },
+            { value: '90%+', label: 'Cloud browser credit savings' },
+            { value: '10/10', label: 'ICP founder qualification fit' },
+            { value: '100%', label: 'Personalized value hooks' }
+        ],
+        quote: {
+            text: "Client: Flowjoy Outbound Prospecting",
+            author: '',
+            role: ''
+        },
+        tags: ['GTM Engineering', 'Algolia', 'Gemini AI', 'Outbound', 'Y Combinator', 'Browserbase'],
+        cta: { label: 'Build something like this →', href: '/#case-studies' },
+        published: true,
+        featured: true,
+        publishedAt: '2026-09-16'
     }
 
     // ─── ADD MORE CASE STUDIES BELOW ────────────────────────────────────────
