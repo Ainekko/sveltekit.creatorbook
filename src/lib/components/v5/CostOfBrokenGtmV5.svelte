@@ -199,7 +199,7 @@
             Inbound leads wait hours instead of seconds.
           </h3>
           <p class="text-xs sm:text-sm text-[#3E5A4E] font-light leading-relaxed mb-5">
-            An AI voice assistant answers every inbound call in sub-600ms, screens for ICP fit, and books qualified meetings directly on the calendar.
+            An AI voice assistant answers every inbound call in instant, screens for ICP fit, and books qualified meetings directly on the calendar.
           </p>
         </div>
 
@@ -301,7 +301,7 @@
 
       <div class="relative z-10 flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-6">
         <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-zinc-900/90 border border-zinc-800 p-2.5 sm:p-3 flex items-center justify-center shrink-0 shadow-lg shadow-black/50">
-          <img src="/logo-green.png" alt="Flowjoy" class="w-full h-full object-contain" />
+          <img src="/flowjoy/flowjoy-brand/LOGO/New logo 500 500 SVG.svg" alt="Flowjoy" class="w-full h-full object-contain" />
         </div>
 
         <div>

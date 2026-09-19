@@ -72,7 +72,7 @@
         { name: 'Twilio', src: 'https://cdn.simpleicons.org/twilio/F22F46' }
       ],
       metrics: [
-        { label: 'Voice latency', val: 'Sub-600ms' },
+        { label: 'Voice latency', val: 'Instant' },
         { label: 'Availability', val: '24/7/365' },
         { label: 'Direct calendar booking', val: 'Cal.com / Google' }
       ]

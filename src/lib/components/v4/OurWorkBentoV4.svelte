@@ -43,14 +43,14 @@
       primaryBtnBg: 'bg-[#18533C] hover:bg-[#124230] text-white',
       title: 'An inbound conversion system that qualifies and books 24/7',
       description:
-        'Someone calls, AI handles the interaction with sub-600ms latency, qualifies ICP fit against your rules, schedules the meeting directly on your calendar, and updates your business workflow.',
+        'Someone calls, AI handles the interaction with instant latency, qualifies ICP fit against your rules, schedules the meeting directly on your calendar, and updates your business workflow.',
       proofLogos: [
         { src: '/flowjoy/retell.svg', alt: 'Retell AI' },
         { src: '/flowjoy/twilio.svg', alt: 'Twilio' },
         { src: 'https://cdn.simpleicons.org/googlecalendar/4285F4', alt: 'Google Calendar' }
       ],
       proofText:
-        'Fielded 1,200+ inbound calls with zero dropped rings, sub-600ms conversational response, and instant CRM calendar sync.',
+        'Fielded 1,200+ inbound calls with zero dropped rings, instant conversational response, and instant CRM calendar sync.',
       primaryBtnText: 'Explore Laurie',
       secondaryBtnText: 'Voice architecture',
       image: '/flowjoy/projects/laurie-voice-assistant.jpg',

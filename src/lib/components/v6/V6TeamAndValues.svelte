@@ -53,7 +53,7 @@
       role: 'Zero-Maintenance Infrastructure @ Flowjoy',
       tagline: 'Direct APIs & automated workflows',
       description:
-        'Multi-number 10DLC pools, sub-600ms Retell voice assistants, and Reddit intent crawlers running 24/7 with full IP ownership.',
+        'Multi-number 10DLC pools, instant Retell voice assistants, and Reddit intent crawlers running 24/7 with full IP ownership.',
       stack: '10DLC · Retell AI · Twilio · CRM',
       focus: 'Zero Dropped Signals',
       avatarGradient: 'from-zinc-800 via-zinc-900 to-zinc-950',
@@ -193,7 +193,7 @@
 
             <div class="pt-4 border-t border-zinc-100 flex items-center justify-between">
               <div class="flex items-center gap-1.5">
-                <img src="/logo-green.png" alt="Flowjoy" class="w-5 h-5 object-contain" />
+                <img src="/flowjoy/flowjoy-brand/LOGO/New logo 500 500 SVG.svg" alt="Flowjoy" class="w-5 h-5 object-contain" />
                 <span class="text-xs font-black tracking-tight text-zinc-900 uppercase">Flowjoy</span>
               </div>
               <span class="text-[10px] font-mono text-zinc-400 font-semibold">{member.focus}</span>

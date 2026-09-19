@@ -299,7 +299,7 @@
 
               <div class="flex items-center justify-between text-[11px] text-zinc-500 pt-2 border-t border-zinc-100">
                 <span>Latency to qualification:</span>
-                <span class="text-emerald-700 font-mono font-semibold">Sub-600ms &bull; Zero human delay</span>
+                <span class="text-emerald-700 font-mono font-semibold">Instant &bull; Zero human delay</span>
               </div>
             </div>
 

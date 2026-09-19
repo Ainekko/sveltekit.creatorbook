@@ -16,7 +16,7 @@
 
       <!-- Logo -->
       <a href="/" class="text-zinc-900 hover:text-zinc-700 transition flex items-center gap-2.5">
-        <img src="/logo-green.png" alt="Flowjoy" class="w-7 h-7 object-contain" />
+        <img src="/flowjoy/flowjoy-brand/LOGO/New logo 500 500 SVG.svg" alt="Flowjoy" class="w-7 h-7 object-contain" />
         <span class="text-xl font-semibold">
           flow<span class="font-[Pacifico]">j</span>oy
         </span>

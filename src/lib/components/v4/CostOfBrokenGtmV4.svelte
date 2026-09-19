@@ -258,7 +258,7 @@
               </div>
               <span class="text-[11px] font-mono text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full font-medium flex items-center gap-1">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                Sub-600ms Response
+                Instant Response
               </span>
             </div>
 

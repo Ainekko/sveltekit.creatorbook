@@ -269,12 +269,12 @@
               Hours to respond
             </span>
             <span class="px-2.5 sm:px-3 py-1 rounded-xl bg-[#FFEB00] text-zinc-950 text-[10px] sm:text-xs font-extrabold shadow-xs">
-              Sub-600ms voice
+              Instant voice
             </span>
           </div>
 
           <p class="text-xs sm:text-sm text-[#3E5A4E] font-light leading-relaxed mb-3 sm:mb-5 hidden sm:block">
-            An AI voice assistant answers every inbound call in sub-600ms, screens for ICP fit, and books qualified meetings directly on the calendar.
+            An AI voice assistant answers every inbound call in instant, screens for ICP fit, and books qualified meetings directly on the calendar.
           </p>
         </div>
 
@@ -291,7 +291,7 @@
             Marcus Vance &bull; CRO
           </p>
           <div class="text-[9px] text-emerald-700 font-semibold pt-0.5">
-            &lt;600ms &bull; Zero dropped calls
+            Instant &bull; Zero dropped calls
           </div>
         </div>
 
@@ -408,7 +408,7 @@
 
       <div class="relative z-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
         <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-zinc-900/90 border border-zinc-800 p-2 sm:p-3 flex items-center justify-center shrink-0 shadow-lg shadow-black/50">
-          <img src="/logo-green.png" alt="Flowjoy" class="w-full h-full object-contain" />
+          <img src="/flowjoy/flowjoy-brand/LOGO/New logo 500 500 SVG.svg" alt="Flowjoy" class="w-full h-full object-contain" />
         </div>
 
         <div>

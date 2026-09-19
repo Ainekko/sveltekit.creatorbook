@@ -204,7 +204,7 @@
 
           <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">Laurie</h3>
           <p class="text-zinc-400 text-sm font-light mb-8 max-w-md">
-            Answers inbound calls 24/7 in sub-600ms. Qualifies budget and ICP fit, then books the meeting directly on your calendar with full CRM sync.
+            Answers inbound calls 24/7 in instant. Qualifies budget and ICP fit, then books the meeting directly on your calendar with full CRM sync.
           </p>
 
           <!-- Logo visual — stepped heights for rhythm -->
@@ -237,7 +237,7 @@
           <div class="flex flex-wrap gap-2.5 mt-8">
             <span class="px-3 py-1.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-xs font-mono text-emerald-300 flex items-center gap-2">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              Sub-600ms latency
+              Instant latency
             </span>
             <span class="px-3 py-1.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-xs font-mono text-zinc-300">Auto calendar booking</span>
             <span class="px-3 py-1.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-xs font-mono text-zinc-300">CRM transcript sync</span>
