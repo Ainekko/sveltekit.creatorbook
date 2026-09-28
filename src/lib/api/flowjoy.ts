@@ -71,3 +71,71 @@ export async function submitFlowjoyLead(
     };
   }
 }
+
+export async function fetchFlowjoyLeads(
+  password: string
+): Promise<{ success: boolean; data?: FlowjoyLeadResponse[]; error?: string }> {
+  try {
+    const baseUrl =
+      (typeof import.meta !== 'undefined' && import.meta.env?.PUBLIC_FLOWJOY_API_URL) ||
+      'https://mhr-sms-xi2w.onrender.com';
+
+    const normalizedBaseUrl = baseUrl.replace(/\/+$/, '');
+    const endpoint = `${normalizedBaseUrl}/api/v1/flowjoy/leads`;
+
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Dashboard-Password': password.trim(),
+        'Authorization': `Bearer ${password.trim()}`
+      }
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        return { success: false, error: 'Incorrect dashboard password.' };
+      }
+      return { success: false, error: `Failed to fetch submissions (${response.status})` };
+    }
+
+    const data: FlowjoyLeadResponse[] = await response.json();
+    return { success: true, data };
+  } catch (err: any) {
+    return { success: false, error: err?.message || 'Failed to connect to backend.' };
+  }
+}
+
+export async function updateFlowjoyLeadStatus(
+  leadId: string,
+  status: string,
+  password: string
+): Promise<{ success: boolean; data?: FlowjoyLeadResponse; error?: string }> {
+  try {
+    const baseUrl =
+      (typeof import.meta !== 'undefined' && import.meta.env?.PUBLIC_FLOWJOY_API_URL) ||
+      'https://mhr-sms-xi2w.onrender.com';
+
+    const normalizedBaseUrl = baseUrl.replace(/\/+$/, '');
+    const endpoint = `${normalizedBaseUrl}/api/v1/flowjoy/leads/${leadId}`;
+
+    const response = await fetch(endpoint, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Dashboard-Password': password.trim(),
+        'Authorization': `Bearer ${password.trim()}`
+      },
+      body: JSON.stringify({ status })
+    });
+
+    if (!response.ok) {
+      return { success: false, error: `Update failed (${response.status})` };
+    }
+
+    const data: FlowjoyLeadResponse = await response.json();
+    return { success: true, data };
+  } catch (err: any) {
+    return { success: false, error: err?.message || 'Failed to update status.' };
+  }
+}
