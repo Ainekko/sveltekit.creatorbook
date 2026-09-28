@@ -2,6 +2,9 @@
   import { onMount } from 'svelte';
   import { fly } from 'svelte/transition';
 
+  import { submitFlowjoyLead } from '$lib/api/flowjoy';
+
+  // Controls floating drawer open/close visibility state
   let isOpen = false;
   let activeTab: 'teardown' | 'book' = 'teardown';
 
@@ -9,6 +12,8 @@
   let companyUrl = '';
   let email = '';
   let bottleneck = '';
+  let websiteHp = ''; // Honeypot field
+  let errorMessage = '';
   let submitted = false;
   let loading = false;
 
@@ -100,10 +105,22 @@
     if (!companyUrl || !email) return;
 
     loading = true;
-    setTimeout(() => {
-      loading = false;
+    errorMessage = '';
+
+    const res = await submitFlowjoyLead({
+      company_url: companyUrl,
+      email,
+      bottleneck,
+      source: 'floating_scheduler',
+      website_hp: websiteHp
+    });
+
+    loading = false;
+    if (res.success) {
       submitted = true;
-    }, 600);
+    } else {
+      errorMessage = res.error || 'Failed to submit request. Please try again.';
+    }
   }
 </script>
 
@@ -162,7 +179,6 @@
             <h4 class="text-[13px] font-bold text-zinc-900 leading-tight">Flowjoy</h4>
             <span class="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-100/80 text-emerald-800 font-semibold border border-emerald-200">GTM Engineering</span>
           </div>
-          <p class="text-[10px] text-zinc-500 font-normal leading-tight mt-0.5">Automations & Pipeline Architecture</p>
         </div>
       </div>
       <button 
@@ -235,6 +251,22 @@
           </div>
         {:else}
           <form on:submit={handleTeardownSubmit} class="space-y-2.5">
+            <!-- Honeypot for bot protection -->
+            <input
+              type="text"
+              name="website_hp"
+              bind:value={websiteHp}
+              tabindex="-1"
+              autocomplete="off"
+              style="display:none !important;"
+              aria-hidden="true"
+            />
+
+            {#if errorMessage}
+              <div class="p-2 rounded-lg bg-red-50 border border-red-200 text-red-700 text-[11px] leading-tight">
+                {errorMessage}
+              </div>
+            {/if}
             <div>
               <label for="floating-company-url" class="block text-[10px] font-bold uppercase tracking-wider text-zinc-500 mb-1">
                 Company Website / Domain

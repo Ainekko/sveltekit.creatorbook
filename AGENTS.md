@@ -5,12 +5,9 @@
 - Job is the code and the code only.
 - Do NOT make any changes to the environment; the user handles environment changes.
 - ALWAYS use internal file reading and writing tools instead of terminal glue commands (no cat << EOF, sed, or echo tricks).
-- WSL File Access Protocol:
-  - Reading: Copy target files from WSL to the scratch mount (`cp <file> /mnt/c/Users/hp/.gemini/antigravity-ide/brain/<conversation-id>/scratch/`), then use internal `view_file` on `C:\Users\hp\.gemini\antigravity-ide\brain\<conversation-id>\scratch\<file>`.
-  - Writing: Write files directly into the scratch directory using `write_to_file` (`C:\Users\hp\.gemini\antigravity-ide\brain\<conversation-id>\scratch\<file>`), then copy to project destination in WSL (`cp /mnt/c/Users/hp/.gemini/antigravity-ide/brain/<conversation-id>/scratch/<file> <target-path>`).
-  - Scratch Mount: Accessible in WSL at `/mnt/c/Users/hp/.gemini/antigravity-ide/brain/<conversation-id>/scratch/` and in Windows at `C:\Users\hp\.gemini\antigravity-ide\brain\<conversation-id>\scratch\`.
-  - Transfer/sync to target project paths cleanly via standard directory copy, avoiding all shell escaping bugs.
-- The paths are in WSL; if you need something, ask the user.
+- Project Filesystem: This project is in WSL. Access and edit files directly using internal file tools (`view_file`, `replace_file_content`, `write_to_file`). No scratch copying.
+- Terminal Commands: ALWAYS run commands inside WSL using `wsl.exe -d Ubuntu-22.04 -- <command>`. NEVER run project/build/test commands directly in host PowerShell.
+- WSL Working Directory: `/home/ainekko/creatorbook/creatorbook.tech/front-end/sveltekit.creatorbook`
 - Only check git to inspect a previous version of the code.
 - NO TIME or token wasting.
 - When finished the work, a one-line verdict of what is done is enough.

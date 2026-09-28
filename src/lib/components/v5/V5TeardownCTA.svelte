@@ -1,7 +1,11 @@
 <script lang="ts">
+  import { submitFlowjoyLead } from '$lib/api/flowjoy';
+
   let companyUrl = '';
   let email = '';
   let bottleneck = '';
+  let websiteHp = '';
+  let errorMessage = '';
   let submitted = false;
   let loading = false;
 
@@ -10,10 +14,22 @@
     if (!companyUrl || !email) return;
 
     loading = true;
-    setTimeout(() => {
-      loading = false;
+    errorMessage = '';
+
+    const res = await submitFlowjoyLead({
+      company_url: companyUrl,
+      email,
+      bottleneck,
+      source: 'v5_teardown_cta',
+      website_hp: websiteHp
+    });
+
+    loading = false;
+    if (res.success) {
       submitted = true;
-    }, 600);
+    } else {
+      errorMessage = res.error || 'Failed to submit request. Please try again.';
+    }
   }
 </script>
 
@@ -67,6 +83,22 @@
         </div>
       {:else}
         <form on:submit={handleTeardownSubmit} class="space-y-4 max-w-xl mx-auto text-left">
+          <!-- Honeypot -->
+          <input
+            type="text"
+            name="website_hp"
+            bind:value={websiteHp}
+            tabindex="-1"
+            autocomplete="off"
+            style="display:none !important;"
+            aria-hidden="true"
+          />
+
+          {#if errorMessage}
+            <div class="p-3.5 rounded-xl bg-red-950/40 border border-red-800 text-red-300 text-sm">
+              {errorMessage}
+            </div>
+          {/if}
           <div>
             <label for="company-url" class="block text-xs font-medium uppercase tracking-wider text-zinc-400 mb-2">
               Company website / domain
