@@ -2,6 +2,12 @@
   import { blur, fly } from 'svelte/transition';
 
   let videoPlaying = false;
+  let videoEl: HTMLVideoElement;
+
+  function playVideo() {
+    videoPlaying = true;
+    videoEl?.play();
+  }
 
   function scrollToSection(sectionId: string) {
     const element = document.getElementById(sectionId);
@@ -146,43 +152,62 @@
 
       <!-- ─── RIGHT: Video Introduction (Clean, no extra badges) ─── -->
       <div in:fly={{ y: 30, duration: 800, delay: 280 }} class="w-full">
-        <div
-          class="relative rounded-[2rem] overflow-hidden shadow-2xl border border-zinc-200/90 bg-zinc-50 aspect-video group cursor-pointer"
-          on:click={() => videoPlaying = !videoPlaying}
-          role="button"
-          tabindex="0"
-          on:keydown={(e) => e.key === 'Enter' && (videoPlaying = !videoPlaying)}
-          aria-label="Play introduction video"
-        >
-          <!-- Background gradient thumbnail -->
-          <div class="absolute inset-0 bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200/60"></div>
+        <div class="relative rounded-[2rem] overflow-hidden shadow-2xl border border-zinc-200/90 bg-zinc-950 aspect-video">
 
-          <!-- Subtle mesh overlay -->
-          <div class="absolute inset-0 opacity-40" style="background: radial-gradient(ellipse at 30% 40%, rgba(245,158,11,0.12) 0%, transparent 60%), radial-gradient(ellipse at 80% 70%, rgba(59,130,246,0.08) 0%, transparent 55%);"></div>
+          <!-- Always-rendered video -->
+          <video
+            bind:this={videoEl}
+            class="absolute inset-0 w-full h-full object-cover"
+            src="https://flowjoy.s3.us-east-1.amazonaws.com/Flowjoy+Frontpage+Video+cmprsd.mp4"
+            poster="/flowjoy/video_thumbnail.jpg"
+            controls
+            playsinline
+            preload="metadata"
+            on:ended={() => videoPlaying = false}
+          ></video>
 
-          <!-- Dot grid overlay -->
-          <div class="absolute inset-0 opacity-[0.2]" style="background-image: radial-gradient(circle, #a1a1aa 0.5px, transparent 0.5px); background-size: 20px 20px;"></div>
+          <!-- Thumbnail overlay — fades out when playing -->
+          {#if !videoPlaying}
+            <div
+              class="absolute inset-0 z-10 cursor-pointer group"
+              on:click={playVideo}
+              role="button"
+              tabindex="0"
+              on:keydown={(e) => e.key === 'Enter' && playVideo()}
+              aria-label="Play introduction video"
+            >
+              <!-- Video Poster Thumbnail Image -->
+              <img
+                src="/flowjoy/video_thumbnail.jpg"
+                alt="Flowjoy Introduction"
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
 
-          <!-- Central play button -->
-          <div class="absolute inset-0 flex items-center justify-center z-10">
-            <div class="relative">
-              <div class="absolute inset-0 rounded-full bg-zinc-900/10 animate-ping scale-110"></div>
-              <div class="relative w-20 h-20 rounded-full bg-white shadow-2xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 border border-zinc-100">
-                <svg class="w-8 h-8 text-zinc-950 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
+              <!-- Subtle dark vignette overlay for contrast and sleek look -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30"></div>
+
+              <!-- Central play button -->
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="relative">
+                  <div class="absolute inset-0 rounded-full bg-white/20 animate-ping scale-110"></div>
+                  <div class="relative w-20 h-20 rounded-full bg-white/95 backdrop-blur-sm shadow-2xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 border border-white/50">
+                    <svg class="w-8 h-8 text-zinc-950 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                </div>
               </div>
+
+              <!-- Bottom caption bar -->
+              <div class="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                <p class="text-white font-semibold text-base drop-shadow-sm">Introducing Flowjoy</p>
+                <p class="text-white/80 text-xs mt-0.5 font-light drop-shadow-sm">Who we are, what we solve, and whether you need us.</p>
+              </div>
+
+              <!-- Hover shimmer -->
+              <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
             </div>
-          </div>
-
-          <!-- Bottom caption bar: Founder introduction -->
-          <div class="absolute bottom-0 inset-x-0 z-10 p-6 bg-gradient-to-t from-black/75 via-black/35 to-transparent">
-            <p class="text-white font-semibold text-base">Introducing Flowjoy</p>
-            <p class="text-white/80 text-xs mt-0.5 font-light">Who we are, what we solve, and whether you need us.</p>
-          </div>
-
-          <!-- Hover shimmer -->
-          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
+          {/if}
         </div>
       </div>
     </div>
