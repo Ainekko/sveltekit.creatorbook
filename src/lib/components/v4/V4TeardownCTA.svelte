@@ -33,7 +33,7 @@
       </h2>
 
       <p class="text-zinc-500 text-lg max-w-2xl mx-auto leading-relaxed font-light mb-8">
-        Give us one broken workflow. We\'ll inspect your stack and send a technical teardown and prototype architecture.
+        Give us one broken workflow. We'll inspect your stack and send a technical teardown and prototype architecture.
       </p>
 
       <!-- Proof Badge -->

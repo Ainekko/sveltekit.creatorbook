@@ -11,7 +11,7 @@
       <div class="flex items-center gap-6 text-xs text-zinc-400">
         <a href="#problem" class="hover:text-white transition">Problem</a>
         <a href="#what-we-built" class="hover:text-white transition">What We Build</a>
-        <a href="#who-its-for" class="hover:text-white transition">Who It\'s For</a>
+        <a href="#who-its-for" class="hover:text-white transition">Who It's For</a>
         <a href="#how-it-works" class="hover:text-white transition">How It Works</a>
         <a href="#pricing" class="hover:text-white transition">Pricing</a>
       </div>
