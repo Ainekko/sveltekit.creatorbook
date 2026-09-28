@@ -1,3 +1,21 @@
-# https://www.robotstxt.org/robotstxt.html
+# robots.txt for flowjoy.online
+# Only the root landing page is indexed
+
 User-agent: *
-Disallow:
+Allow: /$
+Disallow: /legacy/
+Disallow: /v1/
+Disallow: /v2/
+Disallow: /v3/
+Disallow: /v4/
+Disallow: /v5/
+Disallow: /v6/
+Disallow: /flowjoy/
+Disallow: /api/
+Disallow: /auth/
+Disallow: /case-studies/
+Disallow: /cventure/
+Disallow: /exchangefb/
+Disallow: /software/
+
+Sitemap: https://www.flowjoy.online/sitemap.xml

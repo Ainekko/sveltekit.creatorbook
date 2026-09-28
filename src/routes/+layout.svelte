@@ -42,6 +42,14 @@ $: if (browser && initialized && $page.url.pathname) {
 
 
 
+<svelte:head>
+  {#if $page.url.pathname === '/'}
+    <meta name="robots" content="index, follow" />
+  {:else}
+    <meta name="robots" content="noindex, nofollow" />
+  {/if}
+</svelte:head>
+
 <!-- <svelte:head>
   <title>AI Marketing Agents for SaaS</title>
   <meta name="description" content="Grow your SaaS marketing with AI agents. Be the first to catch latest industry trends, create targeted content and grow your business faster." />
