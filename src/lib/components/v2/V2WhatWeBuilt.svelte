@@ -84,7 +84,7 @@
       badge: 'Live Production System',
       outcome: '<500ms Algolia Queries & 10/10 ICP Qualification',
       description: 'Queries Algolia search APIs in <500ms, extracts deep founder intelligence without browser overhead, gates cloud browsers selectively, and qualifies pipeline via Gemini AI.',
-      image: '/flowjoy/yc.svg',
+      image: '/flowjoy/startupscrape-thumbnail.svg',
       logos: [
         { name: 'Y Combinator', src: '/flowjoy/yc.svg' },
         { name: 'Algolia', src: 'https://cdn.simpleicons.org/algolia/003DFF' },

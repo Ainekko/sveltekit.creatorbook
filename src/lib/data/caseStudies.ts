@@ -269,24 +269,208 @@ export const caseStudies: CaseStudy[] = [
         client: 'Flowjoy',
         industry: 'B2B GTM / Outbound Engineering',
         accentColor: 'orange',
-        coverImage: '/flowjoy/yc.svg',
+        coverImage: '/flowjoy/startupscrape-thumbnail.svg',
         websiteUrl: 'https://flowjoy.online',
         techLogos: [
             { src: '/flowjoy/yc.svg', label: 'Y Combinator' },
-            { src: '/flowjoy/typesafe-ai-200x200.jfif', label: 'JEV by TypeSafe AI' },
-            { src: 'https://cdn.simpleicons.org/algolia/003DFF', label: 'Algolia' },
-            { src: 'https://cdn.simpleicons.org/googlegemini/8E75B2', label: 'Gemini 3.6 Flash' },
-            { src: '/flowjoy/logos/Python_Software_Foundation/Python_Software_Foundation_idixzIbrOi_1.svg', label: 'Python' }
+            { src: '/flowjoy/typesafe-ai-200x200.jfif', label: 'JEV' },
+            { src: 'https://cdn.simpleicons.org/algolia/003DFF', label: 'Algolia' }
         ],
         services: ['Algolia Direct Query', 'JEV ICP Scoring', 'Inertia Intelligence Extraction', 'Selective Cloud Browser Gating', 'Gemini AI Pitch Generation'],
-        heroImage: '/flowjoy/yc.svg',
-        screenshots: [],
+        heroImage: '/flowjoy/startupscrape-thumbnail.svg',
+        screenshots: [
+            {
+                src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(`
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+                        <defs>
+                            <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+                                <stop offset="0%" stop-color="#f6f4ef"/>
+                                <stop offset="100%" stop-color="#e7e3dc"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="1200" height="760" fill="url(#bg)"/>
+                        <rect x="50" y="50" width="1100" height="660" rx="34" fill="#f9f7f2" stroke="#d9d3ca"/>
+                        <rect x="90" y="94" width="1020" height="58" rx="18" fill="#f1efe8" stroke="#d8d2c6"/>
+                        <rect x="120" y="108" width="72" height="30" rx="15" fill="#f3d1a8"/>
+                        <text x="138" y="129" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#8f4c0b" font-weight="700">YC</text>
+                        <rect x="214" y="108" width="120" height="30" rx="15" fill="#f2e7d8"/>
+                        <text x="231" y="129" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#5b4d42" font-weight="700">JEV</text>
+                        <rect x="356" y="108" width="116" height="30" rx="15" fill="#dfeaf7"/>
+                        <text x="377" y="129" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#1f5fa8" font-weight="700">Algolia</text>
+                        <rect x="494" y="108" width="140" height="30" rx="15" fill="#eae3f8"/>
+                        <text x="514" y="129" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#5a4d8d" font-weight="700">Gemini</text>
+                        <rect x="90" y="176" width="310" height="180" rx="22" fill="#f1efe8" stroke="#d8d2c6"/>
+                        <text x="118" y="228" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" fill="#24201d" font-weight="700">StartupScrape</text>
+                        <text x="118" y="260" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#6a625d" font-weight="600">founder intelligence</text>
+                        <rect x="118" y="286" width="220" height="12" rx="6" fill="#d97706" opacity="0.85"/>
+                        <rect x="118" y="308" width="170" height="12" rx="6" fill="#d5d0c9"/>
+                        <rect x="440" y="176" width="250" height="220" rx="26" fill="#fff" stroke="#e3ddd4"/>
+                        <text x="470" y="214" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#615a52" font-weight="600">live signals</text>
+                        <rect x="470" y="236" width="170" height="14" rx="7" fill="#ece5dc"/>
+                        <rect x="470" y="236" width="130" height="14" rx="7" fill="#d97706"/>
+                        <rect x="470" y="270" width="170" height="14" rx="7" fill="#ece5dc"/>
+                        <rect x="470" y="270" width="156" height="14" rx="7" fill="#d7cab8"/>
+                        <text x="470" y="324" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#4d4843">intent: 93</text>
+                        <text x="470" y="348" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#4d4843">fit: 91/100</text>
+                        <rect x="730" y="176" width="350" height="220" rx="26" fill="#fff" stroke="#e3ddd4"/>
+                        <text x="760" y="214" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#615a52" font-weight="600">account score</text>
+                        <rect x="760" y="240" width="260" height="18" rx="9" fill="#ece5dc"/>
+                        <rect x="760" y="240" width="238" height="18" rx="9" fill="#d97706"/>
+                        <rect x="760" y="282" width="260" height="18" rx="9" fill="#ece5dc"/>
+                        <rect x="760" y="282" width="214" height="18" rx="9" fill="#c8c0b3"/>
+                        <text x="760" y="336" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#4d4843">priority bucket: high fit</text>
+                        <rect x="90" y="392" width="990" height="250" rx="30" fill="#f8f5f0" stroke="#d9d3ca"/>
+                        <text x="128" y="434" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#615a52" font-weight="600">score trend</text>
+                        <path d="M170 570 C260 430, 350 470, 430 365 S620 250, 700 390 S860 600, 980 380" fill="none" stroke="#d97706" stroke-width="6" stroke-linecap="round"/>
+                        <circle cx="170" cy="570" r="12" fill="#d97706"/>
+                        <circle cx="430" cy="365" r="12" fill="#d97706"/>
+                        <circle cx="700" cy="390" r="12" fill="#d97706"/>
+                        <circle cx="980" cy="380" r="12" fill="#d97706"/>
+                        <rect x="128" y="454" width="180" height="120" rx="18" fill="#fff" stroke="#d8d0c7"/>
+                        <text x="150" y="494" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#5d574f" font-weight="600">signals</text>
+                        <text x="150" y="528" font-family="ui-sans-serif, system-ui, sans-serif" font-size="32" fill="#1d1b1a" font-weight="700">42</text>
+                        <text x="150" y="552" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#7a736d">founders</text>
+                        <rect x="644" y="454" width="180" height="120" rx="18" fill="#fff" stroke="#d8d0c7"/>
+                        <text x="666" y="494" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#5d574f" font-weight="600">score</text>
+                        <text x="666" y="528" font-family="ui-sans-serif, system-ui, sans-serif" font-size="32" fill="#1d1b1a" font-weight="700">91</text>
+                        <text x="666" y="552" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#7a736d">ICP fit</text>
+                        <text x="930" y="465" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#504a45">YC batch scan</text>
+                        <text x="930" y="499" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#504a45">deep founder intel</text>
+                        <text x="930" y="533" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#504a45">AI-ready outreach</text>
+                    </svg>
+                `),
+                alt: 'StartupScrape signal pipeline',
+                caption: 'Signal pipeline'
+            },
+            {
+                src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(`
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+                        <defs>
+                            <linearGradient id="bg2" x1="0" x2="1" y1="0" y2="1">
+                                <stop offset="0%" stop-color="#f6f4ef"/>
+                                <stop offset="100%" stop-color="#e7e3dc"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="1200" height="760" fill="url(#bg2)"/>
+                        <rect x="50" y="50" width="1100" height="660" rx="34" fill="#f9f7f2" stroke="#d9d3ca"/>
+                        <rect x="90" y="94" width="1020" height="58" rx="18" fill="#f1efe8" stroke="#d8d2c6"/>
+                        <rect x="120" y="108" width="110" height="30" rx="15" fill="#f3d1a8"/>
+                        <text x="142" y="129" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#8f4c0b" font-weight="700">JEV</text>
+                        <rect x="250" y="108" width="126" height="30" rx="15" fill="#e8f2fd"/>
+                        <text x="267" y="129" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#2161a8" font-weight="700">Algolia</text>
+                        <rect x="396" y="108" width="130" height="30" rx="15" fill="#ece4fd"/>
+                        <text x="420" y="129" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#564381" font-weight="700">Gemini</text>
+                        <rect x="90" y="176" width="310" height="180" rx="22" fill="#f1efe8" stroke="#d8d2c6"/>
+                        <text x="118" y="226" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" fill="#24201d" font-weight="700">JEV ICP score</text>
+                        <text x="118" y="258" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#6a625d" font-weight="600">firmographic + intent + authority</text>
+                        <rect x="118" y="288" width="220" height="12" rx="6" fill="#b45309" opacity="0.85"/>
+                        <rect x="118" y="310" width="180" height="12" rx="6" fill="#d5d0c9"/>
+                        <rect x="440" y="176" width="250" height="220" rx="26" fill="#fff" stroke="#e3ddd4"/>
+                        <text x="470" y="214" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#615a52" font-weight="600">priority tags</text>
+                        <rect x="470" y="236" width="160" height="30" rx="15" fill="#f5ead8"/>
+                        <text x="498" y="256" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#9b5c14" font-weight="700">intent: 93</text>
+                        <rect x="470" y="280" width="160" height="30" rx="15" fill="#e8efe9"/>
+                        <text x="498" y="300" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#296f49" font-weight="700">fit: 91/100</text>
+                        <rect x="470" y="324" width="160" height="30" rx="15" fill="#f0e7e7"/>
+                        <text x="500" y="344" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#8b3a3a" font-weight="700">risk: low</text>
+                        <rect x="730" y="176" width="350" height="220" rx="26" fill="#fff" stroke="#e3ddd4"/>
+                        <text x="760" y="214" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#615a52" font-weight="600">overall score</text>
+                        <rect x="760" y="240" width="260" height="18" rx="9" fill="#ece5dc"/>
+                        <rect x="760" y="240" width="228" height="18" rx="9" fill="#b45309"/>
+                        <rect x="760" y="282" width="260" height="18" rx="9" fill="#ece5dc"/>
+                        <rect x="760" y="282" width="248" height="18" rx="9" fill="#c8c0b3"/>
+                        <text x="760" y="336" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#4d4843">priority bucket: high fit</text>
+                        <rect x="90" y="392" width="990" height="250" rx="30" fill="#f8f5f0" stroke="#d9d3ca"/>
+                        <text x="128" y="434" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#615a52" font-weight="600">score trend</text>
+                        <path d="M170 570 C260 430, 350 470, 430 365 S620 250, 700 390 S860 600, 980 380" fill="none" stroke="#b45309" stroke-width="6" stroke-linecap="round"/>
+                        <circle cx="170" cy="570" r="12" fill="#b45309"/>
+                        <circle cx="430" cy="365" r="12" fill="#b45309"/>
+                        <circle cx="700" cy="390" r="12" fill="#b45309"/>
+                        <circle cx="980" cy="380" r="12" fill="#b45309"/>
+                        <rect x="128" y="454" width="180" height="120" rx="18" fill="#fff" stroke="#d8d0c7"/>
+                        <text x="150" y="494" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#5d574f" font-weight="600">fit</text>
+                        <text x="150" y="528" font-family="ui-sans-serif, system-ui, sans-serif" font-size="32" fill="#1d1b1a" font-weight="700">91</text>
+                        <text x="150" y="552" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#7a736d">/ 100</text>
+                        <rect x="644" y="454" width="180" height="120" rx="18" fill="#fff" stroke="#d8d0c7"/>
+                        <text x="666" y="494" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#5d574f" font-weight="600">risk</text>
+                        <text x="666" y="528" font-family="ui-sans-serif, system-ui, sans-serif" font-size="32" fill="#1d1b1a" font-weight="700">low</text>
+                        <text x="666" y="552" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#7a736d">gated</text>
+                        <text x="930" y="465" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#504a45">fit score 91</text>
+                        <text x="930" y="499" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#504a45">intent + authority</text>
+                        <text x="930" y="533" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#504a45">risk gate</text>
+                    </svg>
+                `),
+                alt: 'StartupScrape ICP score board',
+                caption: 'ICP scoring'
+            },
+            {
+                src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(`
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+                        <defs>
+                            <linearGradient id="bg3" x1="0" x2="1" y1="0" y2="1">
+                                <stop offset="0%" stop-color="#f6f4ef"/>
+                                <stop offset="100%" stop-color="#e7e3dc"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="1200" height="760" fill="url(#bg3)"/>
+                        <rect x="50" y="50" width="1100" height="660" rx="34" fill="#f9f7f2" stroke="#d9d3ca"/>
+                        <rect x="90" y="94" width="1020" height="58" rx="18" fill="#f1efe8" stroke="#d8d2c6"/>
+                        <rect x="120" y="108" width="94" height="30" rx="15" fill="#f3d1a8"/>
+                        <text x="142" y="129" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#8f4c0b" font-weight="700">YC</text>
+                        <rect x="236" y="108" width="120" height="30" rx="15" fill="#ebf1ff"/>
+                        <text x="255" y="129" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#1f5fa8" font-weight="700">Algolia</text>
+                        <rect x="378" y="108" width="138" height="30" rx="15" fill="#eee7ff"/>
+                        <text x="403" y="129" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#5d4b91" font-weight="700">Gemini</text>
+                        <rect x="90" y="176" width="310" height="180" rx="22" fill="#f1efe8" stroke="#d8d2c6"/>
+                        <text x="118" y="226" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" fill="#24201d" font-weight="700">Outbound motion</text>
+                        <text x="118" y="258" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#6a625d" font-weight="600">browser gating + pitch AI</text>
+                        <rect x="118" y="288" width="220" height="12" rx="6" fill="#a16207" opacity="0.85"/>
+                        <rect x="118" y="310" width="170" height="12" rx="6" fill="#d5d0c9"/>
+                        <rect x="440" y="176" width="250" height="220" rx="26" fill="#fff" stroke="#e3ddd4"/>
+                        <text x="470" y="214" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#615a52" font-weight="600">gating logic</text>
+                        <rect x="470" y="236" width="160" height="28" rx="14" fill="#fcead6"/>
+                        <text x="496" y="255" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#9b5c14" font-weight="700">browser: 82%</text>
+                        <rect x="470" y="280" width="160" height="28" rx="14" fill="#e9f2ef"/>
+                        <text x="506" y="299" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#2c6d57" font-weight="700">saved</text>
+                        <rect x="470" y="324" width="160" height="28" rx="14" fill="#f4ebef"/>
+                        <text x="496" y="343" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#8b3a3a" font-weight="700">reply: AI</text>
+                        <rect x="730" y="176" width="350" height="220" rx="26" fill="#fff" stroke="#e3ddd4"/>
+                        <text x="760" y="214" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#615a52" font-weight="600">campaign result</text>
+                        <rect x="760" y="240" width="260" height="18" rx="9" fill="#ece5dc"/>
+                        <rect x="760" y="240" width="196" height="18" rx="9" fill="#a16207"/>
+                        <rect x="760" y="282" width="260" height="18" rx="9" fill="#ece5dc"/>
+                        <rect x="760" y="282" width="238" height="18" rx="9" fill="#c8c0b3"/>
+                        <text x="760" y="336" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#4d4843">reply quality: high</text>
+                        <rect x="90" y="392" width="990" height="250" rx="30" fill="#f8f5f0" stroke="#d9d3ca"/>
+                        <text x="128" y="434" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#615a52" font-weight="600">pipeline output</text>
+                        <path d="M170 570 C260 430, 350 470, 430 365 S620 250, 700 390 S860 600, 980 380" fill="none" stroke="#a16207" stroke-width="6" stroke-linecap="round"/>
+                        <circle cx="170" cy="570" r="12" fill="#a16207"/>
+                        <circle cx="430" cy="365" r="12" fill="#a16207"/>
+                        <circle cx="700" cy="390" r="12" fill="#a16207"/>
+                        <circle cx="980" cy="380" r="12" fill="#a16207"/>
+                        <rect x="128" y="454" width="180" height="120" rx="18" fill="#fff" stroke="#d8d0c7"/>
+                        <text x="150" y="494" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#5d574f" font-weight="600">cost</text>
+                        <text x="150" y="528" font-family="ui-sans-serif, system-ui, sans-serif" font-size="32" fill="#1d1b1a" font-weight="700">82%</text>
+                        <text x="150" y="552" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#7a736d">saved</text>
+                        <rect x="644" y="454" width="180" height="120" rx="18" fill="#fff" stroke="#d8d0c7"/>
+                        <text x="666" y="494" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#5d574f" font-weight="600">reply</text>
+                        <text x="666" y="528" font-family="ui-sans-serif, system-ui, sans-serif" font-size="32" fill="#1d1b1a" font-weight="700">AI</text>
+                        <text x="666" y="552" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#7a736d">pitch</text>
+                        <text x="930" y="465" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#504a45">browser gating</text>
+                        <text x="930" y="499" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#504a45">custom pitch</text>
+                        <text x="930" y="533" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#504a45">demo tracking</text>
+                    </svg>
+                `),
+                alt: 'StartupScrape outbound workflow',
+                caption: 'AI outbound motion'
+            }
+        ],
         shortDescription:
             "A signal-driven outbound intelligence engine that combines sub-second Algolia search across Y Combinator and Work at a Startup, deep founder extraction, JEV ICP scoring from TypeSafe AI, and selective cloud browser automation.",
         challenge:
             "Targeting early-stage startups for high-ticket B2B services is plagued by fragile DOM scrapers that break constantly, wasteful headless browser runs that burn cloud minutes and get rate-limited, and shallow leads with generic emails lacking verified founder backgrounds, hiring signals, or actionable value angles.",
         solution:
-            "We engineered a 4-tier pipeline: Tier 0 queries Algolia backend APIs in <500ms with zero bot detection. Tier 1 extracts verified websites, socials, open roles, and full founder profiles (LinkedIn, bio, past projects, verified email) via raw HTTP. Tier 2 uses JEV, the TypeSafe AI ICP scoring engine, to evaluate firmographics, authority, intent, and value on a calibrated 0–100 rubric and gate disqualifying signals. Tier 3 fires cloud browser sessions only for high-value targets missing critical intelligence. Tier 4 uses Gemini to synthesize founder backgrounds into tailored value hooks and outreach drafts.",
+            "A route-based intelligence engine that finds the highest-fit startups, scores them with JEV, verifies signals with Algolia, and only escalates a small set of strong, AI-ready opportunities.",
         results:
             "Reduced prospecting cycle time from 30+ seconds per lead to sub-second API fetches while saving 90%+ of cloud browser costs. Discovered verified founders with 10/10 fit scores, JEV-powered ICP prioritization, personalized pitch hooks, and automated outcome tracking.",
         features: [

@@ -112,8 +112,8 @@
         'Queried live YC batches in <500ms, achieved 90%+ browser cost savings, and extracted verified founder LinkedIn profiles and custom pitch hooks.',
       primaryBtnText: 'Explore StartupScrape',
       secondaryBtnText: 'Outbound engine',
-      image: '/flowjoy/yc.svg',
-      webp: '/flowjoy/yc.svg',
+      image: '/flowjoy/startupscrape-thumbnail.svg',
+      webp: '/flowjoy/startupscrape-thumbnail.svg',
       imageAlt: 'StartupScrape Account Intelligence Engine'
     }
   ];

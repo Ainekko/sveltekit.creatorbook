@@ -17,29 +17,29 @@
 
   const projects = [
     {
-      id: 'elio',
-      badge: 'BUYER-INTENT SYSTEM',
-      badgeBg: 'bg-[#963816]',
-      cardBg: 'bg-[#FAF1E8]',
-      cardBorder: 'border-[#ECDCCF]',
-      textColor: 'text-[#23150D]',
-      subTextColor: 'text-[#5C483D]',
-      primaryBtnBg: 'bg-[#963816] hover:bg-[#802F12] text-white',
-      title: 'A buyer-intent system that turns social discussions into pipeline',
+      id: 'startupscrape',
+      badge: 'ACCOUNT INTELLIGENCE SYSTEM',
+      badgeBg: 'bg-[#C2410C]',
+      cardBg: 'bg-[#FFF7ED]',
+      cardBorder: 'border-[#FED7AA]',
+      textColor: 'text-[#431407]',
+      subTextColor: 'text-[#7C2D12]',
+      primaryBtnBg: 'bg-[#C2410C] hover:bg-[#9A3412] text-white',
+      title: 'Signal Forge: the founder-intelligence engine for high-fit pipeline',
       description:
-        'It detects conversations where potential buyers are expressing relevant problems, researches and contextualizes them with AI, and delivers actionable, scored outreach directly to your team.',
+        'Finds startups with the right signals, sends everything to JEV to score, and only qualifies the strongest matches—cheap, fast, and built to keep costs low.',
       proofLogos: [
-        { src: '/flowjoy/reddit.svg', alt: 'Reddit' },
-        { src: 'https://cdn.simpleicons.org/anthropic/D97757', alt: 'Claude' },
-        { src: '/flowjoy/slack.svg', alt: 'Slack' }
+        { src: '/flowjoy/yc.svg', alt: 'Y Combinator' },
+        { src: '/flowjoy/typesafe-ai-200x200.jfif', alt: 'JEV by TypeSafe AI' },
+        { src: 'https://cdn.simpleicons.org/algolia/003DFF', alt: 'Algolia' }
       ],
       proofText:
-        'Automated continuous signal detection across 40+ communities, delivering qualified buyer intent directly into Slack in under 60 seconds.',
+        'Queried live YC batches in <500ms, achieved 90%+ browser cost savings, and extracted verified founder LinkedIn profiles and custom pitch hooks.',
       primaryBtnText: 'View case study',
-      caseStudySlug: 'elio-reddit-agent',
-      image: '/flowjoy/projects/elio-cover.jpg',
-      webp: '/flowjoy/projects/elio-cover.webp',
-      imageAlt: 'Elio Buyer Intent System'
+      caseStudySlug: 'startupscrape-gtm-engine',
+      image: '/flowjoy/startupscrape-thumbnail.svg',
+      webp: '/flowjoy/startupscrape-thumbnail.svg',
+      imageAlt: 'Signal Forge Account Intelligence Engine'
     },
     {
       id: 'laurie',
@@ -67,6 +67,31 @@
       imageAlt: 'Laurie Inbound Voice Assistant'
     },
     {
+      id: 'elio',
+      badge: 'BUYER-INTENT SYSTEM',
+      badgeBg: 'bg-[#963816]',
+      cardBg: 'bg-[#FAF1E8]',
+      cardBorder: 'border-[#ECDCCF]',
+      textColor: 'text-[#23150D]',
+      subTextColor: 'text-[#5C483D]',
+      primaryBtnBg: 'bg-[#963816] hover:bg-[#802F12] text-white',
+      title: 'A buyer-intent system that turns social discussions into pipeline',
+      description:
+        'It detects conversations where potential buyers are expressing relevant problems, researches and contextualizes them with AI, and delivers actionable, scored outreach directly to your team.',
+      proofLogos: [
+        { src: '/flowjoy/reddit.svg', alt: 'Reddit' },
+        { src: 'https://cdn.simpleicons.org/anthropic/D97757', alt: 'Claude' },
+        { src: '/flowjoy/slack.svg', alt: 'Slack' }
+      ],
+      proofText:
+        'Automated continuous signal detection across 40+ communities, delivering qualified buyer intent directly into Slack in under 60 seconds.',
+      primaryBtnText: 'View case study',
+      caseStudySlug: 'elio-reddit-agent',
+      image: '/flowjoy/projects/elio-cover.jpg',
+      webp: '/flowjoy/projects/elio-cover.webp',
+      imageAlt: 'Elio Buyer Intent System'
+    },
+    {
       id: 'broadr',
       badge: 'LEAD REACTIVATION SYSTEM',
       badgeBg: 'bg-[#1A456F]',
@@ -90,31 +115,6 @@
       image: '/flowjoy/projects/broadr-cover.jpg',
       webp: '/flowjoy/projects/broadr-cover.webp',
       imageAlt: 'Broadr SMS Reactivation System'
-    },
-    {
-      id: 'startupscrape',
-      badge: 'ACCOUNT INTELLIGENCE SYSTEM',
-      badgeBg: 'bg-[#C2410C]',
-      cardBg: 'bg-[#FFF7ED]',
-      cardBorder: 'border-[#FED7AA]',
-      textColor: 'text-[#431407]',
-      subTextColor: 'text-[#7C2D12]',
-      primaryBtnBg: 'bg-[#C2410C] hover:bg-[#9A3412] text-white',
-      title: 'An autonomous account intelligence engine that discovers & qualifies high-fit founders',
-      description:
-        'Combines sub-second Algolia search across YC & WAAS directories, extracts deep founder intelligence without browser overhead, gates cloud browsers selectively, and qualifies pipeline via Gemini AI.',
-      proofLogos: [
-        { src: '/flowjoy/yc.svg', alt: 'Y Combinator' },
-        { src: '/flowjoy/typesafe-ai-200x200.jfif', alt: 'JEV by TypeSafe AI' },
-        { src: 'https://cdn.simpleicons.org/algolia/003DFF', alt: 'Algolia' }
-      ],
-      proofText:
-        'Queried live YC batches in <500ms, achieved 90%+ browser cost savings, and extracted verified founder LinkedIn profiles and custom pitch hooks.',
-      primaryBtnText: 'View case study',
-      caseStudySlug: 'startupscrape-gtm-engine',
-      image: '/flowjoy/yc.svg',
-      webp: '/flowjoy/yc.svg',
-      imageAlt: 'StartupScrape Account Intelligence Engine'
     }
   ];
 </script>
@@ -207,20 +207,70 @@
             <!-- ─── RIGHT: Clean Large Visual Window ─── -->
             <div class="lg:col-span-6">
               <div class="rounded-[2rem] overflow-hidden bg-white/70 border border-black/5 shadow-xl aspect-[4/3] sm:aspect-[16/11] relative group flex items-center justify-center">
-                <picture class="w-full h-full">
-                  {#if project.webp && !project.webp.endsWith('.svg')}
-                    <source srcset={project.webp} type="image/webp" />
-                  {/if}
-                  <img
-                    src={project.image}
-                    alt={project.imageAlt}
-                    loading="lazy"
-                    decoding="async"
-                    width="800"
-                    height="550"
-                    class="w-full h-full {project.image.endsWith('.svg') ? 'object-contain p-12 sm:p-16 bg-white' : 'object-cover object-center'} transition-transform duration-700 group-hover:scale-105"
-                  />
-                </picture>
+                {#if project.id === 'startupscrape'}
+                  <div class="startup-scrape-visual-wrap">
+                    <div class="startup-scrape-visual">
+                      <div class="startup-brand-row">
+                        <div class="startup-logo-pill"><span class="logo-mark yc"><img src="/flowjoy/yc.svg" alt="Y Combinator" /></span><span>Launch list</span></div>
+                        <div class="startup-logo-pill"><span class="logo-mark jev"><img src="/flowjoy/typesafe-ai-200x200.jfif" alt="JEV" /></span><span>ICP score</span></div>
+                        <div class="startup-logo-pill"><span class="logo-mark algolia"><img src="https://cdn.simpleicons.org/algolia/003DFF" alt="Algolia" /></span><span>Signal fit</span></div>
+                      </div>
+
+                      <div class="startup-flow-pipeline">
+                        <div class="pipeline-step intake">
+                          <div class="step-header">
+                            <span class="mini-logo yc"><img src="/flowjoy/yc.svg" alt="Y Combinator" /></span>
+                            <span>Signal intake</span>
+                          </div>
+                          <p>Find startup launch activity, founder posts, and account demand.</p>
+                          <div class="step-stat"><span>Founders</span><strong>42</strong></div>
+                        </div>
+
+                        <div class="pipeline-arrow">→</div>
+
+                        <div class="pipeline-step score">
+                          <div class="step-header">
+                            <span class="mini-logo jev"><img src="/flowjoy/typesafe-ai-200x200.jfif" alt="JEV" /></span>
+                            <span>JEV score</span>
+                          </div>
+                          <p>Score each company by intent, authority, and founder fit.</p>
+                          <div class="step-stat"><span>Fit</span><strong>0.91</strong></div>
+                        </div>
+
+                        <div class="pipeline-arrow">→</div>
+
+                        <div class="pipeline-step gate">
+                          <div class="step-header">
+                            <span class="mini-logo algolia"><img src="https://cdn.simpleicons.org/algolia/003DFF" alt="Algolia" /></span>
+                            <span>Algolia + browser gate</span>
+                          </div>
+                          <p>Only send qualified accounts through the browser and AI reply path.</p>
+                          <div class="step-stat"><span>Saved</span><strong>82%</strong></div>
+                        </div>
+                      </div>
+
+                      <div class="startup-flow-caption">
+                        <span class="caption-mark">✦</span>
+                        Signal Forge blends launch discovery, JEV ICP scoring, and selective browser + AI outbound routing.
+                      </div>
+                    </div>
+                  </div>
+                {:else}
+                  <picture class="w-full h-full">
+                    {#if project.webp && !project.webp.endsWith('.svg')}
+                      <source srcset={project.webp} type="image/webp" />
+                    {/if}
+                    <img
+                      src={project.image}
+                      alt={project.imageAlt}
+                      loading="lazy"
+                      decoding="async"
+                      width="800"
+                      height="550"
+                      class="w-full h-full {project.image.endsWith('.svg') ? 'object-contain p-12 sm:p-16 bg-white' : 'object-cover object-center'} transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </picture>
+                {/if}
               </div>
             </div>
 
@@ -257,6 +307,234 @@
     animation: logoTileShuffle 2.8s ease-in-out infinite;
     animation-delay: var(--delay);
     z-index: calc(10 - var(--i));
+  }
+
+  .startup-scrape-visual-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #f4f1ed;
+    border: 1px solid #d8d0c7;
+    border-radius: 1.5rem;
+    padding: 0.55rem;
+    box-shadow: 0 10px 24px rgba(32, 24, 20, 0.04);
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    animation: flowFrameFloat 4.5s ease-in-out infinite;
+  }
+
+  .startup-scrape-visual {
+    width: 100%;
+    height: 100%;
+    background: #f7f4f1;
+    border-radius: 1.5rem;
+    padding: 0.9rem 0.8rem 0.7rem;
+    border: 1px solid #dcd3ca;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: visualFadeIn 0.9s ease-out both;
+  }
+
+  .startup-brand-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.1rem 0.1rem 0.7rem;
+    animation: brandRowSlide 0.8s ease-out both;
+  }
+
+  .startup-logo-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.38rem 0.8rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.72);
+    border: 1px solid #d8d0c7;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #2d2a29;
+    animation: chipFloat 5s ease-in-out infinite;
+    animation-delay: calc(var(--i, 0) * 0.2s);
+  }
+
+  .logo-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 500px;
+    font-size: 0.55rem;
+    font-weight: 800;
+  }
+
+  .logo-mark.yc { background: #f3d5a6; padding: 0.08rem; }
+  .logo-mark.yc img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+  .logo-mark.jev { background: rgba(255,255,255,0.8); padding: 0.08rem; }
+  .logo-mark.jev img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+  .logo-mark.algolia { background: #e7f0ff; padding: 0.08rem; }
+  .logo-mark.algolia img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+  .startup-flow-pipeline {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: stretch;
+    gap: 0.55rem;
+    margin: 0.2rem 0 0.6rem;
+    flex: 1;
+  }
+
+  .pipeline-step {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.55rem;
+    padding: 0.8rem 0.72rem 0.7rem;
+    background: rgba(255,255,255,0.8);
+    border: 1px solid #d9d0c7;
+    border-radius: 1rem;
+    box-shadow: 0 6px 18px rgba(32, 24, 20, 0.04);
+    animation: stepRise 0.8s ease-out both;
+  }
+
+  .pipeline-step.intake { animation-delay: 0.1s; }
+  .pipeline-step.score { animation-delay: 0.25s; }
+  .pipeline-step.gate { animation-delay: 0.4s; }
+
+  .pipeline-step p {
+    margin: 0;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: #4b4643;
+    font-weight: 500;
+  }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: #201d1c;
+  }
+
+  .mini-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    font-size: 0.54rem;
+    font-weight: 800;
+  }
+
+  .mini-logo.yc { background: #f3d5a6; padding: 0.06rem; }
+  .mini-logo.yc img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+  .mini-logo.jev { background: rgba(255,255,255,0.8); padding: 0.06rem; }
+  .mini-logo.jev img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+  .mini-logo.algolia { background: #e7f0ff; padding: 0.06rem; }
+  .mini-logo.algolia img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+  .step-stat {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.6rem;
+    border-top: 1px solid #e8e1d8;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6b625d;
+  }
+
+  .step-stat strong {
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    color: #1e1d1b;
+  }
+
+  .pipeline-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #8d8078;
+  }
+
+  .startup-flow-caption {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.5rem 0;
+    text-align: center;
+    font-size: 0.72rem;
+    line-height: 1.4;
+    font-weight: 600;
+    color: #5f5854;
+    animation: captionPulse 4s ease-in-out infinite;
+  }
+
+  .caption-mark {
+    font-size: 0.9rem;
+    color: #201d1c;
+  }
+
+  @keyframes flowFrameFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-6px) rotate(-0.2deg); }
+    50% { transform: translateY(-10px) rotate(0deg); }
+    75% { transform: translateY(-6px) rotate(0.2deg); }
+  }
+
+  @keyframes visualFadeIn {
+    from { opacity: 0; transform: scale(0.96) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  @keyframes brandRowSlide {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes chipFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-4px) scale(1.03); }
+  }
+
+  @keyframes stepRise {
+    from { opacity: 0; transform: translateY(18px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @keyframes captionPulse {
+    0%, 100% { opacity: 0.8; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-1px); }
+  }
+
+  @media (max-width: 900px) {
+    .startup-flow-pipeline {
+      grid-template-columns: 1fr;
+    }
+
+    .pipeline-arrow {
+      transform: rotate(90deg);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .startup-brand-row {
+      justify-content: flex-start;
+    }
   }
 
   @keyframes logoTileShuffle {
