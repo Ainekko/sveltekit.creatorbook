@@ -35,8 +35,8 @@
       ],
       proofText:
         'Automated continuous signal detection across 40+ communities, delivering qualified buyer intent directly into Slack in under 60 seconds.',
-      primaryBtnText: 'Explore Elio',
-      secondaryBtnText: 'Case study',
+      primaryBtnText: 'View case study',
+      caseStudySlug: 'elio-reddit-agent',
       image: '/flowjoy/projects/elio-cover.jpg',
       webp: '/flowjoy/projects/elio-cover.webp',
       imageAlt: 'Elio Buyer Intent System'
@@ -60,8 +60,8 @@
       ],
       proofText:
         'Fielded 1,200+ inbound calls with zero dropped rings, instant conversational response, and instant CRM calendar sync.',
-      primaryBtnText: 'Explore Laurie',
-      secondaryBtnText: 'Voice architecture',
+      primaryBtnText: 'View case study',
+      caseStudySlug: 'front-desk-assistant',
       image: '/flowjoy/projects/laurie-voice-assistant.jpg',
       webp: '/flowjoy/projects/laurie-voice-assistant.webp',
       imageAlt: 'Laurie Inbound Voice Assistant'
@@ -85,8 +85,8 @@
       ],
       proofText:
         'Reactivated 3,400+ cold CRM records across 10 rotating 10DLC numbers, generating 142 booked discovery calls with zero carrier flags.',
-      primaryBtnText: 'Explore Broadr',
-      secondaryBtnText: 'SMS engine',
+      primaryBtnText: 'View case study',
+      caseStudySlug: 'sms-management-platform',
       image: '/flowjoy/projects/broadr-cover.jpg',
       webp: '/flowjoy/projects/broadr-cover.webp',
       imageAlt: 'Broadr SMS Reactivation System'
@@ -110,8 +110,8 @@
       ],
       proofText:
         'Queried live YC batches in <500ms, achieved 90%+ browser cost savings, and extracted verified founder LinkedIn profiles and custom pitch hooks.',
-      primaryBtnText: 'Explore StartupScrape',
-      secondaryBtnText: 'Outbound engine',
+      primaryBtnText: 'View case study',
+      caseStudySlug: 'startupscrape-gtm-engine',
       image: '/flowjoy/yc.svg',
       webp: '/flowjoy/yc.svg',
       imageAlt: 'StartupScrape Account Intelligence Engine'
@@ -192,24 +192,15 @@
                 </div>
               </div>
 
-              <!-- Dual Action Buttons -->
-              <div class="flex flex-wrap items-center gap-3 pt-2">
-                <button
-                  type="button"
-                  on:click={() => scrollToSection('gtm-teardown')}
-                  class="{project.primaryBtnBg} font-semibold px-6 py-3 rounded-full text-sm flex items-center gap-2 shadow-xs transition hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+              <!-- Unified CTA -->
+              <div class="pt-2">
+                <a
+                  href={`/case-studies/${project.caseStudySlug}`}
+                  class="{project.primaryBtnBg} inline-flex items-center gap-2 font-semibold px-6 py-3 rounded-full text-sm shadow-xs transition hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
                   <span>{project.primaryBtnText}</span>
-                  <span>&rarr;</span>
-                </button>
-
-                <button
-                  type="button"
-                  on:click={() => scrollToSection('gtm-teardown')}
-                  class="bg-white hover:bg-white/90 text-zinc-900 border border-black/10 font-medium px-5 py-3 rounded-full text-sm shadow-xs transition cursor-pointer"
-                >
-                  {project.secondaryBtnText}
-                </button>
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
               </div>
             </div>
 

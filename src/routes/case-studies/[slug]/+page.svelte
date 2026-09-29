@@ -2,9 +2,9 @@
 	import NavBar from '$lib/components/NavBar.svelte';
 	import AgencyFooter from '$lib/components/agency/AgencyFooter.svelte';
 	import { ArrowLeft, CheckCircle2 } from 'lucide-svelte';
-	import { page } from '$app/stores';
-	import { getCaseStudyBySlug } from '$lib/data/caseStudies';
 	import { onMount } from 'svelte';
+
+	export let data;
 
 	let visible = false;
 
@@ -12,8 +12,8 @@
 		setTimeout(() => (visible = true), 100);
 	});
 
-	$: slug = $page.params.slug;
-	$: study = getCaseStudyBySlug(slug) || getCaseStudyBySlug('nai-seo-agent');
+	$: study = data?.study;
+	$: slug = study?.slug || 'case-study';
 
 	const heroGradientMap: Record<string, string> = {
 		blue: 'from-[#D4E8F0] via-[#D9F4ED] to-[#B8FAE4]',
@@ -24,17 +24,47 @@
 </script>
 
 <svelte:head>
-	<title>{study?.title || 'Case Study'} [Case Study] | Flowjoy</title>
+	<title>{study?.title || 'Case Study'} | Flowjoy</title>
 	<meta name="description" content={study?.shortDescription || 'A Flowjoy case study — real AI systems built for real businesses.'} />
-	<meta property="og:title" content="{study?.title || 'Case Study'} [Case Study] | Flowjoy" />
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+	<link rel="canonical" href={`https://www.flowjoy.online/case-studies/${slug}`} />
+	<meta property="og:title" content="{study?.title || 'Case Study'} | Flowjoy" />
 	<meta property="og:description" content={study?.shortDescription || 'A Flowjoy case study.'} />
 	<meta property="og:type" content="article" />
+	<meta property="og:url" content={`https://www.flowjoy.online/case-studies/${slug}`} />
 	{#if study?.coverImage}
 		<meta property="og:image" content={study.coverImage} />
 	{/if}
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="{study?.title || 'Case Study'} | Flowjoy" />
 	<meta name="twitter:description" content={study?.shortDescription || 'A Flowjoy case study.'} />
+	{#if study}
+		<script type="application/ld+json">
+			{JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "Article",
+				"headline": study.title,
+				"description": study.shortDescription,
+				"image": study.coverImage || undefined,
+				"author": {
+					"@type": "Organization",
+					"name": "Flowjoy"
+				},
+				"publisher": {
+					"@type": "Organization",
+					"name": "Flowjoy",
+					"logo": {
+						"@type": "ImageObject",
+						"url": "https://www.flowjoy.online/flowjoy/LOGO%20GREEN%202.png"
+					}
+				},
+				"mainEntityOfPage": {
+					"@type": "WebPage",
+					"@id": `https://www.flowjoy.online/case-studies/${slug}`
+				}
+			})}
+		</script>
+	{/if}
 </svelte:head>
 
 {#if study}
@@ -302,7 +332,7 @@
 							href={study.websiteUrl}
 							target={study.websiteUrl.startsWith('http') ? '_blank' : undefined}
 							rel={study.websiteUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
-							class="bg-[#181A1F] rounded-[2.5rem] p-8 border border-emerald-500/15 flex flex-col gap-5 relative overflow-hidden group/visit hover:border-emerald-400/25 transition-all duration-300 block"
+							class="bg-[#181A1F] rounded-[2.5rem] p-8 border border-emerald-500/15 flex flex-col gap-5 relative overflow-hidden group/visit hover:border-emerald-400/25 transition-all duration-300"
 						>
 							<div class="absolute -left-8 -bottom-8 w-40 h-40 opacity-[0.08] pointer-events-none">
 								<div class="w-full h-full rounded-full bg-emerald-400 blur-3xl"></div>
@@ -320,7 +350,7 @@
 									</div>
 								</div>
 								<div
-									class="block w-full text-center py-4 px-6 bg-emerald-500 text-white font-bold rounded-[1.25rem] hover:bg-emerald-400 active:scale-95 transition-all text-sm shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
+									class="w-full text-center py-4 px-6 bg-emerald-500 text-white font-bold rounded-[1.25rem] hover:bg-emerald-400 active:scale-95 transition-all text-sm shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
 								>
 									View Demo
 									<svg class="w-4 h-4 transition-transform duration-300 group-hover/visit:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
