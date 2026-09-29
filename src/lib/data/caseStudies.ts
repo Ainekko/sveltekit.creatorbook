@@ -273,23 +273,25 @@ export const caseStudies: CaseStudy[] = [
         websiteUrl: 'https://flowjoy.online',
         techLogos: [
             { src: '/flowjoy/yc.svg', label: 'Y Combinator' },
+            { src: '/flowjoy/typesafe-ai-200x200.jfif', label: 'JEV by TypeSafe AI' },
             { src: 'https://cdn.simpleicons.org/algolia/003DFF', label: 'Algolia' },
             { src: 'https://cdn.simpleicons.org/googlegemini/8E75B2', label: 'Gemini 3.6 Flash' },
             { src: '/flowjoy/logos/Python_Software_Foundation/Python_Software_Foundation_idixzIbrOi_1.svg', label: 'Python' }
         ],
-        services: ['Algolia Direct Query', 'Inertia Intelligence Extraction', 'Selective Cloud Browser Gating', 'Gemini AI Pitch Generation'],
+        services: ['Algolia Direct Query', 'JEV ICP Scoring', 'Inertia Intelligence Extraction', 'Selective Cloud Browser Gating', 'Gemini AI Pitch Generation'],
         heroImage: '/flowjoy/yc.svg',
         screenshots: [],
         shortDescription:
-            "A signal-driven outbound intelligence engine that combines sub-second Algolia search across Y Combinator and Work at a Startup, deep founder extraction, selective cloud browser automation, and closed-loop AI qualification.",
+            "A signal-driven outbound intelligence engine that combines sub-second Algolia search across Y Combinator and Work at a Startup, deep founder extraction, JEV ICP scoring from TypeSafe AI, and selective cloud browser automation.",
         challenge:
             "Targeting early-stage startups for high-ticket B2B services is plagued by fragile DOM scrapers that break constantly, wasteful headless browser runs that burn cloud minutes and get rate-limited, and shallow leads with generic emails lacking verified founder backgrounds, hiring signals, or actionable value angles.",
         solution:
-            "We engineered a 4-tier pipeline: Tier 0 queries Algolia backend APIs in <500ms with zero bot detection. Tier 1 extracts verified websites, socials, open roles, and full founder profiles (LinkedIn, bio, past projects, verified email) via raw HTTP. Tier 2 scores accounts against ICP triggers. Tier 3 fires cloud browser sessions only for high-value targets missing critical intelligence. Tier 4 uses Gemini to synthesize founder backgrounds into tailored value hooks and outreach drafts.",
+            "We engineered a 4-tier pipeline: Tier 0 queries Algolia backend APIs in <500ms with zero bot detection. Tier 1 extracts verified websites, socials, open roles, and full founder profiles (LinkedIn, bio, past projects, verified email) via raw HTTP. Tier 2 uses JEV, the TypeSafe AI ICP scoring engine, to evaluate firmographics, authority, intent, and value on a calibrated 0–100 rubric and gate disqualifying signals. Tier 3 fires cloud browser sessions only for high-value targets missing critical intelligence. Tier 4 uses Gemini to synthesize founder backgrounds into tailored value hooks and outreach drafts.",
         results:
-            "Reduced prospecting cycle time from 30+ seconds per lead to sub-second API fetches while saving 90%+ of cloud browser costs. Discovered verified founders with 10/10 fit scores, personalized pitch hooks, and automated outcome tracking.",
+            "Reduced prospecting cycle time from 30+ seconds per lead to sub-second API fetches while saving 90%+ of cloud browser costs. Discovered verified founders with 10/10 fit scores, JEV-powered ICP prioritization, personalized pitch hooks, and automated outcome tracking.",
         features: [
             { icon: '', title: 'Algolia Direct Query', desc: '' },
+            { icon: '', title: 'JEV ICP Scoring', desc: '' },
             { icon: '', title: 'Inertia Founder Intel', desc: '' },
             { icon: '', title: 'Selective Browser Gating', desc: '' },
             { icon: '', title: 'Gemini GTM Scorer', desc: '' }
@@ -298,7 +300,7 @@ export const caseStudies: CaseStudy[] = [
             { value: '<500ms', label: 'Sub-second search response', highlight: true },
             { value: '90%+', label: 'Cloud browser credit savings' },
             { value: '10/10', label: 'ICP founder qualification fit' },
-            { value: '100%', label: 'Personalized value hooks' }
+            { value: '0–100', label: 'JEV prioritization score' }
         ],
         quote: {
             text: "Client: Flowjoy Outbound Prospecting",

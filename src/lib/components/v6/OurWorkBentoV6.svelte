@@ -105,8 +105,8 @@
         'Combines sub-second Algolia search across YC & WAAS directories, extracts deep founder intelligence without browser overhead, gates cloud browsers selectively, and qualifies pipeline via Gemini AI.',
       proofLogos: [
         { src: '/flowjoy/yc.svg', alt: 'Y Combinator' },
-        { src: 'https://cdn.simpleicons.org/algolia/003DFF', alt: 'Algolia' },
-        { src: 'https://cdn.simpleicons.org/googlegemini/8E75B2', alt: 'Google Gemini' }
+        { src: '/flowjoy/typesafe-ai-200x200.jfif', alt: 'JEV by TypeSafe AI' },
+        { src: 'https://cdn.simpleicons.org/algolia/003DFF', alt: 'Algolia' }
       ],
       proofText:
         'Queried live YC batches in <500ms, achieved 90%+ browser cost savings, and extracted verified founder LinkedIn profiles and custom pitch hooks.',
@@ -176,9 +176,12 @@
 
                 <!-- Mini Proof -->
                 <div class="flex items-center gap-3.5 mb-8">
-                  <div class="flex items-center -space-x-2 shrink-0">
-                    {#each project.proofLogos as logo}
-                      <div class="w-8 h-8 rounded-full bg-white border border-black/10 flex items-center justify-center p-1.5 shadow-xs">
+                  <div class="logo-stack shrink-0">
+                    {#each project.proofLogos as logo, index}
+                      <div
+                        class="logo-tile-shuffle"
+                        style="--i: {index}; --delay: {index * 0.9}s;"
+                      >
                         <img src={logo.src} alt={logo.alt} class="w-full h-full object-contain" />
                       </div>
                     {/each}
@@ -237,3 +240,63 @@
 
   </div>
 </section>
+
+<style>
+  .logo-stack {
+    position: relative;
+    width: 94px;
+    height: 32px;
+  }
+
+  .logo-tile-shuffle {
+    position: absolute;
+    top: 0;
+    left: calc(var(--i) * 16px);
+    width: 32px;
+    height: 32px;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.96);
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px;
+    transform-origin: center center;
+    animation: logoTileShuffle 2.8s ease-in-out infinite;
+    animation-delay: var(--delay);
+    z-index: calc(10 - var(--i));
+  }
+
+  @keyframes logoTileShuffle {
+    0% {
+      transform: translateX(calc(var(--i) * 0px)) translateY(0) rotate(0deg) scale(0.92);
+      opacity: 0.7;
+      filter: saturate(0.8);
+    }
+    20% {
+      transform: translateX(calc(var(--i) * 2px + 2px)) translateY(-2px) rotate(-3deg) scale(0.98);
+      opacity: 0.9;
+    }
+    38% {
+      transform: translateX(calc(var(--i) * 6px + 10px)) translateY(-5px) rotate(6deg) scale(1.08);
+      opacity: 1;
+      z-index: 20;
+    }
+    55% {
+      transform: translateX(calc(var(--i) * 10px + 18px)) translateY(-2px) rotate(-5deg) scale(1.02);
+      opacity: 1;
+      z-index: 20;
+    }
+    75% {
+      transform: translateX(calc(var(--i) * 10px + 8px)) translateY(0) rotate(2deg) scale(0.96);
+      opacity: 0.9;
+      z-index: calc(10 - var(--i));
+    }
+    100% {
+      transform: translateX(calc(var(--i) * 0px)) translateY(0) rotate(0deg) scale(0.92);
+      opacity: 0.7;
+      filter: saturate(0.8);
+    }
+  }
+</style>
