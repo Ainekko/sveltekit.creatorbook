@@ -3,6 +3,7 @@
 
 User-agent: *
 Allow: /$
+Allow: /case-studies
 Disallow: /legacy/
 Disallow: /v1/
 Disallow: /v2/
@@ -13,7 +14,6 @@ Disallow: /v6/
 Disallow: /flowjoy/
 Disallow: /api/
 Disallow: /auth/
-Disallow: /case-studies/
 Disallow: /cventure/
 Disallow: /exchangefb/
 Disallow: /software/
