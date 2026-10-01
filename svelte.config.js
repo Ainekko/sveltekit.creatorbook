@@ -7,7 +7,7 @@ const config = {
 	kit: {
 		adapter: adapter({
 			// Vercel-specific options
-			runtime: 'nodejs20.x',
+			runtime: 'nodejs24.x',
 			regions: ['iad1'], // Change to your preferred region
 			split: false // Set to true for route splitting if needed
 		})
