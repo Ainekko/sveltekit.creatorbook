@@ -163,7 +163,7 @@
 		<!-- ─── HERO IMAGE ────────────────────────────────────────── -->
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
 			<div
-				class="relative rounded-[2.5rem] overflow-hidden aspect-[16/9] {study.coverImage
+				class="relative rounded-[2.5rem] overflow-hidden min-h-[580px] sm:min-h-[520px] md:min-h-0 md:aspect-[16/9] {study.coverImage
 					? ''
 					: 'bg-gradient-to-br ' + heroGradient}"
 				style="opacity:{visible ? 1 : 0}; transform:translateY({visible
@@ -261,7 +261,7 @@
 							<!-- Screenshots carousel -->
 							{#if study.slug === 'startupscrape-gtm-engine'}
 								<div class="flex flex-col gap-5">
-									<div class="w-full aspect-[16/10] sm:aspect-[16/9] min-h-[380px] rounded-[2rem] overflow-hidden shadow-xl relative bg-[#fbf9f5]">
+									<div class="w-full min-h-[440px] sm:min-h-[380px] sm:aspect-[16/9] rounded-[2rem] overflow-hidden shadow-xl relative bg-[#fbf9f5]">
 										<StartupScrapeShowcase activeTab={currentScreenshotIndex + 1} />
 									</div>
 								</div>

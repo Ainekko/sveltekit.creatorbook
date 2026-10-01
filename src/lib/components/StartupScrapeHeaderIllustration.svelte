@@ -143,7 +143,7 @@
   $: activeCol = effectiveStage >= 8 ? 3 : effectiveStage >= 5 ? 2 : 1;
 </script>
 
-<div class="sf-root w-full h-full bg-[#fbf9f5] text-[#1c1917] rounded-[1.75rem] border border-[#e5ddd0] p-3.5 sm:p-5 flex flex-col justify-between shadow-xl overflow-hidden relative select-none font-sans">
+<div class="sf-root w-full h-full bg-[#fbf9f5] text-[#1c1917] rounded-[1.75rem] border border-[#e5ddd0] p-3.5 sm:p-5 flex flex-col justify-between shadow-xl overflow-y-auto md:overflow-hidden relative select-none font-sans">
   
   <!-- Subtle warm background glow -->
   <div class="absolute -top-20 -left-20 w-64 h-64 bg-[#fed7aa]/35 rounded-full blur-3xl pointer-events-none"></div>

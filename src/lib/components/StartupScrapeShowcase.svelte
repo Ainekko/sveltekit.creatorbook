@@ -46,19 +46,19 @@
 </script>
 
 <!--
-  Layout: fixed flex-col, no wrapping, no overflow.
+  Layout: Mobile-friendly stack vertically on mobile (grid-cols-1), 3-col on desktop (sm:grid-cols-3)
   Header = shrink-0
   Cards = flex-1 min-h-0
-  Bottom bar = shrink-0 (abbreviated, single row)
+  Bottom bar = shrink-0
 -->
-<div class="sf-root w-full h-full bg-[#fbf9f5] text-[#1c1917] rounded-[1.75rem] border border-[#e5ddd0] flex flex-col overflow-hidden relative select-none" style="font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; padding: clamp(0.75rem, 2.5%, 1.25rem);">
+<div class="sf-root w-full h-full bg-[#fbf9f5] text-[#1c1917] rounded-[1.75rem] border border-[#e5ddd0] flex flex-col justify-between overflow-y-auto sm:overflow-hidden relative select-none" style="font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; padding: clamp(0.75rem, 2.5%, 1.25rem);">
 
   <!-- Warm glow blobs (non-interactive) -->
   <div class="absolute -top-16 -left-16 w-48 h-48 bg-[#fed7aa]/25 rounded-full blur-3xl pointer-events-none"></div>
   <div class="absolute -bottom-16 -right-16 w-48 h-48 bg-[#e0e7ff]/20 rounded-full blur-3xl pointer-events-none"></div>
 
   <!-- ── HEADER: Window dots | Name | Cost pill ── -->
-  <div class="shrink-0 relative z-10 flex items-center justify-between mb-3">
+  <div class="shrink-0 relative z-10 flex items-center justify-between mb-2.5 sm:mb-3">
     <div class="flex items-center gap-2">
       <div class="flex items-center gap-1.5">
         <span class="w-2.5 h-2.5 rounded-full bg-[#ef4444]/80"></span>
@@ -76,27 +76,39 @@
     </span>
   </div>
 
-  <!-- ── 3 CARDS: flex-1 fills remaining space, no overflow ── -->
-  <div class="flex-1 min-h-0 relative z-10 grid grid-cols-3 items-stretch overflow-hidden" style="gap: clamp(0.4rem, 1.5%, 0.75rem);">
+  <!-- ── 3 CARDS: Stack vertically on mobile, 3-col on desktop ── -->
+  <div class="flex-1 min-h-0 relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 items-stretch">
 
     <!-- CARD 1: SOURCING -->
-    <div class="glow-wrapper" class:glow-orange={currentStep === 1}>
+    <div class="glow-wrapper w-full" class:glow-orange={currentStep === 1}>
       <button
         type="button"
         on:click={() => selectStep(1)}
-        class="step-card rounded-2xl flex flex-col items-center justify-between text-center border transition-all duration-300"
+        class="step-card rounded-xl sm:rounded-2xl flex flex-row sm:flex-col items-center justify-between text-left sm:text-center border transition-all duration-300 w-full"
         class:active-orange={currentStep === 1}
         class:inactive={currentStep !== 1}
-        style="padding: clamp(0.4rem, 1.8%, 0.75rem);"
+        style="padding: clamp(0.45rem, 1.8%, 0.75rem);"
       >
-        <!-- Step + cost row -->
-        <div class="w-full flex items-center justify-between shrink-0">
-          <span class="font-mono font-bold text-[#a8a29e] bg-[#f4f0eb] rounded-md" style="font-size: clamp(0.5rem, 1.4vw, 0.6rem); padding: 0.15em 0.45em;">01</span>
-          <span class="font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full" style="font-size: clamp(0.5rem, 1.4vw, 0.6rem); padding: 0.15em 0.45em;">$0.00</span>
+        <!-- Mobile Left / Desktop Top: Step & Cost badge -->
+        <div class="flex items-center gap-2.5 sm:w-full sm:justify-between shrink-0">
+          <span class="font-mono font-bold text-[#a8a29e] bg-[#f4f0eb] rounded-md shrink-0" style="font-size: clamp(0.55rem, 1.4vw, 0.65rem); padding: 0.2em 0.5em;">01</span>
+          
+          <!-- Logo shown inline on mobile -->
+          <div class="sm:hidden" style="width: 2.25rem; height: 2.25rem; border-radius: 0.65rem; padding: 0.25rem; display:flex; align-items:center; justify-content:center; background:white; border: 1px solid rgba(255,102,0,0.25); box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow:hidden;">
+            <img src="/flowjoy/yc.svg" alt="Y Combinator" style="width:100%;height:100%;object-fit:contain;" />
+          </div>
+
+          <div class="sm:hidden">
+            <div class="font-bold text-[#1c1917] text-xs leading-tight">Sourcing</div>
+            <div class="font-bold text-[#ea580c] uppercase text-[10px] tracking-wide">YC Cohorts</div>
+          </div>
+
+          <!-- Cost badge shown on desktop top right -->
+          <span class="font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full shrink-0 hidden sm:inline-block" style="font-size: clamp(0.5rem, 1.4vw, 0.6rem); padding: 0.15em 0.45em;">$0.00</span>
         </div>
 
-        <!-- YC Logo -->
-        <div class="flex-1 min-h-0 flex flex-col items-center justify-center" style="padding: 0.3rem 0;">
+        <!-- Desktop Middle: Big centered logo + Title -->
+        <div class="hidden sm:flex flex-1 min-h-0 flex-col items-center justify-center" style="padding: 0.3rem 0;">
           <div style="width: clamp(2rem, 7vw, 3rem); height: clamp(2rem, 7vw, 3rem); border-radius: 0.75rem; padding: 0.3rem; display:flex; align-items:center; justify-content:center; background:white; border: 1px solid rgba(255,102,0,0.25); box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 0.4rem; overflow:hidden;">
             <img src="/flowjoy/yc.svg" alt="Y Combinator" style="width:100%;height:100%;object-fit:contain;" />
           </div>
@@ -104,101 +116,133 @@
           <div class="font-bold text-[#ea580c] uppercase tracking-wide" style="font-size: clamp(0.5rem, 1.3vw, 0.6rem); margin-top: 0.15rem;">YC Cohorts</div>
         </div>
 
-        <!-- Bottom -->
-        <div class="w-full flex items-center justify-center gap-1 shrink-0" style="border-top: 1px solid #ede7de; padding-top: 0.35rem;">
-          <img src="/flowjoy/algolia.svg" alt="Algolia" style="width: clamp(0.6rem, 1.8vw, 0.75rem); height: clamp(0.6rem, 1.8vw, 0.75rem); flex-shrink:0;" />
-          <span class="text-[#78716c] truncate" style="font-size: clamp(0.45rem, 1.3vw, 0.55rem);">Algolia REST</span>
+        <!-- Mobile Right / Desktop Bottom -->
+        <div class="flex flex-col sm:flex-row items-end sm:items-center justify-center gap-1 shrink-0 sm:w-full sm:border-t sm:border-[#ede7de] sm:pt-1.5">
+          <span class="font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full sm:hidden text-[10px] px-2 py-0.5">$0.00</span>
+          <div class="flex items-center gap-1">
+            <img src="/flowjoy/algolia.svg" alt="Algolia" class="hidden sm:inline-block" style="width: clamp(0.6rem, 1.8vw, 0.75rem); height: clamp(0.6rem, 1.8vw, 0.75rem); flex-shrink:0;" />
+            <span class="text-[#78716c] truncate text-[10px] sm:text-[clamp(0.45rem,1.3vw,0.55rem)]">Algolia REST</span>
+          </div>
         </div>
       </button>
     </div>
 
     <!-- CARD 2: JEV SCORER -->
-    <div class="glow-wrapper" class:glow-purple={currentStep === 2}>
+    <div class="glow-wrapper w-full" class:glow-purple={currentStep === 2}>
       <button
         type="button"
         on:click={() => selectStep(2)}
-        class="step-card rounded-2xl flex flex-col items-center justify-between text-center border transition-all duration-300"
+        class="step-card rounded-xl sm:rounded-2xl flex flex-row sm:flex-col items-center justify-between text-left sm:text-center border transition-all duration-300 w-full"
         class:active-purple={currentStep === 2}
         class:inactive={currentStep !== 2}
-        style="padding: clamp(0.4rem, 1.8%, 0.75rem);"
+        style="padding: clamp(0.45rem, 1.8%, 0.75rem);"
       >
-      <div class="w-full flex items-center justify-between shrink-0">
-        <span class="font-mono font-bold text-[#a8a29e] bg-[#f4f0eb] rounded-md" style="font-size: clamp(0.55rem, 1.5vw, 0.65rem); padding: 0.2em 0.5em;">02</span>
-        <span class="font-mono font-bold text-purple-800 bg-purple-100 border border-purple-200 rounded-full" style="font-size: clamp(0.55rem, 1.5vw, 0.65rem); padding: 0.2em 0.5em;">$0.04</span>
-      </div>
+        <!-- Mobile Left / Desktop Top: Step & Cost badge -->
+        <div class="flex items-center gap-2.5 sm:w-full sm:justify-between shrink-0">
+          <span class="font-mono font-bold text-[#a8a29e] bg-[#f4f0eb] rounded-md shrink-0" style="font-size: clamp(0.55rem, 1.4vw, 0.65rem); padding: 0.2em 0.5em;">02</span>
 
-      <!-- Big JEV Logo -->
-      <div class="flex-1 min-h-0 flex flex-col items-center justify-center" style="padding: 0.3rem 0;">
-        <div style="width: clamp(2rem, 7vw, 3rem); height: clamp(2rem, 7vw, 3rem); border-radius: 0.75rem; padding: 0.1rem; display:flex; align-items:center; justify-content:center; background:white; border: 1px solid #e9d5ff; box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 0.4rem; overflow:hidden;">
-          <img src="/flowjoy/typesafe-ai-200x200.jfif" alt="JEV" style="width:100%;height:100%;object-fit:cover;border-radius:0.625rem;" />
+          <!-- Logo shown inline on mobile -->
+          <div class="sm:hidden" style="width: 2.25rem; height: 2.25rem; border-radius: 0.65rem; padding: 0.15rem; display:flex; align-items:center; justify-content:center; background:white; border: 1px solid #e9d5ff; box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow:hidden;">
+            <img src="/flowjoy/typesafe-ai-200x200.jfif" alt="JEV" style="width:100%;height:100%;object-fit:cover;border-radius:0.5rem;" />
+          </div>
+
+          <div class="sm:hidden">
+            <div class="font-bold text-[#1c1917] text-xs leading-tight">JEV Scorer</div>
+            <div class="font-extrabold text-[#7e22ce] uppercase text-[10px] tracking-wide">Scoring ICP</div>
+          </div>
+
+          <!-- Cost badge shown on desktop top right -->
+          <span class="font-mono font-bold text-purple-800 bg-purple-100 border border-purple-200 rounded-full shrink-0 hidden sm:inline-block" style="font-size: clamp(0.5rem, 1.4vw, 0.6rem); padding: 0.15em 0.45em;">$0.04</span>
         </div>
-        <div class="font-bold text-[#1c1917]" style="font-size: clamp(0.6rem, 1.8vw, 0.75rem); line-height: 1.2;">JEV Scorer</div>
-        <div class="font-extrabold text-[#7e22ce] uppercase tracking-wide" style="font-size: clamp(0.5rem, 1.3vw, 0.6rem); margin-top: 0.15rem;">Scoring ICP</div>
-      </div>
 
-      <!-- Bottom -->
-      <div class="w-full flex items-center justify-center shrink-0" style="border-top: 1px solid #ede7de; padding-top: 0.35rem;">
-        <span class="text-purple-700 font-semibold truncate" style="font-size: clamp(0.45rem, 1.3vw, 0.55rem);">320ms · 94/100</span>
-      </div>
-    </button>
-  </div>
-
-  <!-- CARD 3: TREG.TO ENRICHMENT -->
-  <div class="glow-wrapper" class:glow-green={currentStep === 3}>
-    <button
-      type="button"
-      on:click={() => selectStep(3)}
-      class="step-card rounded-2xl flex flex-col items-center justify-between text-center border transition-all duration-300"
-      class:active-green={currentStep === 3}
-      class:inactive={currentStep !== 3}
-      style="padding: clamp(0.4rem, 1.8%, 0.75rem);"
-    >
-      <div class="w-full flex items-center justify-between shrink-0">
-        <span class="font-mono font-bold text-[#a8a29e] bg-[#f4f0eb] rounded-md" style="font-size: clamp(0.5rem, 1.4vw, 0.6rem); padding: 0.15em 0.45em;">03</span>
-        <span class="font-mono font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-full" style="font-size: clamp(0.5rem, 1.4vw, 0.6rem); padding: 0.15em 0.45em;">$0.005</span>
-      </div>
-
-      <!-- Treg.to Logo -->
-      <div class="flex-1 min-h-0 flex flex-col items-center justify-center" style="padding: 0.3rem 0;">
-        <div style="width: clamp(2rem, 7vw, 3rem); height: clamp(2rem, 7vw, 3rem); border-radius: 0.75rem; padding: 0.2rem; display:flex; align-items:center; justify-content:center; background:white; border: 1px solid #a7f3d0; box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 0.4rem; overflow:hidden;">
-          <img src="/flowjoy/treg.svg" alt="Treg.to" style="width:100%;height:100%;object-fit:contain;" />
+        <!-- Desktop Middle: Big centered logo + Title -->
+        <div class="hidden sm:flex flex-1 min-h-0 flex-col items-center justify-center" style="padding: 0.3rem 0;">
+          <div style="width: clamp(2rem, 7vw, 3rem); height: clamp(2rem, 7vw, 3rem); border-radius: 0.75rem; padding: 0.1rem; display:flex; align-items:center; justify-content:center; background:white; border: 1px solid #e9d5ff; box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 0.4rem; overflow:hidden;">
+            <img src="/flowjoy/typesafe-ai-200x200.jfif" alt="JEV" style="width:100%;height:100%;object-fit:cover;border-radius:0.625rem;" />
+          </div>
+          <div class="font-bold text-[#1c1917]" style="font-size: clamp(0.6rem, 1.8vw, 0.75rem); line-height: 1.2;">JEV Scorer</div>
+          <div class="font-extrabold text-[#7e22ce] uppercase tracking-wide" style="font-size: clamp(0.5rem, 1.3vw, 0.6rem); margin-top: 0.15rem;">Scoring ICP</div>
         </div>
-        <div class="font-bold text-[#1c1917]" style="font-size: clamp(0.6rem, 1.8vw, 0.75rem); line-height: 1.2;">Treg.to</div>
-        <div class="font-extrabold text-[#059669] uppercase tracking-wide" style="font-size: clamp(0.5rem, 1.3vw, 0.6rem); margin-top: 0.15rem;">Enrichment</div>
-      </div>
 
-      <!-- Bottom -->
-      <div class="w-full flex items-center justify-center gap-1 shrink-0" style="border-top: 1px solid #ede7de; padding-top: 0.35rem;">
-        <img src="/flowjoy/gemini.svg" alt="Gemini" style="width: clamp(0.6rem, 1.8vw, 0.75rem); height: clamp(0.6rem, 1.8vw, 0.75rem); flex-shrink:0;" />
-        <span class="text-[#78716c] truncate" style="font-size: clamp(0.45rem, 1.3vw, 0.55rem);">Verified Hit</span>
-      </div>
-    </button>
+        <!-- Mobile Right / Desktop Bottom -->
+        <div class="flex flex-col sm:flex-row items-end sm:items-center justify-center gap-1 shrink-0 sm:w-full sm:border-t sm:border-[#ede7de] sm:pt-1.5">
+          <span class="font-mono font-bold text-purple-800 bg-purple-100 border border-purple-200 rounded-full sm:hidden text-[10px] px-2 py-0.5">$0.04</span>
+          <span class="text-purple-700 font-semibold truncate text-[10px] sm:text-[clamp(0.45rem,1.3vw,0.55rem)]">320ms · 94/100</span>
+        </div>
+      </button>
+    </div>
+
+    <!-- CARD 3: TREG.TO ENRICHMENT -->
+    <div class="glow-wrapper w-full" class:glow-green={currentStep === 3}>
+      <button
+        type="button"
+        on:click={() => selectStep(3)}
+        class="step-card rounded-xl sm:rounded-2xl flex flex-row sm:flex-col items-center justify-between text-left sm:text-center border transition-all duration-300 w-full"
+        class:active-green={currentStep === 3}
+        class:inactive={currentStep !== 3}
+        style="padding: clamp(0.45rem, 1.8%, 0.75rem);"
+      >
+        <!-- Mobile Left / Desktop Top: Step & Cost badge -->
+        <div class="flex items-center gap-2.5 sm:w-full sm:justify-between shrink-0">
+          <span class="font-mono font-bold text-[#a8a29e] bg-[#f4f0eb] rounded-md shrink-0" style="font-size: clamp(0.55rem, 1.4vw, 0.65rem); padding: 0.2em 0.5em;">03</span>
+
+          <!-- Logo shown inline on mobile -->
+          <div class="sm:hidden" style="width: 2.25rem; height: 2.25rem; border-radius: 0.65rem; padding: 0.2rem; display:flex; align-items:center; justify-content:center; background:white; border: 1px solid #a7f3d0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow:hidden;">
+            <img src="/flowjoy/treg.svg" alt="Treg.to" style="width:100%;height:100%;object-fit:contain;" />
+          </div>
+
+          <div class="sm:hidden">
+            <div class="font-bold text-[#1c1917] text-xs leading-tight">Treg.to</div>
+            <div class="font-extrabold text-[#059669] uppercase text-[10px] tracking-wide">Enrichment</div>
+          </div>
+
+          <!-- Cost badge shown on desktop top right -->
+          <span class="font-mono font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-full shrink-0 hidden sm:inline-block" style="font-size: clamp(0.5rem, 1.4vw, 0.6rem); padding: 0.15em 0.45em;">$0.005</span>
+        </div>
+
+        <!-- Desktop Middle: Big centered logo + Title -->
+        <div class="hidden sm:flex flex-1 min-h-0 flex-col items-center justify-center" style="padding: 0.3rem 0;">
+          <div style="width: clamp(2rem, 7vw, 3rem); height: clamp(2rem, 7vw, 3rem); border-radius: 0.75rem; padding: 0.2rem; display:flex; align-items:center; justify-content:center; background:white; border: 1px solid #a7f3d0; box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 0.4rem; overflow:hidden;">
+            <img src="/flowjoy/treg.svg" alt="Treg.to" style="width:100%;height:100%;object-fit:contain;" />
+          </div>
+          <div class="font-bold text-[#1c1917]" style="font-size: clamp(0.6rem, 1.8vw, 0.75rem); line-height: 1.2;">Treg.to</div>
+          <div class="font-extrabold text-[#059669] uppercase tracking-wide" style="font-size: clamp(0.5rem, 1.3vw, 0.6rem); margin-top: 0.15rem;">Enrichment</div>
+        </div>
+
+        <!-- Mobile Right / Desktop Bottom -->
+        <div class="flex flex-col sm:flex-row items-end sm:items-center justify-center gap-1 shrink-0 sm:w-full sm:border-t sm:border-[#ede7de] sm:pt-1.5">
+          <span class="font-mono font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-full sm:hidden text-[10px] px-2 py-0.5">$0.005</span>
+          <div class="flex items-center gap-1">
+            <img src="/flowjoy/gemini.svg" alt="Gemini" class="hidden sm:inline-block" style="width: clamp(0.6rem, 1.8vw, 0.75rem); height: clamp(0.6rem, 1.8vw, 0.75rem); flex-shrink:0;" />
+            <span class="text-[#78716c] truncate text-[10px] sm:text-[clamp(0.45rem,1.3vw,0.55rem)]">Verified Hit</span>
+          </div>
+        </div>
+      </button>
+    </div>
+
   </div>
 
-  </div>
-
-  <!-- ── BOTTOM BAR: Single compact row, never wraps ── -->
-  <div class="shrink-0 relative z-10 flex items-center justify-between border-t border-[#e7dfd4] gap-2" style="margin-top: 0.5rem; padding-top: 0.4rem;">
+  <!-- ── BOTTOM BAR: Responsive wrap on mobile ── -->
+  <div class="shrink-0 relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between border-t border-[#e7dfd4] gap-2 pt-2" style="margin-top: 0.5rem;">
     <!-- Pipeline summary -->
-    <div class="flex items-center gap-1 min-w-0 overflow-hidden">
-      <span class="text-[#c2410c] font-bold shrink-0" style="font-size: clamp(0.45rem, 1.3vw, 0.55rem);">PIPELINE:</span>
-      <img src="/flowjoy/algolia.svg" alt="Algolia" style="width:0.7rem;height:0.7rem;flex-shrink:0;" />
-      <span class="text-[#78716c] shrink-0" style="font-size: clamp(0.45rem, 1.3vw, 0.55rem);">$0</span>
-      <span class="text-[#a8a29e] shrink-0" style="font-size: 0.5rem;">→</span>
-      <img src="/flowjoy/typesafe-ai-200x200.jfif" alt="JEV" style="width:0.7rem;height:0.7rem;border-radius:2px;object-fit:cover;flex-shrink:0;" />
-      <span class="text-[#78716c] shrink-0" style="font-size: clamp(0.45rem, 1.3vw, 0.55rem);">$0.04</span>
-      <span class="text-[#a8a29e] shrink-0" style="font-size: 0.5rem;">→</span>
-      <img src="/flowjoy/treg.svg" alt="Treg.to" style="width:0.7rem;height:0.7rem;flex-shrink:0;" />
-      <span class="text-[#78716c] shrink-0" style="font-size: clamp(0.45rem, 1.3vw, 0.55rem);">$0.005</span>
-      <span class="text-[#a8a29e] shrink-0" style="font-size: 0.5rem;">=</span>
-      <span class="text-[#c2410c] font-bold bg-orange-100/90 border border-orange-200 rounded shrink-0" style="font-size: clamp(0.45rem, 1.3vw, 0.55rem); padding: 0.1em 0.35em;">$0.045</span>
+    <div class="flex items-center gap-1 min-w-0 overflow-x-auto w-full sm:w-auto scrollbar-none py-0.5">
+      <span class="text-[#c2410c] font-bold shrink-0 text-[10px] sm:text-[clamp(0.45rem,1.3vw,0.55rem)]">PIPELINE:</span>
+      <img src="/flowjoy/algolia.svg" alt="Algolia" class="w-3.5 h-3.5 shrink-0" />
+      <span class="text-[#78716c] shrink-0 text-[10px] sm:text-[clamp(0.45rem,1.3vw,0.55rem)]">$0</span>
+      <span class="text-[#a8a29e] shrink-0 text-[10px]">→</span>
+      <img src="/flowjoy/typesafe-ai-200x200.jfif" alt="JEV" class="w-3.5 h-3.5 rounded-xs object-cover shrink-0" />
+      <span class="text-[#78716c] shrink-0 text-[10px] sm:text-[clamp(0.45rem,1.3vw,0.55rem)]">$0.04</span>
+      <span class="text-[#a8a29e] shrink-0 text-[10px]">→</span>
+      <img src="/flowjoy/treg.svg" alt="Treg.to" class="w-3.5 h-3.5 shrink-0" />
+      <span class="text-[#78716c] shrink-0 text-[10px] sm:text-[clamp(0.45rem,1.3vw,0.55rem)]">$0.005</span>
+      <span class="text-[#a8a29e] shrink-0 text-[10px]">=</span>
+      <span class="text-[#c2410c] font-bold bg-orange-100/90 border border-orange-200 rounded shrink-0 text-[10px] sm:text-[clamp(0.45rem,1.3vw,0.55rem)] px-1.5 py-0.5">$0.045</span>
     </div>
 
     <!-- Apollo comparison pill -->
-    <div class="flex items-center gap-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full font-bold shrink-0" style="font-size: clamp(0.45rem, 1.3vw, 0.55rem); padding: 0.2em 0.55em;">
-      <img src="/flowjoy/logos/apollo/apollo-icon.svg" alt="Apollo" style="width:0.75rem;height:0.75rem;flex-shrink:0;" />
-      <span class="hidden sm:inline">91% Cheaper than Apollo</span>
-      <span class="sm:hidden">91% vs Apollo</span>
+    <div class="flex items-center gap-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full font-bold shrink-0 self-end sm:self-auto text-[10px] sm:text-[clamp(0.45rem,1.3vw,0.55rem)] px-2 py-0.5">
+      <img src="/flowjoy/logos/apollo/apollo-icon.svg" alt="Apollo" class="w-3.5 h-3.5 shrink-0" />
+      <span>91% Cheaper than Apollo</span>
     </div>
   </div>
 
@@ -311,6 +355,12 @@
     box-shadow: inset 0 0 0 1px rgba(5, 150, 105, 0.12);
     opacity: 1;
   }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 </style>
-
-
