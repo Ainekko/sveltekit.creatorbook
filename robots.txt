@@ -1,9 +1,9 @@
 # robots.txt for flowjoy.online
-# Only the root landing page is indexed
 
 User-agent: *
 Allow: /$
-Allow: /case-studies
+Allow: /case-studies/
+Allow: /blog/
 Disallow: /legacy/
 Disallow: /v1/
 Disallow: /v2/
