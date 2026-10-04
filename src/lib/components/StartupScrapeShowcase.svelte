@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
+  import GrokBot from '$lib/components/GrokBot.svelte';
 
   export let activeTab: number = 0;
   export let interactive: boolean = true;
@@ -67,8 +68,8 @@
       </div>
       <span class="w-px h-3.5 bg-[#d8d0c5] mx-1 hidden sm:block"></span>
       <span class="font-bold text-[#1c1917] flex items-center gap-1.5" style="font-size: clamp(0.75rem, 2vw, 0.9rem);">
-        <span class="text-[#c2410c] font-black" style="font-size: clamp(0.85rem, 2.2vw, 1rem);">⚡</span>
-        StartupScrape
+        <GrokBot size={28} theme="orange" />
+        Verve
       </span>
     </div>
     <span class="font-mono font-bold text-[#c2410c] bg-orange-100/90 border border-orange-200 rounded-full" style="font-size: clamp(0.6rem, 1.6vw, 0.7rem); padding: 0.25em 0.75em;">

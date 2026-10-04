@@ -1,11 +1,12 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
+  import GrokBot from '$lib/components/GrokBot.svelte';
 
   export let activeTab: number = 0; // 0: Auto/Full Flow, 1: Intake, 2: Scorer, 3: Outreach
   export let interactive: boolean = true;
   export let autoPlay: boolean = true;
 
-  // Real prospect data based on startupscrape backend
+  // Real prospect data based on Verve backend
   const prospect = {
     name: 'Synthetix AI',
     batch: 'YC W24 / F26',
@@ -165,7 +166,8 @@
       <!-- Title & Unit Economics -->
       <div class="flex items-center gap-2">
         <span class="font-bold text-xs tracking-tight text-[#1c1917] flex items-center gap-1.5">
-          <span class="text-[#c2410c] font-black text-sm">⚡</span> StartupScrape
+          <GrokBot size={18} theme="orange" />
+          Verve
         </span>
         <span class="text-[10px] font-mono font-bold text-[#c2410c] bg-orange-50 px-2 py-0.5 rounded-full border border-orange-200">
           $0.045 / Verified Lead
@@ -287,7 +289,7 @@
         {:else if effectiveStage === 1}
           <!-- Querying status -->
           <div class="h-28 rounded-xl border border-orange-200 bg-orange-50/40 flex flex-col items-center justify-center text-[10px] text-[#c2410c] font-mono gap-1.5 p-3 text-center animate-pulse">
-            <span class="text-sm">⚡</span>
+            <GrokBot size={24} theme="orange" />
             <span class="font-bold">Querying Algolia YC Backend...</span>
             <span class="text-[9px] text-[#9a3412]">Matching B2B · Seed · Hiring</span>
           </div>

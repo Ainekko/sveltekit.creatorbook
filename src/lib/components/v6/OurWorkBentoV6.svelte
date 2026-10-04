@@ -18,15 +18,15 @@
 
   const projects = [
     {
-      id: 'startupscrape',
-      badge: 'ACCOUNT INTELLIGENCE SYSTEM',
+      id: 'verve',
+      badge: 'FOUNDER INTELLIGENCE SYSTEM',
       badgeBg: 'bg-[#C2410C]',
       cardBg: 'bg-[#FFF7ED]',
       cardBorder: 'border-[#FED7AA]',
       textColor: 'text-[#431407]',
       subTextColor: 'text-[#7C2D12]',
       primaryBtnBg: 'bg-[#C2410C] hover:bg-[#9A3412] text-white',
-      title: 'Signal Forge: the founder-intelligence engine for high-fit pipeline',
+      title: 'Verve: the autonomous account intelligence engine',
       description:
         'Eliminates $1,200/mo in bloated data tool seats. Discovers early-stage B2B startups directly for free, scores intent with JEV for $0.04, and only enriches verified founder emails via Treg.to for pennies.',
       proofLogos: [
@@ -37,10 +37,10 @@
       proofText:
         'Delivered 50 verified founder briefs for $0.22 total—saving 91% vs Apollo and ZoomInfo with zero browser fees and zero wasted credits.',
       primaryBtnText: 'View case study',
-      caseStudySlug: 'startupscrape-gtm-engine',
-      image: '/flowjoy/startupscrape-thumbnail.svg',
-      webp: '/flowjoy/startupscrape-thumbnail.svg',
-      imageAlt: 'Signal Forge Account Intelligence Engine'
+      caseStudySlug: 'verve-gtm-engine',
+      image: '/flowjoy/verve-thumbnail.svg',
+      webp: '/flowjoy/verve-thumbnail.svg',
+      imageAlt: 'Verve Account Intelligence Engine'
     },
     {
       id: 'laurie',
@@ -208,7 +208,7 @@
             <!-- ─── RIGHT: Clean Large Visual Window ─── -->
             <div class="lg:col-span-6">
               <div class="rounded-[2rem] overflow-hidden bg-white/70 border border-black/5 shadow-xl aspect-[4/3] sm:aspect-[16/11] relative group flex items-center justify-center">
-                {#if project.id === 'startupscrape'}
+                {#if project.id === 'verve'}
                   <StartupScrapeShowcase />
                 {:else}
                   <picture class="w-full h-full">

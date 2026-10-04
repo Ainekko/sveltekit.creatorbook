@@ -39,7 +39,7 @@
 	};
 	$: heroGradient = study ? heroGradientMap[study.accentColor] || heroGradientMap['violet'] : '';
 
-	const startupScrapeSlides = [
+	const verveSlides = [
 		{
 			title: 'Signal intake',
 			chip: 'YC',
@@ -170,7 +170,7 @@
 					? 0
 					: 30}px); transition: opacity 0.8s ease 200ms, transform 0.8s ease 200ms;"
 			>
-				{#if study.slug === 'startupscrape-gtm-engine'}
+			{#if study.slug === 'verve-gtm-engine'}
 					<div class="w-full h-full p-2 sm:p-4 flex items-center justify-center">
 						<StartupScrapeHeaderIllustration />
 					</div>
@@ -259,7 +259,7 @@
 							<p class="text-zinc-600 text-lg leading-relaxed font-light mb-10">{study.solution}</p>
 
 							<!-- Screenshots carousel -->
-							{#if study.slug === 'startupscrape-gtm-engine'}
+							{#if study.slug === 'verve-gtm-engine'}
 								<div class="flex flex-col gap-5">
 									<div class="w-full min-h-[440px] sm:min-h-[380px] sm:aspect-[16/9] rounded-[2rem] overflow-hidden shadow-xl relative bg-[#fbf9f5]">
 										<StartupScrapeShowcase activeTab={currentScreenshotIndex + 1} />
@@ -268,10 +268,10 @@
 
 								<div class="flex items-center justify-between gap-3">
 									<div class="px-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">
-										{startupScrapeSlides[currentScreenshotIndex].title}
+										{verveSlides[currentScreenshotIndex].title}
 									</div>
 									<div class="flex items-center gap-2">
-										{#each startupScrapeSlides as _, index}
+										{#each verveSlides as _, index}
 											<button
 												type="button"
 												on:click={() => (currentScreenshotIndex = index)}

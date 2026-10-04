@@ -92,8 +92,8 @@
       imageAlt: 'Broadr SMS Reactivation System'
     },
     {
-      id: 'startupscrape',
-      badge: 'ACCOUNT INTELLIGENCE SYSTEM',
+      id: 'verve',
+      badge: 'FOUNDER INTELLIGENCE SYSTEM',
       badgeBg: 'bg-[#C2410C]',
       cardBg: 'bg-[#FFF7ED]',
       cardBorder: 'border-[#FED7AA]',
@@ -110,11 +110,11 @@
       ],
       proofText:
         'Queried live YC batches in <500ms, achieved 90%+ browser cost savings, and extracted verified founder LinkedIn profiles and custom pitch hooks.',
-      primaryBtnText: 'Explore StartupScrape',
+      primaryBtnText: 'Explore Verve',
       secondaryBtnText: 'Outbound engine',
-      image: '/flowjoy/startupscrape-thumbnail.svg',
-      webp: '/flowjoy/startupscrape-thumbnail.svg',
-      imageAlt: 'StartupScrape Account Intelligence Engine'
+      image: '/flowjoy/verve-thumbnail.svg',
+      webp: '/flowjoy/verve-thumbnail.svg',
+      imageAlt: 'Verve Account Intelligence Engine'
     }
   ];
 </script>

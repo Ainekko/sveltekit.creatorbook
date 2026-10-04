@@ -261,15 +261,15 @@ export const caseStudies: CaseStudy[] = [
         publishedAt: '2024-11-01'
     },
 
-    // ─── StartupScrape — Autonomous Account Intelligence ────────────────────
+    // ─── Verve — Autonomous Account Intelligence ────────────────────
     {
-        id: 'startupscrape',
-        slug: 'startupscrape-gtm-engine',
-        title: 'StartupScrape — Autonomous Account Intelligence at $0.04/Lead',
+        id: 'verve',
+        slug: 'verve-gtm-engine',
+        title: 'Verve — Autonomous Account Intelligence at $0.04/Lead',
         client: 'Flowjoy',
         industry: 'B2B GTM / Outbound Engineering',
         accentColor: 'orange',
-        coverImage: '/flowjoy/startupscrape-thumbnail.svg',
+        coverImage: '/flowjoy/verve-thumbnail.svg',
         websiteUrl: 'https://flowjoy.online',
         techLogos: [
             { src: '/flowjoy/yc.svg', label: 'Y Combinator' },
@@ -278,7 +278,7 @@ export const caseStudies: CaseStudy[] = [
             { src: '/flowjoy/gemini.svg', label: 'Google Gemini' }
         ],
         services: ['Algolia Direct Search ($0.00)', 'JEV ICP Scoring ($0.04)', 'Treg.to Verified Contact Lookup ($0.005)', 'Gemini AI Pitch Generation', 'Zero Browser Waste Architecture'],
-        heroImage: '/flowjoy/startupscrape-thumbnail.svg',
+        heroImage: '/flowjoy/verve-thumbnail.svg',
         screenshots: [
             {
                 src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(`
@@ -301,7 +301,7 @@ export const caseStudies: CaseStudy[] = [
                         <rect x="494" y="108" width="140" height="30" rx="15" fill="#eae3f8"/>
                         <text x="514" y="129" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#5a4d8d" font-weight="700">Gemini</text>
                         <rect x="90" y="176" width="310" height="180" rx="22" fill="#f1efe8" stroke="#d8d2c6"/>
-                        <text x="118" y="228" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" fill="#24201d" font-weight="700">StartupScrape</text>
+                        <text x="118" y="228" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" fill="#24201d" font-weight="700">Verve</text>
                         <text x="118" y="260" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#6a625d" font-weight="600">founder intelligence</text>
                         <rect x="118" y="286" width="220" height="12" rx="6" fill="#d97706" opacity="0.85"/>
                         <rect x="118" y="308" width="170" height="12" rx="6" fill="#d5d0c9"/>
@@ -340,7 +340,7 @@ export const caseStudies: CaseStudy[] = [
                         <text x="930" y="533" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#504a45">AI-ready outreach</text>
                     </svg>
                 `),
-                alt: 'StartupScrape signal pipeline',
+                alt: 'Verve signal pipeline',
                 caption: 'Signal pipeline'
             },
             {
@@ -401,7 +401,7 @@ export const caseStudies: CaseStudy[] = [
                         <text x="930" y="533" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#504a45">risk gate</text>
                     </svg>
                 `),
-                alt: 'StartupScrape ICP score board',
+                alt: 'Verve ICP score board',
                 caption: 'ICP scoring'
             },
             {
@@ -462,7 +462,7 @@ export const caseStudies: CaseStudy[] = [
                         <text x="930" y="533" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#504a45">demo tracking</text>
                     </svg>
                 `),
-                alt: 'StartupScrape outbound workflow',
+                alt: 'Verve outbound workflow',
                 caption: 'AI outbound motion'
             }
         ],
@@ -487,7 +487,7 @@ export const caseStudies: CaseStudy[] = [
             { value: '<500ms', label: 'Live cohort discovery latency' }
         ],
         quote: {
-            text: "We stopped paying $1,200/mo for stale B2B database credits. StartupScrape turns directory signals into qualified founder meetings for pocket change.",
+            text: "We stopped paying $1,200/mo for stale B2B database credits. Verve turns directory signals into qualified founder meetings for pocket change.",
             author: 'Flowjoy Revenue Operations',
             role: 'Internal Production System'
         },
