@@ -60,7 +60,7 @@
 
 <svelte:head>
   <title>Flowjoy V2 Pitch &amp; Sales Playbook</title>
-  <meta name="robots" content="noindex, nofollow" />
+  <meta name="robots" content="index, follow" />
   <link
     href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500;600;700;800&family=Pacifico&display=swap"
     rel="stylesheet"

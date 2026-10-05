@@ -206,8 +206,8 @@
             </div>
 
             <!-- ─── RIGHT: Clean Large Visual Window ─── -->
-            <div class="lg:col-span-6">
-              <div class="rounded-[2rem] overflow-hidden bg-white/70 border border-black/5 shadow-xl aspect-[4/3] sm:aspect-[16/11] relative group flex items-center justify-center">
+            <div class="lg:col-span-6 min-w-0">
+              <div class="rounded-[2rem] overflow-hidden bg-white/70 border border-black/5 shadow-xl min-h-[280px] sm:min-h-0 aspect-[4/3] sm:aspect-[16/11] relative group flex items-center justify-center w-full max-w-full">
                 {#if project.id === 'verve'}
                   <StartupScrapeShowcase />
                 {:else}
@@ -220,9 +220,10 @@
                       alt={project.imageAlt}
                       loading="lazy"
                       decoding="async"
-                      width="800"
-                      height="550"
-                      class="w-full h-full {project.image.endsWith('.svg') ? 'object-contain p-12 sm:p-16 bg-white' : 'object-cover object-center'} transition-transform duration-700 group-hover:scale-105"
+                      class={project.image.endsWith('.svg')
+                        ? "w-full h-full block max-w-full max-h-full box-border object-contain p-12 sm:p-16 bg-white transition-transform duration-700 group-hover:scale-105"
+                        : "w-full h-full block max-w-full max-h-full box-border object-cover object-center transition-transform duration-700 group-hover:scale-105"}
+                      style="width:100%;height:100%;display:block;box-sizing:border-box;"
                     />
                   </picture>
                 {/if}

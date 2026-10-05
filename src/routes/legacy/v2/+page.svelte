@@ -61,7 +61,7 @@
 
 <svelte:head>
 	<title>Flowjoy (Legacy V2)</title>
-	<meta name="robots" content="noindex, nofollow" />
+	<meta name="robots" content="index, follow" />
 </svelte:head>
 
 <!-- Navbar: white frosted glass, sticky -->

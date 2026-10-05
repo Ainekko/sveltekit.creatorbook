@@ -144,7 +144,7 @@
   $: activeCol = effectiveStage >= 8 ? 3 : effectiveStage >= 5 ? 2 : 1;
 </script>
 
-<div class="sf-root w-full h-full bg-[#fbf9f5] text-[#1c1917] rounded-[1.75rem] border border-[#e5ddd0] p-3.5 sm:p-5 flex flex-col justify-between shadow-xl overflow-y-auto md:overflow-hidden relative select-none font-sans">
+<div class="sf-root w-full max-w-full h-full bg-[#fbf9f5] text-[#1c1917] rounded-[1.75rem] border border-[#e5ddd0] p-3 sm:p-5 flex flex-col justify-between shadow-xl overflow-y-auto overflow-x-hidden md:overflow-hidden relative select-none font-sans">
   
   <!-- Subtle warm background glow -->
   <div class="absolute -top-20 -left-20 w-64 h-64 bg-[#fed7aa]/35 rounded-full blur-3xl pointer-events-none"></div>
@@ -176,7 +176,7 @@
     </div>
 
     <!-- Tech Stack Logos from static -->
-    <div class="flex items-center gap-1.5">
+    <div class="flex items-center gap-1.5 overflow-x-auto max-w-full scrollbar-none py-0.5">
       <div class="logo-pill" title="Y Combinator Directory">
         <img src="/flowjoy/yc.svg" alt="Y Combinator" class="w-3.5 h-3.5 rounded-xs" />
         <span class="hidden sm:inline">YC Cohorts</span>
@@ -202,18 +202,18 @@
 
   <!-- ─── SEQUENTIAL PIPELINE STEP CONTROLS ─── -->
   <div class="relative z-10 flex items-center justify-between gap-1 py-1.5 overflow-x-auto scrollbar-none">
-    <div class="flex items-center gap-1 bg-[#ede8e1]/80 p-0.5 rounded-xl border border-[#ded6cc] text-[11px]">
+    <div class="flex items-center gap-1 bg-[#ede8e1]/80 p-0.5 rounded-xl border border-[#ded6cc] text-[11px] shrink-0">
       <button
         type="button"
         on:click={() => selectTab(0)}
-        class="px-2.5 py-1 rounded-lg transition-all font-medium {!isManualOverride ? 'bg-white text-[#1c1917] shadow-xs font-semibold' : 'text-[#78716c] hover:text-[#1c1917]'}"
+        class="px-2.5 py-1 rounded-lg transition-all font-medium whitespace-nowrap shrink-0 {!isManualOverride ? 'bg-white text-[#1c1917] shadow-xs font-semibold' : 'text-[#78716c] hover:text-[#1c1917]'}"
       >
         Live Pipeline Run
       </button>
       <button
         type="button"
         on:click={() => selectTab(1)}
-        class="px-2.5 py-1 rounded-lg transition-all font-medium flex items-center gap-1.5 {activeCol === 1 && isManualOverride ? 'bg-white text-[#c2410c] shadow-xs font-semibold' : 'text-[#78716c] hover:text-[#1c1917]'}"
+        class="px-2.5 py-1 rounded-lg transition-all font-medium whitespace-nowrap shrink-0 flex items-center gap-1.5 {activeCol === 1 && isManualOverride ? 'bg-white text-[#c2410c] shadow-xs font-semibold' : 'text-[#78716c] hover:text-[#1c1917]'}"
       >
         <span class="w-1.5 h-1.5 rounded-full bg-[#f97316]"></span>
         <span>01 Sourcing ($0.00)</span>
@@ -221,7 +221,7 @@
       <button
         type="button"
         on:click={() => selectTab(2)}
-        class="px-2.5 py-1 rounded-lg transition-all font-medium flex items-center gap-1.5 {activeCol === 2 && isManualOverride ? 'bg-white text-[#7e22ce] shadow-xs font-semibold' : 'text-[#78716c] hover:text-[#1c1917]'}"
+        class="px-2.5 py-1 rounded-lg transition-all font-medium whitespace-nowrap shrink-0 flex items-center gap-1.5 {activeCol === 2 && isManualOverride ? 'bg-white text-[#7e22ce] shadow-xs font-semibold' : 'text-[#78716c] hover:text-[#1c1917]'}"
       >
         <span class="w-1.5 h-1.5 rounded-full bg-[#a855f7]"></span>
         <span>02 JEV Scoring ($0.04)</span>
@@ -229,7 +229,7 @@
       <button
         type="button"
         on:click={() => selectTab(3)}
-        class="px-2.5 py-1 rounded-lg transition-all font-medium flex items-center gap-1.5 {activeCol === 3 && isManualOverride ? 'bg-white text-[#1d4ed8] shadow-xs font-semibold' : 'text-[#78716c] hover:text-[#1c1917]'}"
+        class="px-2.5 py-1 rounded-lg transition-all font-medium whitespace-nowrap shrink-0 flex items-center gap-1.5 {activeCol === 3 && isManualOverride ? 'bg-white text-[#1d4ed8] shadow-xs font-semibold' : 'text-[#78716c] hover:text-[#1c1917]'}"
       >
         <span class="w-1.5 h-1.5 rounded-full bg-[#3b82f6]"></span>
         <span>03 Treg.to ($0.005)</span>
@@ -555,17 +555,17 @@
   </div>
 
   <!-- ─── BOTTOM PIPELINE ECONOMICS BAR ─── -->
-  <div class="relative z-10 pt-2 mt-1 border-t border-[#e7dfd4] flex flex-wrap items-center justify-between gap-2 text-[10px] text-[#78716c] font-mono">
-    <div class="flex items-center gap-1.5 sm:gap-2">
+  <div class="relative z-10 pt-2 mt-1 border-t border-[#e7dfd4] flex flex-wrap items-center justify-between gap-2 text-[10px] text-[#78716c] font-mono w-full max-w-full">
+    <div class="flex flex-wrap items-center gap-1 sm:gap-2">
       <span class="text-[#c2410c] font-bold">PIPELINE:</span>
-      <span class="text-[#1c1917] font-semibold">Algolia Search ($0.00)</span>
+      <span class="text-[#1c1917] font-semibold">Algolia ($0)</span>
       <span class="text-[#a8a29e]">→</span>
-      <span class="text-[#7e22ce] font-semibold">JEV ICP Score ($0.04)</span>
+      <span class="text-[#7e22ce] font-semibold">JEV ($0.04)</span>
       <span class="text-[#a8a29e]">→</span>
-      <span class="text-[#059669] font-semibold">Treg.to Verified Hit ($0.005)</span>
+      <span class="text-[#059669] font-semibold">Treg ($0.005)</span>
       <span class="text-[#a8a29e]">=</span>
       <span class="text-[#c2410c] font-bold bg-orange-100/60 px-1.5 py-0.2 rounded border border-orange-200">
-        $0.045 Total / Qualified Lead
+        $0.045 / Lead
       </span>
     </div>
 
@@ -585,6 +585,7 @@
   .logo-pill {
     display: inline-flex;
     align-items: center;
+    flex-shrink: 0;
     gap: 0.35rem;
     padding: 0.25rem 0.55rem;
     border-radius: 999px;
