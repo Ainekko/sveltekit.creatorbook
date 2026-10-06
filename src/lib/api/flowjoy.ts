@@ -29,7 +29,7 @@ export async function submitFlowjoyLead(
     // Resolve backend base URL from env with fallback
     const baseUrl =
       (typeof import.meta !== 'undefined' && import.meta.env?.PUBLIC_FLOWJOY_API_URL) ||
-      'https://mhr-sms-xi2w.onrender.com';
+      'https://saas-sms-backend.onrender.com';
 
     const normalizedBaseUrl = baseUrl.replace(/\/+$/, '');
     const endpoint = `${normalizedBaseUrl}/api/v1/flowjoy/leads`;
@@ -78,7 +78,7 @@ export async function fetchFlowjoyLeads(
   try {
     const baseUrl =
       (typeof import.meta !== 'undefined' && import.meta.env?.PUBLIC_FLOWJOY_API_URL) ||
-      'https://mhr-sms-xi2w.onrender.com';
+      'https://saas-sms-backend.onrender.com';
 
     const normalizedBaseUrl = baseUrl.replace(/\/+$/, '');
     const endpoint = `${normalizedBaseUrl}/api/v1/flowjoy/leads`;
@@ -114,7 +114,7 @@ export async function updateFlowjoyLeadStatus(
   try {
     const baseUrl =
       (typeof import.meta !== 'undefined' && import.meta.env?.PUBLIC_FLOWJOY_API_URL) ||
-      'https://mhr-sms-xi2w.onrender.com';
+      'https://saas-sms-backend.onrender.com';
 
     const normalizedBaseUrl = baseUrl.replace(/\/+$/, '');
     const endpoint = `${normalizedBaseUrl}/api/v1/flowjoy/leads/${leadId}`;
