@@ -14,10 +14,10 @@
 </script>
 
 <svelte:head>
-  <title>Flowjoy • Your GTM Stack Is Powerful. Your Workflow Isn't.</title>
+  <title>Flowjoy • Go-to-market systems that turn pipeline into revenue</title>
   <meta
     name="description"
-    content="You're paying for Apollo, Clay, HubSpot, Slack and dozens of other tools. Yet your team is still doing work manually. We engineer the AI systems, data pipelines and automations that make your entire GTM operation faster, smarter and more scalable."
+    content="We engineer go-to-market systems that replace manual workflows across prospecting, enrichment, outbound automation, and pipeline operations for growing teams."
   />
 </svelte:head>
 

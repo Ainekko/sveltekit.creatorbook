@@ -58,24 +58,24 @@
 </script>
 
 <svelte:head>
-  <title>Flowjoy — GTM Engineering Studio for Startups</title>
+  <title>Flowjoy — Go-to-market engineering for startup teams</title>
   <meta
     name="description"
-    content="We build the GTM systems your engineering team doesn't have time to build. Production-grade prospecting, intelligence, outbound, and AI systems for Seed &amp; Series A startups."
+    content="We build go-to-market systems your engineering team doesn't have time to build — production-grade prospecting, intelligence, outbound, and AI systems for Seed &amp; Series A startups."
   />
-  <meta property="og:title" content="Flowjoy — GTM Engineering Studio for Startups" />
+  <meta property="og:title" content="Flowjoy — Go-to-market engineering for startup teams" />
   <meta
     property="og:description"
-    content="We build the GTM systems your engineering team doesn't have time to build. Forward-deployed engineering for revenue."
+    content="We build go-to-market systems your engineering team doesn't have time to build. Forward-deployed engineering for revenue."
   />
   <meta property="og:type" content="website" />
   <link rel="canonical" href="https://www.flowjoy.online/v2" />
   <meta property="og:url" content="https://www.flowjoy.online/v2" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Flowjoy — GTM Engineering Studio for Startups" />
+  <meta name="twitter:title" content="Flowjoy — Go-to-market engineering for startup teams" />
   <meta
     name="twitter:description"
-    content="We build the GTM systems your engineering team doesn't have time to build. Production code in 2–4 weeks."
+    content="We build go-to-market systems your engineering team doesn't have time to build. Production code in 2–4 weeks."
   />
   <link
     href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500;600;700;800&family=Pacifico&display=swap"

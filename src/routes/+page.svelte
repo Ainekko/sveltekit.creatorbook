@@ -14,20 +14,20 @@
 </script>
 
 <svelte:head>
-  <title>Flowjoy • Your GTM Stack Is Powerful. Your Workflow Isn't.</title>
+  <title>Flowjoy • Go-to-market systems for startup revenue teams</title>
   <meta
     name="description"
-    content="You're paying for Apollo, Clay, HubSpot, Slack and dozens of other tools. Yet your team is still doing work manually. We engineer the AI systems, data pipelines and automations that make your entire GTM operation faster, smarter and more scalable."
+    content="We build go-to-market systems for startups: prospecting infrastructure, lead intelligence, outbound automation, and AI agents that replace manual GTM work."
   />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://www.flowjoy.online/" />
-  <meta property="og:title" content="Flowjoy • Your GTM Stack Is Powerful. Your Workflow Isn't." />
-  <meta property="og:description" content="We engineer the AI systems, data pipelines and automations that make your entire GTM operation faster, smarter and more scalable." />
+  <meta property="og:title" content="Flowjoy • Go-to-market systems for startup revenue teams" />
+  <meta property="og:description" content="Flowjoy builds go-to-market systems that turn fragmented tools, data, and manual workflows into pipeline and revenue." />
   <meta property="og:url" content="https://www.flowjoy.online/" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Flowjoy • Your GTM Stack Is Powerful. Your Workflow Isn't." />
-  <meta name="twitter:description" content="We engineer the AI systems, data pipelines and automations that make your entire GTM operation faster, smarter and more scalable." />
+  <meta name="twitter:title" content="Flowjoy • Go-to-market systems for startup revenue teams" />
+  <meta name="twitter:description" content="Flowjoy builds go-to-market systems that turn fragmented tools, data, and manual workflows into pipeline and revenue." />
 </svelte:head>
 
 <!-- Sticky Navbar -->

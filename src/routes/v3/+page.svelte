@@ -13,10 +13,10 @@
 </script>
 
 <svelte:head>
-  <title>Flowjoy • GTM Engineering Studio for High-Growth Teams</title>
+  <title>Flowjoy • Go-to-market engineering for high-growth teams</title>
   <meta
     name="description"
-    content="We engineer the prospecting infrastructure, lead intelligence pipelines, outbound systems, and AI agents your team doesn't have time to build."
+    content="We engineer go-to-market systems for high-growth teams: prospecting infrastructure, lead intelligence pipelines, outbound workflows, and AI agents your team doesn't have time to build."
   />
 </svelte:head>
 
