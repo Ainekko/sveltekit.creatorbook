@@ -17,5 +17,7 @@ Disallow: /auth/
 Disallow: /cventure/
 Disallow: /exchangefb/
 Disallow: /software/
+Disallow: /pitch/
+
 
 Sitemap: https://www.flowjoy.online/sitemap.xml
