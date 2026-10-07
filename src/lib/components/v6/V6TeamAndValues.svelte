@@ -173,10 +173,10 @@
     </div>
 
     <!-- CAROUSEL TRACK WRAPPER -->
-    <div class="relative w-full overflow-hidden">
+    <div class="relative w-full overflow-hidden lg:flex lg:justify-center">
       <div
         bind:this={carouselRef}
-        class="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar py-2 justify-center lg:justify-center"
+        class="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar py-2 lg:justify-center lg:w-full"
       >
         {#each team as member, index}
           <div
@@ -228,12 +228,12 @@
     </div>
 
     <!-- Apollo Bottom Navigation Arrows -->
-    <div class="hidden sm:flex items-center justify-end gap-3 mt-6">
+    <div class="flex items-center justify-end gap-3 mt-6 sm:flex">
       <button
         type="button"
         on:click={scrollPrev}
         aria-label="Previous card"
-        class="w-12 h-12 rounded-full border border-zinc-300 hover:border-zinc-900 bg-white flex items-center justify-center text-zinc-700 hover:text-zinc-950 transition-all hover:scale-105 active:scale-95 shadow-xs cursor-pointer"
+        class="hidden sm:flex w-12 h-12 rounded-full border border-zinc-300 hover:border-zinc-900 bg-white items-center justify-center text-zinc-700 hover:text-zinc-950 transition-all hover:scale-105 active:scale-95 shadow-xs cursor-pointer"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -243,7 +243,7 @@
         type="button"
         on:click={scrollNext}
         aria-label="Next card"
-        class="w-12 h-12 rounded-full border border-zinc-300 hover:border-zinc-900 bg-white flex items-center justify-center text-zinc-700 hover:text-zinc-950 transition-all hover:scale-105 active:scale-95 shadow-xs cursor-pointer"
+        class="hidden sm:flex w-12 h-12 rounded-full border border-zinc-300 hover:border-zinc-900 bg-white items-center justify-center text-zinc-700 hover:text-zinc-950 transition-all hover:scale-105 active:scale-95 shadow-xs cursor-pointer"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
