@@ -190,8 +190,8 @@
         <span class="hidden sm:inline">Algolia $0</span>
       </div>
       <div class="logo-pill" title="Treg.to Verified Contact Lookup">
-        <span class="text-[#059669] font-bold text-[10px]">Treg.to</span>
-        <span class="hidden sm:inline text-emerald-700 font-semibold">$0.005</span>
+        <img src="/flowjoy/logos/treg-logo.png" alt="Treg.to" class="w-3.5 h-3.5" />
+        <span class="hidden sm:inline text-emerald-700 font-semibold">Treg $0.005</span>
       </div>
       <div class="logo-pill" title="Google Gemini Pitch Personalization">
         <img src="/flowjoy/gemini.svg" alt="Gemini" class="w-3.5 h-3.5" />
@@ -463,9 +463,9 @@
         <!-- Step 3 Header with Big Gemini / Treg Logo -->
         <div class="flex items-center justify-between gap-2 mb-2.5">
           <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-xl bg-white border border-blue-200 p-1 flex items-center justify-center shadow-xs overflow-hidden">
-              <img src="/flowjoy/gemini.svg" alt="Gemini & Treg.to" class="w-full h-full object-contain" />
-            </div>
+              <div class="w-8 h-8 rounded-xl bg-white border border-blue-200 p-1 flex items-center justify-center shadow-xs overflow-hidden">
+                <img src="/flowjoy/logos/treg-logo.png" alt="Treg.to" class="w-5 h-5 object-contain" />
+              </div>
             <div>
               <div class="text-[12px] font-bold text-[#1c1917] tracking-tight leading-tight">03 · Treg.to Enrichment</div>
               <div class="text-[10px] text-blue-700 font-medium">Verified Founder Hit</div>
@@ -492,8 +492,8 @@
           {#if effectiveStage >= 9}
             <div class="fade-slide-in bg-[#faf8f5] rounded-xl p-2.5 border border-[#e8e1d6] mb-2 shadow-2xs">
               <div class="flex items-center gap-2 mb-1.5">
-                <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-[#2563eb] to-[#4f46e5] flex items-center justify-center font-bold text-white text-[10px] shadow-xs">
-                  AC
+                <div class="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center shadow-xs">
+                  <img src="https://api.dicebear.com/6.x/identicon/svg?seed=alex-chen" alt="Alex Chen" class="w-full h-full object-cover" loading="lazy" />
                 </div>
                 <div>
                   <div class="text-[11px] font-bold text-[#1c1917] tracking-tight flex items-center gap-1">

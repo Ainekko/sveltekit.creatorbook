@@ -191,7 +191,7 @@
           <!-- Mobile Inline Logo & Title -->
           <div class="flex items-center gap-2 sm:hidden min-w-0">
             <div class="w-6 h-6 rounded-md bg-white border border-emerald-200 p-0.5 flex items-center justify-center shrink-0 shadow-2xs">
-              <img src="/flowjoy/treg.svg" alt="Treg.to" class="w-full h-full object-contain" />
+              <img src="/flowjoy/logos/treg-logo.png" alt="Treg.to" class="w-full h-full object-contain" />
             </div>
             <div class="min-w-0">
               <div class="font-bold text-[#1c1917] text-xs leading-none truncate">Treg.to</div>
@@ -206,7 +206,7 @@
         <!-- Desktop Middle: Centered Logo + Text -->
         <div class="hidden sm:flex flex-1 min-h-0 flex-col items-center justify-center py-2">
           <div class="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-white border border-emerald-200 p-1.5 flex items-center justify-center shadow-xs mb-2">
-            <img src="/flowjoy/treg.svg" alt="Treg.to" class="w-full h-full object-contain" />
+            <img src="/flowjoy/logos/treg-logo.png" alt="Treg.to" class="w-full h-full object-contain" />
           </div>
           <div class="font-bold text-[#1c1917] text-xs sm:text-sm leading-tight">Treg.to</div>
           <div class="font-bold text-emerald-700 uppercase text-[10px] tracking-wide mt-0.5">Enrichment</div>

@@ -32,7 +32,8 @@
       proofLogos: [
         { src: '/flowjoy/yc.svg', alt: 'Y Combinator' },
         { src: '/flowjoy/typesafe-ai-200x200.jfif', alt: 'JEV by TypeSafe AI' },
-        { src: '/flowjoy/algolia.svg', alt: 'Algolia' }
+        { src: '/flowjoy/algolia.svg', alt: 'Algolia' },
+        { src: '/flowjoy/logos/treg-logo.png', alt: 'Treg.to' }
       ],
       proofText:
         'Delivered 50 verified founder briefs for $0.22 total—saving 91% vs Apollo and ZoomInfo with zero browser fees and zero wasted credits.',
