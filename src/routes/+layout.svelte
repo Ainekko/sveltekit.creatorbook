@@ -43,11 +43,7 @@ $: if (browser && initialized && $page.url.pathname) {
 
 
 <svelte:head>
-  {#if $page.url.pathname === '/' || $page.url.pathname.startsWith('/case-studies') || $page.url.pathname.startsWith('/blog')}
-    <meta name="robots" content="index, follow" />
-  {:else}
-    <meta name="robots" content="noindex, nofollow" />
-  {/if}
+  <meta name="robots" content="index, follow" />
 </svelte:head>
 
 <!-- <svelte:head>
