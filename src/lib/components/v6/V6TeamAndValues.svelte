@@ -7,6 +7,8 @@
   let v2 = false;
 
   let carouselRef: HTMLElement;
+  let animatedCards = new Set<number>();
+  let cardRefs: Array<HTMLElement | null> = [];
 
   function scrollPrev() {
     if (carouselRef) {
@@ -24,41 +26,31 @@
 
   const team = [
     {
-      category: 'ENGINEERING & ARCHITECTURE',
+      category: 'FOUNDER & GTM ENGINEERING',
       name: 'Hafid',
-      role: 'Head of GTM Engineering @ Flowjoy',
+      role: 'Founder & GTM Engineering Specialist @ Flowjoy',
       tagline: 'Engineer with a love for marketing',
       description:
-        'Builds scrapers, webhooks, sub-second API pipelines, and LLM scoring systems that eliminate manual data entry.',
+        'Builds the systems behind modern GTM teams, from prospecting and research to qualification and outreach.',
       stack: 'Python · APIs · LLMs',
       focus: 'Pipelines & Webhooks',
       avatarGradient: 'from-emerald-500 via-teal-600 to-cyan-700',
-      initial: 'H'
+      initial: 'H',
+      avatarImage: '/flowjoy/PFP/hafid.jpg'
     },
     {
-      category: 'REVENUE & OUTBOUND STRATEGY',
+      category: 'CREATIVE & STORYTELLING',
       name: 'Xander',
-      role: 'Outbound & Revenue Strategist @ Flowjoy',
+      role: 'Creative & Storyteller @ Flowjoy',
       tagline: 'Former quota carrier & outbound strategist',
       description:
-        'Carried quota and dialed thousands of prospects. Ensures every automated touchpoint reads like a high-conviction conversation.',
-      stack: 'Psychology · ICP · Angles',
-      focus: 'Conversions & Reply Rates',
+        'Builds the narrative, messaging, and creative direction',
+      stack: 'Storytelling · Positioning · Creative',
+      focus: 'Message & Creative',
       avatarGradient: 'from-blue-600 via-indigo-600 to-violet-800',
-      initial: 'X'
+      initial: 'X',
+      avatarImage: '/flowjoy/PFP/Pasted Image'
     },
-    {
-      category: 'PRODUCTION RELIABILITY',
-      name: 'Flowjoy Core Stack',
-      role: 'Zero-Maintenance Infrastructure @ Flowjoy',
-      tagline: 'Direct APIs & automated workflows',
-      description:
-        'Multi-number 10DLC pools, instant Retell voice assistants, and Reddit intent crawlers running 24/7 with full IP ownership.',
-      stack: '10DLC · Retell AI · Twilio · CRM',
-      focus: 'Zero Dropped Signals',
-      avatarGradient: 'from-zinc-800 via-zinc-900 to-zinc-950',
-      initial: 'FJ'
-    }
   ];
 
   const values = [
@@ -122,7 +114,26 @@
     };
     const o1 = obs(s1, () => v1 = true);
     const o2 = obs(s2, () => v2 = true);
-    return () => { o1.disconnect(); o2.disconnect(); };
+
+    const cardObservers = cardRefs.map((node, index) => {
+      if (!node) return null;
+      const cardObserver = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting && !animatedCards.has(index)) {
+          animatedCards.add(index);
+          animatedCards = new Set(animatedCards);
+          cardObserver.disconnect();
+        }
+      }, { threshold: 0.35 });
+
+      cardObserver.observe(node);
+      return cardObserver;
+    });
+
+    return () => {
+      o1.disconnect();
+      o2.disconnect();
+      cardObservers.forEach((observer) => observer?.disconnect());
+    };
   });
 
   function scrollToSection(sectionId: string) {
@@ -165,19 +176,33 @@
     <div class="relative w-full overflow-hidden">
       <div
         bind:this={carouselRef}
-        class="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar py-2"
+        class="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar py-2 justify-center lg:justify-center"
       >
-        {#each team as member}
+        {#each team as member, index}
           <div
-            class="w-[78vw] sm:w-[350px] md:w-[380px] shrink-0 snap-start rounded-3xl border border-zinc-200/90 bg-white p-6 sm:p-7 flex flex-col justify-between shadow-xs hover:shadow-md transition-shadow"
+            bind:this={cardRefs[index]}
+            class="group relative w-[78vw] sm:w-[350px] md:w-[380px] shrink-0 snap-start overflow-hidden rounded-[28px] border border-zinc-200/90 bg-gradient-to-b from-white via-zinc-50 to-white p-6 sm:p-7 flex flex-col justify-between shadow-[0_18px_45px_-28px_rgba(15,23,42,0.28)] hover:shadow-[0_22px_60px_-22px_rgba(15,23,42,0.35)] transition-all duration-300"
           >
-            <div>
+            <div class:team-glow-animate={animatedCards.has(index)} class="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-gradient-to-br from-emerald-200/80 via-cyan-100/60 to-transparent blur-2xl" aria-hidden="true"></div>
+            <div class:team-glow-animate-slow={animatedCards.has(index)} class="absolute -left-8 bottom-8 h-20 w-20 rounded-full bg-violet-100/60 blur-2xl" aria-hidden="true"></div>
+            <div class="relative">
               <span class="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest uppercase text-zinc-400 block mb-5">
                 {member.category}
               </span>
 
-              <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-gradient-to-tr {member.avatarGradient} p-1 shadow-md flex items-center justify-center text-white text-4xl font-extrabold mb-6">
-                <span>{member.initial}</span>
+              <div class:profile-glow-animate={animatedCards.has(index)} class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-white p-[2px] shadow-lg overflow-hidden mb-6 ring-1 ring-zinc-200/80">
+                <div class="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.75),_transparent_42%)]" aria-hidden="true"></div>
+                {#if member.avatarImage}
+                  <img
+                    src={member.avatarImage}
+                    alt={`${member.name} portrait`}
+                    class="relative w-full h-full object-cover rounded-full"
+                  />
+                {:else}
+                  <div class="relative w-full h-full flex items-center justify-center text-white text-4xl font-extrabold rounded-full">
+                    <span>{member.initial}</span>
+                  </div>
+                {/if}
               </div>
 
               <h3 class="text-xl sm:text-2xl font-bold text-zinc-950 tracking-tight mb-1">
@@ -191,12 +216,11 @@
               </p>
             </div>
 
-            <div class="pt-4 border-t border-zinc-100 flex items-center justify-between">
+            <div class="relative pt-4 border-t border-zinc-100 flex items-center justify-between">
               <div class="flex items-center gap-1.5">
                 <img src="/flowjoy/flowjoy-brand/LOGO/New logo 500 500 SVG.svg" alt="Flowjoy" class="w-5 h-5 object-contain" />
                 <span class="text-xs font-black tracking-tight text-zinc-900 uppercase">Flowjoy</span>
               </div>
-              <span class="text-[10px] font-mono text-zinc-400 font-semibold">{member.focus}</span>
             </div>
           </div>
         {/each}
@@ -204,7 +228,7 @@
     </div>
 
     <!-- Apollo Bottom Navigation Arrows -->
-    <div class="flex items-center justify-end gap-3 mt-6">
+    <div class="hidden sm:flex items-center justify-end gap-3 mt-6">
       <button
         type="button"
         on:click={scrollPrev}
@@ -346,5 +370,37 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  @keyframes teamGlowPulse {
+    0% {
+      opacity: 0.2;
+      transform: scale(0.96);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .team-glow-animate {
+    animation: teamGlowPulse 1.2s ease-out both;
+  }
+
+  .team-glow-animate-slow {
+    animation: teamGlowPulse 1.8s ease-out both;
+  }
+
+  .profile-glow-animate {
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.8),
+      0 0 0 4px rgba(129, 140, 248, 0.14),
+      0 0 18px rgba(99, 102, 241, 0.22),
+      0 0 28px rgba(16, 185, 129, 0.12);
+    animation: teamGlowPulse 1.2s ease-out both;
   }
 </style>
