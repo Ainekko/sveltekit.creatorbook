@@ -25,9 +25,11 @@
   <meta property="og:description" content="Flowjoy builds go-to-market systems that turn fragmented tools, data, and manual workflows into pipeline and revenue." />
   <meta property="og:url" content="https://www.flowjoy.online/" />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://flowjoy.s3.us-east-1.amazonaws.com/BANNER+2.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Flowjoy • Go-to-market systems for startup revenue teams" />
   <meta name="twitter:description" content="Flowjoy builds go-to-market systems that turn fragmented tools, data, and manual workflows into pipeline and revenue." />
+  <meta name="twitter:image" content="https://flowjoy.s3.us-east-1.amazonaws.com/BANNER+2.jpg" />
 </svelte:head>
 
 <!-- Sticky Navbar -->
